@@ -7,7 +7,7 @@ export default () => (
     <Col md="6">
       <Row>
         <Col md="3">
-          <a href="#home">Mi auto Hoy</a>
+          <p >Mi auto Hoy</p>
         </Col>
         <Col md="5">
           <Input type="text" id="search" />

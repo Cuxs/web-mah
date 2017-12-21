@@ -8,6 +8,14 @@ import { Button, Welcome } from '@storybook/react/demo';
 
 import TopTopNav from './TopTopNav';
 import SearchBar from './SearchBar';
+import BreadCrum from './BreadCrum';
+import NumberOfResult from './NumberOfResult';
+import Badges from './Badges';
+import Banner from './Banner';
+import CarResult from './CarResult';
+import CarResultContainer from './CarResultContainer';
+import PublicityBanner from './PublicityBanner';
+
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -19,4 +27,40 @@ storiesOf('TopTopNav', module)
   .add('Creditos', () => <TopTopNav />);
 storiesOf('SearchBar', module)
   .add('Barra Busqueda', () => <SearchBar />);
+storiesOf('BreadCrum', module)
+  .add('BreadCrum', () => <BreadCrum url="https://miautohoy.com/admin/cars" />);
+storiesOf('NumberOfResult', module)
+  .add('NumberOfResult', () => <NumberOfResult results={123} />);
+storiesOf('Badges', module)
+  .add('Badges', () => <Badges filters={['marca', 'agregado', 'modelo']} handleDelete={() => console.log('funcion q borra filtro')} />);
+storiesOf('Banner', module)
+  .add('Banner', () => <Banner />);
+storiesOf('CarResult', module)
+  .add('CarResult', () => (<CarResult
+    sold
+    photoGalery={[{
+    src: 'http://placecage.com/264/176',
+    altText: 'image1',
+  },
+  {
+    src: 'http://placecage.com/g/264/176',
+    altText: 'image2',
+  },
+  {
+    src: 'http://placecage.com/c/264/176',
+    altText: 'image3',
+  },
+]}
+    data={{
+    owner: 'Guillermo',
+    car: 'Fiat Palio extreme',
+    mainAttr: '1.8 Locker Pack extreme',
+    price: '260000',
+    state: '0 km.',
+  }}
+  />));
 
+storiesOf('CarResultContainer', module)
+  .add('CarResultContainer', () => <CarResultContainer />);
+storiesOf('PublicityBanner', module)
+  .add('PublicityBanner', () => <PublicityBanner />);
