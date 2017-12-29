@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, Input, Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroupAddon, Button } from 'reactstrap';
+import { Input, Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroupAddon, Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
 export default () => (

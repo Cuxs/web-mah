@@ -4,9 +4,9 @@ import { Col, Row } from 'reactstrap';
 
 export default ({ children }) => {
   const item = children.map(row =>
-    (<Col lg="4" md="4" sm="4" xs="12">
+    (<Col lg="3" md="3" sm="3" xs="12">
       {row}
-     </Col>
+    </Col>
     ));
 
 

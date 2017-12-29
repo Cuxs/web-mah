@@ -76,6 +76,7 @@ export default class CarResult extends Component {
   }
 
   render() {
+    console.log(this.props.data);
     const { activeIndex } = this.state;
     const slides = this.props.photoGalery.map(item => (
       <CarouselItem
@@ -83,7 +84,7 @@ export default class CarResult extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img style={{ position: 'relative', width: '100%' }} src={item.src} alt={item.altText} />
+        <img style={{ position: 'relative', width: '100%', height: '250px' }} src={item.src} alt={item.altText} />
       </CarouselItem>
     ));
     return (
@@ -102,11 +103,11 @@ export default class CarResult extends Component {
           </Carousel>
           {this.featuredOrSold()}
 
-          <p>{this.props.data.owner}</p>
-          <p>{this.props.data.car}</p>
-          <p>{this.props.data.mainAttr}</p>
+          <p>{this.props.data.group}</p>
+          <p>{this.props.data.modelName}</p>
+          <p>{this.props.data.kms}</p>
           <p>{this.props.data.price}</p>
-          <p>{this.props.data.state}</p>
+          <p>{this.props.data.year}</p>
         </div>
         <style jsx>{
         `

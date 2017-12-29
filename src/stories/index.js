@@ -16,6 +16,8 @@ import CarResult from './CarResult';
 import CarResultContainer from './CarResultContainer';
 import PublicityBanner from './PublicityBanner';
 
+import { carSearchResult } from './exampleData/carResultData';
+
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -61,6 +63,10 @@ storiesOf('CarResult', module)
   />));
 
 storiesOf('CarResultContainer', module)
-  .add('CarResultContainer', () => <CarResultContainer />);
+  .add('CarResultContainer', () => (
+    <CarResultContainer>
+      {carSearchResult.map(row =>
+        <CarResult photoGalery={row.photoGalery} data={row.data} {...{ [row.State]: true }} />)}
+    </CarResultContainer>));
 storiesOf('PublicityBanner', module)
   .add('PublicityBanner', () => <PublicityBanner />);
