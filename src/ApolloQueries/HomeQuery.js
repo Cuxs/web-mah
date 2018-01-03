@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 const HomeQuery = graphql(gql`
     {AllPublications{
-      State{
+      CurrentState{
         stateName
       }
         ImageGroup{

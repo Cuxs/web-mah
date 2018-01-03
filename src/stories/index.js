@@ -15,6 +15,7 @@ import Banner from './Banner';
 import CarResult from './CarResult';
 import CarResultContainer from './CarResultContainer';
 import PublicityBanner from './PublicityBanner';
+import CreditsBanner from './CreditsBanner';
 
 import { carSearchResult } from './exampleData/carResultData';
 
@@ -70,3 +71,5 @@ storiesOf('CarResultContainer', module)
     </CarResultContainer>));
 storiesOf('PublicityBanner', module)
   .add('PublicityBanner', () => <PublicityBanner />);
+storiesOf('CreditsBanner', module)
+  .add('CreditsBanner', () => <CreditsBanner />);

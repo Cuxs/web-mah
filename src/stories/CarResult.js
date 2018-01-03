@@ -84,7 +84,7 @@ export default class CarResult extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img style={{ position: 'relative', width: '100%', height: '250px' }} src={item.src} alt={item.altText} />
+        <img style={{ position: 'relative', width: '100%', height: 'auto' }} src={item.src} alt={item.altText} />
       </CarouselItem>
     ));
     return (
