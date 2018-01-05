@@ -6,6 +6,7 @@ import {
   Link,
 } from 'react-router-dom';
 import Home from './Components/Home';
+import SearchCars from './Components/SearchCars';
 
 const About = () => (
   <div>
@@ -61,6 +62,7 @@ const App = () => (
       </ul> */}
 
       <Route exact path="/" component={Home} />
+      <Route exact path="/searchCars" component={SearchCars} />
       <Route path="/about" component={About} />
       <Route path="/topics" component={Topics} />
     </div>

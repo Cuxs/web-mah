@@ -5,7 +5,8 @@ import {
   CarouselControl,
   CarouselIndicators,
 } from 'reactstrap';
-/* eslint react/jsx-filename-extension: 0 */
+import style from '../Styles/carResult';
+
 
 export default class CarResult extends Component {
   constructor(props) {
@@ -44,39 +45,17 @@ export default class CarResult extends Component {
 
   featuredOrSold() {
     if (this.props.featured) {
-      return (<p style={{
-        fontSize: '12px',
-        position: 'absolute',
-        top: '10px',
-        left: '23px',
-        background: 'white', /* fallback color */
-        borderRadius: '3px',
-        border: '1px solid lightgray',
-        }}
-      >Destacado
-      </p>);
+      return (<p className="important" >Destacado </p>);
     }
     if (this.props.sold) {
       return (
-        <p style={{
-          fontSize: '12px',
-          position: 'absolute',
-          top: '10px',
-          left: '23px',
-          background: 'white', /* fallback color */
-          borderRadius: '3px',
-          border: '1px solid lightgray',
-          color: 'green',
-          }}
-        >Vendido
-        </p>
+        <p className="sold" >Vendido</p>
       );
     }
     return true;
   }
 
   render() {
-    console.log(this.props.data);
     const { activeIndex } = this.state;
     const slides = this.props.photoGalery.map(item => (
       <CarouselItem
@@ -109,16 +88,7 @@ export default class CarResult extends Component {
           <p>{this.props.data.price}</p>
           <p>{this.props.data.year}</p>
         </div>
-        <style jsx>{
-        `
-        .car-container{
-          border: 1px solid lightgray;
-          border-radius:3px;
-          padding:0;
-        }
-        `
-      }
-        </style>
+        <style jsx>{style}</style>
       </div>
 
     );

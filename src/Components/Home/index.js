@@ -9,6 +9,7 @@ import SearchBar from '../../stories/SearchBar';
 import CarResult from '../../stories/CarResult';
 import Banner from '../../stories/Banner';
 import CreditsBanner from '../../stories/CreditsBanner';
+import Footer from '../../stories/Footer';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
 
@@ -25,7 +26,7 @@ const Home = ({ data }) => (
             <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} {...{ [row.State]: true }} />))
           }
         </CarHomeContainer>
-
+        <Footer />
       </div>
       }
   </div>

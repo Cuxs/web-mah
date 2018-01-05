@@ -2,17 +2,27 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
+const style = {
+  container: {
+    paddingLeft: '45px',
+    paddingRight: '45px',
+  },
+  item: {
+    marginBottom: '30px',
+  },
+};
+
 export default ({ children }) => {
   const item = children.map(row =>
-    (<Col lg="3" md="3" sm="3" xs="12">
+    (<Col sm="3" xs="12" style={style.item} >
       {row}
     </Col>
     ));
 
 
   return (
-    <div>
-      <Row>
+    <div >
+      <Row style={style.container}>
         {item}
       </Row>
     </div>);
