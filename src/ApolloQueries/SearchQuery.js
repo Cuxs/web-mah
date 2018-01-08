@@ -19,7 +19,9 @@ const SearchQuery = gql`
         group
         modelName
         price
+        fuel
         year
+        carState
         kms  
       }}
     `;
