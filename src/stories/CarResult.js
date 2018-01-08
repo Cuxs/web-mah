@@ -44,10 +44,12 @@ export default class CarResult extends Component {
   }
 
   featuredOrSold() {
-    if (this.props.featured) {
+    const state = this.props.data.CurrentState.stateName;
+
+    if ((state === 'Destacada')) {
       return (<p className="important" >Destacado </p>);
     }
-    if (this.props.sold) {
+    if (state === 'Vendida') {
       return (
         <p className="sold" >Vendido</p>
       );

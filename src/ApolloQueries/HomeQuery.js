@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const HomeQuery = graphql(gql`
-    {AllPublications{
+    {AllPublications(stateName:"Todas"){
       CurrentState{
         stateName
       }
