@@ -5,7 +5,6 @@ import React from 'react';
 import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
 
 import SearchBar from '../../stories/SearchBar';
-import Footer from '../../stories/Footer';
 
 import style from '../../Styles/pledgeCredits';
 
@@ -91,7 +90,6 @@ const PledgeCredits = ({ data }) => (
         <Button color="primary"> Solicitá</Button>
       </Col>
     </Row>
-    <Footer />
     <style jsx>{style}</style>
   </div>
 );
