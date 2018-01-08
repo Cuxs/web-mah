@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Home from './Components/Home';
 import SearchCars from './Components/SearchCars';
+import PledgeCredits from './Components/PledgeCredits';
 
 const About = () => (
   <div>
@@ -63,6 +64,8 @@ const App = () => (
 
       <Route exact path="/" component={Home} />
       <Route exact path="/searchCars" component={SearchCars} />
+      <Route exact path="/pledgeCredits" component={PledgeCredits} />
+
       <Route path="/about" component={About} />
       <Route path="/topics" component={Topics} />
     </div>
