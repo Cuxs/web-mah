@@ -1,6 +1,12 @@
 import React from 'react';
-import { Row } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
+const items = props => (
+  <div>
+    {props.map(row => (
+      <p className="option" >{row.name} <span className="quantity" >({row.quantity})</span></p>
+    ))}
+  </div>
+);
 
 export default props => props.filters.map(row => (
   <div>
@@ -26,10 +32,3 @@ export default props => props.filters.map(row => (
   </div>
 ));
 
-const items = props => (
-  <div>
-    {props.map(row => (
-      <p className="option" >{row.name} <span className="quantity" >({row.quantity})</span></p>
-    ))}
-  </div>
-);

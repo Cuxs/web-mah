@@ -23,7 +23,7 @@ const Home = ({ data }) => (
         <CreditsBanner />
         <CarHomeContainer>
           {data.AllPublications.map(row => (
-            <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} {...{ [row.State]: true }} />))
+            <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} />))
           }
         </CarHomeContainer>
         <Footer />
