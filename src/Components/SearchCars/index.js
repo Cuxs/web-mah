@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { Col, Row } from 'reactstrap';
+import { graphql } from 'react-apollo';
 
 import SearchQuery from '../../ApolloQueries/SearchQuery';
 
@@ -27,7 +28,7 @@ const SearchCars = ({ data }) => (
     <div className="container-section" >
       <Row>
         <Col md="8" sm="12">
-          <BreadCrum url="https://miautohoy.com/admin/cars" />
+          <BreadCrum url={window.location.href} />
         </Col>
         <Col md="4" sm="12">
           <PublicityBanner />
@@ -61,4 +62,4 @@ const SearchCars = ({ data }) => (
   </div>
 );
 
-export default SearchQuery(SearchCars);
+export default graphql(SearchQuery, { options: { variables: { limit: 2 } } })(SearchCars);

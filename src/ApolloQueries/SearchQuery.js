@@ -1,8 +1,8 @@
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const SearchQuery = graphql(gql`
-    {AllPublications{
+const SearchQuery = gql`
+  query AllPublications($limit: Int)
+    {AllPublications(stateName:"Activas", limit: $limit){
       CurrentState{
         stateName
       }
@@ -22,5 +22,5 @@ const SearchQuery = graphql(gql`
         year
         kms  
       }}
-    `);
+    `;
 export default SearchQuery;
