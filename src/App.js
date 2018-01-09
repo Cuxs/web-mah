@@ -7,9 +7,11 @@ import {
 } from 'react-router-dom';
 import Home from './Components/Home';
 import SearchCars from './Components/SearchCars';
+import CarDetail from './Components/CarDetail';
 import PledgeCredits from './Components/PledgeCredits';
 import PersonalShopper from './Components/PersonalShopper';
 import PersonalShopperStepTwo from './Components/PersonalShopper/StepTwo';
+import FreeDestinationCredits from './Components/FreeDestinationCredits';
 
 const About = () => (
   <div>
@@ -66,9 +68,11 @@ const App = () => (
 
       <Route exact path="/" component={Home} />
       <Route exact path="/searchCars" component={SearchCars} />
+      <Route exact path="/carDetail" component={CarDetail} />
       <Route exact path="/pledgeCredits" component={PledgeCredits} />
       <Route exact path="/personalShopperS1" component={PersonalShopper} />
       <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
+      <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
 
       <Route path="/about" component={About} />
       <Route path="/topics" component={Topics} />
