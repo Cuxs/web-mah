@@ -5,6 +5,8 @@ import {
   Route,
   Link,
 } from 'react-router-dom';
+import SearchBar from './stories/SearchBar';
+import TopTopNav from './stories/TopTopNav';
 import Home from './Components/Home';
 import SearchCars from './Components/SearchCars';
 import PledgeCredits from './Components/PledgeCredits';
@@ -61,6 +63,8 @@ const App = () => (
         <li><Link to="/about">About</Link></li>
         <li><Link to="/topics">Topics</Link></li>
       </ul> */}
+      <TopTopNav />
+      <SearchBar />
 
       <Route exact path="/" component={Home} />
       <Route exact path="/searchCars" component={SearchCars} />

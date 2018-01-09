@@ -1,10 +1,10 @@
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const HomeQuery = graphql(gql`
-query AllPublications($limit: Int)
-{AllPublications(stateName:"Activas", limit: $limit){
-  CurrentState{
+const SearchMutation = gql`
+mutation searchPublication($carState: String!, $text: String!)
+{
+    searchPublication(carState: $carState, text: $text){
+       CurrentState{
     stateName
   }
     ImageGroup{
@@ -23,7 +23,7 @@ query AllPublications($limit: Int)
     fuel
     year
     carState
-    kms  
-  }}
-`);
-export default HomeQuery;
+    kms        
+}}
+    `;
+export default SearchMutation;

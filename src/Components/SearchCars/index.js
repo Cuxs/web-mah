@@ -6,7 +6,7 @@ import { Col, Row, Button } from 'reactstrap';
 import { graphql } from 'react-apollo';
 import _ from 'lodash';
 
-import SearchQuery from '../../ApolloQueries/SearchQuery';
+import SearchMutation from '../../ApolloQueries/SearchMutation';
 
 import TopTopNav from '../../stories/TopTopNav';
 import SearchBar from '../../stories/SearchBar';
@@ -33,8 +33,6 @@ class SearchCars extends Component {
   render() {
     return (
       <div>
-        <TopTopNav />
-        <SearchBar />
         <div className="container-section" >
           <Row>
             <Col md="8" sm="12">
@@ -52,20 +50,18 @@ class SearchCars extends Component {
                 <Button style={{ cursor: 'pointer' }} name={filter.name} onClick={(e) => { this.setState({ activeFilters: _.filter(this.state.activeFilters, f => (e.target.name !== f.name)) }); }}> {filter.name} </Button>
             ))}
               <FiltersList filters={[
-            { title: 'Tipo de Vehículo', options: [{ name: 'Usado', quantity: resultCounter(this.props.data.AllPublications, 'carState', 'Usado') }, { name: 'Nuevo', quantity: resultCounter(this.props.data.AllPublications, 'carState', 'Nuevo') }] },
-            { title: 'Combustible', options: [{ name: 'Nafta', quantity: resultCounter(this.props.data.AllPublications, 'fuel', 'Nafta') }, { name: 'Diesel', quantity: resultCounter(this.props.data.AllPublications, 'fuel', 'Diesel') }, { name: 'GNC', quantity: resultCounter(this.props.data.AllPublications, 'fuel', 'GNC') }] },
+            { title: 'Tipo de Vehículo', options: [{ name: 'Usado', quantity: resultCounter(this.props.location.data.AllPublications, 'carState', 'Usado') }, { name: 'Nuevo', quantity: resultCounter(this.props.location.data.AllPublications, 'carState', 'Nuevo') }] },
+            { title: 'Combustible', options: [{ name: 'Nafta', quantity: resultCounter(this.props.location.data.AllPublications, 'fuel', 'Nafta') }, { name: 'Diesel', quantity: resultCounter(this.props.location.data.AllPublications, 'fuel', 'Diesel') }, { name: 'GNC', quantity: resultCounter(this.props.location.data.AllPublications, 'fuel', 'GNC') }] },
             ]}
               />
             </Col>
-            {!this.props.data.loading &&
             <Col md="9" sm="12">
               <CarResultContainer>
-                {this.props.data.AllPublications.map(row => (
+                {this.props.location.data.map(row => (
                   <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} {...{ [row.State]: true }} />))
               }
               </CarResultContainer>
             </Col>
-        }
           </Row>
         </div>
         <Footer />
@@ -75,12 +71,4 @@ class SearchCars extends Component {
   }
 }
 
-export default graphql(SearchQuery, {
-  options: ({
-    seller, carState, year, model, priceRange, fuel, concesionaria,
-  }) => ({
-    variables: {
-      seller, carState, model, year, priceRange, fuel, concesionaria,
-    },
-  }),
-})(SearchCars);
+export default graphql(SearchMutation)(SearchCars);

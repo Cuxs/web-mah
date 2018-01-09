@@ -17,8 +17,6 @@ const Home = ({ data }) => (
   <div>
     {!data.loading &&
       <div>
-        <TopTopNav />
-        <SearchBar />
         <Banner />
         <CreditsBanner />
         <CarHomeContainer>
