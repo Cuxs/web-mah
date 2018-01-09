@@ -23,6 +23,9 @@ export default props => props.filters.map(row => (
           font-size: 15px;
           margin-bottom: 5px
         }
+        .option:hover{
+          cursor:pointer;
+        }
         .quantity {
           font-size: 15px;
           color: lightgrey

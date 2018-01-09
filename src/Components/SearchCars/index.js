@@ -1,8 +1,10 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import React from 'react';
-import { Col, Row } from 'reactstrap';
+import React, { Component } from 'react';
+import { Col, Row, Button } from 'reactstrap';
+import { graphql } from 'react-apollo';
+import _ from 'lodash';
 
 import SearchQuery from '../../ApolloQueries/SearchQuery';
 
@@ -18,47 +20,67 @@ import CarResult from '../../stories/CarResult';
 import style from '../../Styles/searchCars';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
+import resultCounter from '../../Modules/resultCounter';
 
 
-const SearchCars = ({ data }) => (
-  <div>
-    <TopTopNav />
-    <SearchBar />
-    <div className="container-section" >
-      <Row>
-        <Col md="8" sm="12">
-          <BreadCrum url="https://miautohoy.com/admin/cars" />
-        </Col>
-        <Col md="4" sm="12">
-          <PublicityBanner />
-        </Col>
-      </Row>
-    </div>
-    <div className="container-section" >
-      <Row>
-        <Col md="3" sm="12">
-          <FiltersList filters={[
-            { title: 'Tipo de Vendedor', options: [{ name: 'Agencia', quantity: 1543 }, { name: 'Sólo Dueño', quantity: 2345 }] },
-            { title: 'Tipo de Vehículo', options: [{ name: 'Usado', quantity: 3338 }, { name: 'Nuevo', quantity: 1200 }] },
-            { title: 'Modelo', options: [{ name: 'Palio', quantity: 143 }, { name: 'Siena', quantity: 98 }] },
-            { title: 'Año', options: [{ name: '1991 a 2005', quantity: 43 }, { name: '2006 a 2018', quantity: 158 }] },
+class SearchCars extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeFilters: [{ name: 'Filtro 1' }, { name: 'Filtro 2' }],
+    };
+  }
+  render() {
+    return (
+      <div>
+        <TopTopNav />
+        <SearchBar />
+        <div className="container-section" >
+          <Row>
+            <Col md="8" sm="12">
+              <BreadCrum url={window.location.href} />
+            </Col>
+            <Col md="4" sm="12">
+              <PublicityBanner />
+            </Col>
+          </Row>
+        </div>
+        <div className="container-section" >
+          <Row>
+            <Col md="3" sm="12">
+              {this.state.activeFilters.map(filter => (
+                <Button style={{ cursor: 'pointer' }} name={filter.name} onClick={(e) => { this.setState({ activeFilters: _.filter(this.state.activeFilters, f => (e.target.name !== f.name)) }); }}> {filter.name} </Button>
+            ))}
+              <FiltersList filters={[
+            { title: 'Tipo de Vehículo', options: [{ name: 'Usado', quantity: resultCounter(this.props.data.AllPublications, 'carState', 'Usado') }, { name: 'Nuevo', quantity: resultCounter(this.props.data.AllPublications, 'carState', 'Nuevo') }] },
+            { title: 'Combustible', options: [{ name: 'Nafta', quantity: resultCounter(this.props.data.AllPublications, 'fuel', 'Nafta') }, { name: 'Diesel', quantity: resultCounter(this.props.data.AllPublications, 'fuel', 'Diesel') }, { name: 'GNC', quantity: resultCounter(this.props.data.AllPublications, 'fuel', 'GNC') }] },
             ]}
-          />
-        </Col>
-        {!data.loading &&
-          <Col md="9" sm="12">
-            <CarResultContainer>
-              {data.AllPublications.map(row => (
-                <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} {...{ [row.State]: true }} />))
+              />
+            </Col>
+            {!this.props.data.loading &&
+            <Col md="9" sm="12">
+              <CarResultContainer>
+                {this.props.data.AllPublications.map(row => (
+                  <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} {...{ [row.State]: true }} />))
               }
-            </CarResultContainer>
-          </Col>
+              </CarResultContainer>
+            </Col>
         }
-      </Row>
-    </div>
-    <Footer />
-    <style jsx>{style}</style>
-  </div>
-);
+          </Row>
+        </div>
+        <Footer />
+        <style jsx>{style}</style>
+      </div>
+    );
+  }
+}
 
-export default SearchQuery(SearchCars);
+export default graphql(SearchQuery, {
+  options: ({
+    seller, carState, year, model, priceRange, fuel, concesionaria,
+  }) => ({
+    variables: {
+      seller, carState, model, year, priceRange, fuel, concesionaria,
+    },
+  }),
+})(SearchCars);
