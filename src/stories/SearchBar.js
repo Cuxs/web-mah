@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
-import { graphql } from 'react-apollo';
-import { Redirect } from 'react-router-dom';
 import style from '../Styles/search';
-import SearchMutation from '../ApolloQueries/SearchMutation';
 /* eslint react/jsx-filename-extension: 0 */
 
 class SearchBar extends Component {
@@ -14,9 +11,7 @@ class SearchBar extends Component {
     this.state = {
       dropdownOpen: false,
       carState: 'Usado',
-      text: '',
-      dataArrived: false,
-      data: [],
+      text: this.props.text === undefined ? '' : this.props.text,
     };
   }
   toggle() {
@@ -25,21 +20,7 @@ class SearchBar extends Component {
     });
   }
   submitSearch() {
-    this.props.mutate({
-      variables: {
-        text: this.state.text,
-        carState: this.state.carState,
-      },
-    })
-      .then(({ data }) => {
-        this.setState({
-          data,
-          dataArrived: true,
-        });
-      })
-      .catch((error) => {
-        console.log('there was an error sending the query', error);
-      });
+    this.props.history.push(`/SearchCars?text=${this.state.text}&carState=${this.state.carState}`);
   }
   render() {
     return (
@@ -72,14 +53,12 @@ class SearchBar extends Component {
           <Button color="secondary"> Ver Consecionarias</Button>
           <strong>Publicá gratis</strong> | <a> Iniciá Sesión </a>
         </Col>
-        {this.state.dataArrived &&
-        <Redirect to={{
+        {/*  <Redirect to={{
           pathname: '/SearchCars',
-          data: this.state.data.searchPublication,
-        }}
-        />}
+          search: `text=${this.state.text}&carState=${this.state.carState}`,
+        />} */}
       </Row>
     );
   }
 }
-export default graphql(SearchMutation)(SearchBar);
+export default SearchBar;

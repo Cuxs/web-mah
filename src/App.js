@@ -4,9 +4,8 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
+  Switch,
 } from 'react-router-dom';
-import SearchBar from './stories/SearchBar';
-import TopTopNav from './stories/TopTopNav';
 import Home from './Components/Home';
 import SearchCars from './Components/SearchCars';
 import PledgeCredits from './Components/PledgeCredits';
@@ -63,15 +62,15 @@ const App = () => (
         <li><Link to="/about">About</Link></li>
         <li><Link to="/topics">Topics</Link></li>
       </ul> */}
-      <TopTopNav />
-      <SearchBar />
 
-      <Route exact path="/" component={Home} />
-      <Route exact path="/searchCars" component={SearchCars} />
-      <Route exact path="/pledgeCredits" component={PledgeCredits} />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/searchCars" component={SearchCars} />
+        <Route exact path="/pledgeCredits" component={PledgeCredits} />
 
-      <Route path="/about" component={About} />
-      <Route path="/topics" component={Topics} />
+        <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
+      </Switch>
     </div>
   </Router>
 );

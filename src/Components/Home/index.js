@@ -13,10 +13,12 @@ import Footer from '../../stories/Footer';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
 
-const Home = ({ data }) => (
+const Home = ({ data, history, location }) => (
   <div>
     {!data.loading &&
       <div>
+        <TopTopNav />
+        <SearchBar history={history} location={location} />
         <Banner />
         <CreditsBanner />
         <CarHomeContainer>

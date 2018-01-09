@@ -5,34 +5,76 @@ import React, { Component } from 'react';
 import { Col, Row, Button } from 'reactstrap';
 import { graphql } from 'react-apollo';
 import _ from 'lodash';
+import qs from 'query-string';
 
 import SearchMutation from '../../ApolloQueries/SearchMutation';
 
-import TopTopNav from '../../stories/TopTopNav';
-import SearchBar from '../../stories/SearchBar';
 import Footer from '../../stories/Footer';
 import BreadCrum from '../../stories/BreadCrum';
 import PublicityBanner from '../../stories/PublicityBanner';
 import FiltersList from '../../stories/FiltersList';
 import CarResultContainer from '../../stories/CarResultContainer';
 import CarResult from '../../stories/CarResult';
+import SearchBar from '../../stories/SearchBar';
+import TopTopNav from '../../stories/TopTopNav';
 
 import style from '../../Styles/searchCars';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
 import resultCounter from '../../Modules/resultCounter';
 
-
 class SearchCars extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: { searchPublication: '' },
       activeFilters: [{ name: 'Filtro 1' }, { name: 'Filtro 2' }],
     };
   }
+  componentWillMount() {
+    this.doSearch(this.props.location.search);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.search !== nextProps.location.search) {
+      this.doSearch(nextProps.location.search);
+    }
+  }
+  doSearch(url) {
+    this.props.mutate({
+      variables: qs.parse(url),
+    })
+      .then(({ data }) => {
+        this.setState({
+          data,
+        });
+      })
+      .catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
+  }
+  renderData() {
+    if (this.state.data.searchPublication.length === 0) {
+      return (
+        <p>La búsqueda no ha dado resultados, prueba con otro texto </p>);
+    }
+    if (this.state.data.searchPublication === '') {
+      return (<p>Cargando...</p>);
+    }
+    return (
+      <CarResultContainer>
+        {this.state.data.searchPublication.map(row => (
+          <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} {...{ [row.State]: true }} />))
+      }
+      </CarResultContainer>);
+  }
   render() {
+    const data = this.state.data.searchPublication;
+    const { text } = qs.parse(this.props.location.search);
+    
     return (
       <div>
+        <TopTopNav />
+        <SearchBar text={text} history={this.props.history} location={this.props.location} />
         <div className="container-section" >
           <Row>
             <Col md="8" sm="12">
@@ -50,17 +92,13 @@ class SearchCars extends Component {
                 <Button style={{ cursor: 'pointer' }} name={filter.name} onClick={(e) => { this.setState({ activeFilters: _.filter(this.state.activeFilters, f => (e.target.name !== f.name)) }); }}> {filter.name} </Button>
             ))}
               <FiltersList filters={[
-            { title: 'Tipo de Vehículo', options: [{ name: 'Usado', quantity: resultCounter(this.props.location.data.AllPublications, 'carState', 'Usado') }, { name: 'Nuevo', quantity: resultCounter(this.props.location.data.AllPublications, 'carState', 'Nuevo') }] },
-            { title: 'Combustible', options: [{ name: 'Nafta', quantity: resultCounter(this.props.location.data.AllPublications, 'fuel', 'Nafta') }, { name: 'Diesel', quantity: resultCounter(this.props.location.data.AllPublications, 'fuel', 'Diesel') }, { name: 'GNC', quantity: resultCounter(this.props.location.data.AllPublications, 'fuel', 'GNC') }] },
+            { title: 'Tipo de Vehículo', options: [{ name: 'Usado', quantity: resultCounter(data.AllPublications, 'carState', 'Usado') }, { name: 'Nuevo', quantity: resultCounter(data.AllPublications, 'carState', 'Nuevo') }] },
+            { title: 'Combustible', options: [{ name: 'Nafta', quantity: resultCounter(data.AllPublications, 'fuel', 'Nafta') }, { name: 'Diesel', quantity: resultCounter(data.AllPublications, 'fuel', 'Diesel') }, { name: 'GNC', quantity: resultCounter(data.AllPublications, 'fuel', 'GNC') }] },
             ]}
               />
             </Col>
             <Col md="9" sm="12">
-              <CarResultContainer>
-                {this.props.location.data.map(row => (
-                  <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} {...{ [row.State]: true }} />))
-              }
-              </CarResultContainer>
+              {this.renderData()}
             </Col>
           </Row>
         </div>
