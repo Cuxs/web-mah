@@ -6,6 +6,7 @@ import {
   Link,
 } from 'react-router-dom';
 import Home from './Components/Home';
+import AgencyRegister from './Components/AgencyRegister';
 import SearchCars from './Components/SearchCars';
 import CarDetail from './Components/CarDetail';
 import PledgeCredits from './Components/PledgeCredits';
@@ -68,6 +69,7 @@ const App = () => (
 
       <Route exact path="/" component={Home} />
       <Route exact path="/searchCars" component={SearchCars} />
+      <Route exact path="/agencyRegister" component={AgencyRegister} />
       <Route exact path="/carDetail" component={CarDetail} />
       <Route exact path="/pledgeCredits" component={PledgeCredits} />
       <Route exact path="/personalShopperS1" component={PersonalShopper} />

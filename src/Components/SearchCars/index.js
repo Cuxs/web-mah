@@ -37,10 +37,10 @@ class SearchCars extends Component {
         <SearchBar />
         <div className="container-section" >
           <Row>
-            <Col md="8" sm="12">
+            <Col md="7" sm="12">
               <BreadCrum url={window.location.href} />
             </Col>
-            <Col md="4" sm="12">
+            <Col md="5" sm="12">
               <PublicityBanner />
             </Col>
           </Row>
