@@ -14,7 +14,7 @@ class SearchBar extends Component {
     this.state = {
       suggestions: [],
       dropdownOpen: false,
-      carState: 'Usado',
+      carState: this.props.carState === undefined ? 'Usado' : this.props.carState,
       value: this.props.text === undefined ? '' : this.props.text,
     };
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
