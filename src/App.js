@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
+  Switch,
 } from 'react-router-dom';
 import Home from './Components/Home';
 import AgencyRegister from './Components/AgencyRegister';
@@ -82,8 +83,18 @@ const App = () => (
       <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
       <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
 
-      <Route path="/about" component={About} />
-      <Route path="/topics" component={Topics} />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/searchCars" component={SearchCars} />
+        <Route exact path="/agencyRegister" component={AgencyRegister} />
+        <Route exact path="/carDetail" component={CarDetail} />
+        <Route exact path="/pledgeCredits" component={PledgeCredits} />
+        <Route exact path="/personalShopperS1" component={PersonalShopper} />
+        <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
+        <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
+        <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
+      </Switch>
     </div>
   </Router>
 );

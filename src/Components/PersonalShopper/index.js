@@ -9,9 +9,9 @@ import SearchBar from '../../stories/SearchBar';
 import style from '../../Styles/pledgeCredits';
 
 
-const PersonalShopper = ({ data }) => (
+const PersonalShopper = ({ data, history, location }) => (
   <div>
-    <SearchBar />
+    <SearchBar history={history} location={location} />
     <Row>
       <Col md="6" sm="12" className="container-section">
         <h4>¿Cansado de buscar?</h4>
