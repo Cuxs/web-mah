@@ -38,7 +38,7 @@ class SearchBar extends Component {
     });
   }
   submitSearch() {
-    this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${this.state.carState}`);
+    this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${this.state.carState}&page=1`);
   }
   toggle() {
     this.setState({

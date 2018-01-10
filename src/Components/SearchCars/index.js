@@ -18,6 +18,7 @@ import CarResult from '../../stories/CarResult';
 import SearchBar from '../../stories/SearchBar';
 import TopTopNav from '../../stories/TopTopNav';
 import NumberOfResult from '../../stories/NumberOfResult';
+import Pagination from '../../stories/Pagination';
 
 import style from '../../Styles/searchCars';
 
@@ -55,38 +56,40 @@ class SearchCars extends Component {
       });
   }
   renderData() {
-    if (this.state.data.searchPublication.length === 0) {
+    if (this.state.data.searchPublication.totalResult === 0) {
       return <p>La búsqueda no ha dado resultados, prueba con otro texto </p>;
     }
     if (this.state.data.searchPublication === '') {
       return <p>Cargando...</p>;
     }
     return (
-        <div>
-          <NumberOfResult results={this.state.data.searchPublication.length} />
-          <CarResultContainer>
-            {this.state.data.searchPublication.map(row => (
-              <CarResult
-                photoGalery={photoGaleryParser(row.ImageGroup)}
-                data={row}
-                {...{ [row.State]: true }}
-              />
+      <div>
+        <NumberOfResult results={this.state.data.searchPublication.totalResult} />
+        <CarResultContainer>
+          {this.state.data.searchPublication.Publications.map(row => (
+            <CarResult
+              photoGalery={photoGaleryParser(row.ImageGroup)}
+              data={row}
+              {...{ [row.State]: true }}
+            />
         ))}
-          </CarResultContainer>
-        </div>
+        </CarResultContainer>
+      </div>
     );
   }
 
   render() {
+    const numberOfResults = this.state.data.searchPublication.totalResult;
     const data = this.state.data.searchPublication;
-    const { text } = qs.parse(this.props.location.search);
+    const { text, carState, page } = qs.parse(this.props.location.search);
+    const { history, location } = this.props;
     return (
       <div>
         <TopTopNav />
         <SearchBar
           text={text}
-          history={this.props.history}
-          location={this.props.location}
+          history={history}
+          location={location}
         />
         <div className="container-section">
           <Row>
@@ -114,8 +117,7 @@ class SearchCars extends Component {
                     });
                   }}
                 >
-                  {' '}
-                  {filter.name}{' '}
+                  {filter.name}
                 </Button>
               ))}
               <FiltersList
@@ -142,8 +144,17 @@ class SearchCars extends Component {
             </Col>
             <Col md="9" sm="12">
               {this.renderData()}
+              <br />
+              <Row>
+                <Col md="4" />
+                <Col md="4" >
+                  <Pagination numberOfResults={numberOfResults} history={history} text={text} carState={carState} actualPage={page}/>
+                </Col>
+                <Col md="4" />
+              </Row>
             </Col>
           </Row>
+
         </div>
         <Footer />
         <style jsx>{style}</style>

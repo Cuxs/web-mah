@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import qs from 'query-string';
 
 import SearchBar from '../../stories/SearchBar';
 
