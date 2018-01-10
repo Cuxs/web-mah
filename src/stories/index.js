@@ -13,6 +13,7 @@ import NumberOfResult from './NumberOfResult';
 import Badges from './Badges';
 import Banner from './Banner';
 import CarResult from './CarResult';
+import CarCarousel from './CarCarousel';
 import CarResultContainer from './CarResultContainer';
 import PublicityBanner from './PublicityBanner';
 import CreditsBanner from './CreditsBanner';
@@ -61,6 +62,24 @@ storiesOf('CarResult', module)
     price: '260000',
     state: '0 km.',
   }}
+  />));
+
+storiesOf('CarCarousel', module)
+  .add('CarCarousel', () => (<CarCarousel
+    sold
+    photoGalery={[{
+    src: 'http://placecage.com/264/305',
+    altText: 'image1',
+  },
+  {
+    src: 'http://placecage.com/g/264/305',
+    altText: 'image2',
+  },
+  {
+    src: 'http://placecage.com/c/264/305',
+    altText: 'image3',
+  },
+]}
   />));
 
 storiesOf('CarResultContainer', module)

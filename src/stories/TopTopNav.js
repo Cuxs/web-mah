@@ -4,8 +4,8 @@ import React from 'react';
 export default () => (
   <div>
     <div className="TopTopNav" id="myTopnav">
-      <a href="#about">Créditos Libre Destino</a>
-      <a href="#contact">Personal Shopper</a>
+      <a href="/freeDestinationCredits">Créditos Libre Destino</a>
+      <a href="/personalShopperS1">Personal Shopper</a>
       <a href="/pledgeCredits">Creditos Prendarios</a>
     </div>
     <style jsx>{`

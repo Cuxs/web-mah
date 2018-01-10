@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const SearchMutation = gql`
-mutation searchPublication($carState: String!, $text: String!)
+mutation searchPublication($carState: String!, $text: String!, $limit: Int)
 {
     searchPublication(carState: $carState, text: $text){
        CurrentState{
