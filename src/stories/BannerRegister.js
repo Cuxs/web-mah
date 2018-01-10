@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, FormGroup, Input, Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
-export default () => (
+export default ({ actionName }) => (
   <Row>
     <div className="col-md-12" >
       <img src="http://placecage.com/c/1440/330" alt="banner" />
@@ -18,7 +18,7 @@ export default () => (
           <FormGroup>
             <Input type="email" name="email" placeholder="Email" />
           </FormGroup>
-          <Button color="primary">Comenzar</Button>
+          <Button color="primary" href={actionName} >Comenzar</Button>
         </Col>
       </div>
     </div>
