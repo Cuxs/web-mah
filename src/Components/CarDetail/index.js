@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { Col, Row, Button, FormGroup, Input, Label } from 'reactstrap';
+import qs from 'query-string';
 
 import CarQuery from '../../ApolloQueries/CarQuery';
 
@@ -22,7 +23,7 @@ import photoGaleryParser from '../../Modules/photoGaleryParser';
 const CarDetail = ({ data, history, location }) => (
   <div>
     <TopTopNav />
-    <SearchBar history={history} location={location} />
+    <SearchBar text={qs.parse(location.search)} history={history} location={location} />
     <div className="container-section" >
       <Row>
         <Col md="7" sm="12">
@@ -109,9 +110,9 @@ const CarDetail = ({ data, history, location }) => (
           />
 
           <h5 className="title" >Comentarios del Vendedor</h5>
-          <h6> Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. 
-            Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, 
-            cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una 
+          <h6> Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+            Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,
+            cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una
             galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.
           </h6>
         </Col>
