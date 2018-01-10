@@ -19,10 +19,10 @@ import style from '../../Styles/carDetail';
 import photoGaleryParser from '../../Modules/photoGaleryParser';
 
 
-const CarDetail = ({ data }) => (
+const CarDetail = ({ data, history, location }) => (
   <div>
     <TopTopNav />
-    <SearchBar />
+    <SearchBar history={history} location={location} />
     <div className="container-section" >
       <Row>
         <Col md="7" sm="12">

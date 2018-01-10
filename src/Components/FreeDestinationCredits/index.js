@@ -9,9 +9,10 @@ import SearchBar from '../../stories/SearchBar';
 import style from '../../Styles/pledgeCredits';
 
 
-const FreeDestinationCredits = () => (
+const FreeDestinationCredits = ({ history, location }) => (
   <div>
-    <SearchBar />
+    <SearchBar history={history} location={location} />
+
     <Row>
       <Col md="6" sm="12" className="container-section">
         <h4>No hace falta que vendas tu auto!</h4>
