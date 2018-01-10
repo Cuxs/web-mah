@@ -17,6 +17,7 @@ import CarResultContainer from '../../stories/CarResultContainer';
 import CarResult from '../../stories/CarResult';
 import SearchBar from '../../stories/SearchBar';
 import TopTopNav from '../../stories/TopTopNav';
+import NumberOfResult from '../../stories/NumberOfResult';
 
 import style from '../../Styles/searchCars';
 
@@ -61,15 +62,18 @@ class SearchCars extends Component {
       return <p>Cargando...</p>;
     }
     return (
-      <CarResultContainer>
-        {this.state.data.searchPublication.map(row => (
-          <CarResult
-            photoGalery={photoGaleryParser(row.ImageGroup)}
-            data={row}
-            {...{ [row.State]: true }}
-          />
+        <div>
+          <NumberOfResult results={this.state.data.searchPublication.length} />
+          <CarResultContainer>
+            {this.state.data.searchPublication.map(row => (
+              <CarResult
+                photoGalery={photoGaleryParser(row.ImageGroup)}
+                data={row}
+                {...{ [row.State]: true }}
+              />
         ))}
-      </CarResultContainer>
+          </CarResultContainer>
+        </div>
     );
   }
 

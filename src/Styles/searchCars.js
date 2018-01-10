@@ -22,5 +22,6 @@ const searchCars =
     border-radius: 3px;
     border: 1px solid lightgray;
     color: green;
-  }`;
+  }
+  `;
 export default searchCars;

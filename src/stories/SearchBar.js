@@ -52,7 +52,6 @@ class SearchBar extends Component {
       value,
       onChange: this.onChange,
     };
-    console.log(this.props);
     return (
       <Row style={style.header} >
         <Col md="6">
