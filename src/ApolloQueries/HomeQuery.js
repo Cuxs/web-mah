@@ -2,8 +2,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const HomeQuery = graphql(gql`
-query AllPublications($limit: Int)
-{AllPublications(stateName:"Activas", limit: $limit){
+{AllPublications(stateName:"Activas", limit: 13){
   CurrentState{
     stateName
   }

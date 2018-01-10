@@ -40,9 +40,10 @@ class SearchCars extends Component {
     }
   }
   doSearch(url) {
-    this.props.mutate({
-      variables: qs.parse(url),
-    })
+    this.props
+      .mutate({
+        variables: qs.parse(url),
+      })
       .then(({ data }) => {
         this.setState({
           data,
@@ -54,28 +55,36 @@ class SearchCars extends Component {
   }
   renderData() {
     if (this.state.data.searchPublication.length === 0) {
-      return (
-        <p>La búsqueda no ha dado resultados, prueba con otro texto </p>);
+      return <p>La búsqueda no ha dado resultados, prueba con otro texto </p>;
     }
     if (this.state.data.searchPublication === '') {
-      return (<p>Cargando...</p>);
+      return <p>Cargando...</p>;
     }
     return (
       <CarResultContainer>
         {this.state.data.searchPublication.map(row => (
-          <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} {...{ [row.State]: true }} />))
-      }
-      </CarResultContainer>);
+          <CarResult
+            photoGalery={photoGaleryParser(row.ImageGroup)}
+            data={row}
+            {...{ [row.State]: true }}
+          />
+        ))}
+      </CarResultContainer>
+    );
   }
+
   render() {
     const data = this.state.data.searchPublication;
     const { text } = qs.parse(this.props.location.search);
-    
     return (
       <div>
         <TopTopNav />
-        <SearchBar text={text} history={this.props.history} location={this.props.location} />
-        <div className="container-section" >
+        <SearchBar
+          text={text}
+          history={this.props.history}
+          location={this.props.location}
+        />
+        <div className="container-section">
           <Row>
             <Col md="8" sm="12">
               <BreadCrum url={window.location.href} />
@@ -85,16 +94,46 @@ class SearchCars extends Component {
             </Col>
           </Row>
         </div>
-        <div className="container-section" >
+        <div className="container-section">
           <Row>
             <Col md="3" sm="12">
               {this.state.activeFilters.map(filter => (
-                <Button style={{ cursor: 'pointer' }} name={filter.name} onClick={(e) => { this.setState({ activeFilters: _.filter(this.state.activeFilters, f => (e.target.name !== f.name)) }); }}> {filter.name} </Button>
-            ))}
-              <FiltersList filters={[
-            { title: 'Tipo de Vehículo', options: [{ name: 'Usado', quantity: resultCounter(data.AllPublications, 'carState', 'Usado') }, { name: 'Nuevo', quantity: resultCounter(data.AllPublications, 'carState', 'Nuevo') }] },
-            { title: 'Combustible', options: [{ name: 'Nafta', quantity: resultCounter(data.AllPublications, 'fuel', 'Nafta') }, { name: 'Diesel', quantity: resultCounter(data.AllPublications, 'fuel', 'Diesel') }, { name: 'GNC', quantity: resultCounter(data.AllPublications, 'fuel', 'GNC') }] },
-            ]}
+                <Button
+                  style={{ cursor: 'pointer' }}
+                  name={filter.name}
+                  onClick={(e) => {
+                    this.setState({
+                      activeFilters: _.filter(
+                        this.state.activeFilters,
+                        f => e.target.name !== f.name,
+                      ),
+                    });
+                  }}
+                >
+                  {' '}
+                  {filter.name}{' '}
+                </Button>
+              ))}
+              <FiltersList
+                filters={[
+                  {
+                    title: 'Combustible',
+                    options: [
+                      {
+                        name: 'Nafta',
+                        quantity: resultCounter(data, 'fuel', 'Nafta'),
+                      },
+                      {
+                        name: 'Diesel',
+                        quantity: resultCounter(data, 'fuel', 'Diesel'),
+                      },
+                      {
+                        name: 'GNC',
+                        quantity: resultCounter(data, 'fuel', 'GNC'),
+                      },
+                    ],
+                  },
+                ]}
               />
             </Col>
             <Col md="9" sm="12">

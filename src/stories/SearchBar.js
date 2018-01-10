@@ -1,28 +1,58 @@
 import React, { Component } from 'react';
+import Autosuggest from 'react-autosuggest';
 import { Input, Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
 import style from '../Styles/search';
+import autocompleteStyles from '../Styles/autocompleteInput';
+import { getSuggestions, getSuggestionValue, renderSectionTitle, renderSuggestion, getSectionSuggestions } from '../Modules/autocompleteData';
+
 /* eslint react/jsx-filename-extension: 0 */
 
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
     this.state = {
+      suggestions: [],
       dropdownOpen: false,
       carState: 'Usado',
-      text: this.props.text === undefined ? '' : this.props.text,
+      value: this.props.text === undefined ? '' : this.props.text,
     };
+    this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
+    this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(event, { newValue, method }) {
+    this.setState({
+      value: newValue,
+    });
+  }
+  onSuggestionsFetchRequested({ value }) {
+    this.setState({
+      suggestions: getSuggestions(value),
+    });
+  }
+  onSuggestionsClearRequested() {
+    this.setState({
+      suggestions: [],
+    });
+  }
+  submitSearch() {
+    this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${this.state.carState}`);
   }
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
     });
   }
-  submitSearch() {
-    this.props.history.push(`/SearchCars?text=${this.state.text}&carState=${this.state.carState}`);
-  }
   render() {
+    const { value, suggestions } = this.state;
+    const inputProps = {
+      placeholder: 'Busca tu auto',
+      value,
+      onChange: this.onChange,
+    };
+    console.log(this.props);
     return (
       <Row style={style.header} >
         <Col md="6">
@@ -31,7 +61,19 @@ class SearchBar extends Component {
               <p >Mi auto Hoy</p>
             </Col>
             <Col md="5">
-              <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} />
+              {/* <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} /> */}
+              <Autosuggest
+                multiSection
+                suggestions={suggestions}
+                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                renderSectionTitle={renderSectionTitle}
+                getSectionSuggestions={getSectionSuggestions}
+                inputProps={inputProps}
+              />
+              <style jsx>{autocompleteStyles}</style>
             </Col>
             <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
               <DropdownToggle caret>
@@ -53,10 +95,6 @@ class SearchBar extends Component {
           <Button color="secondary"> Ver Consecionarias</Button>
           <strong>Publicá gratis</strong> | <a> Iniciá Sesión </a>
         </Col>
-        {/*  <Redirect to={{
-          pathname: '/SearchCars',
-          search: `text=${this.state.text}&carState=${this.state.carState}`,
-        />} */}
       </Row>
     );
   }
