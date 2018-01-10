@@ -2,8 +2,8 @@ import React from 'react';
 import { Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
-const CardPublication = () => (
-  <div className="d-flex flex-row" >
+const CardPublication = ({ onHighlight }) => (
+  <div className="d-flex flex-row card" >
     <img src="http://placecage.com/c/230/150" alt="banner" />
     <div className="info-container">
       <div className="d-flex flex-row justify-content-between" >
@@ -21,9 +21,8 @@ const CardPublication = () => (
       <div className="d-flex flex-row justify-content-between" >
         <Button>Marcar como Vendido</Button>
         <div>
-          <Button type="secondary">Destacar</Button>
+          <Button type="secondary" onClick={() => onHighlight()} >Destacar</Button>
           <Button type="secondary">Editar</Button>
-          <Button type="secondary">Eliminar</Button>
 
         </div>
       </div>
@@ -31,6 +30,11 @@ const CardPublication = () => (
     </div>
     <style jsx>{
       `
+      .card {
+        margin-bottom: 30px;
+        padding: 15px;
+        background-color: lightgray;
+      }
       .info-container {
         display: flex;
         flex-direction: column;
