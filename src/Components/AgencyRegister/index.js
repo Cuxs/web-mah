@@ -16,7 +16,7 @@ const Home = ({ data }) => (
     {!data.loading &&
       <div>
         <RegisterBar />
-        <BannerRegister />
+        <BannerRegister actionName="/agencyRegisterS1" />
         <FeaturesRegister />
         <Plans />
         <Faq />
