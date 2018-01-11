@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import Home from './Components/Home';
 import AgencyAdmin from './Components/AgencyAdmin';
+import AgencyInbox from './Components/AgencyInbox';
 import AgencyRegister from './Components/AgencyRegister';
 import AgencyRegisterStepOne from './Components/AgencyRegister/StepOne';
 import AgencyRegisterStepTwo from './Components/AgencyRegister/StepTwo';
@@ -79,6 +80,7 @@ const App = () => (
       <Route exact path="/" component={Home} />
       <Route exact path="/searchCars" component={SearchCars} />
       <Route exact path="/agencyAdmin" component={AgencyAdmin} />
+      <Route exact path="/agencyInbox" component={AgencyInbox} />
       <Route exact path="/agencyRegister" component={AgencyRegister} />
       <Route exact path="/agencyRegisterS1" component={AgencyRegisterStepOne} />
       <Route exact path="/agencyRegisterS2" component={AgencyRegisterStepTwo} />
