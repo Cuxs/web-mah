@@ -12,6 +12,7 @@ query Publication($id: Int!) {
         image3
       }
       brand
+      observation
       group
       modelName
       price
@@ -19,6 +20,19 @@ query Publication($id: Int!) {
       year
       carState
       kms
+      User{
+        id
+        email
+        name
+        address
+        phone
+        agencyName
+        agencyAdress
+        agencyEmail
+        agencyPhone
+        profileImage
+        bannerImage
+      }
     }
   }
     `;

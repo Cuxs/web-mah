@@ -110,10 +110,7 @@ const CarDetail = ({ data, history, location }) => (
             />
 
             <h5 className="title" >Comentarios del Vendedor</h5>
-            <h6> Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
-            Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,
-            cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una
-            galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.
+            <h6> {data.Publication.observation}
             </h6>
           </Col>
 
@@ -132,20 +129,20 @@ const CarDetail = ({ data, history, location }) => (
 
             <div className="underline" />
 
-            <h5>Nombre de la agencia</h5>
+            <h5>{data.Publication.User.agencyName || data.Publication.User.name}</h5>
             <Button color="link">Ver todos los autos</Button>
 
             <div className="container-personal-data" >
               <h7>DOMICILIO</h7>
-              <h7>Av. Mitre 1458 San Rafael, Mendoza</h7>
+              <h7>{data.Publication.User.agencyAdress || data.Publication.User.address || 'No especificado'}</h7>
               <h7>TELÉFONOS</h7>
-              <h7>2604-4337724 / 2604-4337724</h7>
+              <h7>{data.Publication.User.agencyPhone && ' / '}{data.Publication.User.phone || 'No especificado'} </h7>
               <h7>EMAIL</h7>
-              <h7>automoteres@gmail.com</h7>
+              <h7>{data.Publication.User.agencyEmail || data.Publication.User.email || 'No especificado'}</h7>
             </div>
 
             <FormGroup>
-              <Label for="exampleText">Contactar al Consecionario</Label>
+              <Label for="exampleText">Contactar al Vendedor</Label>
               <Input type="textarea" name="text" id="exampleText" placeholder="Escribe una consulta" />
             </FormGroup>
             <Button color="secondary">Preguntar</Button>
