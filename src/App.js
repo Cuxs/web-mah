@@ -14,10 +14,14 @@ import AgencyRegisterStepTwo from './Components/AgencyRegister/StepTwo';
 import AgencyRegisterStepThree from './Components/AgencyRegister/StepThree';
 import SearchCars from './Components/SearchCars';
 import CarDetail from './Components/CarDetail';
+import CreatePublication from './Components/CreatePublication';
+import CreatePublicationStepOne from './Components/CreatePublication/StepOne';
+import CreatePublicationStepTwo from './Components/CreatePublication/StepTwo';
+import CreatePublicationStepThree from './Components/CreatePublication/StepThree';
+import FreeDestinationCredits from './Components/FreeDestinationCredits';
 import PledgeCredits from './Components/PledgeCredits';
 import PersonalShopper from './Components/PersonalShopper';
 import PersonalShopperStepTwo from './Components/PersonalShopper/StepTwo';
-import FreeDestinationCredits from './Components/FreeDestinationCredits';
 
 const About = () => (
   <div>
@@ -80,10 +84,14 @@ const App = () => (
       <Route exact path="/agencyRegisterS2" component={AgencyRegisterStepTwo} />
       <Route exact path="/agencyRegisterS3" component={AgencyRegisterStepThree} />
       <Route exact path="/carDetail" component={CarDetail} />
+      <Route exact path="/createPublication" component={CreatePublication} />
+      <Route exact path="/createPublicationS1" component={CreatePublicationStepOne} />
+      <Route exact path="/createPublicationS2" component={CreatePublicationStepTwo} />
+      <Route exact path="/createPublicationS3" component={CreatePublicationStepThree} />
+      <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
       <Route exact path="/pledgeCredits" component={PledgeCredits} />
       <Route exact path="/personalShopperS1" component={PersonalShopper} />
       <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
-      <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
 
       <Switch>
         <Route exact path="/" component={Home} />
