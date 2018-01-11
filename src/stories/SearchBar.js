@@ -3,7 +3,6 @@ import Autosuggest from 'react-autosuggest';
 import { Input, Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalBody, ModalHeader, FormGroup, Label } from 'reactstrap';
 import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
-import Login from './Login';
 import { getSuggestions, getSuggestionValue, renderSectionTitle, renderSuggestion, getSectionSuggestions } from '../Modules/autocompleteData';
 
 /* eslint react/jsx-filename-extension: 0 */
