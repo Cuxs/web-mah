@@ -3,9 +3,10 @@
 
 import React from 'react';
 import { Col, Row, Button, FormGroup, Input, Label } from 'reactstrap';
-import qs from 'query-string';
+import { graphql, compose } from 'react-apollo';
+import { parse } from 'query-string';
 
-import CarQuery from '../../ApolloQueries/CarQuery';
+import { CarDetailQuery, CarSpecs } from '../../ApolloQueries/CarDetailQuery';
 
 import TopTopNav from '../../stories/TopTopNav';
 import SearchBar from '../../stories/SearchBar';
@@ -16,146 +17,154 @@ import CarCarousel from '../../stories/CarCarousel';
 import CarSpecifications from '../../stories/CarSpecifications';
 
 import style from '../../Styles/carDetail';
+import socialStyle from '../../Styles/bootstrap-social';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
 
 
-const CarDetail = ({ data, history, location }) => (
+const CarDetail = ({
+  carDetailData, carSpecsData, history, location,
+}) => (
   <div>
     <TopTopNav />
-    <SearchBar text={qs.parse(location.search)} history={history} location={location} />
-    <div className="container-section" >
+    <SearchBar history={history} location={location} />
+    <div className="container-section">
       <Row>
         <Col md="7" sm="12">
-          <BreadCrum url="https://miautohoy.com/admin/cars" />
+          <BreadCrum url={window.location.href} />
         </Col>
         <Col md="5" sm="12">
           <PublicityBanner />
         </Col>
       </Row>
     </div>
-    <div className="container-section" >
-      <Row>
-        <Col md="7" sm="12">
-          {!data.loading &&
-            <CarCarousel photoGalery={photoGaleryParser(data.AllPublications[0].ImageGroup)} />
-          }
+    <div className="container-section">
+      {carDetailData.Publication === null &&
+        <h3>Esta publicación no exite o ha sido eliminada.</h3>
+      }
+      {!carDetailData.loading && carDetailData.Publication !== null && (
+        <Row>
+          <Col md="7" sm="12">
+            <CarCarousel
+              photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
+            />
+            <div className="underline" />
+            <div>
+              <h5 className="title">Resumen</h5>
+              <Row>
+                <Col md="6" sm="12">
+                  <h5>ESTADO</h5>
+                  <h5>{carDetailData.Publication.carState}</h5>
+                </Col>
+                <Col md="6" sm="12">
+                  <h5>KM</h5>
+                  <h6>{carDetailData.Publication.kms}</h6>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" sm="12">
+                  <h5>MARCA</h5>
+                  <h6>{carDetailData.Publication.brand}</h6>
+                </Col>
 
-          <div className="underline" />
-          <div>
-            <h5 className="title" >Resumen</h5>
-            <Row>
-              <Col md="6" sm="12">
-                <h7>ESTADO</h7>
-                <h6>Nuevo</h6>
-              </Col>
-              <Col md="6" sm="12">
-                <h7>KM</h7>
-                <h6>42018</h6>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="6" sm="12">
-                <h7>MARCA</h7>
-                <h6>Fiat</h6>
-              </Col>
+                <Col md="6" sm="12">
+                  <h5>AÑO</h5>
+                  <h6>{carDetailData.Publication.year}</h6>
+                </Col>
+              </Row>
+              <Row>
+                <Col md="6" sm="12">
+                  <h5>MODELO</h5>
+                  <h6>{carDetailData.Publication.modelName}</h6>
+                </Col>
+                <Col md="6" sm="12">
+                  <h5>COMBUSTIBLE</h5>
+                  <h6>{carDetailData.Publication.fuel}</h6>
+                </Col>
+              </Row>
+            </div>
+            <div className="underline" />
+            {!carSpecsData.loading && carSpecsData.Publication.Specifications !== null && (
+            <CarSpecifications data={carSpecsData.Publication.Specifications} />
+            )}
+            <h5 className="title">Comentarios del Vendedor</h5>
+            <h6> {carDetailData.Publication.observation}</h6>
+          </Col>
 
-              <Col md="6" sm="12">
-                <h7>AÑO</h7>
-                <h6>2014</h6>
-              </Col>
-            </Row>
-            <Row>
-              <Col md="6" sm="12">
-                <h7>MODELO</h7>
-                <h6>Palio Weekend 1.4 Fire Attractive MT5 5P (85cv) (l12)</h6>
-              </Col>
+          <Col md="5" sm="12">
+            <h6>
+              {carDetailData.Publication.year} - {carDetailData.Publication.kms} km
+            </h6>
+            <h4>{carDetailData.Publication.group}</h4>
+            <h6>{carDetailData.Publication.modelName}</h6>
+            <h4>${carDetailData.Publication.price}</h4>
+            <Button color="primary">¡Solicitá tu crédito</Button>
 
-              <Col md="6" sm="12">
-                <h7>COMBUSTIBLE</h7>
-                <h6>Nafta</h6>
-              </Col>
-            </Row>
-          </div>
-          <div className="underline" />
-          <CarSpecifications
-            groups={[
-              {
-                title: 'Extras',
-                specifications: [
-                { name: 'Aire Acondicionado', state: true },
-                { name: 'Alarma', state: true },
-                { name: 'Asiento rebatible', state: false },
-                { name: 'Aire', state: true },
-                ],
-              },
-              {
-                title: 'Seguridad',
-                specifications: [
-                { name: 'Airbag', state: true },
-                { name: 'Cierre automáico', state: true },
-                { name: 'Faros antiniebla', state: false },
-                { name: 'Sensor de estacionamiento', state: false },
-                ],
-              },
-              {
-                title: 'Audio/Multimedia',
-                specifications: [
-                { name: 'Bluetooth', state: false },
-                { name: 'Entrada auxiliar', state: true },
-                { name: 'Manos libres', state: false },
-                ],
-              },
-            ]}
-          />
+            <div className="container-social">
+              <button className="btn btn-social-icon btn-facebook">
+                <span className="fa fa-facebook" />
+              </button>
+              <button className="btn btn-social-icon btn-twitter">
+                <span className="fa fa-twitter" />
+              </button>
+              <button className="btn btn-social-icon btn-google">
+                <span className="fa fa-google" />
+              </button>
+            </div>
 
-          <h5 className="title" >Comentarios del Vendedor</h5>
-          <h6> Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
-            Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,
-            cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una
-            galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.
-          </h6>
-        </Col>
+            <div className="underline" />
 
-        <Col md="5" sm="12">
-          <h6>2014 - 48000 km</h6>
-          <h4>Fiat Palio Weekend</h4>
-          <h6>1.4 Fire Attractive MT5 5P (85cv) (l12)</h6>
-          <h4>$235.000</h4>
-          <Button color="primary">¡Solicitá tu crédito</Button>
+            <h5>
+              {carDetailData.Publication.User.agencyName || carDetailData.Publication.User.name}
+            </h5>
+            <Button color="link">Ver todos los autos</Button>
 
-          <div className="container-social" >
-            <Button color="default">f</Button>
-            <Button color="default">t</Button>
-            <Button color="default">G</Button>
-          </div>
+            <div className="container-personal-carDetailData">
+              <h6>DOMICILIO</h6>
+              <h6>
+                {carDetailData.Publication.User.agencyAdress ||
+                  carDetailData.Publication.User.address ||
+                  'No especificado'}
+              </h6>
+              <h6>TELÉFONOS</h6>
+              <h6>
+                {carDetailData.Publication.User.agencyPhone && ' / '}
+                {carDetailData.Publication.User.phone || 'No especificado'}{' '}
+              </h6>
+              <h6>EMAIL</h6>
+              <h6>
+                {carDetailData.Publication.User.agencyEmail ||
+                  carDetailData.Publication.User.email ||
+                  'No especificado'}
+              </h6>
+            </div>
 
-          <div className="underline" />
-
-          <h5>Nombre de la agencia</h5>
-          <Button color="link">Ver todos los autos</Button>
-
-          <div className="container-personal-data" >
-            <h7>DOMICILIO</h7>
-            <h7>Av. Mitre 1458 San Rafael, Mendoza</h7>
-            <h7>TELÉFONOS</h7>
-            <h7>2604-4337724 / 2604-4337724</h7>
-            <h7>EMAIL</h7>
-            <h7>automoteres@gmail.com</h7>
-          </div>
-
-          <FormGroup>
-            <Label for="exampleText">Contactar al Consecionario</Label>
-            <Input type="textarea" name="text" id="exampleText" placeholder="Escribe una consulta" />
-          </FormGroup>
-          <Button color="secondary">Preguntar</Button>
-
-        </Col>
-      </Row>
+            <FormGroup>
+              <Label for="exampleText">Contactar al Vendedor</Label>
+              <Input
+                type="textarea"
+                name="text"
+                id="exampleText"
+                placeholder="Escribe una consulta"
+              />
+            </FormGroup>
+            <Button color="secondary">Preguntar</Button>
+          </Col>
+        </Row>
+      )}
     </div>
     <Footer />
     <style jsx>{style}</style>
+    <style jsx>{socialStyle}</style>
   </div>
 );
+const options = ({ location }) => ({ variables: { id: parse(location.search).publication_id } });
+const withCarDetails = graphql(CarDetailQuery, { name: 'carDetailData', options });
+const withSpecs = graphql(CarSpecs, { name: 'carSpecsData', options });
+const withData = compose(
+  withSpecs,
+  withCarDetails,
+);
+const CarDetailwithData = withData(CarDetail);
 
-export default CarQuery(CarDetail);
+export default (CarDetailwithData);

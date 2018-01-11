@@ -6,6 +6,7 @@ import { Col, Row, Button } from 'reactstrap';
 import { graphql } from 'react-apollo';
 import _ from 'lodash';
 import qs from 'query-string';
+import { animateScroll as scroll } from 'react-scroll';
 
 import SearchMutation from '../../ApolloQueries/SearchMutation';
 
@@ -40,6 +41,7 @@ class SearchCars extends Component {
     if (this.props.location.search !== nextProps.location.search) {
       this.doSearch(nextProps.location.search);
     }
+    scroll.scrollToTop({ duration: 300 });
   }
   doSearch(url) {
     this.props
@@ -148,7 +150,7 @@ class SearchCars extends Component {
               <Row>
                 <Col md="4" />
                 <Col md="4" >
-                  <Pagination numberOfResults={numberOfResults} history={history} text={text} carState={carState} actualPage={page}/>
+                  <Pagination numberOfResults={numberOfResults} history={history} text={text} carState={carState} actualPage={page} />
                 </Col>
                 <Col md="4" />
               </Row>

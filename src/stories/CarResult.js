@@ -65,7 +65,7 @@ export default class CarResult extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img style={{ position: 'relative', width: '100%', height: 'auto' }} src={item.src} alt={item.altText} />
+        <a href={`/carDetail?publication_id=${this.props.data.id}`}><img style={{ position: 'relative', width: '100%', height: 'auto' }} src={item.src} alt={item.altText} /></a>
       </CarouselItem>
     ));
     return (
