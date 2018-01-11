@@ -1,9 +1,6 @@
 
-const search = 
+const login =
   `
-  .header {
-    padding: 15px;
-  }
   .underline {
     width: 100%;
     height: 2px;
@@ -11,6 +8,5 @@ const search =
     margin-top: 20px;
     margin-bottom: 20px;
   }
-  .
   `;
-export default search;
+export default login;
