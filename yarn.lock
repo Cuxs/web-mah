@@ -392,6 +392,10 @@ apollo-utilities@^1.0.0, apollo-utilities@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.3.tgz#bf435277609850dd442cf1d5c2e8bc6655eaa943"
 
+apollo-utilities@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/apollo-utilities/-/apollo-utilities-1.0.4.tgz#560009ea5541b9fdc4ee07ebb1714ee319a76c15"
+
 append-transform@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/append-transform/-/append-transform-0.4.0.tgz#d76ebf8ca94d276e247a36bad44a4b74ab611991"
@@ -7124,6 +7128,10 @@ spdy@^3.4.1:
     safe-buffer "^5.0.1"
     select-hose "^2.0.0"
     spdy-transport "^2.0.18"
+
+split-object@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/split-object/-/split-object-2.1.1.tgz#1b7970268b367da34c806eea6005adf7fd78fa9b"
 
 sprintf-js@~1.0.2:
   version "1.0.3"

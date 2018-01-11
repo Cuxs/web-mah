@@ -14,6 +14,7 @@ mutation searchPublication($carState: String!, $text: String!, $page: Int) {
         image2
         image3
       }
+      id
       group
       modelName
       price

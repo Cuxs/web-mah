@@ -1,45 +1,153 @@
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 import { Col, Row } from 'reactstrap';
-
+import split from 'split-object';
 /* eslint react/jsx-filename-extension: 0 */
-const prepareRow = (props) => {
-  const newArray = [];
-  const arrayLeft = [];
-  const arrayRight = [];
-  props.map((row, index) => {
-    if (index % 2 === 0) {
-      arrayLeft.push(row);
-    }
-    if (index % 2 !== 0) {
-      arrayRight.push(row);
-    }
-  });
-  newArray.left = arrayLeft;
-  newArray.right = arrayRight;
-  return newArray;
-};
+class CarSpecification extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      detailSpecs: [],
+      securitySpecs: [],
+      extraSpecs: [],
+      confortSpecs: [],
+    };
+  }
+  componentWillMount() {
+    const detailSpecs = []; // 0 - 16
+    const securitySpecs = []; // 17- 26
+    const extraSpecs = []; // 27 -36
+    const confortSpecs = []; // 37- 49
+    split(this.props.data).map((row, index) => {
+      if (index <= 16 && row.key !== '__typename') {
+        detailSpecs.push(row);
+      }
+      if (index >= 17 && index <= 26 && row.key !== '__typename') {
+        securitySpecs.push(row);
+      }
+      if (index >= 27 && index <= 36 && row.key !== '__typename') {
+        extraSpecs.push(row);
+      }
+      if (index > 36 && row.key !== '__typename') {
+        confortSpecs.push(row);
+      }
+    });
+    this.setState({
+      detailSpecs,
+      securitySpecs,
+      extraSpecs,
+      confortSpecs,
+    });
+  }
 
+  prepareRow(specifications) {
+    const newArray = [];
+    const arrayLeft = [];
+    const arrayRight = [];
+    specifications.map((row, index) => {
+      if (index % 2 === 0) {
+        arrayLeft.push(row);
+      }
+      if (index % 2 !== 0) {
+        arrayRight.push(row);
+      }
+    });
+    newArray.left = arrayLeft;
+    newArray.right = arrayRight;
+    return newArray;
+  }
+  items(array) {
+    return (
+      <div>
+        <Row>
+          {array.left.map(row => (
+            <Col md="6" sm="12">
+              <p className={row.value ? 'active' : 'disabled'} >{row.key}</p>
+            </Col>
+        ))}
+          {array.right.map(row => (
+            <Col md="6" sm="12">
+              <p className={row.value ? 'active' : 'disabled'} >{row.key}</p>
+            </Col>
+        ))}
+        </Row>
+        <div className="underline" />
+      </div>
+    );
+  }
 
-const items = props => (
-  <div>
-    <Row>
-      {props.left.map(row => (
-        <Col md="6" sm="12">
-          <p className={row.state ? 'active' : 'disabled'} >{row.name}</p>
+  render() {
+    return (
+      <Row>
+        <Col md="12" >
+          <p className="title" >Detalles</p>
+          {this.items(this.prepareRow(this.state.detailSpecs))}
+          <p className="title" >Seguridad</p>
+          {this.items(this.prepareRow(this.state.securitySpecs))}
+          <p className="title" >Confort</p>
+          {this.items(this.prepareRow(this.state.confortSpecs))}
+          <p className="title" >Extras</p>
+          {this.items(this.prepareRow(this.state.extraSpecs))}
+          <style jsx>
+            {`
+                .title {
+                  margin-top: 40px;
+                  font-size: 16px;
+                  font-weight: bold;
+                }
+                .disabled {
+                  text-decoration: line-through;
+                  color: lightgrey;
+                }
+                .active {
+                  color: black
+                }
+                .underline {
+                  width: 100%;
+                  height: 2px;
+                  background-color: lightgray;
+                  margin-top: 20px;
+                  margin-bottom: 20px;
+                }
+              `}
+          </style>
         </Col>
-      ))}
-      {props.right.map(row => (
-        <Col md="6" sm="12">
-          <p className={row.state ? 'active' : 'disabled'} >{row.name}</p>
-        </Col>
-      ))}
-    </Row>
-    <div className="underline" />
-  </div>
-);
+      </Row>
+    );
+  }
+}
+export default CarSpecification;
+/* groups={[
+  {
+    title: 'Extras',
+    specifications: [
+      { name: 'Aire Acondicionado', state: true },
+      { name: 'Alarma', state: true },
+      { name: 'Asiento rebatible', state: false },
+      { name: 'Aire', state: true },
+    ],
+  },
+  {
+    title: 'Seguridad',
+    specifications: [
+      { name: 'Airbag', state: true },
+      { name: 'Cierre automáico', state: true },
+      { name: 'Faros antiniebla', state: false },
+      { name: 'Sensor de estacionamiento', state: false },
+    ],
+  },
+  {
+    title: 'Audio/Multimedia',
+    specifications: [
+      { name: 'Bluetooth', state: false },
+      { name: 'Entrada auxiliar', state: true },
+      { name: 'Manos libres', state: false },
+    ],
+  },
+]} */
 
-export default props => props.groups.map(row => (
+
+/* props.groups.map(row => (
   <Row>
     <Col md="12" >
       <p className="title" >{row.title}</p>
@@ -68,6 +176,5 @@ export default props => props.groups.map(row => (
         `}
       </style>
     </Col>
-  </Row>
-));
+  </Row> */
 

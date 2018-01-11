@@ -78,7 +78,7 @@ const App = () => (
         <Route exact path="/agencyRegisterS2" component={AgencyRegisterStepTwo} />
         <Route exact path="/agencyRegisterS3" component={AgencyRegisterStepThree} />
         <Route exact path="/agencyRegister" component={AgencyRegister} />
-        <Route exact path="/carDetail/:id" component={CarDetail} />
+        <Route exact path="/carDetail" component={CarDetail} />
         <Route exact path="/pledgeCredits" component={PledgeCredits} />
         <Route exact path="/personalShopperS1" component={PersonalShopper} />
         <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
