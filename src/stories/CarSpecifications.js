@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { Col, Row } from 'reactstrap';
 import split from 'split-object';
 /* eslint react/jsx-filename-extension: 0 */
+/* eslint class-methods-use-this: 0 */
 class CarSpecification extends Component {
   constructor(props) {
     super(props);
@@ -60,16 +61,38 @@ class CarSpecification extends Component {
     return (
       <div>
         <Row>
-          {array.left.map(row => (
-            <Col md="6" sm="12">
-              <p className={row.value ? 'active' : 'disabled'} >{row.key}</p>
-            </Col>
-        ))}
-          {array.right.map(row => (
-            <Col md="6" sm="12">
-              <p className={row.value ? 'active' : 'disabled'} >{row.key}</p>
-            </Col>
-        ))}
+          {array.left.map((row) => {
+            if (typeof row.value === 'boolean' || row.value === null) {
+              return (
+                <Col md="6" sm="12">
+                  <p className={row.value ? 'active' : 'disabled'}>{row.key}</p>
+                </Col>
+              );
+            }
+            return (
+              <Col md="6" sm="12">
+                <p>
+                  {row.key} : {row.value}
+                </p>
+              </Col>
+            );
+          })}
+          {array.right.map((row) => {
+            if (typeof row.value === 'boolean' || row.value === null) {
+              return (
+                <Col md="6" sm="12">
+                  <p className={row.value ? 'active' : 'disabled'}>{row.key}</p>
+                </Col>
+              );
+            }
+            return (
+              <Col md="6" sm="12">
+                <p>
+                  {row.key} : {row.value}
+                </p>
+              </Col>
+            );
+          })}
         </Row>
         <div className="underline" />
       </div>
@@ -79,37 +102,37 @@ class CarSpecification extends Component {
   render() {
     return (
       <Row>
-        <Col md="12" >
-          <p className="title" >Detalles</p>
+        <Col md="12">
+          <p className="title">Detalles</p>
           {this.items(this.prepareRow(this.state.detailSpecs))}
-          <p className="title" >Seguridad</p>
+          <p className="title">Seguridad</p>
           {this.items(this.prepareRow(this.state.securitySpecs))}
-          <p className="title" >Confort</p>
+          <p className="title">Confort</p>
           {this.items(this.prepareRow(this.state.confortSpecs))}
-          <p className="title" >Extras</p>
+          <p className="title">Extras</p>
           {this.items(this.prepareRow(this.state.extraSpecs))}
           <style jsx>
             {`
-                .title {
-                  margin-top: 40px;
-                  font-size: 16px;
-                  font-weight: bold;
-                }
-                .disabled {
-                  text-decoration: line-through;
-                  color: lightgrey;
-                }
-                .active {
-                  color: black
-                }
-                .underline {
-                  width: 100%;
-                  height: 2px;
-                  background-color: lightgray;
-                  margin-top: 20px;
-                  margin-bottom: 20px;
-                }
-              `}
+              .title {
+                margin-top: 40px;
+                font-size: 16px;
+                font-weight: bold;
+              }
+              .disabled {
+                text-decoration: line-through;
+                color: lightgrey;
+              }
+              .active {
+                color: black;
+              }
+              .underline {
+                width: 100%;
+                height: 2px;
+                background-color: lightgray;
+                margin-top: 20px;
+                margin-bottom: 20px;
+              }
+            `}
           </style>
         </Col>
       </Row>
@@ -117,64 +140,3 @@ class CarSpecification extends Component {
   }
 }
 export default CarSpecification;
-/* groups={[
-  {
-    title: 'Extras',
-    specifications: [
-      { name: 'Aire Acondicionado', state: true },
-      { name: 'Alarma', state: true },
-      { name: 'Asiento rebatible', state: false },
-      { name: 'Aire', state: true },
-    ],
-  },
-  {
-    title: 'Seguridad',
-    specifications: [
-      { name: 'Airbag', state: true },
-      { name: 'Cierre automáico', state: true },
-      { name: 'Faros antiniebla', state: false },
-      { name: 'Sensor de estacionamiento', state: false },
-    ],
-  },
-  {
-    title: 'Audio/Multimedia',
-    specifications: [
-      { name: 'Bluetooth', state: false },
-      { name: 'Entrada auxiliar', state: true },
-      { name: 'Manos libres', state: false },
-    ],
-  },
-]} */
-
-
-/* props.groups.map(row => (
-  <Row>
-    <Col md="12" >
-      <p className="title" >{row.title}</p>
-      {items(prepareRow(row.specifications))}
-      <style jsx>
-        {`
-          .title {
-            margin-top: 40px;
-            font-size: 16px;
-            font-weight: bold;
-          }
-          .disabled {
-            text-decoration: line-through;
-            color: lightgrey;
-          }
-          .active {
-            color: black
-          }
-          .underline {
-            width: 100%;
-            height: 2px;
-            background-color: lightgray;
-            margin-top: 20px;
-            margin-bottom: 20px;
-          }
-        `}
-      </style>
-    </Col>
-  </Row> */
-

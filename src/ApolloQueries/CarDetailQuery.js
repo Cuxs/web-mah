@@ -59,7 +59,6 @@ const CarSpecs = gql`query Specifications($id: Int!) {
     Alto
 
     Direccion
-    AireAcondicionado
     Traccion
     Importado
     Caja
@@ -86,6 +85,7 @@ const CarSpecs = gql`query Specifications($id: Int!) {
     ReguladorParFrenado
     
     TapizadoCuero
+    AireAcondicionado    
     AsientosElectronicos
     ComputadoraABordo
     FarosDeXenon
