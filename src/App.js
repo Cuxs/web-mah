@@ -9,6 +9,9 @@ import {
 import Home from './Components/Home';
 import AgencyAdmin from './Components/AgencyAdmin';
 import AgencyInbox from './Components/AgencyInbox';
+import AgencyMessage from './Components/AgencyMessage';
+import AgencyProfile from './Components/AgencyProfile';
+import AgencyMicrosite from './Components/AgencyMicrosite';
 import AgencyRegister from './Components/AgencyRegister';
 import AgencyRegisterStepOne from './Components/AgencyRegister/StepOne';
 import AgencyRegisterStepTwo from './Components/AgencyRegister/StepTwo';
@@ -81,6 +84,9 @@ const App = () => (
       <Route exact path="/searchCars" component={SearchCars} />
       <Route exact path="/agencyAdmin" component={AgencyAdmin} />
       <Route exact path="/agencyInbox" component={AgencyInbox} />
+      <Route exact path="/agencyMessage" component={AgencyMessage} />
+      <Route exact path="/agencyProfile" component={AgencyProfile} />
+      <Route exact path="/agencyMicrosite" component={AgencyMicrosite} />
       <Route exact path="/agencyRegister" component={AgencyRegister} />
       <Route exact path="/agencyRegisterS1" component={AgencyRegisterStepOne} />
       <Route exact path="/agencyRegisterS2" component={AgencyRegisterStepTwo} />

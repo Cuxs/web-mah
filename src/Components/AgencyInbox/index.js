@@ -44,15 +44,6 @@ class AgencyAdmin extends React.Component {
             <CardMessagge />
           </Col>
         </Row>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
-          <ModalBody>
-            El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={() => this.toggle()}>OK</Button>
-          </ModalFooter>
-        </Modal>
         <style jsx>{style}</style>
       </div>
     );
