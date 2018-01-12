@@ -11,9 +11,11 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
+    this.togglePublicate = this.togglePublicate.bind(this);
     this.state = {
       suggestions: [],
       dropdownOpen: false,
+      dropdownOpenPublicate: false,
       modal: false,
       carState: this.props.carState === undefined ? 'Usado' : this.props.carState,
       value: this.props.text === undefined ? '' : this.props.text,
@@ -45,6 +47,11 @@ class SearchBar extends Component {
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
+    });
+  }
+  togglePublicate() {
+    this.setState({
+      dropdownOpenPublicate: !this.state.dropdownOpenPublicate,
     });
   }
 
@@ -101,7 +108,16 @@ class SearchBar extends Component {
         <Col md="6" className="flex-row-reverse" >
           <Button color="primary"> Solicitá tu crédito</Button>
           <Button color="secondary"> Ver Consecionarias</Button>
-          <strong>Publicá gratis</strong> | <Button color="default" onClick={() => this.toggleModal()} > Iniciá Sesión </Button>
+          <ButtonDropdown isOpen={this.state.dropdownOpenPublicate} toggle={this.togglePublicate}>
+            <DropdownToggle caret>Publicá Gratis</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem value="publicateFree"><h4>¡Publica ya!</h4><h6>1 Publicación Gratis</h6></DropdownItem>
+              <DropdownItem value="particular"><h4>Soy Particular. Registrate, es muy fácil</h4><h6>Publicaciones gratis ilimitadas</h6></DropdownItem>
+              <DropdownItem value="agency"><h4>Soy un Concesionario. Registrate y vende más</h4><h6>Publicaciones gratis ilimitadas</h6></DropdownItem>
+              <DropdownItem value="particular"><h4>Ya tengo cuenta</h4></DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+          <Button color="default" onClick={() => this.toggleModal()} > Iniciá Sesión </Button>
         </Col>
         <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
           <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
