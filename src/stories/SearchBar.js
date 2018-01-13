@@ -111,7 +111,7 @@ class SearchBar extends Component {
           <ButtonDropdown isOpen={this.state.dropdownOpenPublicate} toggle={this.togglePublicate}>
             <DropdownToggle caret>Publicá Gratis</DropdownToggle>
             <DropdownMenu>
-              <DropdownItem value="publicateFree"><h4>¡Publica ya!</h4><h6>1 Publicación Gratis</h6></DropdownItem>
+              <DropdownItem value="publicateFree" href="/withoutRegister" ><h4>¡Publica ya!</h4><h6>1 Publicación Gratis</h6></DropdownItem>
               <DropdownItem value="particular"><h4>Soy Particular. Registrate, es muy fácil</h4><h6>Publicaciones gratis ilimitadas</h6></DropdownItem>
               <DropdownItem value="agency"><h4>Soy un Concesionario. Registrate y vende más</h4><h6>Publicaciones gratis ilimitadas</h6></DropdownItem>
               <DropdownItem value="particular"><h4>Ya tengo cuenta</h4></DropdownItem>
