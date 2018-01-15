@@ -26,6 +26,12 @@ import FreeDestinationCredits from './Components/FreeDestinationCredits';
 import PledgeCredits from './Components/PledgeCredits';
 import PersonalShopper from './Components/PersonalShopper';
 import PersonalShopperStepTwo from './Components/PersonalShopper/StepTwo';
+import PublicateWithoutRegister from './Components/PublicateWithoutRegister';
+import PublicateWithoutRegisterStepOne from './Components/PublicateWithoutRegister/StepOne';
+import PublicateWithoutRegisterStepTwo from './Components/PublicateWithoutRegister/StepTwo';
+import PublicateWithoutRegisterStepThree from './Components/PublicateWithoutRegister/StepThree';
+import PublicateWithoutRegisterStepFour from './Components/PublicateWithoutRegister/StepFour';
+import WithoutRegister from './Components/WithoutRegister';
 
 const About = () => (
   <div>
@@ -100,6 +106,12 @@ const App = () => (
         <Route exact path="/pledgeCredits" component={PledgeCredits} />
         <Route exact path="/personalShopperS1" component={PersonalShopper} />
         <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
+        <Route exact path="/publicateWithoutRegister" component={PublicateWithoutRegister} />
+        <Route exact path="/publicateWithoutRegisterS1" component={PublicateWithoutRegisterStepOne} />
+        <Route exact path="/publicateWithoutRegisterS2" component={PublicateWithoutRegisterStepTwo} />
+        <Route exact path="/publicateWithoutRegisterS3" component={PublicateWithoutRegisterStepThree} />
+        <Route exact path="/publicateWithoutRegisterS4" component={PublicateWithoutRegisterStepFour} />
+        <Route exact path="/withoutRegister" component={WithoutRegister} />
       </Switch>
     </div>
   </Router>

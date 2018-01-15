@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Autosuggest from 'react-autosuggest';
-import { Input, Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
+import { Input, Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalBody, ModalHeader, FormGroup, Label } from 'reactstrap';
 import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
 import { getSuggestions, getSuggestionValue, renderSectionTitle, renderSuggestion, getSectionSuggestions } from '../Modules/autocompleteData';
@@ -11,15 +11,19 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
+    this.togglePublicate = this.togglePublicate.bind(this);
     this.state = {
       suggestions: [],
       dropdownOpen: false,
+      dropdownOpenPublicate: false,
+      modal: false,
       carState: this.props.carState === undefined ? 'Usado' : this.props.carState,
       value: this.props.text === undefined ? '' : this.props.text,
     };
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
     this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   onChange(event, { newValue, method }) {
@@ -45,6 +49,18 @@ class SearchBar extends Component {
       dropdownOpen: !this.state.dropdownOpen,
     });
   }
+  togglePublicate() {
+    this.setState({
+      dropdownOpenPublicate: !this.state.dropdownOpenPublicate,
+    });
+  }
+
+  toggleModal() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+
   render() {
     const { value, suggestions } = this.state;
     const inputProps = {
@@ -53,7 +69,7 @@ class SearchBar extends Component {
       onChange: this.onChange,
     };
     return (
-      <Row style={style.header} >
+      <Row className="header" >
         <Col md="6">
           <Row >
             <Col md="3">
@@ -92,8 +108,37 @@ class SearchBar extends Component {
         <Col md="6" className="flex-row-reverse" >
           <Button color="primary"> Solicitá tu crédito</Button>
           <Button color="secondary"> Ver Consecionarias</Button>
-          <strong>Publicá gratis</strong> | <a> Iniciá Sesión </a>
+          <ButtonDropdown isOpen={this.state.dropdownOpenPublicate} toggle={this.togglePublicate}>
+            <DropdownToggle caret>Publicá Gratis</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem value="publicateFree" href="/withoutRegister" ><h4>¡Publica ya!</h4><h6>1 Publicación Gratis</h6></DropdownItem>
+              <DropdownItem value="particular"><h4>Soy Particular. Registrate, es muy fácil</h4><h6>Publicaciones gratis ilimitadas</h6></DropdownItem>
+              <DropdownItem value="agency"><h4>Soy un Concesionario. Registrate y vende más</h4><h6>Publicaciones gratis ilimitadas</h6></DropdownItem>
+              <DropdownItem value="particular"><h4>Ya tengo cuenta</h4></DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+          <Button color="default" onClick={() => this.toggleModal()} > Iniciá Sesión </Button>
         </Col>
+        <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
+          <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
+          <ModalBody>
+            <Button color="primary">Registrate con facebook</Button>
+            <div className="underline" />
+            <FormGroup>
+              <Label for="exampleEmail">Email</Label>
+              <Input type="email" name="email" id="exampleText" />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Contraseña</Label>
+              <Input type="password" name="password" id="exampleText" />
+            </FormGroup>
+            <Button color="link">¿Olvidaste tu contraseña?</Button>
+            <Button color="primary">Iniciar sesión</Button>
+            <p>No tengo cuenta. Soy un particular.</p><Button color="secondary">Registrarme</Button>
+            <p>No tengo cuenta. Soy una concesionaria.</p><Button color="secondary">Registrar Agencia</Button>
+          </ModalBody>
+          <style jsx>{style}</style>
+        </Modal>
       </Row>
     );
   }

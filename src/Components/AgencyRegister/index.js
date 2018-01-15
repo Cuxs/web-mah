@@ -2,7 +2,6 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import HomeQuery from '../../ApolloQueries/HomeQuery';
 import RegisterBar from '../../stories/RegisterBar';
 import BannerRegister from '../../stories/BannerRegister';
 import FeaturesRegister from '../../stories/FeaturesRegister';
@@ -11,19 +10,17 @@ import Footer from '../../stories/Footer';
 import Plans from '../../stories/Plans';
 
 
-const Home = ({ data }) => (
+const Home = () => (
   <div>
-    {!data.loading &&
-      <div>
-        <RegisterBar />
-        <BannerRegister actionName="/agencyRegisterS1" />
-        <FeaturesRegister />
-        <Plans />
-        <Faq />
-        <Footer />
-      </div>
-      }
+    <div>
+      <RegisterBar />
+      <BannerRegister />
+      <FeaturesRegister />
+      <Plans />
+      <Faq />
+      <Footer />
+    </div>
   </div>
 );
 
-export default HomeQuery(Home);
+export default Home;

@@ -8,17 +8,33 @@ export default () => (
       <img src="http://placecage.com/c/1440/330" alt="banner" />
       <div className="container-banner" >
         <h3 className="title">
-          Cambia la forma de comprar o vender tu auto
+          Publicá gratis, sin registro
+        </h3>
+        <h3 className="title">
+          Vendé ya en Mi Auto Hoy!
         </h3>
         <Col md="3" sm="10" className="container-login" >
-          <h5>¡Registrate gratis y empezá a vender ahora!</h5>
+          <h5>¡Publicá gratis ahora!</h5>
           <FormGroup>
-            <Input type="text" name="agencyName" placeholder="Nombre de la Consecionaria" />
+            <Input type="select" name="select" id="exampleSelect">
+              <option>Usado</option>
+              <option>Nuevo</option>
+            </Input>
           </FormGroup>
           <FormGroup>
-            <Input type="email" name="email" placeholder="Email" />
+            <Input type="select" name="select" id="exampleSelect">
+              <option>Marca</option>
+              <option>BMW</option>
+              <option>Fiat</option>
+            </Input>
           </FormGroup>
-          <Button color="primary" href="/agencyRegisterS1" >Comenzar</Button>
+          <FormGroup>
+            <Input type="select" name="select" id="exampleSelect">
+              <option>Modelo</option>
+              <option>--</option>
+            </Input>
+          </FormGroup>
+          <Button color="primary" href="/publicateWithoutRegister" >Comenzar</Button>
         </Col>
       </div>
     </div>
