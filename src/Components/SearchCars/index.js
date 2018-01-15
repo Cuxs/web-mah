@@ -2,9 +2,8 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { graphql } from 'react-apollo';
-import _ from 'lodash';
 import qs from 'query-string';
 import { animateScroll as scroll } from 'react-scroll';
 
@@ -20,6 +19,7 @@ import SearchBar from '../../stories/SearchBar';
 import TopTopNav from '../../stories/TopTopNav';
 import NumberOfResult from '../../stories/NumberOfResult';
 import Pagination from '../../stories/Pagination';
+import ActiveFilters from '../../stories/ActiveFilters';
 
 import { getFiltersAndTotalResult } from '../../Modules/fetches';
 
@@ -34,7 +34,6 @@ class SearchCars extends Component {
       filters: {},
       data: { searchPublication: '' },
       totalResults: 0,
-      activeFilters: [{ name: 'Filtro 1' }, { name: 'Filtro 2' }],
     };
   }
   componentWillMount() {
@@ -80,6 +79,7 @@ class SearchCars extends Component {
     return (
       <div>
         <NumberOfResult results={this.state.totalResults} />
+        <ActiveFilters history={this.props.history} searchData={qs.parse(this.props.location.search)} />
         <CarResultContainer>
           {this.state.data.searchPublication.Publications.map(row => (
             <CarResult
@@ -94,8 +94,9 @@ class SearchCars extends Component {
   }
 
   render() {
-    const data = this.state.data.searchPublication;
-    const { text, carState, page } = qs.parse(this.props.location.search);
+    const {
+      text, carState, page,
+    } = qs.parse(this.props.location.search);
     const { history, location } = this.props;
     return (
       <div>
@@ -118,23 +119,7 @@ class SearchCars extends Component {
         <div className="container-section">
           <Row>
             <Col md="3" sm="12">
-              {this.state.activeFilters.map(filter => (
-                <Button
-                  style={{ cursor: 'pointer' }}
-                  name={filter.name}
-                  onClick={(e) => {
-                    this.setState({
-                      activeFilters: _.filter(
-                        this.state.activeFilters,
-                        f => e.target.name !== f.name,
-                      ),
-                    });
-                  }}
-                >
-                  {filter.name}
-                </Button>
-              ))}
-              <FiltersList filters={this.state.filters} />
+              <FiltersList filters={this.state.filters} search={this.props.location.search} history={history} />
             </Col>
             <Col md="9" sm="12">
               {this.renderData()}
