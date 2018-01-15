@@ -1,10 +1,8 @@
 import gql from 'graphql-tag';
 
 const SearchMutation = gql`
-mutation searchPublication($carState: String!, $text: String!, $page: Int) {
-  searchPublication(carState: $carState, text: $text, page: $page) {
-    hasNextPage,
-    totalResult
+mutation searchPublication($carState: String!, $text: String!, $page: Int $fuel: String, $year: Int, $state: String)
+  {searchPublication(carState: $carState, text: $text, page: $page, fuel: $fuel, year: $year state: $state) {
     Publications {
       CurrentState {
         stateName
@@ -22,6 +20,10 @@ mutation searchPublication($carState: String!, $text: String!, $page: Int) {
       year
       carState
       kms
+      User{
+        id
+        agencyName
+      }
     }
   }
 }

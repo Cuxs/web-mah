@@ -21,27 +21,40 @@ import TopTopNav from '../../stories/TopTopNav';
 import NumberOfResult from '../../stories/NumberOfResult';
 import Pagination from '../../stories/Pagination';
 
+import { getFiltersAndTotalResult } from '../../Modules/fetches';
+
 import style from '../../Styles/searchCars';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
-import resultCounter from '../../Modules/resultCounter';
 
 class SearchCars extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      filters: {},
       data: { searchPublication: '' },
+      totalResults: 0,
       activeFilters: [{ name: 'Filtro 1' }, { name: 'Filtro 2' }],
     };
   }
   componentWillMount() {
-    this.doSearch(this.props.location.search);
+    const url = this.props.location.search;
+    this.doFilterTotalResultSearch(url);
+    this.doSearch(url);
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {
       this.doSearch(nextProps.location.search);
+      this.doFilterTotalResultSearch(nextProps.location.search);
     }
     scroll.scrollToTop({ duration: 300 });
+  }
+  doFilterTotalResultSearch(url) {
+    getFiltersAndTotalResult(qs.parse(url))
+      .then(res => this.setState({
+        totalResults: res.data.totalResults,
+        filters: res.data.filters,
+      }));
   }
   doSearch(url) {
     this.props
@@ -58,7 +71,7 @@ class SearchCars extends Component {
       });
   }
   renderData() {
-    if (this.state.data.searchPublication.totalResult === 0) {
+    if (this.state.totalResults === 0) {
       return <p>La búsqueda no ha dado resultados, prueba con otro texto </p>;
     }
     if (this.state.data.searchPublication === '') {
@@ -66,7 +79,7 @@ class SearchCars extends Component {
     }
     return (
       <div>
-        <NumberOfResult results={this.state.data.searchPublication.totalResult} />
+        <NumberOfResult results={this.state.totalResults} />
         <CarResultContainer>
           {this.state.data.searchPublication.Publications.map(row => (
             <CarResult
@@ -81,7 +94,6 @@ class SearchCars extends Component {
   }
 
   render() {
-    const numberOfResults = this.state.data.searchPublication.totalResult;
     const data = this.state.data.searchPublication;
     const { text, carState, page } = qs.parse(this.props.location.search);
     const { history, location } = this.props;
@@ -122,27 +134,7 @@ class SearchCars extends Component {
                   {filter.name}
                 </Button>
               ))}
-              <FiltersList
-                filters={[
-                  {
-                    title: 'Combustible',
-                    options: [
-                      {
-                        name: 'Nafta',
-                        quantity: resultCounter(data, 'fuel', 'Nafta'),
-                      },
-                      {
-                        name: 'Diesel',
-                        quantity: resultCounter(data, 'fuel', 'Diesel'),
-                      },
-                      {
-                        name: 'GNC',
-                        quantity: resultCounter(data, 'fuel', 'GNC'),
-                      },
-                    ],
-                  },
-                ]}
-              />
+              <FiltersList filters={this.state.filters} />
             </Col>
             <Col md="9" sm="12">
               {this.renderData()}
@@ -150,7 +142,7 @@ class SearchCars extends Component {
               <Row>
                 <Col md="4" />
                 <Col md="4" >
-                  <Pagination numberOfResults={numberOfResults} history={history} text={text} carState={carState} actualPage={page} />
+                  <Pagination numberOfResults={this.state.totalResults} history={history} text={text} carState={carState} actualPage={page} />
                 </Col>
                 <Col md="4" />
               </Row>

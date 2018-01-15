@@ -1,37 +1,54 @@
 import React from 'react';
+import { split } from 'split-object';
 /* eslint react/jsx-filename-extension: 0 */
-const items = props => (
+
+
+const items = value => (
   <div>
-    {props.map(row => (
-      <p className="option" >{row.name} <span className="quantity" >({row.quantity})</span></p>
+    {split(value).map(row => (
+      <p className="option">
+        {row.key} <span className="quantity">({row.value})</span>
+      </p>
     ))}
   </div>
 );
-
-export default props => props.filters.map(row => (
+const parseTitle = (title) => {
+  switch (title) {
+    case 'fuel':
+      return 'Combustible';
+    case 'year':
+      return 'Año';
+    case 'carState':
+      return 'Estado del auto';
+    case 'state':
+      return 'Estado de la publicación';
+    default:
+      return '';
+  }
+};
+export default props => split(props.filters).map(row => (
   <div>
-    <p className="title" >{row.title}</p>
-    {items(row.options)}
+    <p className="title"> {parseTitle(row.key)}</p>
+    { items(row.value) }
     <style jsx>
       {`
-        .title {
-          margin-top: 40px;
-          font-size: 16px;
-          font-weight: bold;
-        }
-        .option {
-          font-size: 15px;
-          margin-bottom: 5px
-        }
-        .option:hover{
-          cursor:pointer;
-        }
-        .quantity {
-          font-size: 15px;
-          color: lightgrey
-        }
-      `}
+            .title {
+              margin-top: 40px;
+              font-size: 16px;
+              font-weight: bold;
+            }
+            .option {
+              font-size: 15px;
+              margin-bottom: 5px;
+            }
+            .option:hover {
+              cursor: pointer;
+            }
+            .quantity {
+              font-size: 15px;
+              color: lightgrey;
+            }
+          `}
     </style>
   </div>
 ));
-
