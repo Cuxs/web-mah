@@ -32,6 +32,10 @@ import PublicateWithoutRegisterStepOne from './Components/PublicateWithoutRegist
 import PublicateWithoutRegisterStepTwo from './Components/PublicateWithoutRegister/StepTwo';
 import PublicateWithoutRegisterStepThree from './Components/PublicateWithoutRegister/StepThree';
 import PublicateWithoutRegisterStepFour from './Components/PublicateWithoutRegister/StepFour';
+import UserRegister from './Components/UserRegister';
+import UserRegisterStepOne from './Components/UserRegister/StepOne';
+import UserRegisterStepTwo from './Components/UserRegister/StepTwo';
+import UserRegisterStepThree from './Components/UserRegister/StepThree';
 import WithoutRegister from './Components/WithoutRegister';
 
 const About = () => (
@@ -113,6 +117,10 @@ const App = () => (
         <Route exact path="/publicateWithoutRegisterS2" component={PublicateWithoutRegisterStepTwo} />
         <Route exact path="/publicateWithoutRegisterS3" component={PublicateWithoutRegisterStepThree} />
         <Route exact path="/publicateWithoutRegisterS4" component={PublicateWithoutRegisterStepFour} />
+        <Route exact path="/userRegister" component={UserRegister} />
+        <Route exact path="/userRegisterS1" component={UserRegisterStepOne} />
+        <Route exact path="/userRegisterS2" component={UserRegisterStepTwo} />
+        <Route exact path="/userRegisterS3" component={UserRegisterStepThree} />
         <Route exact path="/withoutRegister" component={WithoutRegister} />
       </Switch>
     </div>
