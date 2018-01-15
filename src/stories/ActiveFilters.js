@@ -12,7 +12,7 @@ FilterLists (Agregar el parseo correspondiente)
 Modificar en el api el switch de rounter/index.js:398 y el metodo en general getFiltersAndTotalResult
 Modificar la mutacion tanto en la api(dentro de PublicationTypes) como en ApolloQueries */
 
-export default ({ searchData }) => split(searchData).map((filter) => {
+export default ({ searchData, history }) => split(searchData).map((filter) => {
   if (filter.key === 'fuel' ||
       filter.key === 'year' ||
       filter.key === 'state') {
@@ -22,7 +22,7 @@ export default ({ searchData }) => split(searchData).map((filter) => {
         name={filter.value}
         onClick={() => {
             delete searchData[filter.key];
-            window.location.assign(`/SearchCars?${stringify(searchData)}`);
+            history.push(`/SearchCars?${stringify(searchData)}`);
           }}
       >
         {filter.value}

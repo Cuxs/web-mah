@@ -79,7 +79,7 @@ class SearchCars extends Component {
     return (
       <div>
         <NumberOfResult results={this.state.totalResults} />
-        <ActiveFilters searchData={qs.parse(this.props.location.search)} />
+        <ActiveFilters history={this.props.history} searchData={qs.parse(this.props.location.search)} />
         <CarResultContainer>
           {this.state.data.searchPublication.Publications.map(row => (
             <CarResult
@@ -119,7 +119,7 @@ class SearchCars extends Component {
         <div className="container-section">
           <Row>
             <Col md="3" sm="12">
-              <FiltersList filters={this.state.filters} search={this.props.location.search} />
+              <FiltersList filters={this.state.filters} search={this.props.location.search} history={history} />
             </Col>
             <Col md="9" sm="12">
               {this.renderData()}
