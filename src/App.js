@@ -23,6 +23,7 @@ import CreatePublicationStepOne from './Components/CreatePublication/StepOne';
 import CreatePublicationStepTwo from './Components/CreatePublication/StepTwo';
 import CreatePublicationStepThree from './Components/CreatePublication/StepThree';
 import FreeDestinationCredits from './Components/FreeDestinationCredits';
+import Microsite from './Components/Microsite';
 import PledgeCredits from './Components/PledgeCredits';
 import PersonalShopper from './Components/PersonalShopper';
 import PersonalShopperStepTwo from './Components/PersonalShopper/StepTwo';
@@ -103,6 +104,7 @@ const App = () => (
         <Route exact path="/createPublicationS2" component={CreatePublicationStepTwo} />
         <Route exact path="/createPublicationS3" component={CreatePublicationStepThree} />
         <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
+        <Route exact path="/microsite" component={Microsite} />
         <Route exact path="/pledgeCredits" component={PledgeCredits} />
         <Route exact path="/personalShopperS1" component={PersonalShopper} />
         <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
