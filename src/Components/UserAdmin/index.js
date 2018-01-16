@@ -6,9 +6,9 @@ import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button, Label } f
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 import AdminBar from '../../stories/AdminBar';
-import AdminSideBar from '../../stories/AdminSideBar';
+import UserSideBar from '../../stories/UserSideBar';
 
-import style from '../../Styles/agency';
+import style from '../../Styles/pledgeCredits';
 
 
 class AgencyAdmin extends React.Component {
@@ -37,14 +37,13 @@ class AgencyAdmin extends React.Component {
       { name: 'Ene 15', autos: 7 },
       { name: 'Feb 1', autos: 6 },
     ];
-
     return (
       <div>
         <AdminBar />
-
+    
         <Row>
           <Col md="3">
-            <AdminSideBar />
+            <UserSideBar />
           </Col>
           <Col md="9">
             <Row>
@@ -66,7 +65,7 @@ class AgencyAdmin extends React.Component {
                 </LineChart>
               </Col>
               <Col md="4">
-                <Button href="/agencyMessage" className="d-flex flex-row">
+                <Button href="/userMessage" className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>4</h4>
                     <h6>Nuevos Mensajes</h6>
@@ -75,7 +74,7 @@ class AgencyAdmin extends React.Component {
                     <span className="fa fa-commenting" />
                   </div>
                 </Button>
-                <Button href="/agencyPublications" className="d-flex flex-row">
+                <Button href="/userPublications" className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>9</h4>
                     <h6>Publicaciones activas</h6>
@@ -84,7 +83,7 @@ class AgencyAdmin extends React.Component {
                     <span className="fa fa-car" />
                   </div>
                 </Button>
-                <Button href="/agencyPublications" className="d-flex flex-row">
+                <Button href="/userPublications" className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>3</h4>
                     <h6>Destacados</h6>

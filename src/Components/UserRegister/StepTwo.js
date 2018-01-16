@@ -21,7 +21,6 @@ const StepOne = ({ data }) => (
         <h6>PASO 1</h6>
         <h4><b>Crear tu cuenta</b></h4>
         <Button color="link" >Modificar datos</Button>
-\
 
         <div className="underline" />
 
@@ -44,12 +43,10 @@ const StepOne = ({ data }) => (
         <FormGroup>
           <Label for="exampleEmail">Domicilio</Label>
           <Input type="email" name="email" id="exampleEmail" />
-          <Button color="link" >Modificar datos</Button>
         </FormGroup>
         <FormGroup>
           <Label for="exampleEmail">Email</Label>
           <Input type="email" name="email" id="exampleEmail" />
-          <Button color="link" >Modificar datos</Button>
         </FormGroup>
         <FormGroup>
           <Label for="exampleEmail">Teléfono/</Label>
@@ -59,7 +56,7 @@ const StepOne = ({ data }) => (
         <div>
           <div className="underline" />
           <Button color="secondary" href="/userRegisterS1" >Volver</Button>
-          <Button color="primary" href="/userRegisterS2" >Siguiente</Button>
+          <Button color="primary" href="/userRegisterS3" >Siguiente</Button>
         </div>
       </Col>
     </Row>

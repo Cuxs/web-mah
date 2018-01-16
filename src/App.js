@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import Home from './Components/Home';
 import AgencyAdmin from './Components/AgencyAdmin';
+import AgencyPublications from './Components/AgencyPublications';
 import AgencyInbox from './Components/AgencyInbox';
 import AgencyMessage from './Components/AgencyMessage';
 import AgencyProfile from './Components/AgencyProfile';
@@ -32,6 +33,9 @@ import PublicateWithoutRegisterStepOne from './Components/PublicateWithoutRegist
 import PublicateWithoutRegisterStepTwo from './Components/PublicateWithoutRegister/StepTwo';
 import PublicateWithoutRegisterStepThree from './Components/PublicateWithoutRegister/StepThree';
 import PublicateWithoutRegisterStepFour from './Components/PublicateWithoutRegister/StepFour';
+import UserAdmin from './Components/UserAdmin';
+import UserProfile from './Components/UserProfile';
+import UserInbox from './Components/UserInbox';
 import UserRegister from './Components/UserRegister';
 import UserRegisterStepOne from './Components/UserRegister/StepOne';
 import UserRegisterStepTwo from './Components/UserRegister/StepTwo';
@@ -94,6 +98,7 @@ const App = () => (
         <Route exact path="/" component={Home} />
         <Route exact path="/searchCars" component={SearchCars} />
         <Route exact path="/agencyAdmin" component={AgencyAdmin} />
+        <Route exact path="/agencyPublications" component={AgencyPublications} />
         <Route exact path="/agencyInbox" component={AgencyInbox} />
         <Route exact path="/agencyMessage" component={AgencyMessage} />
         <Route exact path="/agencyProfile" component={AgencyProfile} />
@@ -117,6 +122,9 @@ const App = () => (
         <Route exact path="/publicateWithoutRegisterS2" component={PublicateWithoutRegisterStepTwo} />
         <Route exact path="/publicateWithoutRegisterS3" component={PublicateWithoutRegisterStepThree} />
         <Route exact path="/publicateWithoutRegisterS4" component={PublicateWithoutRegisterStepFour} />
+        <Route exact path="/userAdmin" component={UserAdmin} />
+        <Route exact path="/userProfile" component={UserProfile} />
+        <Route exact path="/userInbox" component={UserInbox} />
         <Route exact path="/userRegister" component={UserRegister} />
         <Route exact path="/userRegisterS1" component={UserRegisterStepOne} />
         <Route exact path="/userRegisterS2" component={UserRegisterStepTwo} />
