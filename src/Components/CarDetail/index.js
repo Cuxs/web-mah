@@ -18,6 +18,7 @@ import CarSpecifications from '../../stories/CarSpecifications';
 
 import style from '../../Styles/carDetail';
 import socialStyle from '../../Styles/bootstrap-social';
+import { thousands } from '../../Modules/functions';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
 
@@ -58,7 +59,7 @@ const CarDetail = ({
                 </Col>
                 <Col md="6" sm="12">
                   <h5>KM</h5>
-                  <h6>{carDetailData.Publication.kms}</h6>
+                  <h6>{thousands(carDetailData.Publication.kms, 0, ',', '.')}</h6>
                 </Col>
               </Row>
               <Row>
@@ -93,11 +94,11 @@ const CarDetail = ({
 
           <Col md="5" sm="12">
             <h6>
-              {carDetailData.Publication.year} - {carDetailData.Publication.kms} km
+              {carDetailData.Publication.year} - {thousands(carDetailData.Publication.kms, 0, ',', '.')} km
             </h6>
             <h4>{carDetailData.Publication.group}</h4>
             <h6>{carDetailData.Publication.modelName}</h6>
-            <h4>${carDetailData.Publication.price}</h4>
+            <h4>${thousands(carDetailData.Publication.price, 2, ',', '.')}</h4>
             <Button color="primary">¡Solicitá tu crédito</Button>
 
             <div className="container-social">

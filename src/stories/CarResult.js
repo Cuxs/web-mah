@@ -6,6 +6,7 @@ import {
   CarouselIndicators,
 } from 'reactstrap';
 import style from '../Styles/carResult';
+import { thousands } from '../Modules/functions';
 
 
 export default class CarResult extends Component {
@@ -88,8 +89,8 @@ export default class CarResult extends Component {
 
           <p>{this.props.data.group}</p>
           <p>{this.props.data.modelName}</p>
-          <p>{this.props.data.kms}</p>
-          <p>{this.props.data.price}</p>
+          <p>{thousands(this.props.data.kms, 0, ',', '.')}</p>
+          <p>{thousands(this.props.data.price, 2, ',', '.')}</p>
           <p>{this.props.data.year}</p>
         </div>
         <style jsx>{style}</style>

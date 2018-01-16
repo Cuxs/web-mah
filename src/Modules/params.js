@@ -4,6 +4,6 @@ const server = process.env.REACT_APP_API;
 let token = '';
 
 if (loadState()) {
-  token = `Bearer ${loadState().login.token}`;
+  token = `Bearer ${loadState().login.MAHtoken}`;
 }
 export { server, token };
