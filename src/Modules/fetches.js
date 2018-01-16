@@ -9,15 +9,15 @@ if (loadState()) {
 }
 
 // Account --------------------
-export const login = (username, password) => {
-  const url = `${server}/loginAdmin`;
+export const login = (email, password) => {
+  const url = `${server}/login`;
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username,
+      email,
       password,
     }),
   };
