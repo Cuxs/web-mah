@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { FormGroup, Input, Label, Button } from 'reactstrap';
+import { FormGroup, Input, Label, Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { ChatFeed, Message } from 'react-chat-ui';
 import { graphql, compose } from 'react-apollo';
 import jwtDecode from 'jwt-decode';
-import { parse } from 'query-string';
+import { stringify, parse } from 'query-string';
+import jsonwt from 'jsonwebtoken';
 import { getUserDataFromToken, isUserLogged } from '../Modules/sessionFunctions';
 
 import {
@@ -12,6 +13,7 @@ import {
   addMessageMutation,
   createCommentThread,
 } from '../ApolloQueries/MessagesCarDetailQuery';
+import search from '../Styles/search';
 
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint camelcase: 0 */
@@ -45,12 +47,21 @@ class MessagesCarDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
+      email: '',
       content: '',
+      modal: false,
     };
+    this.toggle = this.toggle.bind(this);
   }
   componentWillMount() {
     this.props.subscribeToNewMessages({
       commentThread_id: this.props.commentThread_id,
+    });
+  }
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
     });
   }
   isTextInputIncomplete() {
@@ -59,10 +70,17 @@ class MessagesCarDetail extends Component {
     }
     return false;
   }
+  isModalIncomplete() {
+    if (this.state.name === '' ||
+      this.state.email === '') {
+      return true;
+    }
+    return false;
+  }
   sendMessage() {
     const { content } = this.state;
-    if (!isUserLogged()) {
-      console.log('No estas logueado');
+    if (!isUserLogged() && parse(this.props.location.search).chatToken === undefined) {
+      this.toggle();
       return false;
     }
     if (this.props.commentThread_id) {
@@ -76,14 +94,53 @@ class MessagesCarDetail extends Component {
       this.setState({ content: '' });
       return true;
     }
-    
+
     this.props.createCommentThread({
       variables: {
         publication_id: this.props.publicationId,
-        content: this.state.content,
+        content,
         participant1_id: getUserDataFromToken().id,
       },
-    });
+    })
+      .then(() => {
+        window.location.reload();
+      });
+  }
+  sendAnonMessage() {
+    const { content } = this.state;
+    if (this.props.commentThread_id) {
+      this.props.mutate({
+        variables: {
+          commentThread_id: this.props.commentThread_id,
+          from_id: getUserDataFromToken().id,
+          content,
+        },
+      });
+      return this.setState({ content: '' });
+    }
+    const chatToken = jsonwt.sign(
+      {
+        name: this.state.name,
+        email: this.state.email,
+      },
+      'MAH2018!#',
+    );
+    this.props.createCommentThread({
+      variables: {
+        publication_id: this.props.publicationId,
+        content,
+        chatToken,
+      },
+    })
+      .then(() => {
+        this.toggle();
+        const searchObj = {
+          publication_id: parse(this.props.location.search).publication_id,
+          chatToken,
+        };
+        this.props.history.push(`/carDetail?${stringify(searchObj)}`);
+        window.location.reload();
+      });
   }
   render() {
     const { messagesData, location, publicationUserId } = this.props;
@@ -127,6 +184,20 @@ class MessagesCarDetail extends Component {
         >
           Preguntar
         </Button>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>
+          <ModalBody>
+            <FormGroup>
+              <Label for="exampleEmail">Nombre</Label>
+              <Input value={this.state.name} onChange={e => this.setState({ name: e.target.value })} type="text" name="name" id="exampleEmail" />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Email</Label>
+              <Input value={this.state.email} onChange={e => this.setState({ email: e.target.value })} type="email" name="name" id="exampleEmail" />
+              <Button disabled={this.isModalIncomplete()} onClick={() => { this.sendAnonMessage(); }}>Enviar Consulta</Button>
+            </FormGroup>
+          </ModalBody>
+        </Modal>
       </span>
     );
   }
