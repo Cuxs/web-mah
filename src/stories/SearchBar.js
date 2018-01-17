@@ -42,9 +42,11 @@ class SearchBar extends Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.togglePublicate = this.togglePublicate.bind(this);
+    this.toggleUser = this.toggleUser.bind(this);
     this.state = {
       suggestions: [],
       dropdownOpen: false,
+      dropdownUser: false,
       dropdownOpenPublicate: false,
       modal: false,
       email: '',
@@ -97,6 +99,11 @@ class SearchBar extends Component {
   togglePublicate() {
     this.setState({
       dropdownOpenPublicate: !this.state.dropdownOpenPublicate,
+    });
+  }
+  toggleUser() {
+    this.setState({
+      dropdownUser: !this.state.dropdownUser,
     });
   }
 
@@ -195,12 +202,21 @@ class SearchBar extends Component {
           <Button color="primary" href="/pledgeCredits" > Solicitá tu crédito</Button>
           <Button color="secondary" href="/friendlyAgency" > Ver Consecionarias</Button>
           {this.state.isUserLogged ? (
-            <span>
-              <span>{getUserDataFromToken().name}</span>
-              <Button type="button" style={{ cursor: 'pointer' }} color="default" onClick={() => { clearSession(); this.setState({ isUserLogged: false }); }}>
-                Cerrar Sesión
-              </Button>
-            </span>
+            <ButtonDropdown
+              isOpen={this.state.dropdownUser}
+              toggle={this.toggleUser}
+            >
+              <DropdownToggle caret>{getUserDataFromToken().name}</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem
+                  value="myAccount"
+                  onClick={() => (getUserDataFromToken().userType === 'Agencia' ?
+                    this.props.history.push('/agencyAdmin') : this.props.history.push('/userAdmin'))}
+                >Mi cuenta
+                </DropdownItem>
+                <DropdownItem value="closeSession" onClick={() => { clearSession(); this.setState({ isUserLogged: false }); }}>Cerrar Sesión</DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
           ) : (
             <span>
               <ButtonDropdown
