@@ -44,7 +44,7 @@ class AgencyAdmin extends React.Component {
 
         <Row>
           <Col md="3">
-            <AdminSideBar />
+            <AdminSideBar history={this.props.history} />
           </Col>
           <Col md="9">
             <Row>
