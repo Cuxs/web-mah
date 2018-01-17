@@ -12,13 +12,13 @@ import CardMessagge from '../../stories/CardMessagge';
 import style from '../../Styles/pledgeCredits';
 
 
-const AgencyInbox = ({ history }) => (
+const AgencyInbox = ({ history, location }) => (
   <div>
     <AdminBar history={history} />
 
     <Row>
       <Col md="3">
-        <AdminSideBar history={history} />
+        <AdminSideBar history={history} location={location} />
       </Col>
       <Col md="9">
         <AdminFilter />

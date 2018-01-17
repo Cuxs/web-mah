@@ -1,6 +1,8 @@
 import React from 'react';
 import { Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
 import style from '../Styles/search';
+import { getUserDataFromToken } from '../Modules/sessionFunctions';
+
 /* eslint react/jsx-filename-extension: 0 */
 
 export default class AdminBar extends React.Component {
@@ -28,7 +30,7 @@ export default class AdminBar extends React.Component {
         </Col>
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle caret>
-            Automotores Manzur
+            {getUserDataFromToken().name}
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.props.history.push('/')} >Cerrar Sesión</DropdownItem>
