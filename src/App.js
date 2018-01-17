@@ -37,6 +37,7 @@ import PublicateWithoutRegisterStepFour from './Components/PublicateWithoutRegis
 import UserAdmin from './Components/UserAdmin';
 import UserProfile from './Components/UserProfile';
 import UserInbox from './Components/UserInbox';
+import UserPublications from './Components/UserPublications';
 import UserRegister from './Components/UserRegister';
 import UserRegisterStepOne from './Components/UserRegister/StepOne';
 import UserRegisterStepTwo from './Components/UserRegister/StepTwo';
@@ -125,6 +126,7 @@ const App = () => (
         <Route exact path="/publicateWithoutRegisterS3" component={PublicateWithoutRegisterStepThree} />
         <Route exact path="/publicateWithoutRegisterS4" component={PublicateWithoutRegisterStepFour} />
         <Route exact path="/userAdmin" component={UserAdmin} />
+        <Route exact path="/userPublications" component={UserPublications} />
         <Route exact path="/userProfile" component={UserProfile} />
         <Route exact path="/userInbox" component={UserInbox} />
         <Route exact path="/userRegister" component={UserRegister} />

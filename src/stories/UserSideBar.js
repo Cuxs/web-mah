@@ -3,13 +3,13 @@ import { Col, Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
 
-const UserAdmin = () => (
+const UserAdmin = ({ history }) => (
   <Col md="12" className="d-flex flex-column" >
-    <Button color="default" href="/userAdmin" >Inicio</Button>
-    <Button color="default" href="/userPublications" >Tus publicaciones</Button>
-    <Button color="default" href="/userInbox" >Bandeja de entrada</Button>
-    <Button color="default" href="/userProfile" >Perfil</Button>
-    <Button color="primary" href="/createPublication" >Crear publicación</Button>
+    <Button color="default" onClick={() => history.push('/userAdmin')} >Inicio</Button>
+    <Button color="default" onClick={() => history.push('/userPublications')} >Tus publicaciones</Button>
+    <Button color="default" onClick={() => history.push('/userInbox')} >Bandeja de entrada</Button>
+    <Button color="default" onClick={() => history.push('/userProfile')} >Perfil</Button>
+    <Button color="primary" onClick={() => history.push('/createPublication')} >Crear publicación</Button>
   </Col>
 );
 

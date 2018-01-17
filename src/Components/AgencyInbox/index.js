@@ -12,7 +12,7 @@ import CardMessagge from '../../stories/CardMessagge';
 import style from '../../Styles/pledgeCredits';
 
 
-const AgencyProfile = ({ history }) => (
+const AgencyInbox = ({ history }) => (
   <div>
     <AdminBar history={history} />
 
@@ -31,4 +31,4 @@ const AgencyProfile = ({ history }) => (
   </div>
 );
 
-export default AgencyProfile;
+export default AgencyInbox;
