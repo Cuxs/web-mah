@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Input, Label, Button } from 'reactstrap';
+import { FormGroup, Input, Label, Button, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { ChatFeed, Message } from 'react-chat-ui';
 import { graphql, compose } from 'react-apollo';
 import jwtDecode from 'jwt-decode';
@@ -13,6 +13,7 @@ import {
   createCommentThread,
 } from '../ApolloQueries/MessagesCarDetailQuery';
 
+import { CommentThreadQuery } from '../ApolloQueries/CarDetailQuery';
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint camelcase: 0 */
 /* eslint react/prop-types: 0 */
@@ -46,11 +47,18 @@ class MessagesCarDetail extends Component {
     super(props);
     this.state = {
       content: '',
+      modal: false,
     };
+    this.toggle = this.toggle.bind(this);
   }
   componentWillMount() {
     this.props.subscribeToNewMessages({
       commentThread_id: this.props.commentThread_id,
+    });
+  }
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
     });
   }
   isTextInputIncomplete() {
@@ -62,7 +70,7 @@ class MessagesCarDetail extends Component {
   sendMessage() {
     const { content } = this.state;
     if (!isUserLogged()) {
-      console.log('No estas logueado');
+      this.toggle();
       return false;
     }
     if (this.props.commentThread_id) {
@@ -76,14 +84,26 @@ class MessagesCarDetail extends Component {
       this.setState({ content: '' });
       return true;
     }
-    
+
     this.props.createCommentThread({
       variables: {
         publication_id: this.props.publicationId,
         content: this.state.content,
         participant1_id: getUserDataFromToken().id,
       },
-    });
+      refetchQueries: [{
+        query: CommentThreadQuery,
+        variables: {
+          id: parse(this.props.location.search).publication_id,
+          publication_id: parse(this.props.location.search).publication_id,
+          user_id: getUserDataFromToken().id || null,
+          chatToken: parse(this.props.location.search).chatToken,
+        },
+      }],
+    })
+      .then(() => {
+        window.location.reload();
+      });
   }
   render() {
     const { messagesData, location, publicationUserId } = this.props;
@@ -127,6 +147,19 @@ class MessagesCarDetail extends Component {
         >
           Preguntar
         </Button>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>
+          <ModalBody>
+            <FormGroup>
+              <Label for="exampleEmail">Nombre</Label>
+              <Input type="text" name="name" id="exampleEmail" />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Email</Label>
+              <Input type="text" name="name" id="exampleEmail" />
+            </FormGroup>
+          </ModalBody>
+        </Modal>
       </span>
     );
   }

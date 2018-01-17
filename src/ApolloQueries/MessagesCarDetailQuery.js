@@ -55,6 +55,7 @@ const createCommentThread = gql`
       participant2_id
       publication_id
       messages {
+        id
         from_id
         content
         User {

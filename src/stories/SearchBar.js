@@ -141,9 +141,9 @@ class SearchBar extends Component {
         <Col md="6">
           <Row>
             <Col md="3">
-              <a href="/">
+              <Button onClick={() => this.props.history.push('/')} >
                 <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
-              </a>
+              </Button>
             </Col>
             <Col md="5">
               {/* <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} /> */}

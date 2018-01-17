@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
+import { Col, Row, Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import { parse } from 'query-string';
 
@@ -174,6 +174,7 @@ class CarDetail extends Component {
                   <MessageCarDetail
                     commentThread_id={commentThreadData.CommentThread ? commentThreadData.CommentThread.id : null}
                     location={location}
+                    history={history}
                     publicationUserId={carDetailData.Publication.User.id}
                     publicationId={parse(location.search).publication_id}
                   />
@@ -186,22 +187,11 @@ class CarDetail extends Component {
           </Row>
         )}
         </div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>
-          <ModalBody>
-            <FormGroup>
-              <Label for="exampleEmail">Nombre</Label>
-              <Input type="text" name="name" id="exampleEmail" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">Email</Label>
-              <Input type="text" name="name" id="exampleEmail" />
-            </FormGroup>
-          </ModalBody>
-        </Modal>
+       
         <Footer />
         <style jsx>{style}</style>
         <style jsx>{socialStyle}</style>
+        {console.log(this.props)}
       </div>
     );
   }
@@ -210,7 +200,7 @@ const options = ({ location, commentThreadData }) => ({
   variables: {
     id: parse(location.search).publication_id,
     publication_id: parse(location.search).publication_id,
-    user_id: getUserDataFromToken().id || null,
+    user_id: getUserDataFromToken().id,
     chatToken: parse(location.search).chatToken,
     commentThread_id:
       commentThreadData && !commentThreadData.loading
@@ -222,6 +212,7 @@ const withCarDetails = graphql(CarDetailQuery, {
   name: 'carDetailData',
   options,
 });
+
 const withSpecs = graphql(CarSpecs, { name: 'carSpecsData', options });
 const withCommentThread = graphql(CommentThreadQuery, {
   name: 'commentThreadData',
