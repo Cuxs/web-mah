@@ -21,7 +21,7 @@ const Home = ({ data, history, location }) => (
   <div>
     {!data.loading &&
       <div>
-        <TopTopNav />
+        <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
         <Banner />
         <CreditsBanner />

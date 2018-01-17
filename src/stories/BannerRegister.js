@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, FormGroup, Input, Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
-export default () => (
+export default ({ history }) => (
   <Row>
     <div className="col-md-12" >
       <img src="http://placecage.com/c/1440/330" alt="banner" />
@@ -18,7 +18,7 @@ export default () => (
           <FormGroup>
             <Input type="email" name="email" placeholder="Email" />
           </FormGroup>
-          <Button color="primary" href="/agencyRegisterS1" >Comenzar</Button>
+          <Button color="primary" onClick={() => history.push('/agencyRegisterS1')} >Comenzar</Button>
         </Col>
       </div>
     </div>

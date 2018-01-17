@@ -65,7 +65,7 @@ class AgencyAdmin extends React.Component {
                 </LineChart>
               </Col>
               <Col md="4">
-                <Button href="/userMessage" className="d-flex flex-row">
+                <Button onClick={() => this.props.history.push('/userInbox')} className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>4</h4>
                     <h6>Nuevos Mensajes</h6>
@@ -74,7 +74,7 @@ class AgencyAdmin extends React.Component {
                     <span className="fa fa-commenting" />
                   </div>
                 </Button>
-                <Button href="/userPublications" className="d-flex flex-row">
+                <Button onClick={() => this.props.history.push('/userPublications')} className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>9</h4>
                     <h6>Publicaciones activas</h6>
@@ -83,7 +83,7 @@ class AgencyAdmin extends React.Component {
                     <span className="fa fa-car" />
                   </div>
                 </Button>
-                <Button href="/userPublications" className="d-flex flex-row">
+                <Button onClick={() => this.props.history.push('/userPublications')} className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>3</h4>
                     <h6>Destacados</h6>

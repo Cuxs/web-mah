@@ -10,13 +10,13 @@ import Footer from '../../stories/Footer';
 import Plans from '../../stories/Plans';
 
 
-const Home = () => (
+const Home = ({ history }) => (
   <div>
     <div>
-      <RegisterBar />
-      <BannerRegister />
+      <RegisterBar history={history} />
+      <BannerRegister history={history} />
       <FeaturesRegister />
-      <Plans />
+      <Plans history={history} />
       <Faq />
       <Footer />
     </div>
