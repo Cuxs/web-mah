@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 
 import AdminBar from '../../stories/AdminBar';
 import AdminSideBar from '../../stories/AdminSideBar';
@@ -12,42 +12,23 @@ import CardMessagge from '../../stories/CardMessagge';
 import style from '../../Styles/pledgeCredits';
 
 
-class AgencyAdmin extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false,
-    };
+const AgencyProfile = ({ history }) => (
+  <div>
+    <AdminBar history={history} />
 
-    this.toggle = this.toggle.bind(this);
-  }
+    <Row>
+      <Col md="3">
+        <AdminSideBar history={history} />
+      </Col>
+      <Col md="9">
+        <AdminFilter />
+        <CardMessagge />
+        <CardMessagge />
+        <CardMessagge />
+      </Col>
+    </Row>
+    <style jsx>{style}</style>
+  </div>
+);
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <AdminBar history={this.props.history} />
-    
-        <Row>
-          <Col md="3">
-            <AdminSideBar history={this.props.history} />
-          </Col>
-          <Col md="9">
-            <AdminFilter />
-            <CardMessagge />
-            <CardMessagge />
-            <CardMessagge />
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
-      </div>
-    );
-  }
-}
-
-export default AgencyAdmin;
+export default AgencyProfile;

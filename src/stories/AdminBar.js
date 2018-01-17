@@ -31,11 +31,7 @@ export default class AdminBar extends React.Component {
             Automotores Manzur
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Header</DropdownItem>
-            <DropdownItem disabled>Action</DropdownItem>
-            <DropdownItem>Another Action</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>Another Action</DropdownItem>
+            <DropdownItem onClick={() => this.props.history.push('/')} >Cerrar Sesión</DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
       </Row>
