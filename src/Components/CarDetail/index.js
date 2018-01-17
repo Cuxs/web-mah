@@ -37,7 +37,6 @@ class CarDetail extends Component {
 
     this.toggle = this.toggle.bind(this);
   }
-
   toggle() {
     this.setState({
       modal: !this.state.modal,
@@ -172,14 +171,13 @@ class CarDetail extends Component {
               </div>
               {getUserDataFromToken().id !==
                 carDetailData.Publication.User.id &&
-                ((!commentThreadData.loading || commentThreadData.CommentThread === null) && (
                   <MessageCarDetail
                     commentThread_id={commentThreadData.CommentThread ? commentThreadData.CommentThread.id : null}
                     location={location}
                     publicationUserId={carDetailData.Publication.User.id}
                     publicationId={parse(location.search).publication_id}
                   />
-                ))}
+                }
               {getUserDataFromToken().id ===
                 carDetailData.Publication.User.id && (
                 <Button color="secondary">Editar Publicación</Button>
