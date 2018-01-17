@@ -11,7 +11,7 @@ import UserSideBar from '../../stories/UserSideBar';
 import style from '../../Styles/pledgeCredits';
 
 
-class AgencyAdmin extends React.Component {
+class UserAdmin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,13 +37,13 @@ class AgencyAdmin extends React.Component {
       { name: 'Ene 15', autos: 7 },
       { name: 'Feb 1', autos: 6 },
     ];
+    const { history, location } = this.props;
     return (
       <div>
-        <AdminBar history={this.props.history} />
-    
+        <AdminBar history={history} />
         <Row>
           <Col md="3">
-            <UserSideBar history={this.props.history} />
+            <UserSideBar history={history} location={location} />
           </Col>
           <Col md="9">
             <Row>
@@ -65,7 +65,7 @@ class AgencyAdmin extends React.Component {
                 </LineChart>
               </Col>
               <Col md="4">
-                <Button onClick={() => this.props.history.push('/userInbox')} className="d-flex flex-row">
+                <Button onClick={() => history.push('/userInbox')} className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>4</h4>
                     <h6>Nuevos Mensajes</h6>
@@ -74,7 +74,7 @@ class AgencyAdmin extends React.Component {
                     <span className="fa fa-commenting" />
                   </div>
                 </Button>
-                <Button onClick={() => this.props.history.push('/userPublications')} className="d-flex flex-row">
+                <Button onClick={() => history.push('/userPublications')} className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>9</h4>
                     <h6>Publicaciones activas</h6>
@@ -83,7 +83,7 @@ class AgencyAdmin extends React.Component {
                     <span className="fa fa-car" />
                   </div>
                 </Button>
-                <Button onClick={() => this.props.history.push('/userPublications')} className="d-flex flex-row">
+                <Button onClick={() => history.push('/userPublications')} className="d-flex flex-row">
                   <div className="d-flex flex-column">
                     <h4>3</h4>
                     <h6>Destacados</h6>
@@ -111,4 +111,4 @@ class AgencyAdmin extends React.Component {
   }
 }
 
-export default AgencyAdmin;
+export default UserAdmin;

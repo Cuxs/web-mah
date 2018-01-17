@@ -12,13 +12,13 @@ import CardMessagge from '../../stories/CardMessagge';
 import style from '../../Styles/pledgeCredits';
 
 
-const UserInbox = ({ history }) => (
+const UserInbox = ({ history, location }) => (
   <div>
     <AdminBar history={history} />
 
     <Row>
       <Col md="3">
-        <UserSideBar history={history} />
+        <UserSideBar history={history} location={location} />
       </Col>
       <Col md="9">
         <AdminFilter />

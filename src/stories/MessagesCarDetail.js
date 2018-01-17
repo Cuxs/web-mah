@@ -182,7 +182,7 @@ class MessagesCarDetail extends Component {
           onClick={() => this.sendMessage()}
           color="secondary"
         >
-          Preguntar
+          Enviar
         </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>

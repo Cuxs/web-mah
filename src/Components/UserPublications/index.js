@@ -29,13 +29,14 @@ class UserPublications extends React.Component {
   }
 
   render() {
+    const { history, location } = this.props;
     return (
       <div>
-        <AdminBar history={this.props.history} />
+        <AdminBar history={history} />
     
         <Row>
           <Col md="3">
-            <UserSideBar history={this.props.history} />
+            <UserSideBar history={history} location={location} />
           </Col>
           <Col md="9">
             <AdminFilter />

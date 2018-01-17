@@ -3,14 +3,14 @@ import { Col, Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
 
-const UserAdmin = ({ history }) => (
+const UserSideBar = ({ history, location }) => (
   <Col md="12" className="d-flex flex-column" >
-    <Button color="default" onClick={() => history.push('/userAdmin')} >Inicio</Button>
-    <Button color="default" onClick={() => history.push('/userPublications')} >Tus publicaciones</Button>
-    <Button color="default" onClick={() => history.push('/userInbox')} >Bandeja de entrada</Button>
-    <Button color="default" onClick={() => history.push('/userProfile')} >Perfil</Button>
-    <Button color="primary" onClick={() => history.push('/createPublication')} >Crear publicación</Button>
+    <Button color="default" className={location.pathname === '/userAdmin' ? 'active' : ''} onClick={() => history.push('/userAdmin')} >Inicio</Button>
+    <Button color="default" className={location.pathname === '/userPublications' ? 'active' : ''} onClick={() => history.push('/userPublications')} >Tus publicaciones</Button>
+    <Button color="default" className={location.pathname === '/userInbox' ? 'active' : ''} onClick={() => history.push('/userInbox')} >Bandeja de entrada</Button>
+    <Button color="default" className={location.pathname === '/userProfile' ? 'active' : ''} onClick={() => history.push('/userProfile')} >Perfil</Button>
+    <Button color="primary" className={location.pathname === '/createPublication' ? 'active' : ''} onClick={() => history.push('/createPublication')} >Crear publicación</Button>
   </Col>
 );
 
-export default UserAdmin;
+export default UserSideBar;
