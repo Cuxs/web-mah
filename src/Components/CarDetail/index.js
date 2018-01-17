@@ -1,8 +1,8 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import React from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import React, { Component } from 'react';
+import { Col, Row, Button, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import { parse } from 'query-string';
 
@@ -28,31 +28,48 @@ import { thousands } from '../../Modules/functions';
 import photoGaleryParser from '../../Modules/photoGaleryParser';
 import { getUserDataFromToken } from '../../Modules/sessionFunctions';
 
-const CarDetail = ({
-  carDetailData,
-  carSpecsData,
-  commentThreadData,
-  history,
-  location,
-}) => (
-  <div>
-    <TopTopNav />
-    <SearchBar history={history} location={location} />
-    <div className="container-section">
-      <Row>
-        <Col md="7" sm="12">
-          <BreadCrum url={window.location.href} />
-        </Col>
-        <Col md="5" sm="12">
-          <PublicityBanner />
-        </Col>
-      </Row>
-    </div>
-    <div className="container-section">
-      {carDetailData.Publication === null && (
-        <h3>Esta publicación no exite o ha sido eliminada.</h3>
+class CarDetail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: false,
+    };
+
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+  render() {
+    const {
+      carDetailData,
+      carSpecsData,
+      commentThreadData,
+      history,
+      location,
+    } = this.props;
+    return (
+      <div>
+        <TopTopNav />
+        <SearchBar history={history} location={location} />
+        <div className="container-section">
+          <Row>
+            <Col md="7" sm="12">
+              <BreadCrum url={window.location.href} />
+            </Col>
+            <Col md="5" sm="12">
+              <PublicityBanner />
+            </Col>
+          </Row>
+        </div>
+        <div className="container-section">
+          {carDetailData.Publication === null && (
+          <h3>Esta publicación no exite o ha sido eliminada.</h3>
       )}
-      {!carDetailData.loading &&
+          {!carDetailData.loading &&
         carDetailData.Publication !== null && (
           <Row>
             <Col md="7" sm="12">
@@ -79,7 +96,6 @@ const CarDetail = ({
                     <h5>MARCA</h5>
                     <h6>{carDetailData.Publication.brand}</h6>
                   </Col>
-
                   <Col md="6" sm="12">
                     <h5>AÑO</h5>
                     <h6>{carDetailData.Publication.year}</h6>
@@ -106,19 +122,14 @@ const CarDetail = ({
               <h5 className="title">Comentarios del Vendedor</h5>
               <h6> {carDetailData.Publication.observation}</h6>
             </Col>
-
             <Col md="5" sm="12">
               <h6>
-                {carDetailData.Publication.year} -{' '}
-                {thousands(carDetailData.Publication.kms, 0, ',', '.')} km
+                {carDetailData.Publication.year} - {thousands(carDetailData.Publication.kms, 0, ',', '.')} km
               </h6>
-              <h4>{carDetailData.Publication.group}</h4>
+              <h4>{`${carDetailData.Publication.brand} ${carDetailData.Publication.group}`}</h4>
               <h6>{carDetailData.Publication.modelName}</h6>
-              <h4>
-                ${thousands(carDetailData.Publication.price, 2, ',', '.')}
-              </h4>
+              <h4>${thousands(carDetailData.Publication.price, 2, ',', '.')}</h4>
               <Button color="primary">¡Solicitá tu crédito</Button>
-
               <div className="container-social">
                 <button className="btn btn-social-icon btn-facebook">
                   <span className="fa fa-facebook" />
@@ -176,12 +187,27 @@ const CarDetail = ({
             </Col>
           </Row>
         )}
-    </div>
-    <Footer />
-    <style jsx>{style}</style>
-    <style jsx>{socialStyle}</style>
-  </div>
-);
+        </div>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>
+          <ModalBody>
+            <FormGroup>
+              <Label for="exampleEmail">Nombre</Label>
+              <Input type="text" name="name" id="exampleEmail" />
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Email</Label>
+              <Input type="text" name="name" id="exampleEmail" />
+            </FormGroup>
+          </ModalBody>
+        </Modal>
+        <Footer />
+        <style jsx>{style}</style>
+        <style jsx>{socialStyle}</style>
+      </div>
+    );
+  }
+}
 const options = ({ location, commentThreadData }) => ({
   variables: {
     id: parse(location.search).publication_id,

@@ -6,7 +6,9 @@ import style from '../Styles/search';
 export default ({ onlyLogin }) => (
   <Row style={style.header} >
     <Col md="6">
-      <p >Mi auto Hoy</p>
+      <a href="/">
+        <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
+      </a>
     </Col>
     <Col md="6" className="flex-row" >
       { !onlyLogin &&

@@ -22,7 +22,9 @@ export default class AdminBar extends React.Component {
     return (
       <Row style={style.header} >
         <Col md="6">
-          <p >Mi auto Hoy</p>
+          <a href="/">
+            <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
+          </a>
         </Col>
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle caret>
