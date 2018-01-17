@@ -8,8 +8,10 @@ const isUserLogged = () => {
   return false;
 };
 const getUserDataFromToken = () => {
-  if (loadState().login.MAHtoken) {
-    return decode(loadState().login.MAHtoken);
+  if (loadState()) {
+    if (loadState().login.MAHtoken) {
+      return decode(loadState().login.MAHtoken);
+    }
   }
   return false;
 };
