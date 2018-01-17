@@ -12,7 +12,7 @@ const CardMessagge = () => (
           <h6><b>Fiat Punto Attractive</b> 1.6, 2016 - 40239km</h6>
           <h4>$ 260000</h4>
         </div>
-        <Button type="secondary">Responder</Button>
+        <Button type="secondary" href="/inbox" >Responder</Button>
       </div>
     </div>
     <style jsx>{

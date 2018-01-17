@@ -10,13 +10,13 @@ import Message from '../../stories/Message';
 
 import style from '../../Styles/pledgeCredits';
 
-const AgencyMessage = () => (
+const Inbox = ({ userType }) => (
   <div>
     <AdminBar />
 
     <Row>
       <Col md="6">
-        <Button type="secondary">{'< Volver a Bandeja de Entrada'}</Button>
+        <Button type="secondary" >{'< Volver a Bandeja de Entrada'}</Button>
         <div className="d-flex flex-row">
           <img src="http://placecage.com/c/230/150" alt="banner" />
           <div className="d-flex flex-column">
@@ -38,4 +38,4 @@ const AgencyMessage = () => (
   </div>
 );
 
-export default AgencyMessage;
+export default Inbox;

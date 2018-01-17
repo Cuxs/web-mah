@@ -10,7 +10,6 @@ import Home from './Components/Home';
 import AgencyAdmin from './Components/AgencyAdmin';
 import AgencyPublications from './Components/AgencyPublications';
 import AgencyInbox from './Components/AgencyInbox';
-import AgencyMessage from './Components/AgencyMessage';
 import AgencyProfile from './Components/AgencyProfile';
 import AgencyMicrosite from './Components/AgencyMicrosite';
 import AgencyRegister from './Components/AgencyRegister';
@@ -24,6 +23,8 @@ import CreatePublicationStepOne from './Components/CreatePublication/StepOne';
 import CreatePublicationStepTwo from './Components/CreatePublication/StepTwo';
 import CreatePublicationStepThree from './Components/CreatePublication/StepThree';
 import FreeDestinationCredits from './Components/FreeDestinationCredits';
+import FriendlyAgency from './Components/FriendlyAgency';
+import Inbox from './Components/Inbox';
 import Microsite from './Components/Microsite';
 import PledgeCredits from './Components/PledgeCredits';
 import PersonalShopper from './Components/PersonalShopper';
@@ -100,7 +101,6 @@ const App = () => (
         <Route exact path="/agencyAdmin" component={AgencyAdmin} />
         <Route exact path="/agencyPublications" component={AgencyPublications} />
         <Route exact path="/agencyInbox" component={AgencyInbox} />
-        <Route exact path="/agencyMessage" component={AgencyMessage} />
         <Route exact path="/agencyProfile" component={AgencyProfile} />
         <Route exact path="/agencyMicrosite" component={AgencyMicrosite} />
         <Route exact path="/agencyRegister" component={AgencyRegister} />
@@ -113,6 +113,8 @@ const App = () => (
         <Route exact path="/createPublicationS2" component={CreatePublicationStepTwo} />
         <Route exact path="/createPublicationS3" component={CreatePublicationStepThree} />
         <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
+        <Route exact path="/friendlyAgency" component={FriendlyAgency} />
+        <Route exact path="/inbox" component={Inbox} />
         <Route exact path="/microsite" component={Microsite} />
         <Route exact path="/pledgeCredits" component={PledgeCredits} />
         <Route exact path="/personalShopperS1" component={PersonalShopper} />

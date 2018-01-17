@@ -192,8 +192,8 @@ class SearchBar extends Component {
           </Row>
         </Col>
         <Col md="6" className="flex-row-reverse">
-          <Button color="primary"> Solicitá tu crédito</Button>
-          <Button color="secondary"> Ver Consecionarias</Button>
+          <Button color="primary" href="/pledgeCredits" > Solicitá tu crédito</Button>
+          <Button color="secondary" href="/friendlyAgency" > Ver Consecionarias</Button>
           {this.state.isUserLogged ? (
             <span>
               <span>{getUserDataFromToken().name}</span>
@@ -213,15 +213,15 @@ class SearchBar extends Component {
                     <h4>¡Publica ya!</h4>
                     <h6>1 Publicación Gratis</h6>
                   </DropdownItem>
-                  <DropdownItem value="particular">
+                  <DropdownItem value="particular" href="/userRegister">
                     <h4>Soy Particular. Registrate, es muy fácil</h4>
                     <h6>Publicaciones gratis ilimitadas</h6>
                   </DropdownItem>
-                  <DropdownItem value="agency">
+                  <DropdownItem value="agency" href="/agencyRegister">
                     <h4>Soy un Concesionario. Registrate y vende más</h4>
                     <h6>Publicaciones gratis ilimitadas</h6>
                   </DropdownItem>
-                  <DropdownItem value="particular">
+                  <DropdownItem value="particular" onClick={() => this.toggleModal()}>
                     <h4>Ya tengo cuenta</h4>
                   </DropdownItem>
                 </DropdownMenu>

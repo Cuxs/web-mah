@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Button, FormGroup, Input, Label } from 'reactstrap';
+import { Col, Row, Button, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import { parse } from 'query-string';
 
@@ -21,6 +21,7 @@ import socialStyle from '../../Styles/bootstrap-social';
 import { thousands } from '../../Modules/functions';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
+import carDetail from '../../Styles/carDetail';
 
 
 const CarDetail = ({
@@ -96,10 +97,10 @@ const CarDetail = ({
             <h6>
               {carDetailData.Publication.year} - {thousands(carDetailData.Publication.kms, 0, ',', '.')} km
             </h6>
-            <h4>{carDetailData.Publication.group}</h4>
+            <h4>{`${carDetailData.Publication.brand} ${carDetailData.Publication.group}`}</h4>
             <h6>{carDetailData.Publication.modelName}</h6>
             <h4>${thousands(carDetailData.Publication.price, 2, ',', '.')}</h4>
-            <Button color="primary">¡Solicitá tu crédito</Button>
+            <Button color="primary" carDetailData={carDetailData} >¡Solicitá tu crédito</Button>
 
             <div className="container-social">
               <button className="btn btn-social-icon btn-facebook">
@@ -154,6 +155,19 @@ const CarDetail = ({
         </Row>
       )}
     </div>
+    <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+      <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>
+      <ModalBody>
+        <FormGroup>
+          <Label for="exampleEmail">Nombre</Label>
+          <Input type="text" name="name" id="exampleEmail" />
+        </FormGroup>
+        <FormGroup>
+          <Label for="exampleEmail">Email</Label>
+          <Input type="text" name="name" id="exampleEmail" />
+        </FormGroup>
+      </ModalBody>
+    </Modal>
     <Footer />
     <style jsx>{style}</style>
     <style jsx>{socialStyle}</style>
