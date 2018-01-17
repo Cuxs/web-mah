@@ -41,7 +41,7 @@ class AgencyMicrosite extends Component {
   render() {
     return (
       <div>
-        <AdminBar />
+        <AdminBar history={this.props.history} />
     
         <Row>
           <Col md="3">

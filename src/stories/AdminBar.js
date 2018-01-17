@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
 import style from '../Styles/search';
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -22,9 +22,9 @@ export default class AdminBar extends React.Component {
     return (
       <Row style={style.header} >
         <Col md="6">
-          <a href="/">
+          <Button onClick={() => this.props.history.push('/')} >
             <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
-          </a>
+          </Button>
         </Col>
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle caret>

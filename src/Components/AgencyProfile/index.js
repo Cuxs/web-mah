@@ -13,7 +13,7 @@ import style from '../../Styles/pledgeCredits';
 
 const AgencyProfile = () => (
   <div>
-    <AdminBar />
+    <AdminBar history={this.props.history} />
 
     <Row>
       <Col md="3">

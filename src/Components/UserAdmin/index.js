@@ -39,7 +39,7 @@ class AgencyAdmin extends React.Component {
     ];
     return (
       <div>
-        <AdminBar />
+        <AdminBar history={this.props.history} />
     
         <Row>
           <Col md="3">
