@@ -102,4 +102,21 @@ const CarSpecs = gql`query Specifications($id: Int!) {
   }
 }
 `;
-export { CarDetailQuery, CarSpecs };
+const CommentThreadQuery = gql`
+query CommentThread($publication_id: Int, $user_id: Int, $chatToken: String) {
+  CommentThread(publication_id: $publication_id, user_id: $user_id, chatToken: $chatToken) {
+    id
+    chatToken
+    messages {
+      id
+      content
+      from_id
+      User {
+        name
+      }
+    }
+  }
+}
+`;
+
+export { CarDetailQuery, CarSpecs, CommentThreadQuery };
