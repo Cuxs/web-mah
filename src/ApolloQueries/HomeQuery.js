@@ -1,9 +1,9 @@
-import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const HomeQuery = graphql(gql`
-{AllPublications(stateName:"Activas", limit: 12){
-  CurrentState{
+const HomeQuery = gql`
+query AllPublications($user_id: Int, $stateName: String, $limit:Int, $order:String){
+  AllPublications(user_id: $user_id, stateName:$stateName, limit:$limit, order:$order){
+     CurrentState{
     stateName
   }
     ImageGroup{
@@ -19,6 +19,7 @@ const HomeQuery = graphql(gql`
     year
     carState
     kms  
-  }}
-`);
+  }
+}
+`;
 export default HomeQuery;

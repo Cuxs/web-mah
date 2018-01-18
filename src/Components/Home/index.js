@@ -3,6 +3,7 @@
 
 import React from 'react';
 import _ from 'lodash';
+import { graphql } from 'react-apollo';
 
 import HomeQuery from '../../ApolloQueries/HomeQuery';
 import CarHomeContainer from '../../stories/CarHomeContainer';
@@ -47,5 +48,10 @@ const Home = ({ data, history, location }) => (
       }
   </div>
 );
-
-export default HomeQuery(Home);
+const options = {
+  variables: {
+    limit: 12,
+    stateName: 'Activas',
+  },
+};
+export default graphql(HomeQuery, { options })(Home);
