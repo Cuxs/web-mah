@@ -13,6 +13,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import { getUserToken } from './Modules/sessionFunctions';
 
 const cache = new InMemoryCache({
   cacheResolvers: {
@@ -32,6 +33,7 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     noServer: true,
+    authToken: `Bearer ${getUserToken()}`,
   },
 });
 

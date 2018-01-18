@@ -3,12 +3,17 @@
 
 import React from 'react';
 import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button, Label } from 'reactstrap';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { graphql, compose } from 'react-apollo';
+import { split } from 'split-object';
 
 import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
 
 import style from '../../Styles/pledgeCredits';
+import { SoldPublicationsQuery } from '../../ApolloQueries/AdminHomeQuery';
+import { getUserToken } from '../../Modules/sessionFunctions';
+import { getSoldPublications } from '../../Modules/fetches';
 
 
 class UserAdmin extends React.Component {
@@ -16,9 +21,22 @@ class UserAdmin extends React.Component {
     super(props);
     this.state = {
       modal: false,
+      graphData: [],
     };
 
     this.toggle = this.toggle.bind(this);
+  }
+  componentWillMount() {
+    getSoldPublications().then((resp) => {
+      const data = [];
+      split(resp.data).map((obj) => {
+        data.push({
+          date: obj.key,
+          ventas: obj.value,
+        });
+      });
+      this.setState({ graphData: data });
+    });
   }
 
   toggle() {
@@ -28,15 +46,6 @@ class UserAdmin extends React.Component {
   }
 
   render() {
-    const data = [
-      { name: 'Nov 1', autos: 2 },
-      { name: 'Nov 15', autos: 4 },
-      { name: 'Dic 1', autos: 3 },
-      { name: 'Dic 15', autos: 5 },
-      { name: 'Ene 1', autos: 5 },
-      { name: 'Ene 15', autos: 7 },
-      { name: 'Feb 1', autos: 6 },
-    ];
     const { history, location } = this.props;
     return (
       <div>
@@ -52,16 +61,17 @@ class UserAdmin extends React.Component {
                 <LineChart
                   width={600}
                   height={300}
-                  data={data}
+                  data={this.state.graphData}
                   margin={{
                   top: 5, right: 20, bottom: 5, left: 0,
                   }}
                 >
                   <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                  <XAxis dataKey="name" />
+                  <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="autos" stroke="blue" />
+                  <Legend />
+                  <Line type="monotone" dataKey="ventas" stroke="blue" />
                 </LineChart>
               </Col>
               <Col md="4">
@@ -111,4 +121,13 @@ class UserAdmin extends React.Component {
   }
 }
 
+/* const options = () => ({
+  variables: {
+    MAHtoken: getUserToken(),
+  },
+});
+
+const withSoldData = graphql(SoldPublicationsQuery, { name: 'soldData', options });
+const withData = compose(withSoldData);
+ */
 export default UserAdmin;

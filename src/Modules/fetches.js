@@ -5,7 +5,7 @@ import { loadState } from './localStorage';
 let token = '';
 
 if (loadState()) {
-  token = `Bearer ${loadState().login.token}`;
+  token = `Bearer ${loadState().login.MAHtoken}`;
 }
 
 // Account --------------------
@@ -68,7 +68,6 @@ export const updatePassword = (data) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-
 export const getFiltersAndTotalResult = (search) => {
   const url = `${server}/getFiltersAndTotalResult`;
   const options = {
@@ -87,4 +86,19 @@ export const getFiltersAndTotalResult = (search) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-
+export const getSoldPublications = () => {
+  const url = `${server}/getSoldPublications`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};

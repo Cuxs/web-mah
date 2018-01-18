@@ -18,5 +18,6 @@ const getUserDataFromToken = () => {
 const clearSession = () => {
   localStorage.clear();
 };
-export { isUserLogged, getUserDataFromToken, clearSession };
+const getUserToken = () => loadState().login.MAHtoken || false;
+export { isUserLogged, getUserDataFromToken, clearSession, getUserToken };
 
