@@ -3,14 +3,14 @@ import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
 export default ({
-  numberOfResults, location, history, text, carState, actualPage,
+  numberOfResults, location, history, actualPage,
 }) => {
   const page = parseInt(actualPage, 10);
   const numberOfPages = Math.round(numberOfResults / 9);
   const pages = [];
   for (let i = 1; i <= numberOfPages; i += 1) {
     pages.push(<PaginationItem style={{ cursor: 'pointer' }}>
-      <PaginationLink onClick={() => history.push(`${location.pathname}?text=${text}&carState=${carState}&page=${i}`)}>
+      <PaginationLink onClick={() => history.push(`${location.pathname}?page=${i}`)}>
         {i}
       </PaginationLink>
     </PaginationItem>);
@@ -19,11 +19,11 @@ export default ({
   return (
     <Pagination>
       <PaginationItem disabled={page === 1} style={{ cursor: 'pointer' }}>
-        <PaginationLink previous onClick={() => history.push(`${location.pathname}?text=${text}&carState=${carState}&page=${page - 1}`)} />
+        <PaginationLink previous onClick={() => history.push(`${location.pathname}?page=${page - 1}`)} />
       </PaginationItem >
       {pages}
       <PaginationItem disabled={page === numberOfPages} style={{ cursor: 'pointer' }}>
-        <PaginationLink next onClick={() => history.push(`${location.pathname}?text=${text}&carState=${carState}&page=${page + 1}`)} />
+        <PaginationLink next onClick={() => history.push(`${location.pathname}?page=${page + 1}`)} />
       </PaginationItem>
     </Pagination>
   );

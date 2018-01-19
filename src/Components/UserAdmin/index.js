@@ -45,6 +45,12 @@ class UserAdmin extends React.Component {
   componentWillMount() {
     this.getGraphData();
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.pathName !== this.props.location.pathName) {
+      this.getGraphData();
+    }
+    return true;
+  }
   getGraphData() {
     getSoldPublications().then((resp) => {
       const data = [];
@@ -56,12 +62,6 @@ class UserAdmin extends React.Component {
       });
       this.setState({ graphData: data });
     });
-  }
-  componentWillRecieveProps(nextProps) {
-    if (nextProps.location.pathName !== this.props.location.pathName) {
-      this.getGraphData();
-    }
-    return true;
   }
 
   toggle() {

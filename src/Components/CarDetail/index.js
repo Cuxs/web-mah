@@ -136,6 +136,9 @@ class CarDetail extends Component {
                 <button className="btn btn-social-icon btn-twitter">
                   <span className="fa fa-twitter" />
                 </button>
+                <button className="btn btn-social-icon btn-instagram">
+                  <span className="fa fa-instagram" />
+                </button>
                 <button className="btn btn-social-icon btn-google">
                   <span className="fa fa-google" />
                 </button>
@@ -191,7 +194,6 @@ class CarDetail extends Component {
         <Footer />
         <style jsx>{style}</style>
         <style jsx>{socialStyle}</style>
-        {console.log(this.props)}
       </div>
     );
   }

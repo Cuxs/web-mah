@@ -1,28 +1,42 @@
 import React from 'react';
 import { Button } from 'reactstrap';
-/* eslint react/jsx-filename-extension: 0 */
 
-const CardPublication = ({ onHighlight }) => (
+import photoGaleryParser from '../Modules/photoGaleryParser';
+import { thousands } from '../Modules/functions';
+
+/* eslint react/jsx-filename-extension: 0 */
+const isPubVisible = (stateName) => {
+  if (stateName === 'Publicada' || stateName === 'Destacada' || stateName === 'Vendida' || stateName === 'Apto para garantía') {
+    return true;
+  }
+  return false;
+};
+const isPubEditable = (stateName) => {
+  if (stateName === 'Publicada' || stateName === 'Destacada' || stateName === 'Apto para garantía') {
+    return true;
+  }
+  return false;
+};
+const CardPublication = ({ onHighlight, data, data: { CurrentState: { stateName } } }) => (
   <div className="d-flex flex-row card" >
-    <img src="http://placecage.com/c/230/150" alt="banner" />
+    <img src={photoGaleryParser(data.ImageGroup)[0].src} alt="banner" />
     <div className="info-container">
       <div className="d-flex flex-row justify-content-between" >
-        <h4>Fiat Palio Weekend</h4>
-        <h4>Publicado</h4>
+        <h4>{data.brand} {data.group}</h4>
+        <h4>{stateName}</h4>
       </div>
-      <h5>1.8 Adventure Locker Pack Xtreme</h5>
-      <h4>$260.000</h4>
-      <h5>2014 - 42018km</h5>
+      <h5>{data.model}</h5>
+      <h4>${thousands(data.price, 2, ',', '.')}</h4>
+      <h5>{data.year} - {thousands(data.kms, 0, ',', '.')}km</h5>
       <div className="d-flex flex-column align-items-end" >
-        <h6>Publicación visible</h6>
-        <h6>hasta el 30/02/2018</h6>
+        <h6>Publicación {!isPubVisible(stateName) && 'no'} visible</h6>
       </div>
       <div className="underline" />
       <div className="d-flex flex-row justify-content-between" >
-        <Button>Marcar como Vendido</Button>
+        {stateName !== 'Vendida' && <Button>Marcar como Vendido</Button>}
         <div>
-          <Button type="secondary" onClick={() => onHighlight()} >Destacar</Button>
-          <Button type="secondary">Editar</Button>
+          {isPubVisible(stateName) && stateName !== 'Destacada' && <Button type="secondary" onClick={() => onHighlight()} >Destacar</Button>}
+          {isPubEditable(stateName) && <Button type="secondary">Editar</Button>}
 
         </div>
       </div>

@@ -127,7 +127,7 @@ class SearchCars extends Component {
               <Row>
                 <Col md="4" />
                 <Col md="4" >
-                  <Pagination numberOfResults={this.state.totalResults} history={history} text={text} carState={carState} actualPage={page} />
+                  <Pagination numberOfResults={this.state.totalResults} location={location} history={history} text={text} carState={carState} actualPage={page} />
                 </Col>
                 <Col md="4" />
               </Row>
