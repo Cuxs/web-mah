@@ -3,13 +3,13 @@
 
 import React from 'react';
 import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap';
+import { graphql, compose } from 'react-apollo';
 
 import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
-
-
+import { UserDetailQuery } from '../../ApolloQueries/UserProfileQuery';
+import { getUserDataFromToken } from '../../Modules/sessionFunctions';
 import style from '../../Styles/pledgeCredits';
-
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -20,7 +20,9 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    const { history, location } = this.props;
+    const {
+      history, location, userProfile, userProfile: { User },
+    } = this.props;
     return (
       <div>
         <AdminBar history={history} />
@@ -31,19 +33,18 @@ class UserProfile extends React.Component {
           </Col>
           <Col md="9">
             <Row>
+              {!userProfile.loading &&
               <Col md="5">
                 <h6><b>NOMBRE Y APELLIDO</b></h6>
-                <h4>Rodrigo Valles</h4>
-                <h6><b>DNI</b></h6>
-                <h4>33987654</h4>
+                <h4>{User.name || 'No especificado'}</h4>
                 <h6><b>DOMICILIO</b></h6>
-                <h4>Palero 20, Ciudad, Mendoza.</h4>
+                <h4>{User.address || 'No especificado'}</h4>
                 <h6><b>EMAIL DE CONTACTO</b></h6>
-                <h4>rodrigo@gmail.com</h4>
+                <h4>{User.email}</h4>
                 <h6><b>TELEFONO DE CONTACTO</b></h6>
-                <h4>261-5951833</h4>
+                <h4>{User.phone || 'No especificado'}</h4>
                 <Button type="secondary">Modificar</Button>
-              </Col>
+              </Col>}
               <Col md="5">
                 <h6><b>¿Quieres cambiar la contraseña?</b></h6>
                 <FormGroup>
@@ -69,4 +70,13 @@ class UserProfile extends React.Component {
   }
 }
 
-export default UserProfile;
+const options = () => ({
+  variables: {
+    id: getUserDataFromToken().id,
+  },
+});
+
+const withUserData = graphql(UserDetailQuery, { name: 'userProfile', options });
+const withData = compose(withUserData);
+
+export default withData(UserProfile);

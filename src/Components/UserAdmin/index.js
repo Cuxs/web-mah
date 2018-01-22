@@ -28,8 +28,13 @@ import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
 
 import style from '../../Styles/pledgeCredits';
-import { CountUnreadMessagesQuery, CountActivePublications } from '../../ApolloQueries/AdminHomeQuery';
-import { getUserToken, getUserDataFromToken } from '../../Modules/sessionFunctions';
+import {
+  CountUnreadMessagesQuery,
+  CountActivePublications,
+} from '../../ApolloQueries/AdminHomeQuery';
+import {
+  getUserToken,
+} from '../../Modules/sessionFunctions';
 import { getSoldPublications } from '../../Modules/fetches';
 
 class UserAdmin extends React.Component {
@@ -46,7 +51,7 @@ class UserAdmin extends React.Component {
     this.getGraphData();
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathName !== this.props.location.pathName) {
+    if (nextProps.unreadMessages.loading === false) {
       this.getGraphData();
     }
     return true;
@@ -111,10 +116,12 @@ class UserAdmin extends React.Component {
                   onClick={() => history.push('/userInbox')}
                   className="d-flex flex-row"
                 >
-                  <div className="d-flex flex-column">
-                    {!unreadMessages.loading && <h4>{CountUnreadMessages[0]}</h4>}
-                    <h6>Nuevos Mensajes</h6>
-                  </div>
+                  {!unreadMessages.loading && (
+                    <div className="d-flex flex-column">
+                      <h4>{CountUnreadMessages[0]}</h4>
+                      <h6>Nuevos Mensajes</h6>
+                    </div>
+                  )}
                   <div className="container-icon">
                     <span className="fa fa-commenting" />
                   </div>
@@ -123,10 +130,12 @@ class UserAdmin extends React.Component {
                   onClick={() => history.push('/userPublications')}
                   className="d-flex flex-row"
                 >
-                  <div className="d-flex flex-column">
-                    {!activePub.loading && <h4>{AllPublications.length}</h4>}
-                    <h6>Publicaciones activas</h6>
-                  </div>
+                  {!activePub.loading && (
+                    <div className="d-flex flex-column">
+                      <h4>{AllPublications.length}</h4>
+                      <h6>Publicaciones activas</h6>
+                    </div>
+                  )}
                   <div className="container-icon">
                     <span className="fa fa-car" />
                   </div>
@@ -135,10 +144,16 @@ class UserAdmin extends React.Component {
                   onClick={() => history.push('/userPublications')}
                   className="d-flex flex-row"
                 >
-                  <div className="d-flex flex-column">
-                    {!activePub.loading && <h4>{AllPublications.filter(pub => pub.CurrentState.stateName === 'Destacada').length}</h4>}
-                    <h6>Destacados</h6>
-                  </div>
+                  {!activePub.loading && (
+                    <div className="d-flex flex-column">
+                      <h4>
+                        {
+                          AllPublications.filter(pub => pub.CurrentState.stateName === 'Destacada').length
+                        }
+                      </h4>
+                      <h6>Destacados</h6>
+                    </div>
+                  )}
                   <div className="container-icon">
                     <span className="fa fa-star-o" />
                   </div>
@@ -172,13 +187,18 @@ class UserAdmin extends React.Component {
 const options = () => ({
   variables: {
     MAHtoken: getUserToken(),
-    user_id: getUserDataFromToken().id,
-    stateName: 'Activas',
+    state: 'Activas',
   },
 });
 
-const withUnreadMessagesData = graphql(CountUnreadMessagesQuery, { name: 'unreadMessages', options });
-const withActivePublicationsCount = graphql(CountActivePublications, { name: 'activePub', options });
+const withUnreadMessagesData = graphql(CountUnreadMessagesQuery, {
+  name: 'unreadMessages',
+  options,
+});
+const withActivePublicationsCount = graphql(CountActivePublications, {
+  name: 'activePub',
+  options,
+});
 const withData = compose(withUnreadMessagesData, withActivePublicationsCount);
 
 export default withData(UserAdmin);

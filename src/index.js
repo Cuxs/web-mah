@@ -15,13 +15,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { getUserToken } from './Modules/sessionFunctions';
 
-const cache = new InMemoryCache({
-  cacheResolvers: {
-    Query: {
-      Publication: (_, { id }) => toIdValue(cache.config.dataIdFromObject({ __typename: 'AllPublications', id }) || cache.config.dataIdFromObject({ __typename: 'SearchPublication', id })),
-    },
-  },
-});
+const cache = new InMemoryCache();
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -33,7 +27,6 @@ const wsLink = new WebSocketLink({
   options: {
     reconnect: true,
     noServer: true,
-    authToken: `Bearer ${getUserToken()}`,
   },
 });
 

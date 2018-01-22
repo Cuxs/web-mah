@@ -1,3 +1,4 @@
+
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
@@ -19,7 +20,6 @@ import CarResult from '../../stories/CarResult';
 import SearchBar from '../../stories/SearchBar';
 import TopTopNav from '../../stories/TopTopNav';
 import NumberOfResult from '../../stories/NumberOfResult';
-import Pagination from '../../stories/Pagination';
 import Banner from '../../stories/Banner';
 import HeaderAgency from '../../stories/HeaderAgency';
 
@@ -133,13 +133,6 @@ class SearchCars extends Component {
             <Col md="9" sm="12">
               {this.renderData()}
               <br />
-              <Row>
-                <Col md="4" />
-                <Col md="4" >
-                  <Pagination numberOfResults={this.state.totalResults} history={history} text={text} carState={carState} actualPage={page} />
-                </Col>
-                <Col md="4" />
-              </Row>
             </Col>
           </Row>
 

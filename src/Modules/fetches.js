@@ -49,6 +49,9 @@ export const recoverPassword = (email) => {
         : responseData));
 };
 export const updatePassword = (data) => {
+  if (loadState()) {
+    token = `Bearer ${loadState().login.MAHtoken}`;
+  }
   const url = `${server}/updatePassword`;
   const options = {
     method: 'POST',
@@ -87,6 +90,9 @@ export const getFiltersAndTotalResult = (search) => {
         : responseData));
 };
 export const getSoldPublications = () => {
+  if (loadState()) {
+    token = `Bearer ${loadState().login.MAHtoken}`;
+  }
   const url = `${server}/getSoldPublications`;
   const options = {
     method: 'GET',

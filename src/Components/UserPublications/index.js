@@ -5,16 +5,17 @@ import React from 'react';
 import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import qs from 'query-string';
 import { graphql, compose } from 'react-apollo';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import AdminBar from '../../stories/AdminBar';
-import PaginationAdmin from '../../stories/PaginationAdmin';
 import UserSideBar from '../../stories/UserSideBar';
 import AdminFilter from '../../stories/AdminFilter';
 import CardPublication from '../../stories/CardPublication';
 import { getUserToken, getUserDataFromToken } from '../../Modules/sessionFunctions';
-import { CountActivePublications, GetPublicationData } from '../../ApolloQueries/AdminHomeQuery';
+import SearchUserPublicationQuery from '../../ApolloQueries/UserPublicationsQuery';
 
 import style from '../../Styles/pledgeCredits';
+import { hasError } from 'apollo-client/core/ObservableQuery';
 
 
 class UserPublications extends React.Component {
@@ -22,88 +23,152 @@ class UserPublications extends React.Component {
     super(props);
     this.state = {
       modal: false,
-      data: [],
+      publications: [],
+      totalCount: 0,
+      hasNextPage: false,
+      renderedData: 0,
     };
 
+    this.doSearch = this.doSearch.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
-
+  componentWillMount() {
+    this.props.PubsPerPage()
+      .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
+        const existingPubs = this.state.publications;
+        Publications.map((pub) => {
+          existingPubs.push(pub);
+        });
+        this.setState({
+          publications: existingPubs,
+          hasNextPage,
+          totalCount,
+          loading: false,
+          renderedData: this.state.renderedData + Publications.length,
+        });
+      })
+      .catch(err => console.log(err));
+  }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathName !== this.props.location.pathName) {
-      this.props.PubsPerPage.refetch({
-        MAHtoken: getUserToken(),
-        user_id: getUserDataFromToken().id,
-        stateName: 'Activas',
-        page: qs.parse(nextProps.location.search).page,
-      });
+    if (nextProps.location.search !== this.props.location.search) {
+      this.doSearch(1, true, nextProps);
     }
-    return true;
+  }
+  doSearch(page, newSearch, nextProps) {
+    let location;
+    if (nextProps) { location = nextProps.location; } else {
+      location = this.props.location;
+    }
+    this.props.PubsPerPage({
+      variables: {
+        MAHtoken: getUserToken(),
+        state: qs.parse(location.search).stateName,
+        carState: qs.parse(location.search).carState,
+        page,
+        order: qs.parse(location.search).orderBy,
+      },
+    })
+      .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
+        const existingPubs = this.state.publications;
+        Publications.map((pub) => {
+          existingPubs.push(pub);
+        });
+        if (newSearch) {
+          this.setState({
+            publications: Publications,
+            hasNextPage,
+            totalCount,
+            loading: false,
+            renderedData: this.state.renderedData + Publications.length,
+          });
+        } else {
+          this.setState({
+            publications: existingPubs,
+            hasNextPage,
+            totalCount,
+            loading: false,
+            renderedData: this.state.renderedData + Publications.length,
+          });
+        }
+      });
   }
   toggle() {
     this.setState({
       modal: !this.state.modal,
     });
   }
+  renderData() {
+    const {
+      hasNextPage,
+    } = this.state;
+
+    if (hasNextPage === false) {
+      return <p>No hay más publicaciones que mostrar</p>;
+    }
+    if (this.state.loading) {
+      return <p>Cargando...</p>;
+    }
+    const {
+      publications, totalCount,
+    } = this.state;
+    if (totalCount === 0) {
+      return 'No hay resultados, pruebe con otros filtros';
+    }
+    const items = [];
+    publications.map(pub => (
+      items.push(<CardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
+    return items;
+  }
   render() {
     const {
-      history, location, activePubs: { AllPublications, loading }, PubsPerPage, PubsPerPage: { AllPublications: Publications },
+      history, location,
     } = this.props;
-    const { page } = qs.parse(this.props.location.search);
-    return (
-      <div>
-        <AdminBar history={history} />
-
-        <Row>
-          <Col md="3">
-            <UserSideBar history={history} location={location} />
-          </Col>
-          <Col md="9">
-            <AdminFilter />
-            {!PubsPerPage.loading &&
-            <span>
-              {Publications.map(pub => (
-                <CardPublication data={pub} onHighlight={() => this.toggle()} />
-              ))}
-            </span>
-          }
-            {!loading && <PaginationAdmin numberOfResults={AllPublications.length} history={history} location={location} actualPage={page} />}
-
-          </Col>
-        </Row>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
-          <ModalBody>
+    return (<div>
+      <AdminBar history={history} />
+      <Row>
+        <Col md="3">
+          <UserSideBar history={history} location={location} />
+        </Col>
+        <Col md="9">
+          <AdminFilter history={history} location={location} />
+          <InfiniteScroll
+            pageStart={1}
+            loadMore={this.doSearch}
+            hasMore={this.state.renderedData < this.state.totalCount}
+            loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+          >
+            {this.renderData()}
+          </InfiniteScroll>
+        </Col>
+      </Row>
+      <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
+        <ModalBody>
             El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={() => this.toggle()}>OK</Button>
-          </ModalFooter>
-        </Modal>
-        <style jsx>{style}</style>
-      </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => this.toggle()}>OK</Button>
+        </ModalFooter>
+      </Modal>
+      <style jsx>{style}</style>
+    </div>
     );
   }
 }
-const options = () => ({
+const options = ({ location }) => ({
   variables: {
     MAHtoken: getUserToken(),
-    user_id: getUserDataFromToken().id,
-    stateName: 'Activas',
+    state: qs.parse(location.search).stateName,
+    carState: qs.parse(location.search).carState,
+    page: 1,
+    order: qs.parse(location.search).orderBy,
   },
 });
-const withActivePublicationsCount = graphql(CountActivePublications, { name: 'activePubs', options });
-const withPublicationsPerPage = graphql(GetPublicationData, {
+const withPublicationsPerPage = graphql(SearchUserPublicationQuery, {
   name: 'PubsPerPage',
-  options: ({ location }) => ({
-    variables: {
-      MAHtoken: getUserToken(),
-      user_id: getUserDataFromToken().id,
-      stateName: 'Activas',
-      page: qs.parse(location.search).page,
-    },
-  }),
+  options,
 });
-const withData = compose(withActivePublicationsCount, withPublicationsPerPage);
+const withData = compose(withPublicationsPerPage);
 
 export default withData(UserPublications);
