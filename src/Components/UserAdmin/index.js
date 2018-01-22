@@ -116,7 +116,7 @@ class UserAdmin extends React.Component {
                   onClick={() => history.push('/userInbox')}
                   className="d-flex flex-row"
                 >
-                  {!unreadMessages.loading && (
+                  {unreadMessages.loading ? <img style={{ height: '70px' }} src="/loading.gif" key={0} alt="Loading..." /> : (
                     <div className="d-flex flex-column">
                       <h4>{CountUnreadMessages[0]}</h4>
                       <h6>Nuevos Mensajes</h6>
@@ -130,7 +130,7 @@ class UserAdmin extends React.Component {
                   onClick={() => history.push('/userPublications')}
                   className="d-flex flex-row"
                 >
-                  {!activePub.loading && (
+                  {activePub.loading ? <img style={{ height: '70px' }} src="/loading.gif" key={0} alt="Loading..." /> : (
                     <div className="d-flex flex-column">
                       <h4>{AllPublications.length}</h4>
                       <h6>Publicaciones activas</h6>
@@ -144,7 +144,7 @@ class UserAdmin extends React.Component {
                   onClick={() => history.push('/userPublications')}
                   className="d-flex flex-row"
                 >
-                  {!activePub.loading && (
+                  {activePub.loading ? <img style={{ height: '70px' }} src="/loading.gif" key={0} alt="Loading..." /> : (
                     <div className="d-flex flex-column">
                       <h4>
                         {
