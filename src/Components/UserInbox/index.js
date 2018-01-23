@@ -21,7 +21,6 @@ const UserInbox = ({ history, location }) => (
         <UserSideBar history={history} location={location} />
       </Col>
       <Col md="9">
-        <AdminFilter />
         <CardMessagge />
         <CardMessagge />
         <CardMessagge />

@@ -11,11 +11,11 @@ import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
 import AdminFilter from '../../stories/AdminFilter';
 import CardPublication from '../../stories/CardPublication';
-import { getUserToken, getUserDataFromToken } from '../../Modules/sessionFunctions';
+import NumberOfResult from '../../stories/NumberOfResult';
+import { getUserToken } from '../../Modules/sessionFunctions';
 import SearchUserPublicationQuery from '../../ApolloQueries/UserPublicationsQuery';
 
 import style from '../../Styles/pledgeCredits';
-import { hasError } from 'apollo-client/core/ObservableQuery';
 
 
 class UserPublications extends React.Component {
@@ -66,7 +66,6 @@ class UserPublications extends React.Component {
         state: qs.parse(location.search).stateName,
         carState: qs.parse(location.search).carState,
         page,
-        order: qs.parse(location.search).orderBy,
       },
     })
       .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
@@ -131,6 +130,7 @@ class UserPublications extends React.Component {
           <UserSideBar history={history} location={location} />
         </Col>
         <Col md="9">
+          <NumberOfResult results={this.state.totalCount} />
           <AdminFilter history={history} location={location} />
           <InfiniteScroll
             pageStart={1}
@@ -162,7 +162,6 @@ const options = ({ location }) => ({
     state: qs.parse(location.search).stateName,
     carState: qs.parse(location.search).carState,
     page: 1,
-    order: qs.parse(location.search).orderBy,
   },
 });
 const withPublicationsPerPage = graphql(SearchUserPublicationQuery, {

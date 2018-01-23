@@ -9,11 +9,13 @@ class AdminFilter extends Component {
     this.state = {
       tipoDropdown: false,
       stateDropdown: false,
+
       dropDownTipoValue: parse(props.location.search).carState || 'Tipo',
       dropDownPublicationStateValue: parse(props.location.search).stateName || 'Estado de Publicación',
     };
     this.toggleTipoDropdown = this.toggleTipoDropdown.bind(this);
     this.toggleStateDropdown = this.toggleStateDropdown.bind(this);
+
     this.changeTipoValue = this.changeTipoValue.bind(this);
     this.changeStateValue = this.changeStateValue.bind(this);
   }
@@ -61,14 +63,6 @@ class AdminFilter extends Component {
             <DropdownItem onClick={e => this.changeTipoValue(e)}>Nuevo</DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        {/*
-          onMouseUp={() => history.push(`${pathname}?${search}&carState=Usado`)}
-
-          value="Nuevo"
-          onMouseUp={() => history.push(`${pathname}${search}&carState=Nuevo`)}
-
-    </FormGroup> */}
-
         <Dropdown size="sm" isOpen={this.state.stateDropdown} toggle={this.toggleStateDropdown}>
           <DropdownToggle caret>
             {this.state.dropDownPublicationStateValue}
@@ -87,16 +81,19 @@ class AdminFilter extends Component {
           </DropdownMenu>
         </Dropdown>
 
-        <h4>Ordenar por</h4>
-        <FormGroup>
-          <Input type="select" name="select" id="exampleSelect">
-            <option>Fecha última publicación</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Input>
-        </FormGroup>
+        {/*   <h4>Ordenar por</h4>
+        <Dropdown size="sm" isOpen={this.state.orderByDropdown} toggle={this.toggleOrderDropdown}>
+          <DropdownToggle caret>
+            {this.state.dropDownOrderByValue}
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem header>Elije una</DropdownItem>
+            <DropdownItem onClick={e => this.changeOrderValue(e)}>Mas antiguas primero</DropdownItem>
+            <DropdownItem onClick={e => this.changeOrderValue(e)}>Mas nuevas primero</DropdownItem>
+            <DropdownItem onClick={e => this.changeOrderValue(e)}>Ultimas actualizadas primero</DropdownItem>
+            <DropdownItem onClick={e => this.changeOrderValue(e)}>Primeras actualizadas primero</DropdownItem>
+          </DropdownMenu>
+        </Dropdown> */}
       </div>
     );
   }
