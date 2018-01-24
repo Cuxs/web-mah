@@ -47,11 +47,11 @@ export default class CarResult extends Component {
     const state = this.props.data.CurrentState.stateName;
 
     if ((state === 'Destacada')) {
-      return (<p className="important" >Destacado </p>);
+      return (<p className="item-state">DESTACADO</p>);
     }
     if (state === 'Vendida') {
       return (
-        <p className="sold" >Vendido</p>
+        <p lassName="item-state" >VENDIDO</p>
       );
     }
     return true;
@@ -69,29 +69,31 @@ export default class CarResult extends Component {
       </CarouselItem>
     ));
     return (
-      <div>
-        <div className="car-container">
-          <Carousel
-            activeIndex={activeIndex}
-            next={this.next}
-            previous={this.previous}
-          >
-            <CarouselIndicators items={this.props.photoGalery} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-            {slides}
 
-            <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
-            <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-          </Carousel>
-          {this.featuredOrSold()}
+        <div className="item-car">
+          <div className="photos">
+            <Carousel
+              activeIndex={activeIndex}
+              next={this.next}
+              previous={this.previous}
+            >
+              <CarouselIndicators items={this.props.photoGalery} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+              {slides}
 
-          <p>{this.props.data.group}</p>
-          <p>{this.props.data.modelName}</p>
-          <p>{this.props.data.kms}</p>
-          <p>{this.props.data.price}</p>
-          <p>{this.props.data.year}</p>
+              <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
+              <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+            </Carousel>
+            {this.featuredOrSold()}
+          </div>
+          <div className="item-data">
+            <p className="item-category"><span>{this.props.data.group}</span></p>
+            <p className="item-name"><strong>{this.props.data.modelName}</strong></p>
+            <p className="item-description">{this.props.data.kms}</p>
+            <p className="item-price"><strong>${this.props.data.price}</strong></p>
+            <small className="item-year">{this.props.data.year}</small>
+          </div>
         </div>
-        <style jsx>{style}</style>
-      </div>
+
 
     );
   }

@@ -1,0 +1,96 @@
+.header{
+  background-color:$gray-100;
+  padding: 15px 0;
+  width: 100vw;
+
+  //1
+  .react-autosuggest__container{
+    .react-autosuggest__input{
+      @include border-radius(3px);
+      @include placeholder {
+        font:bold #{$font-size-lg}/#{$font-size-lg} $font-family-sans-serif;
+        color:$secondary;
+      }
+      border:solid 1px $gray-200;
+      padding:10px 15px;
+      height: 50px;
+    }
+    .react-autosuggest__suggestions-container--open{
+      @include border-radius(3px);
+      border:solid 1px $gray-200;
+      .react-autosuggest__section-title{
+        font:300 $font-size-sm $font-family-sans-serif;
+      }
+      .react-autosuggest__suggestions-list{
+        li{
+          span{
+            font:$font-size-base $font-family-sans-serif;
+          }
+        }
+      }
+    }
+  }
+
+  //2
+  .btn-group{
+    margin-top:-1px;
+    .btn-select{
+      border:solid 1px $gray-200;
+      padding:10px 30px;
+      height: 50px;
+      font:#{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+      color:$secondary;
+    }
+  }
+
+  //3
+  .btn-icon{
+    padding:10px 15px;
+    height: 50px;
+    @include border-radius(0 3px 3px 0);
+  }
+
+  //3
+  .area-btns{
+    .btn{
+      padding:10px 15px;
+      height: 50px;
+      &.btn-secondary{
+        font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+        text-transform: uppercase;
+        @include border-radius(3px);
+      }
+      &.btn-link{
+        border:none;
+        background:none;
+        font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+        color:$secondary;
+        &-active{
+          border:none;
+          background:none;
+          font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+          color:$primary;
+          border-right: solid 1px $gray-300;
+        }
+      }
+    }
+    .custom-dropdown{
+      left:auto !important;
+      right:0 !important;
+      top:40px !important;
+      transform:tranlate3d(0, 0,0) !important;
+      .dropdown-item{
+        border-bottom:solid 1px $gray-200;
+        padding:0.5rem 1rem;
+        h4{
+          font:$font-size-lg $font-family-sans-serif;
+          color:$secondary;
+        }
+        h6{
+          font:300 $h6-font-size $font-family-sans-serif;
+          color:$gray-600;
+        }
+      }
+    }
+  }
+}

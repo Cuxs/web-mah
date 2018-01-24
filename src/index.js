@@ -10,6 +10,7 @@ import { toIdValue } from 'apollo-utilities';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import './index.css';
+// import 'bootstrap';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 

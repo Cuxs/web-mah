@@ -64,14 +64,14 @@ class SearchBar extends Component {
   render() {
     const { value, suggestions } = this.state;
     const inputProps = {
-      placeholder: 'Busca tu auto',
+      placeholder: '¿Que estás buscando?',
       value,
       onChange: this.onChange,
     };
     return (
       <Row className="header" >
         <Col md="6">
-          <Row >
+          <Row className="align-items-center">
             <Col md="3">
               <a href="/"><img style={{ width: '150px' }} src="/logo.png" alt="Logo" /></a>
             </Col>
@@ -90,34 +90,49 @@ class SearchBar extends Component {
               />
               <style jsx>{autocompleteStyles}</style>
             </Col>
-            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-              <DropdownToggle caret>
-                {this.state.carState}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem value="Nuevo" onClick={e => this.setState({ carState: e.target.value })}>Nuevo</DropdownItem>
-                <DropdownItem value="Usado" onClick={e => this.setState({ carState: e.target.value })}>Usado</DropdownItem>
-              </DropdownMenu>
-            </ButtonDropdown>
-            <Button style={{ cursor: 'pointer' }} className="icon is-small" onClick={() => { this.submitSearch(); }}>
-              <i className="fa fa-search" aria-hidden="true" />
-            </Button>
+            <Col md="4">
+              <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                <DropdownToggle caret color="default" className="btn-select">
+                  {this.state.carState}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem value="Nuevo" onClick={e => this.setState({ carState: e.target.value })}>Nuevo</DropdownItem>
+                  <DropdownItem value="Usado" onClick={e => this.setState({ carState: e.target.value })}>Usado</DropdownItem>
+                </DropdownMenu>
+              </ButtonDropdown>
+              <Button color="primary" className="icon is-small btn-icon" onClick={() => { this.submitSearch(); }}>
+                <img src="/assets/images/icon-search.svg" alt="" />
+              </Button>
+            </Col>
           </Row>
 
         </Col>
         <Col md="6" className="flex-row-reverse" >
-          <Button color="primary"> Solicitá tu crédito</Button>
-          <Button color="secondary"> Ver Consecionarias</Button>
-          <ButtonDropdown isOpen={this.state.dropdownOpenPublicate} toggle={this.togglePublicate}>
-            <DropdownToggle caret>Publicá Gratis</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem value="publicateFree"><h4>¡Publica ya!</h4><h6>1 Publicación Gratis</h6></DropdownItem>
-              <DropdownItem value="particular"><h4>Soy Particular. Registrate, es muy fácil</h4><h6>Publicaciones gratis ilimitadas</h6></DropdownItem>
-              <DropdownItem value="agency"><h4>Soy un Concesionario. Registrate y vende más</h4><h6>Publicaciones gratis ilimitadas</h6></DropdownItem>
-              <DropdownItem value="particular"><h4>Ya tengo cuenta</h4></DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-          <Button color="default" onClick={() => this.toggleModal()} > Iniciá Sesión </Button>
+          <Row className="align-items-center area-btns">
+            <Button color="secondary"> Solicitá tu crédito</Button>
+            <Button className="btn-link"> Ver Consecionarias</Button>
+            <ButtonDropdown isOpen={this.state.dropdownOpenPublicate} toggle={this.togglePublicate}>
+              <DropdownToggle caret className="btn-link-active">Publicá Gratis</DropdownToggle>
+              <DropdownMenu className="custom-dropdown">
+                <DropdownItem value="publicateFree">
+                  <h4>¡Publica ya!</h4>
+                  <h6>1 Publicación Gratis</h6>
+                </DropdownItem>
+                <DropdownItem value="particular">
+                  <h4>Soy Particular. Registrate, es muy fácil</h4>
+                  <h6>Publicaciones gratis ilimitadas</h6>
+                </DropdownItem>
+                <DropdownItem value="agency">
+                  <h4>Soy un Concesionario. Registrate y vende más</h4>
+                  <h6>Publicaciones gratis ilimitadas</h6>
+                </DropdownItem>
+                <DropdownItem value="particular">
+                  <h4>Ya tengo cuenta</h4>
+                </DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
+            <Button color="default" className="btn-link" onClick={() => this.toggleModal()} > Iniciá Sesión </Button>
+          </Row>
         </Col>
         <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
           <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>

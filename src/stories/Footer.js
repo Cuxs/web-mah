@@ -3,15 +3,44 @@ import { Row } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
 export default () => (
-  <Row style={{ backgroundColor: '#BFBFBF', padding: '45px' }} >
-    <div className="col-md-12" >
-      <h4>MI AUTO HOY</h4>
-      <h6>www.miautohoy.com</h6>
-      <h6>Todos los derechos reservados // Copyright 2015/2016</h6>
-      <h6>Mendoza, Argentina</h6>
-      <h6>info@miautohoy.com // Tel. (0260) - 4420183</h6>
-      <h6>* Términos y Condiciones</h6>
+  <footer className="footer">
+    <div className="container-fluid">
+      <Row className="justify-content-center">
+        <div className="col-4" >
+          <h4>MI AUTO HOY</h4>
+          <p>www.miautohoy.com</p>
+          <p>Todos los derechos reservados // Copyright 2015/2016</p>
+          <p>Mendoza, Argentina</p>
+          <p>info@miautohoy.com // Tel. (0260) - 4420183</p>
+          <p>* Términos y Condiciones</p>
+        </div>
+        <div className="col-2" >
+          <ul>
+            <li><a href="">Nuevos</a></li>
+            <li><a href="">Usados</a></li>
+            <li><a href="">Concesionarias</a></li>
+          </ul>
+        </div>
+        <div className="col-2" >
+          <ul>
+            <li><a href="">Créditos prendarios</a></li>
+            <li><a href="">Personal Shopper</a></li>
+            <li><a href="">Créditos libre destino</a></li>
+          </ul>
+        </div>
+        <div className="col-2" >
+          <ul>
+            <li><a href="mailto:contacto@miautohoy.com">contacto@miautohoy.com</a></li>
+            <li><a href="" tel="(0260) – 4420183">Tel. (0260) – 4420183</a></li>
+            <li><a href="" target="_blank">Seguinos en Facebook</a></li>
+          </ul>
+        </div>
+        <div className="col-md-12 text-center">
+          <hr />
+           <p>© Copyright 2015/2016 - Todos los derechos reservados.</p>
+        </div>
+      </Row>
     </div>
-  </Row>
+  </footer>
 );
 

@@ -1,0 +1,19 @@
+
+@import "settings/_variables.scss";
+@import "settings/fonts";
+@import "mixins/placeholder";
+@import "mixins/text-shadow";
+
+
+// Bootstrap and its default variables
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+@import "layout/body";
+@import "components/btn";
+@import "objects/top-nav";
+@import "elements/header";
+@import "elements/footer";
+@import "elements/headings";
+@import "objects/banner-home";
+@import "objects/home-posibilities";
+@import "objects/box-item";
