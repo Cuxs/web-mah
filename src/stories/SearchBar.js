@@ -251,9 +251,8 @@ class SearchBar extends Component {
                   Iniciá Sesión
                 </Button>
               </span>
+          )};
           </Row>
-          )}
-
         </Col>
         <Modal
           isOpen={this.state.modal}
