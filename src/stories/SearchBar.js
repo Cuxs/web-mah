@@ -1,9 +1,39 @@
 import React, { Component } from 'react';
 import Autosuggest from 'react-autosuggest';
-import { Input, Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalBody, ModalHeader, FormGroup, Label } from 'reactstrap';
+import {
+  Input,
+  Col,
+  Row,
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  FormGroup,
+  Label,
+} from 'reactstrap';
 import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
-import { getSuggestions, getSuggestionValue, renderSectionTitle, renderSuggestion, getSectionSuggestions } from '../Modules/autocompleteData';
+import {
+  getSuggestions,
+  getSuggestionValue,
+  renderSectionTitle,
+  renderSuggestion,
+  getSectionSuggestions,
+} from '../Modules/autocompleteData';
+import {
+  isUserLogged,
+  getUserDataFromToken,
+  clearSession,
+} from '../Modules/sessionFunctions';
+import NotificationModal from '../stories/NotificationModal';
+import parseError from '../Modules/errorParser';
+import { login } from '../Modules/fetches';
+import { saveState } from '../Modules/localStorage';
+import errorParser from '../Modules/errorParser';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -12,12 +42,21 @@ class SearchBar extends Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.togglePublicate = this.togglePublicate.bind(this);
+    this.toggleUser = this.toggleUser.bind(this);
     this.state = {
       suggestions: [],
       dropdownOpen: false,
+      dropdownUser: false,
       dropdownOpenPublicate: false,
       modal: false,
-      carState: this.props.carState === undefined ? 'Usado' : this.props.carState,
+      email: '',
+      password: '',
+      showErrorModal: false,
+      errorTitle: '',
+      errorMessage: '',
+      isUserLogged: isUserLogged(),
+      carState:
+        this.props.carState === undefined ? 'Usado' : this.props.carState,
       value: this.props.text === undefined ? '' : this.props.text,
     };
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
@@ -41,8 +80,16 @@ class SearchBar extends Component {
       suggestions: [],
     });
   }
+  isLoginFormIncomplete() {
+    if (this.state.email === '' || this.state.password === '') {
+      return true;
+    }
+    return false;
+  }
   submitSearch() {
-    this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${this.state.carState}&page=1`);
+    this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${
+      this.state.carState
+    }`);
   }
   toggle() {
     this.setState({
@@ -54,11 +101,39 @@ class SearchBar extends Component {
       dropdownOpenPublicate: !this.state.dropdownOpenPublicate,
     });
   }
+  toggleUser() {
+    this.setState({
+      dropdownUser: !this.state.dropdownUser,
+    });
+  }
 
   toggleModal() {
     this.setState({
       modal: !this.state.modal,
     });
+  }
+  loginUser(email, password) {
+    login(email, password)
+      .then((response) => {
+        const MAHtoken = response.message;
+        saveState({ login: { MAHtoken } });
+        this.toggleModal();
+        this.setState({
+          email: '',
+          password: '',
+          isUserLogged: true,
+        });
+      })
+      .catch((error) => {
+        const errorParsed = parseError(error);
+        this.setState({
+          email: '',
+          password: '',
+          errorTitle: errorParsed.title,
+          errorMessage: errorParsed.message,
+          showErrorModal: true,
+        });
+      });
   }
 
   render() {
@@ -69,11 +144,14 @@ class SearchBar extends Component {
       onChange: this.onChange,
     };
     return (
-      <Row className="header" >
+      <Row className="header">
         <Col md="6">
+
           <Row className="align-items-center">
             <Col md="3">
-              <a href="/"><img style={{ width: '150px' }} src="/logo.png" alt="Logo" /></a>
+              <Button onClick={() => this.props.history.push('/')} >
+                <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
+              </Button>
             </Col>
             <Col md="5">
               {/* <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} /> */}
@@ -90,70 +168,142 @@ class SearchBar extends Component {
               />
               <style jsx>{autocompleteStyles}</style>
             </Col>
-            <Col md="4">
-              <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle caret color="default" className="btn-select">
-                  {this.state.carState}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem value="Nuevo" onClick={e => this.setState({ carState: e.target.value })}>Nuevo</DropdownItem>
-                  <DropdownItem value="Usado" onClick={e => this.setState({ carState: e.target.value })}>Usado</DropdownItem>
-                </DropdownMenu>
-              </ButtonDropdown>
-              <Button color="primary" className="icon is-small btn-icon" onClick={() => { this.submitSearch(); }}>
-                <img src="/assets/images/icon-search.svg" alt="" />
-              </Button>
-            </Col>
-          </Row>
 
-        </Col>
-        <Col md="6" className="flex-row-reverse" >
-          <Row className="align-items-center area-btns">
-            <Button color="secondary"> Solicitá tu crédito</Button>
-            <Button className="btn-link"> Ver Consecionarias</Button>
-            <ButtonDropdown isOpen={this.state.dropdownOpenPublicate} toggle={this.togglePublicate}>
-              <DropdownToggle caret className="btn-link-active">Publicá Gratis</DropdownToggle>
-              <DropdownMenu className="custom-dropdown">
-                <DropdownItem value="publicateFree">
-                  <h4>¡Publica ya!</h4>
-                  <h6>1 Publicación Gratis</h6>
+            <ButtonDropdown
+              isOpen={this.state.dropdownOpen}
+              toggle={this.toggle}
+            >
+              <DropdownToggle caret color="default" className="btn-select">{this.state.carState}</DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem
+                  value="Nuevo"
+                  onClick={e => this.setState({ carState: e.target.value })}
+                >
+                  Nuevo
                 </DropdownItem>
-                <DropdownItem value="particular">
-                  <h4>Soy Particular. Registrate, es muy fácil</h4>
-                  <h6>Publicaciones gratis ilimitadas</h6>
-                </DropdownItem>
-                <DropdownItem value="agency">
-                  <h4>Soy un Concesionario. Registrate y vende más</h4>
-                  <h6>Publicaciones gratis ilimitadas</h6>
-                </DropdownItem>
-                <DropdownItem value="particular">
-                  <h4>Ya tengo cuenta</h4>
+                <DropdownItem
+                  value="Usado"
+                  onClick={e => this.setState({ carState: e.target.value })}
+                >
+                  Usado
                 </DropdownItem>
               </DropdownMenu>
             </ButtonDropdown>
-            <Button color="default" className="btn-link" onClick={() => this.toggleModal()} > Iniciá Sesión </Button>
+            <Button
+              style={{ cursor: 'pointer' }}
+              className="icon is-small"
+              onClick={() => {
+                this.submitSearch();
+              }}
+              className="icon is-small btn-icon"
+            >
+              <img src="/assets/images/icon-search.svg" alt="" />
+            </Button>
+
           </Row>
         </Col>
-        <Modal isOpen={this.state.modal} toggle={this.toggleModal} className={this.props.className}>
+        <Col md="6" className="flex-row-reverse">
+          <Row className="align-items-center area-btns">
+            <Button color="primary" href="/pledgeCredits" > Solicitá tu crédito</Button>
+            <Button color="secondary" href="/friendlyAgency" > Ver Consecionarias</Button>
+            {this.state.isUserLogged ? (
+              <ButtonDropdown
+                isOpen={this.state.dropdownUser}
+                toggle={this.toggleUser}
+              >
+                <DropdownToggle caret className="btn-link-active">{getUserDataFromToken().name}</DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem
+                    value="myAccount"
+                    onClick={() => (getUserDataFromToken().userType === 'Agencia' ?
+                      this.props.history.push('/agencyAdmin') : this.props.history.push('/userAdmin'))}
+                  >Mi cuenta
+                  </DropdownItem>
+                  <DropdownItem value="closeSession" onClick={() => { clearSession(); this.setState({ isUserLogged: false }); }}>Cerrar Sesión</DropdownItem>
+                </DropdownMenu>
+              </ButtonDropdown>
+            ) : (
+              <span>
+                <ButtonDropdown
+                  isOpen={this.state.dropdownOpenPublicate}
+                  toggle={this.togglePublicate}
+                >
+                  <DropdownToggle caret className="btn-link-active">Publicá Gratis</DropdownToggle>
+                  <DropdownMenu className="custom-dropdown">
+                    <DropdownItem value="publicateFree" href="/withoutRegister">
+                      <h4>¡Publica ya!</h4>
+                      <h6>1 Publicación Gratis</h6>
+                    </DropdownItem>
+                    <DropdownItem value="particular" href="/userRegister">
+                      <h4>Soy Particular. Registrate, es muy fácil</h4>
+                      <h6>Publicaciones gratis ilimitadas</h6>
+                    </DropdownItem>
+                    <DropdownItem value="agency" href="/agencyRegister">
+                      <h4>Soy un Concesionario. Registrate y vende más</h4>
+                      <h6>Publicaciones gratis ilimitadas</h6>
+                    </DropdownItem>
+                    <DropdownItem value="particular" onClick={() => this.toggleModal()}>
+                      <h4>Ya tengo cuenta</h4>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </ButtonDropdown>
+                <Button color="default" className="btn-link" onClick={() => this.toggleModal()}>
+                  Iniciá Sesión
+                </Button>
+              </span>
+          </Row>
+          )}
+
+        </Col>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggleModal}
+          className={this.props.className}
+        >
           <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
           <ModalBody>
             <Button color="primary">Registrate con facebook</Button>
             <div className="underline" />
             <FormGroup>
               <Label for="exampleEmail">Email</Label>
-              <Input type="email" name="email" id="exampleText" />
+              <Input
+                type="email"
+                name="email"
+                value={this.state.email}
+                onChange={e => this.setState({ email: e.target.value })}
+              />
             </FormGroup>
             <FormGroup>
               <Label for="exampleEmail">Contraseña</Label>
-              <Input type="password" name="password" id="exampleText" />
+              <Input
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={e => this.setState({ password: e.target.value })}
+              />
             </FormGroup>
             <Button color="link">¿Olvidaste tu contraseña?</Button>
-            <Button color="primary">Iniciar sesión</Button>
-            <p>No tengo cuenta. Soy un particular.</p><Button color="secondary">Registrarme</Button>
-            <p>No tengo cuenta. Soy una concesionaria.</p><Button color="secondary">Registrar Agencia</Button>
+            <Button
+              disabled={this.isLoginFormIncomplete()}
+              onClick={() => this.loginUser(this.state.email, this.state.password)}
+              color="primary"
+            >
+              Iniciar sesión
+            </Button>
+            <p>No tengo cuenta. Soy un particular.</p>
+            <Button color="secondary">Registrarme</Button>
+            <p>No tengo cuenta. Soy una concesionaria.</p>
+            <Button color="secondary">Registrar Agencia</Button>
           </ModalBody>
           <style jsx>{style}</style>
         </Modal>
+        <NotificationModal
+          primaryText={this.state.errorTitle}
+          secondaryText={this.state.errorMessage}
+          buttonName="Aceptar"
+          showNotificationModal={this.state.showErrorModal}
+          handleClose={() => this.setState({ showErrorModal: false })}
+        />
       </Row>
     );
   }

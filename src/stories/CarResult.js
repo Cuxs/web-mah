@@ -6,6 +6,7 @@ import {
   CarouselIndicators,
 } from 'reactstrap';
 import style from '../Styles/carResult';
+import { thousands } from '../Modules/functions';
 
 
 export default class CarResult extends Component {
@@ -44,15 +45,19 @@ export default class CarResult extends Component {
   }
 
   featuredOrSold() {
-    const state = this.props.data.CurrentState.stateName;
+    if (this.props.data.CurrentState !== null) {
+      const state = this.props.data.CurrentState.stateName;
 
-    if ((state === 'Destacada')) {
-      return (<p className="item-state">DESTACADO</p>);
-    }
-    if (state === 'Vendida') {
-      return (
-        <p lassName="item-state" >VENDIDO</p>
-      );
+
+      if ((state === 'Destacada')) {
+        return (<p className="item-state" >DESTACADO</p>);
+      }
+      if (state === 'Vendida') {
+        return (
+          <p className="item-state" >VENDIDO</p>
+        );
+      }
+
     }
     return true;
   }

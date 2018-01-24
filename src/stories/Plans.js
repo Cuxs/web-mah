@@ -8,7 +8,7 @@ const style = {
   },
 };
 
-export default () => (
+export default ({ history }) => (
   <Col sm="12">
     <Row className="box" >
       <Col sm="3" xs="12" className="card-plans" >
@@ -16,7 +16,7 @@ export default () => (
         <h6>Una publicación gratis</h6>
         <h6>Tiempo de la publicación: 60 días</h6>
         <h6>Inmediata, sin registro</h6>
-        <Button color="primary">Comenzar</Button>
+        <Button color="primary" onClick={() => history.push('/publicateWithoutRegister')}>Comenzar</Button>
       </Col>
       <Col sm="3" xs="12" className="card-plans">
         <h4>Premium Particular</h4>
@@ -26,7 +26,7 @@ export default () => (
         <h6>Chat con los interesados</h6>
         <h6>Anuncios destacados ilimitados</h6>
         <h6>Publicaciones en redes sociales y fan page de miautohoy.com</h6>
-        <Button color="primary">Comenzar</Button>
+        <Button color="primary" onClick={() => history.push('/userRegisterS1')}>Comenzar</Button>
       </Col>
       <Col sm="3" xs="12" className="card-plans">
         <h4>Premium Concesioanria</h4>
@@ -38,7 +38,7 @@ export default () => (
         <h6>Anuncios destacados ilimitados</h6>
         <h6>Minisitio Consecionario</h6>
         <h6>Publicaciones en redes sociales y fan page de miautohoy.com</h6>
-        <Button color="primary">Comenzar</Button>
+        <Button color="primary" onClick={() => history.push('/agencyRegisterS1')}>Comenzar</Button>
       </Col>
       <style jsx>
         {`

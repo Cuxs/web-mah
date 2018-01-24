@@ -2,12 +2,11 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { graphql } from 'react-apollo';
-import _ from 'lodash';
 import qs from 'query-string';
 import { animateScroll as scroll } from 'react-scroll';
-
+import InfiniteScroll from 'react-infinite-scroller';
 import SearchMutation from '../../ApolloQueries/SearchMutation';
 
 import Footer from '../../stories/Footer';
@@ -19,57 +18,100 @@ import CarResult from '../../stories/CarResult';
 import SearchBar from '../../stories/SearchBar';
 import TopTopNav from '../../stories/TopTopNav';
 import NumberOfResult from '../../stories/NumberOfResult';
-import Pagination from '../../stories/Pagination';
+
+import ActiveFilters from '../../stories/ActiveFilters';
+
+import { getFiltersAndTotalResult } from '../../Modules/fetches';
 
 import style from '../../Styles/searchCars';
 
 import photoGaleryParser from '../../Modules/photoGaleryParser';
-import resultCounter from '../../Modules/resultCounter';
 
 class SearchCars extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: { searchPublication: '' },
-      activeFilters: [{ name: 'Filtro 1' }, { name: 'Filtro 2' }],
+      filters: {},
+      Publications: [],
+      totalResults: 0,
+      loading: true,
+      renderedData: 0,
     };
+    this.doSearch = this.doSearch.bind(this);
   }
   componentWillMount() {
-    this.doSearch(this.props.location.search);
+    const url = this.props.location.search;
+    this.doFilterTotalResultSearch(url);
+    this.doSearch(1, true, this.props);
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {
-      this.doSearch(nextProps.location.search);
+      this.setState({ renderedData: 0 });
+      this.doSearch(1, true, nextProps);
+      this.doFilterTotalResultSearch(nextProps.location.search);
     }
     scroll.scrollToTop({ duration: 300 });
   }
-  doSearch(url) {
+  doFilterTotalResultSearch(url) {
+    getFiltersAndTotalResult(qs.parse(url))
+      .then(res => this.setState({
+        totalResults: res.data.totalResults,
+        filters: res.data.filters,
+      }));
+  }
+  doSearch(page, newSearch, nextProps) {
+    let url;
+    if (nextProps) { url = nextProps.location.search; } else {
+      url = this.props.location.search;
+    }
     this.props
       .mutate({
-        variables: qs.parse(url),
+        variables: {
+          carState: qs.parse(url).carState,
+          text: qs.parse(url).text,
+          page,
+          year: qs.parse(url).year,
+          state: qs.parse(url).state,
+        },
       })
-      .then(({ data }) => {
-        this.setState({
-          data,
-        });
+      .then(({ data: { searchPublication: { Publications } } }) => {
+        if (newSearch) {
+          this.setState({
+            Publications,
+            loading: false,
+            renderedData: this.state.renderedData + Publications.length,
+
+          });
+        } else {
+          const existingPubs = this.state.Publications;
+          Publications.map((pub) => {
+            existingPubs.push(pub);
+          });
+          this.setState({
+            Publications: existingPubs,
+            loading: false,
+            renderedData: this.state.renderedData + Publications.length,
+
+          });
+        }
       })
       .catch((error) => {
         console.log('there was an error sending the query', error);
       });
   }
   renderData() {
-    if (this.state.data.searchPublication.totalResult === 0) {
+    if (this.state.totalResults === 0) {
       return <p>La búsqueda no ha dado resultados, prueba con otro texto </p>;
     }
-    if (this.state.data.searchPublication === '') {
+    if (this.state.loading) {
       return <p>Cargando...</p>;
     }
     return (
       <div>
-        <NumberOfResult results={this.state.data.searchPublication.totalResult} />
         <CarResultContainer>
-          {this.state.data.searchPublication.Publications.map(row => (
+          {this.state.Publications.map(row => (
             <CarResult
+              key={row.id}
               photoGalery={photoGaleryParser(row.ImageGroup)}
               data={row}
               {...{ [row.State]: true }}
@@ -81,9 +123,9 @@ class SearchCars extends Component {
   }
 
   render() {
-    const numberOfResults = this.state.data.searchPublication.totalResult;
-    const data = this.state.data.searchPublication;
-    const { text, carState, page } = qs.parse(this.props.location.search);
+    const {
+      text, carState, page,
+    } = qs.parse(this.props.location.search);
     const { history, location } = this.props;
     return (
       <div>
@@ -106,54 +148,21 @@ class SearchCars extends Component {
         <div className="container-section">
           <Row>
             <Col md="3" sm="12">
-              {this.state.activeFilters.map(filter => (
-                <Button
-                  style={{ cursor: 'pointer' }}
-                  name={filter.name}
-                  onClick={(e) => {
-                    this.setState({
-                      activeFilters: _.filter(
-                        this.state.activeFilters,
-                        f => e.target.name !== f.name,
-                      ),
-                    });
-                  }}
-                >
-                  {filter.name}
-                </Button>
-              ))}
-              <FiltersList
-                filters={[
-                  {
-                    title: 'Combustible',
-                    options: [
-                      {
-                        name: 'Nafta',
-                        quantity: resultCounter(data, 'fuel', 'Nafta'),
-                      },
-                      {
-                        name: 'Diesel',
-                        quantity: resultCounter(data, 'fuel', 'Diesel'),
-                      },
-                      {
-                        name: 'GNC',
-                        quantity: resultCounter(data, 'fuel', 'GNC'),
-                      },
-                    ],
-                  },
-                ]}
-              />
+              <FiltersList filters={this.state.filters} search={this.props.location.search} history={history} />
             </Col>
             <Col md="9" sm="12">
-              {this.renderData()}
+              <NumberOfResult results={this.state.totalResults} />
+              <ActiveFilters history={this.props.history} searchData={qs.parse(this.props.location.search)} />
+              <InfiniteScroll
+                pageStart={1}
+                loadMore={this.doSearch}
+                hasMore={this.state.renderedData < this.state.totalResults}
+                loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+              >
+                {this.renderData()}
+              </InfiniteScroll>
               <br />
-              <Row>
-                <Col md="4" />
-                <Col md="4" >
-                  <Pagination numberOfResults={numberOfResults} history={history} text={text} carState={carState} actualPage={page} />
-                </Col>
-                <Col md="4" />
-              </Row>
+
             </Col>
           </Row>
 
