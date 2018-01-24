@@ -224,7 +224,7 @@ const options = ({ location, commentThreadData }) => ({
   variables: {
     id: parse(location.search).publication_id,
     publication_id: parse(location.search).publication_id,
-    MAHtoken: getUserToken(),
+    MAHtokenP1: getUserToken(),
     chatToken: parse(location.search).chatToken,
     commentThread_id:
       commentThreadData && !commentThreadData.loading
