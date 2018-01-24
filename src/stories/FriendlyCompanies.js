@@ -14,16 +14,20 @@ const style = {
 
 export default ({ children }) => {
   const item = children.map(row =>
-    (<Col sm="3" xs="12" style={style.item} >
+    (<Col sm="3" xs="12" className="friendly-companies" >
       {row}
     </Col>
     ));
 
 
   return (
-    <div style={style.container}>
-      <h3>Empresas Amigas</h3>
-      <Row >
+    <div className="container-fluid">
+      <Row className="container-box-item">
+        <Col md="12">
+          <h3 className="title-division">Empresas amigas</h3>
+        </Col>
+      </Row>
+      <Row className="container-box-item">
         {item}
       </Row>
     </div>);

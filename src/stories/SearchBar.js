@@ -149,9 +149,9 @@ class SearchBar extends Component {
 
           <Row className="align-items-center">
             <Col md="3">
-              <Button onClick={() => this.props.history.push('/')} >
+              <a onClick={() => this.props.history.push('/')} >
                 <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
-              </Button>
+              </a>
             </Col>
             <Col md="5">
               {/* <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} /> */}
@@ -205,7 +205,7 @@ class SearchBar extends Component {
         <Col md="6" className="flex-row-reverse">
           <Row className="align-items-center area-btns">
             <Button color="primary" href="/pledgeCredits" > Solicitá tu crédito</Button>
-            <Button color="secondary" href="/friendlyAgency" > Ver Consecionarias</Button>
+            <Button color="secondary" className="btn-link" href="/friendlyAgency" > Ver Consecionarias</Button>
             {this.state.isUserLogged ? (
               <ButtonDropdown
                 isOpen={this.state.dropdownUser}
