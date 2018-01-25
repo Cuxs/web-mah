@@ -15,8 +15,23 @@ class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      modifyActive: false,
     };
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (!newProps.userProfile.loading) {
+      this.setState({
+        name: newProps.userProfile.User.name,
+        address: newProps.userProfile.User.address,
+        email: newProps.userProfile.User.email,
+        phone: newProps.userProfile.User.phone,
+      });
+    }
+  }
+
+  update() {
+    // Marianiiitooo aca la funcion de guardar
   }
 
   render() {
@@ -36,14 +51,24 @@ class UserProfile extends React.Component {
               {!userProfile.loading &&
               <Col md="5">
                 <h6><b>NOMBRE Y APELLIDO</b></h6>
-                <h4>{User.name || 'No especificado'}</h4>
+                {this.state.modifyActive ?
+                  <Input type="text" name="name" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
+                : <h4>{User.name}</h4>}
                 <h6><b>DOMICILIO</b></h6>
-                <h4>{User.address || 'No especificado'}</h4>
+                {this.state.modifyActive ?
+                  <Input type="text" name="address" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
+                  : <h4>{User.address}</h4>}
                 <h6><b>EMAIL DE CONTACTO</b></h6>
-                <h4>{User.email}</h4>
+                {this.state.modifyActive ?
+                  <Input type="email" name="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
+                  : <h4>{User.email}</h4>}
                 <h6><b>TELEFONO DE CONTACTO</b></h6>
-                <h4>{User.phone || 'No especificado'}</h4>
-                <Button type="secondary">Modificar</Button>
+                {this.state.modifyActive ?
+                  <Input type="text" name="phone" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
+                  : <h4>{User.phone}</h4>}
+                {this.state.modifyActive ?
+                  <Button color="primary" onClick={() => this.update()} >Guardar</Button>
+                  : <Button color="secondary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
               </Col>}
               <Col md="5">
                 <h6><b>¿Quieres cambiar la contraseña?</b></h6>
