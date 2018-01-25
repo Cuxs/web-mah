@@ -1,19 +1,24 @@
 .header{
-  background-color:$gray-100;
-  padding: 15px 0;
+  background-color:$gray-200;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
   width: 100vw;
 
   //1
   .react-autosuggest__container{
+    width: 100%;
     .react-autosuggest__input{
+      font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
       @include border-radius(3px);
       @include placeholder {
-        font:bold #{$font-size-lg}/#{$font-size-lg} $font-family-sans-serif;
+        font:bold #{$font-size-lg}/#{$font-size-base} $font-family-sans-serif;
         color:$secondary;
       }
       border:solid 1px $gray-200;
       padding:10px 15px;
       height: 50px;
+      width: 100%;
     }
     .react-autosuggest__suggestions-container--open{
       @include border-radius(3px);
@@ -34,12 +39,14 @@
   //2
   .btn-group{
     margin-top:-1px;
+    width: 100%;
     .btn-select{
       border:solid 1px $gray-200;
       padding:10px 30px;
       height: 50px;
       font:#{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
       color:$secondary;
+      width: 100%;
     }
   }
 

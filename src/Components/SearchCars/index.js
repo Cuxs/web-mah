@@ -2,7 +2,15 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row } from 'reactstrap';
+import {
+  Col,
+  Row,
+  Button,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
 import { graphql } from 'react-apollo';
 import qs from 'query-string';
 import { animateScroll as scroll } from 'react-scroll';
@@ -137,21 +145,44 @@ class SearchCars extends Component {
         />
         <div className="container-section">
           <Row>
-            <Col md="7" sm="12">
+            <Col md="8" sm="12">
               <BreadCrum url={window.location.href} />
             </Col>
-            <Col md="5" sm="12">
+            <Col md="4" sm="12">
               <PublicityBanner />
             </Col>
           </Row>
         </div>
         <div className="container-section">
           <Row>
-            <Col md="3" sm="12">
+            <Col md="3" sm="12" className="sidebar-filters">
               <FiltersList filters={this.state.filters} search={this.props.location.search} history={history} />
             </Col>
             <Col md="9" sm="12">
-              <NumberOfResult results={this.state.totalResults} />
+              <Row className="header-filters align-items-center">
+                <Col md="8" sm="12">
+                  <NumberOfResult results={this.state.totalResults} />
+                </Col>
+                <Col md="4" sm="12">
+                  <Row className="align-items-center">
+                    <div class="col-5 text-right">
+                      <p>Ordenar por</p>
+                    </div>
+                    <div class="col-7">
+                      <Dropdown isOpen={this.state.tipoDropdown} toggle={this.toggleTipoDropdown}>
+                        <DropdownToggle caret color="default" className="btn-select">
+                          Menor Precio{this.state.dropDownTipoValue}
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          <DropdownItem header>Elije una</DropdownItem>
+                          <DropdownItem onClick={e => this.changeTipoValue(e)}>Menor Precio</DropdownItem>
+                          <DropdownItem onClick={e => this.changeTipoValue(e)}>Destacados</DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
+                  </Row>
+                </Col>
+              </Row>
               <ActiveFilters history={this.props.history} searchData={qs.parse(this.props.location.search)} />
               <InfiniteScroll
                 pageStart={1}

@@ -1,6 +1,5 @@
 .btn{
   @include border-radius(0);
-  tex
   &.btn-select{
     background-color: $white;
     border:solid 1px $gray-100;
@@ -8,6 +7,16 @@
   &.btn-primary{
     font-weight:900;
     text-transform: uppercase;
+    padding: 10px 15px;
+    height: 50px;
+    line-height: 30px;
     @include border-radius(3px);
+  }
+  &.btn-secondary{
+    @include border-radius(3px);
+  }
+  &.btn-link{
+    color:$secondary;
+    padding: 10px 0;
   }
 }

@@ -23,7 +23,7 @@
           color:$white;
         }
       }
-      .item-data{
+      @at-root .item-data{
         padding:15px;
         p{
           font:400 $font-size-base $font-family-sans-serif;
@@ -48,6 +48,7 @@
         }
         small{
           font-weight: 300;
+          font-size: 14px;
         }
       }
       &:hover{
