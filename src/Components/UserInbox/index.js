@@ -33,10 +33,11 @@ class UserInbox extends Component {
       commentThreadData: { CommentThread: Threads, loading: loadingComments },
     } = this.props;
     let sortedThreads = [];
+    sortedThreads = _.orderBy(sortedThreads, ['updatedAt'], ['desc']);
     if (!loadingComments) {
       sortedThreads = (_.sortBy(Threads, th => th.messages.map(ms => (ms.read !== null))));
     }
-    sortedThreads = _.orderBy(sortedThreads, ['createdAt'], ['desc']);
+
     return (
       <div>
         <AdminBar history={history} />

@@ -5,8 +5,9 @@ import { graphql, compose } from 'react-apollo';
 import jwtDecode from 'jwt-decode';
 import { stringify, parse } from 'query-string';
 import jsonwt from 'jsonwebtoken';
-import { getUserDataFromToken, isUserLogged } from '../Modules/sessionFunctions';
+import moment from 'moment';
 
+import { getUserDataFromToken, isUserLogged } from '../Modules/sessionFunctions';
 import {
   MessageQuery,
   MessageSubscription,
@@ -30,7 +31,8 @@ const fillStateWithMessages = (messagesData, location, publicationUserId) => {
       messages.push(new Message({
         id: publicationUserId !== message.from_id ? 0 : message.from_id,
         message: message.content,
-        senderName: message.User ? message.User.name : anonymName,
+        senderName: message.User ? `${message.User.name}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')}` : `${anonymName}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')} `,
+
       }));
     });
     return messages;

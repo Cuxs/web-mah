@@ -4,6 +4,7 @@ const MessageQuery = gql`
   query Messages($commentThread_id: Int) {
     Messages(commentThread_id: $commentThread_id) {
       id
+      createdAt
       from_id
       content
       User {
@@ -16,6 +17,7 @@ const MessageSubscription = gql`
   subscription messageAdded($commentThread_id: Int!) {
     messageAdded(commentThread_id: $commentThread_id) {
       id
+      createdAt      
       from_id
       content
       User {
@@ -25,11 +27,12 @@ const MessageSubscription = gql`
   }
 `;
 const addMessageMutation = gql`
-  mutation($commentThread_id: Int!, $from_id: Int, $content: String!) {
+  mutation($commentThread_id: Int!, $from_id: Int, $content: String!, $read:String) {
     addMessage(
       commentThread_id: $commentThread_id
       from_id: $from_id
       content: $content
+      read: $read,
     ) {
       id
     }

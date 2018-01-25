@@ -72,6 +72,7 @@ class SearchCars extends Component {
           page,
           year: qs.parse(url).year,
           state: qs.parse(url).state,
+          fuel: qs.parse(url).fuel,
         },
       })
       .then(({ data: { searchPublication: { Publications } } }) => {

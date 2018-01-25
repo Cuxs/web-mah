@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { thousands } from '../Modules/functions';
 /* eslint react/jsx-filename-extension: 0 */
 
-const CardMessagge = ({ data: { Publication }, data: { Publication: { ImageGroup }, messages } }) => {
+const CardMessagge = ({ data, data: { Publication }, data: { Publication: { ImageGroup }, messages } }) => {
   let unreadMessages = false;
   messages.map((msg) => {
     if (!msg.read) {
@@ -24,7 +24,7 @@ const CardMessagge = ({ data: { Publication }, data: { Publication: { ImageGroup
             <h4>$ {thousands(Publication.price, 2, ',', '.')}</h4>
             <h6>Ultimo mensaje: {_.truncate((_.last(messages).content), { length: 40 })}</h6>
           </div>
-          <Button type="secondary" href="/inbox" >Responder</Button>
+          <Button type="secondary" href={`/inbox?ct_id=${data.id}`} >Responder</Button>
         </div>
       </div>
       <style jsx>{
