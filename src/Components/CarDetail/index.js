@@ -209,17 +209,7 @@ class CarDetail extends Component {
                           carDetailData.Publication.User.email ||
                           'No especificado'}
                       </p>
-                    </div>
-
-                    <div class="data-input-group">
-                      <h5>Consultas</h5>
-                      <div class="form-group">
-                        <textarea name="" id="" cols="30" rows="5" class="form-control" placeholder="Dejános tu consulta..."></textarea>
-                      </div>
-                      <div class="form-group">
-                        <div class="btn btn-secondary btn-lg">PREGUNTAR</div>
-                      </div>
-                    </div>
+                    </div>                  
                   </div>
                   {getUserDataFromToken().id !==
                     carDetailData.Publication.User.id &&

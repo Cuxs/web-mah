@@ -175,6 +175,8 @@ class MessagesCarDetail extends Component {
             onChange={e => this.setState({ content: e.target.value })}
             type="textarea"
             name="text"
+            cols="30"
+            rows="5"
             id="exampleText"
             placeholder="Escribe una consulta"
           />
@@ -183,8 +185,9 @@ class MessagesCarDetail extends Component {
           disabled={this.isTextInputIncomplete()}
           onClick={() => this.sendMessage()}
           color="secondary"
+          className="btn btn-secondary btn-lg"
         >
-          Enviar
+          ENVIAR
         </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>
