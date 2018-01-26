@@ -2,7 +2,9 @@
   text-align: left;
   &:after{
     content:'';
-    margin-top: 6px;
-    float:right;
+    top: 45%;
+    float: right;
+    position: absolute;
+    right: 15px;
   }
 }

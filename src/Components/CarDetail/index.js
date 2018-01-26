@@ -58,12 +58,12 @@ class CarDetail extends Component {
       <div>
         <TopTopNav />
         <SearchBar history={history} location={location} />
-        <div className="container-fluid">
+        <div className="container-fluid mb-4 mt-4">
           <Row>
-            <Col md="7" sm="12">
+            <Col md="8" sm="12">
               <BreadCrum url={window.location.href} />
             </Col>
-            <Col md="5" sm="12">
+            <Col md="4" sm="12">
               <PublicityBanner />
             </Col>
           </Row>
@@ -75,7 +75,7 @@ class CarDetail extends Component {
           {!carDetailData.loading &&
             carDetailData.Publication !== null && (
               <Row>
-                <Col md="7" sm="12">
+                <Col md="8" sm="12">
                   <CarCarousel
                     photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
                   />
@@ -147,7 +147,7 @@ class CarDetail extends Component {
                   </div>
 
                 </Col>
-                <Col md="5" sm="12" className="sheet sheet-min">
+                <Col md="4" sm="12" className="sheet sheet-min">
                   <div className="item-data">
                     <small className="item-year">{carDetailData.Publication.year} -{' '}
                     {thousands(carDetailData.Publication.kms, 0, ',', '.')} km</small>
