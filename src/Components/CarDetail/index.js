@@ -22,8 +22,8 @@ import CarCarousel from '../../stories/CarCarousel';
 import CarSpecifications from '../../stories/CarSpecifications';
 import MessageCarDetail from '../../stories/MessagesCarDetail';
 
-import style from '../../Styles/carDetail';
-import socialStyle from '../../Styles/bootstrap-social';
+//import style from '../../Styles/carDetail';
+//import socialStyle from '../../Styles/bootstrap-social';
 
 import { thousands } from '../../Modules/functions';
 import photoGaleryParser from '../../Modules/photoGaleryParser';
@@ -58,7 +58,7 @@ class CarDetail extends Component {
       <div>
         <TopTopNav />
         <SearchBar history={history} location={location} />
-        <div className="container-section">
+        <div className="container-fluid">
           <Row>
             <Col md="7" sm="12">
               <BreadCrum url={window.location.href} />
@@ -68,7 +68,7 @@ class CarDetail extends Component {
             </Col>
           </Row>
         </div>
-        <div className="container-section">
+        <div className="container-fluid">
           {carDetailData.Publication === null && (
             <h3>Esta publicación no exite o ha sido eliminada.</h3>
           )}
@@ -79,115 +79,147 @@ class CarDetail extends Component {
                   <CarCarousel
                     photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
                   />
-                  <div className="underline" />
-                  <div>
+
+                  <div className="container-data-input-group">
                     <h5 className="title">Resumen</h5>
                     <Row>
                       <Col md="6" sm="12">
-                        <h5>ESTADO</h5>
-                        <h5>{carDetailData.Publication.carState}</h5>
+                        <div class="data-input-group">
+                          <label>ESTADO</label>
+                          <p>{carDetailData.Publication.carState}</p>
+                        </div>
                       </Col>
                       <Col md="6" sm="12">
-                        <h5>KM</h5>
-                        <h6>
-                          {thousands(
+                        <div class="data-input-group">
+                          <label>KM</label>
+                          <p>{thousands(
                             carDetailData.Publication.kms,
                             0,
                             ',',
                             '.',
-                          )}
-                        </h6>
+                          )}</p>
+                        </div>
                       </Col>
                     </Row>
                     <Row>
                       <Col md="6" sm="12">
-                        <h5>MARCA</h5>
-                        <h6>{carDetailData.Publication.brand}</h6>
+                        <div class="data-input-group">
+                          <label>MARCA</label>
+                          <p>{carDetailData.Publication.brand}</p>
+                        </div>
                       </Col>
                       <Col md="6" sm="12">
-                        <h5>AÑO</h5>
-                        <h6>{carDetailData.Publication.year}</h6>
+                        <div class="data-input-group">
+                          <label>AÑO</label>
+                          <p>{carDetailData.Publication.year}</p>
+                        </div>
                       </Col>
                     </Row>
                     <Row>
                       <Col md="6" sm="12">
-                        <h5>MODELO</h5>
-                        <h6>{carDetailData.Publication.modelName}</h6>
+                        <div class="data-input-group">
+                          <label>MODELO</label>
+                          <p>{carDetailData.Publication.modelName}</p>
+                        </div>
                       </Col>
                       <Col md="6" sm="12">
-                        <h5>COMBUSTIBLE</h5>
-                        <h6>{carDetailData.Publication.fuel}</h6>
+                        <div class="data-input-group">
+                          <label>COMBUSTIBLE</label>
+                          <p>{carDetailData.Publication.fuel}</p>
+                        </div>
                       </Col>
                     </Row>
                   </div>
-                  <div className="underline" />
+
+
                   {!carSpecsData.loading &&
                     carSpecsData.Publication.Specifications !== null && (
                       <CarSpecifications
                         data={carSpecsData.Publication.Specifications}
                       />
                     )}
-                  <h5 className="title">Comentarios del Vendedor</h5>
-                  <h6> {carDetailData.Publication.observation}</h6>
+
+                  <div class="container-data-input-group">
+                    <div className="data-input-group">
+                      <h5>Comentarios del Vendedor</h5>
+                      <p>{carDetailData.Publication.observation}</p>
+                    </div>
+                  </div>
+
                 </Col>
-                <Col md="5" sm="12">
-                  <h6>
-                    {carDetailData.Publication.year} -{' '}
-                    {thousands(carDetailData.Publication.kms, 0, ',', '.')} km
-                  </h6>
-                  <h4>{`${carDetailData.Publication.brand} ${
+                <Col md="5" sm="12" className="sheet sheet-min">
+                  <div className="item-data">
+                    <small className="item-year">{carDetailData.Publication.year} -{' '}
+                    {thousands(carDetailData.Publication.kms, 0, ',', '.')} km</small>
+                    <p className="item-name"><strong>{`${carDetailData.Publication.brand} ${
                     carDetailData.Publication.group
-                  }`}
-                  </h4>
-                  <h6>{carDetailData.Publication.modelName}</h6>
-                  <h4>
-                    ${thousands(carDetailData.Publication.price, 2, ',', '.')}
-                  </h4>
+                      }`}
+                    </strong></p>
+                    <p className="item-description">
+                      {carDetailData.Publication.modelName}
+                    </p>
+                    <p className="item-price"><strong>${thousands(carDetailData.Publication.price, 2, ',', '.')}</strong></p>
+                  </div>
+
+
+
                   <Button color="primary">¡Solicitá tu crédito</Button>
+
                   <div className="container-social">
-                    <button className="btn btn-social-icon btn-facebook">
-                      <span className="fa fa-facebook" />
+                    <button className="btn btn-social-icon">
+                      <img src="/assets/images/icon-facebook.svg" />
                     </button>
-                    <button className="btn btn-social-icon btn-twitter">
-                      <span className="fa fa-twitter" />
-                    </button>
-                    <button className="btn btn-social-icon btn-instagram">
-                      <span className="fa fa-instagram" />
-                    </button>
-                    <button className="btn btn-social-icon btn-google">
-                      <span className="fa fa-google" />
+                    <button className="btn btn-social-icon">
+                      <img src="/assets/images/icon-twitter.svg" />
                     </button>
                   </div>
 
-                  <div className="underline" />
 
-                  <h5>
-                    {carDetailData.Publication.User.agencyName ||
-                      carDetailData.Publication.User.name}
-                  </h5>
-                  {carDetailData.Publication.User.agencyName && (
-                    <Button color="link">Ver todos los autos</Button>
-                  )}
+                  <div className="container-data-input-group">
+                    <h5>
+                      {carDetailData.Publication.User.agencyName ||
+                        carDetailData.Publication.User.name}
+                    </h5>
 
-                  <div className="container-personal-carDetailData">
-                    <h6>DOMICILIO</h6>
-                    <h6>
-                      {carDetailData.Publication.User.agencyAdress ||
-                        carDetailData.Publication.User.address ||
-                        'No especificado'}
-                    </h6>
-                    <h6>TELÉFONOS</h6>
-                    <h6>
-                      {carDetailData.Publication.User.agencyPhone && ' / '}
-                      {carDetailData.Publication.User.phone ||
-                        'No especificado'}{' '}
-                    </h6>
-                    <h6>EMAIL</h6>
-                    <h6>
-                      {carDetailData.Publication.User.agencyEmail ||
-                        carDetailData.Publication.User.email ||
-                        'No especificado'}
-                    </h6>
+                    {carDetailData.Publication.User.agencyName && (
+                      <Button color="link">Ver todos los autos</Button>
+                    )}
+                    <div class="data-input-group">
+                      <label>DOMICILIO</label>
+                      <p>
+                        {carDetailData.Publication.User.agencyAdress ||
+                          carDetailData.Publication.User.address ||
+                          'No especificado'}
+                      </p>
+                    </div>
+
+                    <div class="data-input-group">
+                      <label>TELÉFONOS</label>
+                      <p>
+                        {carDetailData.Publication.User.agencyPhone && ' / '}
+                        {carDetailData.Publication.User.phone ||
+                          'No especificado'}{' '}
+                      </p>
+                    </div>
+
+                    <div class="data-input-group">
+                      <label>EMAIL</label>
+                      <p>
+                        {carDetailData.Publication.User.agencyEmail ||
+                          carDetailData.Publication.User.email ||
+                          'No especificado'}
+                      </p>
+                    </div>
+
+                    <div class="data-input-group">
+                      <h5>Consultas</h5>
+                      <div class="form-group">
+                        <textarea name="" id="" cols="30" rows="5" class="form-control" placeholder="Dejános tu consulta..."></textarea>
+                      </div>
+                      <div class="form-group">
+                        <div class="btn btn-secondary btn-lg">PREGUNTAR</div>
+                      </div>
+                    </div>
                   </div>
                   {getUserDataFromToken().id !==
                     carDetailData.Publication.User.id &&
@@ -214,8 +246,7 @@ class CarDetail extends Component {
         </div>
 
         <Footer />
-        <style jsx>{style}</style>
-        <style jsx>{socialStyle}</style>
+
       </div>
     );
   }

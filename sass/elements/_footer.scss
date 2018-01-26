@@ -1,0 +1,30 @@
+footer{
+  &.footer{
+    background:$secondary;
+    padding:80px 0;
+    margin-top: 80px;
+    h4{
+      color:$white;
+      font:700 $font-size-base $font-family-sans-serif;
+    }
+    p{
+      color:$white;
+      font:300 $font-size-base $font-family-sans-serif;
+      margin:0 0 5px 0;
+    }
+    ul{
+      margin:0;
+      padding: 0;
+      list-style: none;
+      li{
+        a{
+          color:$white;
+          font:300 $font-size-base $font-family-sans-serif;
+        }
+      }
+    }
+    hr{
+      border-color: transparentize($white, 0.8);
+    }
+  }
+}

@@ -1,0 +1,8 @@
+.publicityBanner{
+  border:solid 1px $primary;
+  @include border-radius(3px);
+  padding:20px;
+  font:bold $font-size-lg $font-family-sans-serif;
+  color:$primary;
+
+}

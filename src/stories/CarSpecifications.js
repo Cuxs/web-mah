@@ -59,13 +59,13 @@ class CarSpecification extends Component {
   }
   items(array) {
     return (
-      <div>
+      <div className="data-input-group">
         <Row>
           {array.left.map((row) => {
             if (typeof row.value === 'boolean' || row.value === null) {
               return (
                 <Col md="6" sm="12">
-                  <p className={row.value ? 'active' : 'disabled'}>{row.key}</p>
+                  <p className={row.value ? 'active' : 'disable'}>{row.key}</p>
                 </Col>
               );
             }
@@ -81,7 +81,7 @@ class CarSpecification extends Component {
             if (typeof row.value === 'boolean' || row.value === null) {
               return (
                 <Col md="6" sm="12">
-                  <p className={row.value ? 'active' : 'disabled'}>{row.key}</p>
+                  <p className={row.value ? 'active' : 'disable'}>{row.key}</p>
                 </Col>
               );
             }
@@ -94,7 +94,6 @@ class CarSpecification extends Component {
             );
           })}
         </Row>
-        <div className="underline" />
       </div>
     );
   }
@@ -102,38 +101,15 @@ class CarSpecification extends Component {
   render() {
     return (
       <Row>
-        <Col md="12">
-          <p className="title">Detalles</p>
+        <Col md="12" className="container-data-input-group">
+          <h5>Detalles</h5>
           {this.items(this.prepareRow(this.state.detailSpecs))}
-          <p className="title">Seguridad</p>
+          <h5>Seguridad</h5>
           {this.items(this.prepareRow(this.state.securitySpecs))}
-          <p className="title">Confort</p>
+          <h5>Confort</h5>
           {this.items(this.prepareRow(this.state.confortSpecs))}
-          <p className="title">Extras</p>
+          <h5>Extras</h5>
           {this.items(this.prepareRow(this.state.extraSpecs))}
-          <style jsx>
-            {`
-              .title {
-                margin-top: 40px;
-                font-size: 16px;
-                font-weight: bold;
-              }
-              .disabled {
-                text-decoration: line-through;
-                color: lightgrey;
-              }
-              .active {
-                color: black;
-              }
-              .underline {
-                width: 100%;
-                height: 2px;
-                background-color: lightgray;
-                margin-top: 20px;
-                margin-bottom: 20px;
-              }
-            `}
-          </style>
         </Col>
       </Row>
     );

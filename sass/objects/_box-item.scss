@@ -1,0 +1,59 @@
+.container-box-item{
+  .box-item{
+    margin-bottom:40px;
+    .item-car{
+      @include border-radius(3px);
+      overflow:hidden;
+      border:solid 1px $gray-300;
+      cursor:pointer;
+      .photos{
+        // margin-bottom:10px;
+        background-color: $gray-500;
+        min-height: 150px;
+        position: relative;
+        p{
+          position: absolute;
+          top:10px;
+          left:15px;
+          z-index: 100;
+          background-color: transparentize($primary, 0.2);
+          padding:5px 10px;
+          font:700 $font-size-sm $font-family-sans-serif;
+          @include border-radius(25px);
+          color:$white;
+        }
+      }
+      @at-root .item-data{
+        padding:15px;
+        p{
+          font:400 $font-size-base $font-family-sans-serif;
+          color:$secondary;
+          margin:0 0 5px 0;
+          overflow: hidden;
+          height: $font-size-lg;
+          strong{
+            font-size: 16px
+          }
+          span{
+            color:$gray-500;
+            text-transform: uppercase;
+          }
+
+          &.item-description{
+            margin-bottom: 10px;
+          }
+          &.item-name{
+            height: $font-size-lg * 2.5;
+          }
+        }
+        small{
+          font-weight: 300;
+          font-size: 14px;
+        }
+      }
+      &:hover{
+        box-shadow: 0 0 10px $gray-300;
+      }
+    }
+  }
+}
