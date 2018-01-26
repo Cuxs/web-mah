@@ -57,3 +57,19 @@
     }
   }
 }
+
+// HORIZONTAL
+.box-item-horizontal{
+  border:solid 1px $gray-200;
+  padding: 15px;
+  margin-bottom: 20px;
+  @include border-radius(3px);
+  img{
+    border:solid 1px $gray-200;
+    @include border-radius(3px);
+    overflow: hidden;
+  }
+  &:hover,&.active{
+    border-color:$secondary;
+  }
+}

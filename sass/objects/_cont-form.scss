@@ -1,0 +1,5 @@
+.cont-form{
+  border:solid 1px $gray-200;
+  padding: 15px;
+  @include border-radius(3px);
+}

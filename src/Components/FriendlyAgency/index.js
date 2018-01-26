@@ -18,33 +18,39 @@ const FriendlyAgency = ({ history, location }) => (
         history={history}
         location={location}
       />
-      <div className="container-section">
-        <Row>
-          <Col md="7" sm="12" />
-          <Col md="5" sm="12">
+      <div className="container-fluid">
+        <Row className="mb-4 mt-4">
+          <Col md="8" sm="12" />
+          <Col md="4" sm="12">
             <PublicityBanner />
           </Col>
         </Row>
-        <h3>Concesionarios adheridos</h3>
         <Row>
-          <Col md="7" >
+          <Col md="4" sm="12">
+            <h3 className="title-division">Concesionarios adheridos</h3>
+          </Col>
+        </Row>
+        <Row>
+          <Col md="8" className="container-data-input-group">
             <CardAgency />
             <CardAgency />
             <CardAgency />
             <CardAgency />
             <CardAgency />
           </Col>
-          <Col md="5" >
-            <h5>Adherí tu compañía, es muy fácil.</h5>
-            <h6>Publicaciones gratis ilimitadas.</h6>
-            <h6>¡Registrate gratis y empezá a vender ahora!</h6>
-            <FormGroup>
-              <Input type="text" name="agencyName" placeholder="Nombre de la Consecionaria" />
-            </FormGroup>
-            <FormGroup>
-              <Input type="email" name="email" placeholder="Email" />
-            </FormGroup>
-            <Button color="primary" href="/agencyRegisterS1" >Comenzar</Button>
+          <Col md="3">
+            <h5 className="title-division-primary">Adherí tu compañía, <br /> es muy fácil.</h5>
+            <p>Publicaciones gratis ilimitadas.</p>
+            <div className="cont-form">
+              <h5><strong>¡Registrate gratis y empezá a vender ahora!</strong></h5>
+              <FormGroup>
+                <Input type="text" name="agencyName" placeholder="Nombre de la Consecionaria" />
+              </FormGroup>
+              <FormGroup>
+                <Input type="email" name="email" placeholder="Email" />
+              </FormGroup>
+              <Button color="primary" className="btn-block" href="/agencyRegisterS1" >Comenzar</Button>
+            </div>
           </Col>
         </Row>
       </div>
