@@ -5,14 +5,14 @@ import React, { Component } from 'react';
 import {
   Col,
   Row,
-  Button,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from 'reactstrap';
 import { graphql } from 'react-apollo';
 import qs from 'query-string';
+import _ from 'lodash';
 import { animateScroll as scroll } from 'react-scroll';
 import InfiniteScroll from 'react-infinite-scroller';
 import SearchMutation from '../../ApolloQueries/SearchMutation';
@@ -44,8 +44,11 @@ class SearchCars extends Component {
       totalResults: 0,
       loading: true,
       renderedData: 0,
+      dropDownOrderValue: '. . .',
     };
     this.doSearch = this.doSearch.bind(this);
+    this.changeOrderValue = this.changeOrderValue.bind(this);
+    this.toggleOrderDropdown = this.toggleOrderDropdown.bind(this);
   }
   componentWillMount() {
     const url = this.props.location.search;
@@ -108,6 +111,64 @@ class SearchCars extends Component {
         console.log('there was an error sending the query', error);
       });
   }
+
+  toggleOrderDropdown() {
+    this.setState({
+      OrderDropdown: !this.state.OrderDropdown,
+    });
+  }
+  changeOrderValue(e) {
+    this.setState({ dropDownOrderValue: _.truncate(e.currentTarget.textContent, { length: 20 }) });
+    switch (e.target.value) {
+      case '1': {
+        this.setState({
+          Publications: _.orderBy(this.state.Publications, ['price'], ['asc']),
+        });
+        break;
+      }
+      case '2': {
+        this.setState({
+          Publications: _.orderBy(this.state.Publications, ['price'], ['desc']),
+        });
+        break;
+      }
+      case '3': {
+        const partition = _.partition(this.state.Publications, p => p.CurrentState.stateName === 'Destacada');
+        this.setState({
+          Publications: _.concat(partition[0], partition[1]),
+        });
+        break;
+      }
+      case '4': {
+        const partition = _.partition(this.state.Publications, p => p.CurrentState.stateName === 'Apto para garantía');
+        this.setState({
+          Publications: _.concat(partition[0], partition[1]),
+        });
+        break;
+      }
+      case '5': {
+        this.setState({
+          Publications: _.orderBy(this.state.Publications, ['createdAt'], ['desc']),
+        });
+        break;
+      }
+      case '6': {
+        this.setState({
+          Publications: _.orderBy(this.state.Publications, ['year'], ['desc']),
+        });
+        break;
+      }
+      case '7': {
+        this.setState({
+          Publications: _.orderBy(this.state.Publications, ['year'], ['asc']),
+        });
+        break;
+      }
+      default:
+        return true;
+    }
+  }
+
   renderData() {
     if (this.state.totalResults === 0) {
       return <p>La búsqueda no ha dado resultados, prueba con otro texto </p>;
@@ -130,6 +191,7 @@ class SearchCars extends Component {
       </div>
     );
   }
+
 
   render() {
     const {
@@ -166,18 +228,23 @@ class SearchCars extends Component {
                 </Col>
                 <Col md="4" sm="12">
                   <Row className="align-items-center">
-                    <div class="col-5 text-right">
+                    <div className="col-5 text-right">
                       <p>Ordenar por</p>
                     </div>
-                    <div class="col-7">
-                      <Dropdown isOpen={this.state.tipoDropdown} toggle={this.toggleTipoDropdown}>
+                    <div className="col-7">
+                      <Dropdown isOpen={this.state.OrderDropdown} toggle={this.toggleOrderDropdown}>
                         <DropdownToggle caret color="default" className="btn-select">
-                          Menor Precio{this.state.dropDownTipoValue}
+                          {this.state.dropDownOrderValue}
                         </DropdownToggle>
                         <DropdownMenu>
                           <DropdownItem header>Elije una</DropdownItem>
-                          <DropdownItem onClick={e => this.changeTipoValue(e)}>Menor Precio</DropdownItem>
-                          <DropdownItem onClick={e => this.changeTipoValue(e)}>Destacados</DropdownItem>
+                          <DropdownItem value={1} onClick={e => this.changeOrderValue(e)}>Menor Precio</DropdownItem>
+                          <DropdownItem value={2} onClick={e => this.changeOrderValue(e)}>Mayor precio</DropdownItem>
+                          <DropdownItem value={3} onClick={e => this.changeOrderValue(e)}>Destacados Primero</DropdownItem>
+                          <DropdownItem value={4} onClick={e => this.changeOrderValue(e)}>Apto para garantía Primero</DropdownItem>
+                          <DropdownItem value={5} onClick={e => this.changeOrderValue(e)}>Publicación Reciente</DropdownItem>
+                          <DropdownItem value={6} onClick={e => this.changeOrderValue(e)}>Mas nuevo</DropdownItem>
+                          <DropdownItem value={7} onClick={e => this.changeOrderValue(e)}>Mas viejo</DropdownItem>
                         </DropdownMenu>
                       </Dropdown>
                     </div>
