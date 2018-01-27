@@ -1,0 +1,14 @@
+.container-icon{
+  width: 65px;
+  height: 65px;
+  @include border-radius(65px);
+  background: $secondary;
+  text-align: center;
+  img{
+    top:17px;
+    left:0;
+    right: 0;
+    margin:auto;
+    position: relative;
+  }
+}

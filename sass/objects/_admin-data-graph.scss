@@ -1,0 +1,19 @@
+.data-graph{
+  border:solid 1px $gray-200;
+  @include border-radius(3px);
+  padding:20px;
+  margin:0 0 40px 0;
+  a{
+    h2{
+      color:$primary;
+      font-weight: 900;
+    }
+    p{
+      color:$secondary;
+      margin:0;
+    }
+    .container-icon{
+      margin-top: 10px;
+    }
+  }
+}
