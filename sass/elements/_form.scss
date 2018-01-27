@@ -1,5 +1,20 @@
 .form-group{
+  label{
+    font:bold 14px $font-family-sans-serif;
+    color:$gray-600;
+    width: 100%;
+    a{
+      float: right;
+      font-weight: 500;
+      color:$secondary;
+    }
+  }
   .form-control{
     padding:15px;
+    @include placeholder{
+      font:300 14px $font-family-sans-serif;
+      line-height: 40px;
+      color:$gray-600;
+    }
   }
 }

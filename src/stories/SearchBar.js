@@ -12,6 +12,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
+  ModalFooter,
   FormGroup,
   Label,
 } from 'reactstrap';
@@ -294,43 +295,65 @@ class SearchBar extends Component {
             isOpen={this.state.modal}
             toggle={this.toggleModal}
             className={this.props.className}
+            size="lg"
           >
             <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
             <ModalBody>
-              <Button color="primary">Registrate con facebook</Button>
-              <div className="underline" />
-              <FormGroup>
-                <Label for="exampleEmail">Email</Label>
-                <Input
-                  type="email"
-                  name="email"
-                  value={this.state.email}
-                  onChange={e => this.setState({ email: e.target.value })}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleEmail">Contraseña</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={e => this.setState({ password: e.target.value })}
-                />
-              </FormGroup>
-              <Button color="link">¿Olvidaste tu contraseña?</Button>
-              <Button
-                disabled={this.isLoginFormIncomplete()}
-                onClick={() => this.loginUser(this.state.email, this.state.password)}
-                color="primary"
-              >
-                Iniciar sesión
-              </Button>
-              <p>No tengo cuenta. Soy un particular.</p>
-              <Button color="secondary">Registrarme</Button>
-              <p>No tengo cuenta. Soy una concesionaria.</p>
-              <Button color="secondary">Registrar Agencia</Button>
+              <div className="col-md-6 offset-md-3">
+                <Button color="primary" className="btn-facebook"><img src="/assets/images/icon-single-facebook.svg" /> Registrate con facebook</Button>
+                <div className="underline" />
+                <FormGroup>
+                  <Label for="exampleEmail">Email</Label>
+                  <Input
+                    type="email"
+                    name="email"
+                    value={this.state.email}
+                    onChange={e => this.setState({ email: e.target.value })}
+                    placeholder="Ej: maria@gmail.com"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">Contraseña <a href="">¿Olvidaste tu contraseña?</a></Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    value={this.state.password}
+                    onChange={e => this.setState({ password: e.target.value })}
+                    placeholder="123456"
+                  />
+                </FormGroup>
+
+              </div>
+
             </ModalBody>
-            <style jsx>{style}</style>
+            <ModalFooter>
+              <div class="row">
+                <div class="col-3 float-left offset-3">
+                  <Button
+                    disabled={this.isLoginFormIncomplete()}
+                    color="default"
+                    className="alternative"
+                  >
+                    Salir
+                  </Button>
+                </div>
+                <div class="col-3 float-right">
+                  <Button
+                    disabled={this.isLoginFormIncomplete()}
+                    onClick={() => this.loginUser(this.state.email, this.state.password)}
+                    color="primary"
+                    className="alternative"
+                  >
+                    Iniciar sesión
+                  </Button>
+                </div>
+                <div class="col-md-6 offset-md-3">
+                  <div class="underline"></div>
+                  <p>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
+                  <p>No tengo cuenta. Soy una concesionaria. <a href="" className="btn-link">Registrar Agencia</a></p>
+                </div>
+              </div>
+            </ModalFooter>
           </Modal>
           <NotificationModal
             primaryText={this.state.errorTitle}

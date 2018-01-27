@@ -11,6 +11,11 @@
     height: 50px;
     line-height: 30px;
     @include border-radius(3px);
+    &.alternative{
+      background-color: transparent;
+      color:$primary;
+      border:none;
+    }
   }
   &.btn-secondary{
     @include border-radius(3px);
@@ -18,5 +23,20 @@
   &.btn-link{
     color:$secondary;
     padding: 10px 0;
+  }
+
+
+  //LOGIN FACEBOOK
+  &.btn-facebook{
+    background-color: #3B5998;
+    color:bold 14px $font-family-sans-serif;
+    text-align: center;
+    border:none;
+    display: block;
+    width: 100%;
+    img{
+      height: 20px;
+      margin: -4px 20px 0 0;
+    }
   }
 }
