@@ -4,6 +4,8 @@
     background-color: $white;
     border:solid 1px $gray-100;
   }
+
+  //PRIMARY
   &.btn-primary{
     font-weight:900;
     text-transform: uppercase;
@@ -17,12 +19,25 @@
       border:none;
     }
   }
+  //SECONDARY
   &.btn-secondary{
     @include border-radius(3px);
   }
+
+  // LINK
   &.btn-link{
+    border:none;
+    background:none;
+    font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
     color:$secondary;
-    padding: 10px 0;
+    line-height: 30px;
+    &-active{
+      border:none;
+      background:none;
+      font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+      color:$primary;
+      border-right: solid 1px $gray-300;
+    }
   }
 
 
