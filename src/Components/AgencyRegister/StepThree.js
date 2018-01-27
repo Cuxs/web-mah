@@ -19,58 +19,74 @@ class StepThree extends React.Component {
     return (
       <div>
         <RegisterBar onlyLogin />
-        <Row>
-          <Col md="6" sm="12">
-            <h4>Creá tu cuenta como Particular!</h4>
-            <h6>Registrate en muy pocos pasos</h6>
+        <div className="container-fluid register-steps">
+          <Row>
+            <Col md="6" sm="12" className="bg">
+              <div class="col-md-8 float-right">
+                <div class="text-block">
+                  <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
+                  <p>Registrate en muy pocos pasos</p>
+                </div>
+                <div class="text-block">
+                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
+                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
+                </div>
 
-            <h6>PASO 1</h6>
-            <h4><b>Crear tu cuenta</b></h4>
-            <Button color="link">Modificar datos</Button>
+                <div className="steps">
+                  <div className="step done">
+                    <h6>PASO 1</h6>
+                    <h4>Crear tu cuenta</h4>
+                    <a className="link">Modificar datos</a>
+                  </div>
 
-            <div className="underline" />
+                  <div className="step done">
+                    <h6>PASO 2</h6>
+                    <h4>Contanos sobre tu concessionaria</h4>
+                    <a className="link">Modificar datos</a>
+                  </div>
 
-            <h6>PASO 2</h6>
-            <h4><b>Contanos sobre tu concessionaria</b></h4>
-            <Button color="link">Modificar datos</Button>
+                  <div className="step">
+                    <h6>PASO 3</h6>
+                    <h4>Información del responsable de la concessionaria</h4>
+                    <a className="link">Modificar datos</a>
+                  </div>
 
-            <div className="underline" />
+                </div>
 
-            <h6>PASO 3</h6>
-            <h4><b>Información del responsable de la concessionaria</b></h4>
-
-            <div className="underline" />
-          </Col>
-          <Col md="4">
-            <h4>Información del dueño o responsable de la concessionaria </h4>
-            <FormGroup>
-              <Label for="exampleEmail">Nombre y Apellido</Label>
-              <Input type="text" name="name" id="exampleEmail" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">DNI</Label>
-              <Input type="numeric" name="dni" id="exampleText" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">Domicilio</Label>
-              <Input type="string" name="address" id="exampleEmail" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">Teléfono</Label>
-              <Input type="numeric" name="phone" id="exampleEmail" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">Email</Label>
-              <Input type="email" name="email" id="exampleEmail" />
-            </FormGroup>
-            <div>
-              <div className="underline" />
-              <Button color="secondary" onClick={() => this.props.history.push('/agencyRegisterS2')}>Volver</Button>
-              <Button color="primary" onClick={() => this.props.history.push('/agencyAdmin')}>Registrarme</Button>
-            </div>
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
+              </div>
+            </Col>
+            <Col md="6">
+              <div className="col-md-9 float-left">
+                <h4 className="title-division">Información del dueño o responsable de la concessionaria </h4>
+                <FormGroup>
+                  <Label for="exampleEmail">Nombre y Apellido</Label>
+                  <Input type="text" name="name" id="exampleEmail" />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">DNI</Label>
+                  <Input type="numeric" name="dni" id="exampleText" />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">Domicilio</Label>
+                  <Input type="string" name="address" id="exampleEmail" />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">Teléfono</Label>
+                  <Input type="numeric" name="phone" id="exampleEmail" />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">Email</Label>
+                  <Input type="email" name="email" id="exampleEmail" />
+                </FormGroup>
+                <div>
+                  <div className="underline" />
+                  <Button color="default" className="col-6 float-left" onClick={() => this.props.history.push('/agencyRegisterS2')}>Volver</Button>
+                  <Button color="primary" className="col-6 float-right" onClick={() => this.props.history.push('/agencyAdmin')}>Registrarme</Button>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
