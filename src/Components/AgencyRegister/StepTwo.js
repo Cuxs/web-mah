@@ -45,7 +45,7 @@ class StepTwo extends React.Component {
                     <a className="link">Modificar datos</a>
                   </div>
 
-                  <div className="step">
+                  <div className="step disable">
                     <h6>PASO 3</h6>
                     <h4>Información del responsable de la concessionaria</h4>
                     <a className="link">Modificar datos</a>
