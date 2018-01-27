@@ -107,38 +107,8 @@ class SearchCars extends Component {
           history={history}
           location={location}
         />
-        <Banner />
         <HeaderAgency />
-        <div className="container-section">
-          <Row>
-            <Col md="3" sm="12">
-              {this.state.activeFilters.map(filter => (
-                <Button
-                  style={{ cursor: 'pointer' }}
-                  name={filter.name}
-                  onClick={(e) => {
-                    this.setState({
-                      activeFilters: _.filter(
-                        this.state.activeFilters,
-                        f => e.target.name !== f.name,
-                      ),
-                    });
-                  }}
-                >
-                  {filter.name}
-                </Button>
-              ))}
-              <FiltersList filters={this.state.filters} />
-            </Col>
-            <Col md="9" sm="12">
-              {this.renderData()}
-              <br />
-            </Col>
-          </Row>
 
-        </div>
-        <Footer />
-        <style jsx>{style}</style>
       </div>
     );
   }
