@@ -149,7 +149,7 @@ class SearchBar extends Component {
         <Row className="header">
           <Col md="6">
 
-            <Row className="align-items-center justify-content-md-center">
+            <Row className="align-items-center">
               <Col md="3">
                 <Row>
                   <a onClick={() => this.props.history.push('/')} >
@@ -218,7 +218,7 @@ class SearchBar extends Component {
             </Row>
           </Col>
           <Col md="6" className="flex-row-reverse">
-            <Row className="align-items-center area-btns justify-content-between">
+            <Row className="align-items-center area-btns justify-content-start">
               <Col md="auto">
                 <Row>
                   <Button color="primary" href="/pledgeCredits" > Solicitá tu crédito</Button>
@@ -230,13 +230,13 @@ class SearchBar extends Component {
                 </Row>
               </Col>
               {this.state.isUserLogged ? (
-                <Col >
+                <Col md="3">
                   <Row>
                     <ButtonDropdown
                       isOpen={this.state.dropdownUser}
                       toggle={this.toggleUser}
                     >
-                      <DropdownToggle caret className="btn-link-active">{getUserDataFromToken().name}</DropdownToggle>
+                      <DropdownToggle caret className="btn-link-active btn-block">{getUserDataFromToken().name}</DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem
                           value="myAccount"
