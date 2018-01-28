@@ -30,46 +30,70 @@ class AgencyProfile extends React.Component {
     return (
       <div>
         <AdminBar history={this.props.history} />
+        <div class="container-fluid">
+          <Row>
+            <Col md="3">
+              <AdminSideBar history={this.props.history} location={this.props.location} />
+            </Col>
+            <Col md="9" className="mt-4">
+              <Row>
+                <Col md="6" className="container-data-input-group">
+                  <div className="card p-4" style={{height:`100%`}}>
+                    <div className="data-input-group">
+                      <label>NOMBRE Y APELLIDO</label>
+                      <p>xxx</p>
+                    </div>
+                    <div className="data-input-group">
+                      <label>DNI</label>
+                      <p>xxx</p>
+                    </div>
+                    <div className="data-input-group">
+                      <label>DOMICILIO</label>
+                      <p>xxx</p>
+                    </div>
+                    <div className="data-input-group">
+                      <label>EMAIL DE CONTACTO</label>
+                      <p>xxx</p>
+                    </div>
+                    <div className="data-input-group">
+                      <label>TELEFONO DE CONTACTO</label>
+                      <p>xxx</p>
+                    </div>
 
-        <Row>
-          <Col md="3">
-            <AdminSideBar history={this.props.history} location={this.props.location} />
-          </Col>
-          <Col md="9">
-            <Row>
-              <Col md="5">
-                <h6><b>NOMBRE Y APELLIDO</b></h6>
-                <h4>Rodrigo Valles</h4>
-                <h6><b>DNI</b></h6>
-                <h4>33987654</h4>
-                <h6><b>DOMICILIO</b></h6>
-                <h4>Palero 20, Ciudad, Mendoza.</h4>
-                <h6><b>EMAIL DE CONTACTO</b></h6>
-                <h4>rodrigo@gmail.com</h4>
-                <h6><b>TELEFONO DE CONTACTO</b></h6>
-                <h4>261-5951833</h4>
-                <Button type="secondary">Modificar</Button>
-              </Col>
-              <Col md="5">
-                <h6><b>¿Quieres cambiar la contraseña?</b></h6>
-                <FormGroup>
-                  <Label for="exampleEmail">Contraseña actual</Label>
-                  <Input type="password" name="password" id="exampleText" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Nueva Contraseña</Label>
-                  <Input type="password" name="password" id="exampleText" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Repetir nueva Contraseña</Label>
-                  <Input type="password" name="password" id="exampleText" />
-                </FormGroup>
-                <Button type="secondary">Cambiar</Button>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
+                    <div class="underline"></div>
+                    <Button type="primary" className="btn-link-primary align-self-end">
+                      <img src="/assets/images/icon-edit-red.svg" alt="" />
+                      Editar
+                    </Button>
+                  </div>
+                </Col>
+
+                <Col md="6" className="container-data-input-group">
+                  <div className="card p-4" style={{height:`100%`}}>
+                    <h6 className="title-division">¿Quieres cambiar la contraseña?</h6>
+                    <FormGroup>
+                      <Label for="exampleEmail">Contraseña actual</Label>
+                      <Input type="password" name="password" id="exampleText" />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Nueva Contraseña</Label>
+                      <Input type="password" name="password" id="exampleText" />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Repetir nueva Contraseña</Label>
+                      <Input type="password" name="password" id="exampleText" />
+                    </FormGroup>
+                    <Button type="primary" className="btn-link-primary align-self-end">
+                      <img src="/assets/images/icon-check-red.svg" alt="" />
+                      Guardar
+                    </Button>
+                  </div>
+
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
