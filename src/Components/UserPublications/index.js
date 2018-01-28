@@ -130,18 +130,20 @@ class UserPublications extends React.Component {
           <Col md="3">
             <UserSideBar history={history} location={location} />
           </Col>
-          <Col md="9">
+          <Col md="9" className="mt-4">
             <NumberOfResult results={this.state.totalCount} />
             <AdminFilter history={history} location={location} />
             <div class="container-box-item">
-              <InfiniteScroll
-                pageStart={1}
-                loadMore={this.doSearch}
-                hasMore={this.state.renderedData < this.state.totalCount}
-                loader={<img src="/loading.gif" key={0} alt="Loading..." />}
-              >
-                {this.renderData()}
-              </InfiniteScroll>
+              <div class="col-12">
+                <InfiniteScroll
+                  pageStart={1}
+                  loadMore={this.doSearch}
+                  hasMore={this.state.renderedData < this.state.totalCount}
+                  loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                >
+                  {this.renderData()}
+                </InfiniteScroll>
+              </div>
             </div>
           </Col>
         </Row>
