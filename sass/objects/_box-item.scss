@@ -54,7 +54,35 @@
       &:hover{
         box-shadow: 0 0 10px $gray-300;
       }
+
+      // ADMIN
+      &.wide{
+        p{
+          height: auto;
+          &.item-state{
+            position: absolute;
+            right: 150px;
+            color:$white;
+          }
+          &.item-name strong, &.item-price strong{
+            font-size: $h3-font-size;
+          }
+        }
+        .item-visibility{
+          font:bold 12px $font-family-sans-serif;
+          color:$gray-600;
+        }
+        .item-admin{
+          padding:0 0 20px 0;
+          button{
+            color:$primary;
+            font-weight: bold;
+          }
+        }
+      }
     }
+
+
   }
 }
 
@@ -73,3 +101,4 @@
     border-color:$secondary;
   }
 }
+
