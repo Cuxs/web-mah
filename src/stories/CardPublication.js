@@ -23,7 +23,7 @@ const CardPublication = ({ onHighlight, data, data: { CurrentState: { stateName 
     <div className="row item-car wide" >
       <div className="col-4">
         <div className="row">
-          <img src="http://lorempixel.com/200/200/" alt="banner" width="100%"/>
+          <img src={photoGaleryParser(data.ImageGroup)[0].src} alt="banner" width="100%"/>
         </div>
       </div>
       <div className="col-8">
@@ -38,10 +38,10 @@ const CardPublication = ({ onHighlight, data, data: { CurrentState: { stateName 
           <h6>Publicación {!isPubVisible(stateName) && 'no'} visible</h6>
         </div>
         <div className="item-admin" >
-          {stateName !== 'Vendida' && <Button className="btn-default btn-link float-left">Marcar como Vendido</Button>}
-          {isPubEditable(stateName) && <Button className="btn-default btn-link float-right">
+          {stateName !== 'Vendida' && <Button className="btn-default btn-link-primary float-left">Marcar como Vendido</Button>}
+          {isPubEditable(stateName) && <Button className="btn-default btn-link-primary float-right">
             <img src="/assets/images/icon-edit-red.svg" /> Editar</Button>}
-          {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link float-right" onClick={() => onHighlight()} >
+          {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right" onClick={() => onHighlight()} >
             <img src="/assets/images/icon-star-red.svg" /> Destacar</Button>}
           <div class="clearfix"></div>
         </div>

@@ -40,6 +40,18 @@
     }
   }
 
+  &.btn-link-primary{
+    border:none;
+    background:none;
+    font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+    color:$primary;
+    line-height: 30px;
+    img{
+      position: relative;
+      margin: -5px 5px 0 0;
+    }
+  }
+
 
   //LOGIN FACEBOOK
   &.btn-facebook{
