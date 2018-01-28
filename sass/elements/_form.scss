@@ -8,6 +8,31 @@
       font-weight: 500;
       color:$secondary;
     }
+
+    //FILE
+    &.file{
+      background-color: $gray-100;
+      border:dashed 2px $gray-300;
+      padding: 20px;
+      width: 100%;
+      font:bold 16px $font-family-sans-serif;
+      color:$primary;
+      cursor: pointer;
+      text-align: center;
+      img{
+        position: relative;
+        display: block;
+        margin: 0px auto 5px auto;
+      }
+      & + input{
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+      }
+    }
   }
   .form-control{
     padding:15px;
