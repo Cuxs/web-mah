@@ -43,3 +43,45 @@
     }
   }
 }
+
+
+// CHECKBOX
+.form-check{
+  padding: 0;
+  margin: 0 0 40px 0;
+  .form-control-label{
+    font:bold 14px $font-family-sans-serif;
+  }
+  .form-check-label{
+    font:300 14px $font-family-sans-serif;
+    margin:0 0 10px 0;
+    padding: 0;
+    input{
+      position: relative;
+      -webkit-appearance: none;
+      -moz-appearance:    none;
+      appearance:         none;
+      margin:0 10px 0 0;
+      &:before{
+        content:'';
+        top: 5px;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        border:solid 1px $gray-200;
+        display: inline-block;
+        @include border-radius(3px);
+      }
+      &:checked:after{
+        content:'';
+        position: absolute;
+        top:7px;
+        left:3px;
+        width: 15px;
+        height: 15px;
+        background: url('/assets/images/icon-check-red.svg') no-repeat center center;
+        background-size: 100% auto;
+      }
+    }
+  }
+}

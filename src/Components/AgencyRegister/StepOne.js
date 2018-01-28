@@ -22,7 +22,7 @@ class StepOne extends React.Component {
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" className="bg">
-              <div className="col-md-8 float-right">
+              <div className="col-md-9 float-right">
                 <div className="text-block">
                   <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
                   <p>Registrate en muy pocos pasos</p>

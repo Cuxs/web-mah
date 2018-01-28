@@ -1,6 +1,7 @@
 .register-steps{
   .bg{
     background:$gray-100;
+    min-height: calc(100vh - 80px);
   }
 
   .steps{
