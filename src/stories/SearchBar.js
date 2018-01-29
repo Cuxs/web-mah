@@ -33,7 +33,6 @@ import NotificationModal from '../stories/NotificationModal';
 import parseError from '../Modules/errorParser';
 import { login } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
-import errorParser from '../Modules/errorParser';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -239,8 +238,7 @@ class SearchBar extends Component {
                       <DropdownMenu>
                         <DropdownItem
                           value="myAccount"
-                          onClick={() => (getUserDataFromToken().userType === 'Agencia' ?
-                            this.props.history.push('/agencyAdmin') : this.props.history.push('/userAdmin'))}
+                          onClick={() => (this.props.history.push('/userAdmin'))}
                         >Mi cuenta
                         </DropdownItem>
                         <DropdownItem value="closeSession" onClick={() => { clearSession(); this.setState({ isUserLogged: false }); }}>Cerrar Sesión</DropdownItem>
