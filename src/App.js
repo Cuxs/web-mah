@@ -7,10 +7,6 @@ import {
   Switch,
 } from 'react-router-dom';
 import Home from './Components/Home';
-import AgencyAdmin from './Components/AgencyAdmin';
-import AgencyPublications from './Components/AgencyPublications';
-import AgencyInbox from './Components/AgencyInbox';
-import AgencyProfile from './Components/AgencyProfile';
 import AgencyMicrosite from './Components/AgencyMicrosite';
 import AgencyRegister from './Components/AgencyRegister';
 import AgencyRegisterStepOne from './Components/AgencyRegister/StepOne';
@@ -99,10 +95,6 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/searchCars" component={SearchCars} />
-        <Route exact path="/agencyAdmin" component={AgencyAdmin} />
-        <Route exact path="/agencyPublications" component={AgencyPublications} />
-        <Route exact path="/agencyInbox" component={AgencyInbox} />
-        <Route exact path="/agencyProfile" component={AgencyProfile} />
         <Route exact path="/agencyMicrosite" component={AgencyMicrosite} />
         <Route exact path="/agencyRegister" component={AgencyRegister} />
         <Route exact path="/agencyRegisterS1" component={AgencyRegisterStepOne} />
