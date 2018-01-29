@@ -1,0 +1,10 @@
+.dropdown-toggle{
+  text-align: left;
+  &:after{
+    content:'';
+    top: 45%;
+    float: right;
+    position: absolute;
+    right: 15px;
+  }
+}

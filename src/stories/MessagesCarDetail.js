@@ -5,8 +5,9 @@ import { graphql, compose } from 'react-apollo';
 import jwtDecode from 'jwt-decode';
 import { stringify, parse } from 'query-string';
 import jsonwt from 'jsonwebtoken';
-import { getUserDataFromToken, isUserLogged } from '../Modules/sessionFunctions';
+import moment from 'moment';
 
+import { getUserDataFromToken, isUserLogged } from '../Modules/sessionFunctions';
 import {
   MessageQuery,
   MessageSubscription,
@@ -30,7 +31,8 @@ const fillStateWithMessages = (messagesData, location, publicationUserId) => {
       messages.push(new Message({
         id: publicationUserId !== message.from_id ? 0 : message.from_id,
         message: message.content,
-        senderName: message.User ? message.User.name : anonymName,
+        senderName: message.User ? `${message.User.name}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')}` : `${anonymName}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')} `,
+
       }));
     });
     return messages;
@@ -173,6 +175,8 @@ class MessagesCarDetail extends Component {
             onChange={e => this.setState({ content: e.target.value })}
             type="textarea"
             name="text"
+            cols="30"
+            rows="5"
             id="exampleText"
             placeholder="Escribe una consulta"
           />
@@ -181,8 +185,9 @@ class MessagesCarDetail extends Component {
           disabled={this.isTextInputIncomplete()}
           onClick={() => this.sendMessage()}
           color="secondary"
+          className="btn btn-secondary btn-lg"
         >
-          Enviar
+          ENVIAR
         </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>

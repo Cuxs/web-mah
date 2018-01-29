@@ -125,33 +125,38 @@ class UserPublications extends React.Component {
     } = this.props;
     return (<div>
       <AdminBar history={history} />
-      <Row>
-        <Col md="3">
-          <UserSideBar history={history} location={location} />
-        </Col>
-        <Col md="9">
-          <NumberOfResult results={this.state.totalCount} />
-          <AdminFilter history={history} location={location} />
-          <InfiniteScroll
-            pageStart={1}
-            loadMore={this.doSearch}
-            hasMore={this.state.renderedData < this.state.totalCount}
-            loader={<img src="/loading.gif" key={0} alt="Loading..." />}
-          >
-            {this.renderData()}
-          </InfiniteScroll>
-        </Col>
-      </Row>
-      <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-        <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
-        <ModalBody>
-            El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={() => this.toggle()}>OK</Button>
-        </ModalFooter>
-      </Modal>
-      <style jsx>{style}</style>
+      <div class="container-fluid">
+        <Row>
+          <Col md="3">
+            <UserSideBar history={history} location={location} />
+          </Col>
+          <Col md="9" className="mt-4">
+            <NumberOfResult results={this.state.totalCount} />
+            <AdminFilter history={history} location={location} />
+            <div class="container-box-item">
+              <div class="col-12">
+                <InfiniteScroll
+                  pageStart={1}
+                  loadMore={this.doSearch}
+                  hasMore={this.state.renderedData < this.state.totalCount}
+                  loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                >
+                  {this.renderData()}
+                </InfiniteScroll>
+              </div>
+            </div>
+          </Col>
+        </Row>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
+          <ModalBody>
+              El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => this.toggle()}>OK</Button>
+          </ModalFooter>
+        </Modal>
+      </div>
     </div>
     );
   }

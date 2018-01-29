@@ -1,0 +1,45 @@
+.register-steps{
+  .bg{
+    background:$gray-100;
+    min-height: calc(100vh - 80px);
+  }
+
+  .steps{
+    .step{
+      border-bottom:solid 1px $gray-200;
+      margin:0 0 20px 0;
+      padding:20px 0;
+      position: relative;
+      h6{
+        color:$gray-600;
+        text-transform: uppercase;
+      }
+      h4{
+
+      }
+      a{
+        display: none;
+        color:$primary;
+      }
+      &.disable{
+        opacity:0.3;
+        cursor:not-allowed;
+      }
+      &.done{
+        a{
+          display: block
+        }
+        &:after{
+          content:'';
+          position: absolute;
+          width: 40px;
+          height: 40px;
+          top:30px;
+          right: 0;
+          @include border-radius(40px);
+          background: $secondary url('/assets/images/icon-check-white.svg') no-repeat center center;
+        }
+      }
+    }
+  }
+}

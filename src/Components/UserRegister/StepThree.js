@@ -22,43 +22,64 @@ class StepThree extends React.Component {
       modal: !this.state.modal,
     });
   }
-  
+
   render() {
     return (
       <div>
         <RegisterBar onlyLogin />
-        <Row>
-          <Col md="6" sm="12">
-            <h4>Creá tu cuenta como Particular!</h4>
-            <h6>Registrate en muy pocos pasos</h6>
-    
-            <h6>PASO 1</h6>
-            <h4><b>Crear tu cuenta</b></h4>
-            <Button color="link">Modificar datos</Button>
-    
-            <div className="underline" />
-    
-            <h6>PASO 2</h6>
-            <h4><b>Contanos sobre tu concessionaria</b></h4>
-            <Button color="link">Modificar datos</Button>
-    
-            <div className="underline" />
-    
-            <h6>Al registrarme, declaro ser mayor de 18 años de edad y acepta los Términos y condiciones de miautohoy.com</h6>
-    
-            <Button color="primary" onClick={() => this.toggle()} > Registrarme</Button>
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
-          <ModalBody>
-            Tu cuenta ha sido creada con éxito.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" href="/userAdmin" >OK</Button>
-          </ModalFooter>
-        </Modal>
+        <div className="container-fluid register-steps">
+          <Row>
+            <Col md="6" sm="12" className="bg">
+              <div class="col-md-8 float-right">
+                <div class="text-block">
+                  <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
+                  <p>Registrate en muy pocos pasos</p>
+                </div>
+                <div class="text-block">
+                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
+                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
+                </div>
+
+                <div className="steps">
+                  <div className="step done">
+                    <h6>PASO 1</h6>
+                    <h4>Crear tu cuenta</h4>
+                    <a className="link">Modificar datos</a>
+                  </div>
+
+                  <div className="step done">
+                    <h6>PASO 2</h6>
+                    <h4>Contanos sobre tu concessionaria</h4>
+                    <a className="link">Modificar datos</a>
+                  </div>
+
+                  <div className="step">
+                    <h6>PASO 3</h6>
+                    <h4>Información del responsable de la concessionaria</h4>
+                    <a className="link">Modificar datos</a>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col md="6" sm="12">
+              <div className="mt-4 mb-4">
+                <h6>Al registrarme, declaro ser mayor de 18 años de edad y acepta los Términos y condiciones de miautohoy.com</h6>
+              </div>
+              <div className="underline"></div>
+              <Button color="primary" onClick={() => this.toggle()} > Registrarme</Button>
+            </Col>
+
+          </Row>
+          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+            <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
+            <ModalBody>
+              Tu cuenta ha sido creada con éxito.
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" href="/userAdmin" >OK</Button>
+            </ModalFooter>
+          </Modal>
+        </div>
       </div>
     )
   }

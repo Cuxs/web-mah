@@ -1,0 +1,12 @@
+#myTopnav{
+  width: 100vw;
+  display: inline-block;
+  a{
+    font:300 #{$font-size-sm + 0.05}/#{$font-size-lg} $font-family-sans-serif;
+    color:$gray-600;
+    float: right;
+    padding: 6px 23px;
+    text-decoration: none;
+    letter-spacing: 0.02rem;
+  }
+}

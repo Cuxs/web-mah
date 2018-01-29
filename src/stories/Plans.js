@@ -10,51 +10,52 @@ const style = {
 
 export default ({ history }) => (
   <Col sm="12">
-    <Row className="box" >
-      <Col sm="3" xs="12" className="card-plans" >
-        <h4>Básica Particular</h4>
-        <h6>Una publicación gratis</h6>
-        <h6>Tiempo de la publicación: 60 días</h6>
-        <h6>Inmediata, sin registro</h6>
-        <Button color="primary" onClick={() => history.push('/publicateWithoutRegister')}>Comenzar</Button>
+    <div className="row">
+      <div className="col-12">
+        <h3 className="title-division">Planes gratis a tu medida</h3>
+      </div>
+    </div>
+    <Row className="justify-content-around align-items-stretch" >
+      <Col md="4" xs="12">
+        <div className="card card-plans">
+          <h4>Básica Particular</h4>
+          <ul>
+            <li>Una publicación gratis</li>
+            <li>Tiempo de la publicación: 60 días</li>
+            <li>Inmediata, sin registro</li>
+          </ul>
+          <Button color="secondary" className="btn-lg align-self-start justify-content-end" onClick={() => history.push('/publicateWithoutRegister')}>Comenzar</Button>
+        </div>
       </Col>
-      <Col sm="3" xs="12" className="card-plans">
-        <h4>Premium Particular</h4>
-        <h6>Publicaciones gratis ilimitadas</h6>
-        <h6>Tiempo de publicación: 60 días.</h6>
-        <h6>Panel de Control de autos publicados.</h6>
-        <h6>Chat con los interesados</h6>
-        <h6>Anuncios destacados ilimitados</h6>
-        <h6>Publicaciones en redes sociales y fan page de miautohoy.com</h6>
-        <Button color="primary" onClick={() => history.push('/userRegisterS1')}>Comenzar</Button>
+      <Col md="4" xs="12">
+        <div className="card card-plans">
+          <h4>Premium Particular</h4>
+          <ul>
+            <li>Publicaciones gratis ilimitadas</li>
+            <li>Tiempo de publicación: 60 días.</li>
+            <li>Panel de Control de autos publicados.</li>
+            <li>Chat con los interesados</li>
+            <li>Anuncios destacados ilimitados</li>
+            <li>Publicaciones en redes sociales y fan page de miautohoy.com</li>
+          </ul>
+          <Button color="secondary" className="btn-lg align-self-start justify-content-end" onClick={() => history.push('/userRegisterS1')}>Comenzar</Button>
+        </div>
       </Col>
-      <Col sm="3" xs="12" className="card-plans">
-        <h4>Premium Concesioanria</h4>
-        <h6>Publicaciones gratis ilimitadas</h6>
-        <h6>Tiempo de publicación: 60 días.</h6>
-        <h6>Posibilidad de compra garantizada si transcurridos los 60 días no vendió su auto.</h6>
-        <h6>Panel de Control de autos publicados.</h6>
-        <h6>Chat con los interesados</h6>
-        <h6>Anuncios destacados ilimitados</h6>
-        <h6>Minisitio Consecionario</h6>
-        <h6>Publicaciones en redes sociales y fan page de miautohoy.com</h6>
-        <Button color="primary" onClick={() => history.push('/agencyRegisterS1')}>Comenzar</Button>
+      <Col md="4" xs="12">
+        <div className="card card-plans">
+          <h4>Premium Concesioanria</h4>
+          <ul>
+            <li>Publicaciones gratis ilimitadas</li>
+            <li>Tiempo de publicación: 60 días.</li>
+            <li>Posibilidad de compra garantizada si transcurridos los 60 días no vendió su auto.</li>
+            <li>Panel de Control de autos publicados.</li><li>Chat con los interesados</li>
+            <li>Anuncios destacados ilimitados</li>
+            <li>Minisitio Consecionario</li>
+            <li>Publicaciones en redes sociales y fan page de miautohoy.com</li>
+          </ul>
+          <Button color="secondary" className="btn-lg align-self-start justify-content-end" onClick={() => history.push('/agencyRegisterS1')}>Comenzar</Button>
+        </div>
       </Col>
-      <style jsx>
-        {`
-          .card-plans {
-            border-radius: 3px;
-            background-color: white;
-            padding: 20px;
-            margin: 10px;
-          }
-          .box {
-            background-color: lightgray;
-            display: flex;
-            justify-content: space-around;
-          }
-        `}
-      </style>
     </Row>
   </Col>
 );

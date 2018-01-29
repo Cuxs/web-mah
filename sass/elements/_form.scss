@@ -1,0 +1,87 @@
+.form-group{
+  label{
+    font:bold 14px $font-family-sans-serif;
+    color:$gray-600;
+    width: 100%;
+    a{
+      float: right;
+      font-weight: 500;
+      color:$secondary;
+    }
+
+    //FILE
+    &.file{
+      background-color: $gray-100;
+      border:dashed 2px $gray-300;
+      padding: 20px;
+      width: 100%;
+      font:bold 16px $font-family-sans-serif;
+      color:$primary;
+      cursor: pointer;
+      text-align: center;
+      img{
+        position: relative;
+        display: block;
+        margin: 0px auto 5px auto;
+      }
+      & + input{
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+      }
+    }
+  }
+  .form-control{
+    padding:15px;
+    @include placeholder{
+      font:300 14px $font-family-sans-serif;
+      line-height: 40px;
+      color:$gray-600;
+    }
+  }
+}
+
+
+// CHECKBOX
+.form-check{
+  padding: 0;
+  margin: 0 0 40px 0;
+  .form-control-label{
+    font:bold 14px $font-family-sans-serif;
+  }
+  .form-check-label{
+    font:300 14px $font-family-sans-serif;
+    margin:0 0 10px 0;
+    padding: 0;
+    input{
+      position: relative;
+      -webkit-appearance: none;
+      -moz-appearance:    none;
+      appearance:         none;
+      margin:0 10px 0 0;
+      &:before{
+        content:'';
+        top: 5px;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        border:solid 1px $gray-200;
+        display: inline-block;
+        @include border-radius(3px);
+      }
+      &:checked:after{
+        content:'';
+        position: absolute;
+        top:7px;
+        left:3px;
+        width: 15px;
+        height: 15px;
+        background: url('/assets/images/icon-check-red.svg') no-repeat center center;
+        background-size: 100% auto;
+      }
+    }
+  }
+}

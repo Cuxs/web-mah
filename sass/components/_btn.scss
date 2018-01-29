@@ -1,0 +1,70 @@
+.btn{
+  @include border-radius(0);
+  &.btn-select{
+    background-color: $white;
+    border:solid 1px $gray-100;
+  }
+
+  //PRIMARY
+  &.btn-primary{
+    font-weight:900;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    height: 50px;
+    line-height: 30px;
+    @include border-radius(3px);
+    &.alternative{
+      background-color: transparent;
+      color:$primary;
+      border:none;
+    }
+  }
+  //SECONDARY
+  &.btn-secondary{
+    @include border-radius(3px);
+  }
+
+  // LINK
+  &.btn-link{
+    border:none;
+    background:none;
+    font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+    color:$secondary;
+    line-height: 30px;
+    &-active{
+      border:none;
+      background:none;
+      font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+      color:$primary;
+      border-right: solid 1px $gray-300;
+    }
+  }
+
+  &.btn-link-primary{
+    border:none;
+    background:none;
+    font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+    color:$primary;
+    line-height: 30px;
+    img{
+      position: relative;
+      margin: -5px 5px 0 0;
+    }
+  }
+
+
+
+  //LOGIN FACEBOOK
+  &.btn-facebook{
+    background-color: #3B5998;
+    color:bold 14px $font-family-sans-serif;
+    text-align: center;
+    border:none;
+    display: block;
+    width: 100%;
+    img{
+      height: 20px;
+      margin: -4px 20px 0 0;
+    }
+  }
+}

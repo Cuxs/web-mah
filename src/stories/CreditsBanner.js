@@ -18,37 +18,45 @@ const style = {
 };
 
 export default () => (
-  <Row style={style.container} >
-    <Col sm="4" xs="12" style={style.containerCredit} >
-      <Col md="4" >
-        <img src="http://placecage.com/c/80/80" style={style.imgCredit} alt="banner" />
+  <div className="container-fluid">
+    <Row className="home-posibilities">
+      <Col sm="4" xs="12">
+        <Row className="justify-content-between">
+          <Col sm="4" className="text-right">
+            <img src="/assets/images/icon-home-1.png" srcSet="/assets/images/icon-home-1@2x.svg"  alt="banner" />
+          </Col>
+          <Col sm="8">
+            <h5>Créditos Prendarios </h5>
+            <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+            <Button color="primary"> Consultá</Button>
+          </Col>
+        </Row>
       </Col>
-      <Col md="8">
-        <h5>Créditos Prendarios </h5>
-        <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
-        <Button color="primary"> Consultá</Button>
+      <Col sm="4" xs="12">
+        <Row className="justify-content-between">
+          <Col md="4" className="text-right">
+            <img src="/assets/images/icon-home-2.png" srcSet="/assets/images/icon-home-2@2x.svg" alt="banner" />
+          </Col>
+          <Col md="8">
+            <h5>Personal Shopper </h5>
+            <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+            <Button color="primary"> Consultá</Button>
+          </Col>
+        </Row>
       </Col>
-    </Col>
-    <Col sm="4" xs="12" style={style.containerCredit} >
-      <Col md="4" >
-        <img src="http://placecage.com/c/80/80" style={style.imgCredit} alt="banner" />
+      <Col sm="4" xs="12">
+        <Row className="justify-content-between">
+          <Col md="4" className="text-right">
+            <img src="/assets/images/icon-home-3.png" srcSet="/assets/images/icon-home-3@2x.svg" alt="banner" />
+          </Col>
+          <Col md="8">
+            <h5>Créditos de libre destino</h5>
+            <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+            <Button color="primary"> Consultá</Button>
+          </Col>
+        </Row>
       </Col>
-      <Col md="8">
-        <h5>Personal Shopper </h5>
-        <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
-        <Button color="primary"> Consultá</Button>
-      </Col>
-    </Col>
-    <Col sm="4" xs="12" style={style.containerCredit} >
-      <Col md="4" >
-        <img src="http://placecage.com/c/80/80" style={style.imgCredit} alt="banner" />
-      </Col>
-      <Col md="8">
-        <h5>Créditos de libre destino</h5>
-        <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
-        <Button color="primary"> Consultá</Button>
-      </Col>
-    </Col>
-  </Row>
+    </Row>
+  </div>
 );
 

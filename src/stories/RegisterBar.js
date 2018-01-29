@@ -4,21 +4,31 @@ import style from '../Styles/search';
 /* eslint react/jsx-filename-extension: 0 */
 
 export default ({ onlyLogin, history }) => (
-  <Row style={style.header} >
-    <Col md="6">
-      <Button onClick={() => history.push('/')} >
-        <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
-      </Button>
-    </Col>
-    <Col md="6" className="flex-row" >
-      { !onlyLogin &&
-        <div>
-          <Button color="secondary">BENEFICIOS</Button>
-          <Button color="secondary">PLANES</Button>
-          <Button color="secondary">AYUDA</Button>
+  <div className="container-fluid">
+    <Row className="header">
+      <Col md="3">
+        <Row>
+          <a onClick={() => this.props.history.push('/')} >
+            <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
+          </a>
+        </Row>
+      </Col>
+      <Col md="9">
+        <div class="row justify-content-end">
+          { !onlyLogin &&
+            <div className="col-10">
+              <div class="row justify-content-end">
+                <Button color="secondary" className="btn-link">BENEFICIOS</Button>
+                <Button color="secondary" className="btn-link">PLANES</Button>
+                <Button color="secondary" className="btn-link">AYUDA</Button>
+              </div>
+            </div>
+          }
+          <div class="col-2">
+            <Button color="secondary" className="btn-link">INICIAR SESIÓN</Button>
+          </div>
         </div>
-      }
-      <Button color="secondary">INICIAR SESIÓN</Button>
-    </Col>
-  </Row>
+      </Col>
+    </Row>
+  </div>
 );

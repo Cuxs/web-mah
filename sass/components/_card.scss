@@ -1,0 +1,27 @@
+.card{
+  &.card-plans{
+    padding:30px;
+    height: 100%;
+    position: relative;
+    h4{
+      font:500 $h3-font-size $font-family-sans-serif;
+      color:$secondary;
+      margin:0 0 20px 0;
+    }
+    ul{
+      margin: 0 0 60px 15px;
+      padding: 0;
+      li{
+        margin:0 0 10px 0;
+        font:300 16px $font-family-sans-serif;
+        color:$secondary;
+      }
+    }
+    .btn{
+      display: inline-block;
+      position: absolute;
+      bottom: 30px;
+      left:30px;
+    }
+  }
+}
