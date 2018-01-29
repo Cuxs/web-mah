@@ -32,7 +32,7 @@ import {
   CountUnreadMessagesQuery,
   CountActivePublications,
 } from '../../ApolloQueries/AdminHomeQuery';
-import { getUserToken } from '../../Modules/sessionFunctions';
+import { getUserToken, getUserDataFromToken } from '../../Modules/sessionFunctions';
 import { getSoldPublications } from '../../Modules/fetches';
 
 class UserAdmin extends React.Component {
@@ -82,7 +82,7 @@ class UserAdmin extends React.Component {
     return (
       <div>
         <AdminBar history={history} />
-        <div class="container-fluid">
+        <div className="container-fluid">
           <Row>
             <Col md="3">
               <UserSideBar history={history} location={location} />
@@ -90,7 +90,7 @@ class UserAdmin extends React.Component {
             <Col md="9">
               <Row>
                 <Col md="12">
-                  <h1 className="title-division-primary">!Hola xxxxx!</h1>
+                  <h1 className="title-division-primary">¡Hola {getUserDataFromToken().name}!</h1>
                 </Col>
                 <Col md="8">
                   <Label for="exampleEmail">Reporte de autos vendidos</Label>
@@ -131,12 +131,12 @@ class UserAdmin extends React.Component {
 
                             <div className="col-8">
                               <h2>{CountUnreadMessages[0]}</h2>
-                              <p>Nuevos Mensajes</p>
+                              <p>Mensajes sin leer</p>
                             </div>
 
                         )}
                         <div className="col-4">
-                          <div class="container-icon">
+                          <div className="container-icon">
                             <img src="/assets/images/icon-comments-white.svg" alt="" />
                           </div>
                         </div>
@@ -163,7 +163,7 @@ class UserAdmin extends React.Component {
                         </div>
                       )}
                       <div className="col-4">
-                        <div class="container-icon">
+                        <div className="container-icon">
                           <img src="/assets/images/icon-car-white.svg" alt="" />
                         </div>
                       </div>
@@ -193,7 +193,7 @@ class UserAdmin extends React.Component {
                         </div>
                       )}
                       <div className="col-4">
-                        <div class="container-icon">
+                        <div className="container-icon">
                           <img src="/assets/images/icon-star-white.svg" alt="" />
                         </div>
                       </div>

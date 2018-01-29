@@ -34,10 +34,10 @@ class UserInbox extends Component {
     } = this.props;
     let sortedThreads = [];
     /* sortedThreads = _.orderBy(Threads, ['updatedAt'], ['desc']); */
-
-    sortedThreads = (_.sortBy(Threads, th => th.messages.map(ms => (ms.read !== null))));
-
-
+    /* (_.sortBy(Threads, th => th.messages.map(ms => (ms.read !== null)))); */
+    const partition = _.partition(Threads, th => th.messages.map(ms => (ms.read === null))[0]);
+    sortedThreads = _.concat(partition[0], partition[1]);
+    sortedThreads = _.orderBy(sortedThreads, ['id'], ['desc']);
     return (
       <div>
         <AdminBar history={history} />
@@ -65,62 +65,6 @@ class UserInbox extends Component {
                   {sortedThreads.map(thr => <CardMessagge data={thr} />)}
                 </span>
               )}
-
-              <div className="cont-list-messages">
-                <div className="list-message">
-                  <div className="row">
-                    <div className="col-2">
-                      <img src="http://lorempixel.com/200/200/" alt="" width="100%" />
-                    </div>
-                    <div className="col-10">
-                      <div className="row align-items-center">
-                        <div className="col-9">
-                          <small>22/02/17 |  10:33</small>
-                          <p className="context-item">
-                            <strong>Fiat Palio Weekend</strong>
-                            1.8 Adventure Locker Pack Xtreme. 2014 - 42.018 km
-                          </p>
-                          <p>Hola, quisiera saber si recibe permuta?</p>
-                        </div>
-                        <div className="col-3 text-center">
-                          <a href="" className="btn btn-link-primary">
-                            <img src="/assets/images/icon-envelop-red.svg" alt="" />
-                            Responder
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="list-message">
-                  <div className="row">
-                    <div className="col-2">
-                      <img src="http://lorempixel.com/200/200/" alt="" width="100%" />
-                    </div>
-                    <div className="col-10">
-                      <div className="row align-items-center">
-                        <div className="col-9">
-                          <small>22/02/17 |  10:33</small>
-                          <p className="context-item">
-                            <strong>Fiat Palio Weekend</strong>
-                            1.8 Adventure Locker Pack Xtreme. 2014 - 42.018 km
-                          </p>
-                          <p>Hola, quisiera saber si recibe permuta?</p>
-                        </div>
-                        <div className="col-3 text-center">
-                          <a href="" className="btn btn-link-primary">
-                            <img src="/assets/images/icon-envelop2-red.svg" alt="" />
-                            Ver
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
             </Col>
           </Row>
         </div>

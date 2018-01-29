@@ -120,6 +120,7 @@ class UserPublications extends React.Component {
     const {
       history, location,
     } = this.props;
+<<<<<<< HEAD
     return (
       <div>
         <AdminBar history={history} />
@@ -142,6 +143,28 @@ class UserPublications extends React.Component {
                     {this.renderData()}
                   </InfiniteScroll>
                 </div>
+=======
+    return (<div>
+      <AdminBar history={history} />
+      <div className="container-fluid">
+        <Row>
+          <Col md="3">
+            <UserSideBar history={history} location={location} />
+          </Col>
+          <Col md="9" className="mt-4">
+            <NumberOfResult results={this.state.totalCount} />
+            <AdminFilter history={history} location={location} />
+            <div className="container-box-item">
+              <div className="col-12">
+                <InfiniteScroll
+                  pageStart={1}
+                  loadMore={this.doSearch}
+                  hasMore={this.state.renderedData < this.state.totalCount}
+                  loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                >
+                  {this.renderData()}
+                </InfiniteScroll>
+>>>>>>> 1db3458070d0ac965c127fda53cf12cd9acaf4ba
               </div>
             </Col>
           </Row>

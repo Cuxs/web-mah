@@ -84,7 +84,7 @@ export default class ImageCrop extends Component {
   render() {
     return (
       <div className="row">
-        <div class="col-4">
+        <div className="col-4">
           {this.shouldShowCropper()
             ? <Cropper
               style={{ height: 400, width: '100%' }}
@@ -98,7 +98,7 @@ export default class ImageCrop extends Component {
             />
             : <img src={this.state.cropResult} alt="cropImage" width="100%"/>}
         </div>
-        <div class="col-8">
+        <div className="col-8">
           {this.shouldShowSelectImage()
             ? <div className="form-group">
               <Label className="file" for="exampleFile">

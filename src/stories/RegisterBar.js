@@ -14,17 +14,17 @@ export default ({ onlyLogin, history }) => (
         </Row>
       </Col>
       <Col md="9">
-        <div class="row justify-content-end">
+        <div className="row justify-content-end">
           { !onlyLogin &&
             <div className="col-10">
-              <div class="row justify-content-end">
+              <div className="row justify-content-end">
                 <Button color="secondary" className="btn-link">BENEFICIOS</Button>
                 <Button color="secondary" className="btn-link">PLANES</Button>
                 <Button color="secondary" className="btn-link">AYUDA</Button>
               </div>
             </div>
           }
-          <div class="col-2">
+          <div className="col-2">
             <Button color="secondary" className="btn-link">INICIAR SESIÓN</Button>
           </div>
         </div>

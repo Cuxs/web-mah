@@ -41,7 +41,7 @@ class AgencyAdmin extends React.Component {
     return (
       <div>
         <AdminBar history={this.props.history} />
-        <div class="container-fluid">
+        <div className="container-fluid">
           <Row>
             <Col md="3">
               <AdminSideBar history={this.props.history} location={this.props.location} />
@@ -77,7 +77,7 @@ class AgencyAdmin extends React.Component {
                           <p>Nuevos Mensajes</p>
                         </div>
                         <div className="col-4">
-                          <div class="container-icon">
+                          <div className="container-icon">
                             <img src="/assets/images/icon-comments-white.svg" alt="" />
                           </div>
                         </div>
@@ -96,7 +96,7 @@ class AgencyAdmin extends React.Component {
                           <p>Publicaciones activas</p>
                         </div>
                         <div className="col-4">
-                          <div class="container-icon">
+                          <div className="container-icon">
                             <img src="/assets/images/icon-car-white.svg" alt="" />
                           </div>
                         </div>
@@ -116,7 +116,7 @@ class AgencyAdmin extends React.Component {
                           <p>Destacados</p>
                         </div>
                         <div className="col-4">
-                          <div class="container-icon">
+                          <div className="container-icon">
                             <img src="/assets/images/icon-star-white.svg" alt="" />
                           </div>
                         </div>
