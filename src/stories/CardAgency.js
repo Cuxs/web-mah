@@ -2,27 +2,27 @@ import React from 'react';
 /* eslint react/jsx-filename-extension: 0 */
 
 const CardAgency = () => (
-  <div className="d-flex flex-row card" >
-    <img src="http://placecage.com/c/230/150" alt="banner" />
-    <div className="d-flex flex-column">
-      <h4>Nombre de la Agencia</h4>
-      <h6>DOMICILIO</h6>
-      <h5>Av. Mitre 1468/ Av. Mitre 1719 San Rafael, Mendoza</h5>
-      <h6>TELÉFONO</h6>
-      <h5>2604-4337724/ 2604-329383</h5>
-      <h6>EMAIL</h6>
-      <h5>agencia@hotmail.com</h5>
+  <div className="box-item-horizontal col-md-12" >
+    <div className="row" >
+      <div className="col-md-4">
+        <img src="http://placecage.com/c/230/150" alt="banner" width="100%"/>
+      </div>
+      <div className="col-md-8">
+        <h4><strong>Nombre de la Agencia</strong></h4>
+        <div className="data-input-group">
+          <label>DOMICILIO</label>
+          <p>Av. Mitre 1468/ Av. Mitre 1719 San Rafael, Mendoza</p>
+        </div>
+        <div className="data-input-group">
+          <label>TELÉFONO</label>
+          <p>2604-4337724/ 2604-329383</p>
+        </div>
+        <div className="data-input-group">
+          <label>EMAIL</label>
+          <p>agencia@hotmail.com</p>
+        </div>
+      </div>
     </div>
-    <style jsx>{
-      `
-      .card {
-        margin-bottom: 30px;
-        padding: 15px;
-        background-color: lightgray;
-      }
-      `
-    }
-    </style>
   </div>
 );
 

@@ -1,0 +1,39 @@
+.modal{
+  .modal-dialog{
+    .modal-content{
+      .modal-header{
+        background-color: $secondary;
+        text-align: center;
+        .modal-title{
+          color:$white;
+          margin:auto;
+        }
+        .close{
+          color:$white;
+          position: absolute;
+          right: 15px;
+        }
+      }
+      .modal-body{
+        padding:40px 0;
+      }
+      .modal-footer{
+        justify-content:center;
+      }
+
+      .modal-footer{
+        .btn{
+          height: 40px;
+          line-height: 40px;
+          text-transform: uppercase;
+          padding:0 20px;
+          font-weight: 900;
+          font-size: 15px;
+          &.btn-primary{
+
+          }
+        }
+      }
+    }
+  }
+}

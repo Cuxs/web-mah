@@ -10,10 +10,14 @@
 
 @import "layout/body";
 @import "components/btn";
+@import "components/modal";
+@import "components/card";
+@import "components/sidebar";
 @import "components/dropdown-toggle";
 @import "objects/top-nav";
 @import "elements/header";
 @import "elements/footer";
+@import "elements/text";
 @import "elements/headings";
 @import "objects/banner-home";
 @import "objects/home-posibilities";
@@ -24,3 +28,11 @@
 @import "objects/header-filters";
 @import "objects/sidebar-filters";
 @import "objects/sheet";
+@import "objects/microsite";
+@import "objects/cont-form";
+@import "objects/icons";
+@import "objects/list-messages";
+@import "elements/form";
+@import "layout/helpers";
+@import "layout/register-steps";
+@import "objects/admin-data-graph";

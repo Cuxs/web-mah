@@ -2,7 +2,6 @@
   background-color:$gray-200;
   padding-top: 15px;
   padding-bottom: 15px;
-  margin-bottom: 20px;
   width: 100vw;
 
   //1
@@ -12,8 +11,9 @@
       font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
       @include border-radius(3px);
       @include placeholder {
-        font:bold #{$font-size-lg}/#{$font-size-base} $font-family-sans-serif;
+        font:bold $font-size-lg $font-family-sans-serif;
         color:$secondary;
+        line-height: 25px;
       }
       border:solid 1px $gray-200;
       padding:10px 15px;
@@ -62,26 +62,13 @@
     .btn{
       padding:10px 15px;
       height: 50px;
-      line-height: 30px;
+      line-height: 30px !important;
       &.btn-secondary{
         font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
         text-transform: uppercase;
         @include border-radius(3px);
       }
-      &.btn-link{
-        border:none;
-        background:none;
-        font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
-        color:$secondary;
-        line-height: 30px;
-        &-active{
-          border:none;
-          background:none;
-          font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
-          color:$primary;
-          border-right: solid 1px $gray-300;
-        }
-      }
+
     }
     .custom-dropdown{
       left:auto !important;

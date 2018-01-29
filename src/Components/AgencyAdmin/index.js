@@ -41,72 +41,103 @@ class AgencyAdmin extends React.Component {
     return (
       <div>
         <AdminBar history={this.props.history} />
+        <div class="container-fluid">
+          <Row>
+            <Col md="3">
+              <AdminSideBar history={this.props.history} location={this.props.location} />
+            </Col>
+            <Col md="9" className="mt-4">
+              <Row>
+                <Col md="8">
+                  <Label for="exampleEmail">Reporte de autos vendidos</Label>
+                  <LineChart
+                    width={600}
+                    height={300}
+                    data={data}
+                    margin={{
+                    top: 5, right: 20, bottom: 5, left: 0,
+                    }}
+                  >
+                    <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="autos" stroke="blue" />
+                  </LineChart>
+                </Col>
+                <Col md="4">
+                  <div className="data-graph">
+                    <a
+                      onClick={() => this.props.history.push('/agencyMessage')}
+                      color="default"
+                    >
+                      <div className="row">
+                        <div className="col-8">
+                          <h2>3</h2>
+                          <p>Nuevos Mensajes</p>
+                        </div>
+                        <div className="col-4">
+                          <div class="container-icon">
+                            <img src="/assets/images/icon-comments-white.svg" alt="" />
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
 
-        <Row>
-          <Col md="3">
-            <AdminSideBar history={this.props.history} location={this.props.location} />
-          </Col>
-          <Col md="9">
-            <Row>
-              <Col md="8">
-                <Label for="exampleEmail">Reporte de autos vendidos</Label>
-                <LineChart
-                  width={600}
-                  height={300}
-                  data={data}
-                  margin={{
-                  top: 5, right: 20, bottom: 5, left: 0,
-                  }}
-                >
-                  <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="autos" stroke="blue" />
-                </LineChart>
-              </Col>
-              <Col md="4">
-                <Button onClick={() => this.props.history.push('/agencyMessage')} className="d-flex flex-row">
-                  <div className="d-flex flex-column">
-                    <h4>4</h4>
-                    <h6>Nuevos Mensajes</h6>
+                  <div className="data-graph">
+                    <a
+                      onClick={() => this.props.history.push('/agencyPublications')}
+                      color="default"
+                    >
+                      <div className="row">
+                        <div className="col-8">
+                          <h2>3</h2>
+                          <p>Publicaciones activas</p>
+                        </div>
+                        <div className="col-4">
+                          <div class="container-icon">
+                            <img src="/assets/images/icon-car-white.svg" alt="" />
+                          </div>
+                        </div>
+                      </div>
+                    </a>
                   </div>
-                  <div className="container-icon" >
-                    <span className="fa fa-commenting" />
+
+
+                  <div className="data-graph">
+                    <a
+                      onClick={() => this.props.history.push('/agencyPublications')}
+                      color="default"
+                    >
+                      <div className="row">
+                        <div className="col-8">
+                          <h2>3</h2>
+                          <p>Destacados</p>
+                        </div>
+                        <div className="col-4">
+                          <div class="container-icon">
+                            <img src="/assets/images/icon-star-white.svg" alt="" />
+                          </div>
+                        </div>
+                      </div>
+                    </a>
                   </div>
-                </Button>
-                <Button onClick={() => this.props.history.push('/agencyPublications')} className="d-flex flex-row">
-                  <div className="d-flex flex-column">
-                    <h4>9</h4>
-                    <h6>Publicaciones activas</h6>
-                  </div>
-                  <div className="container-icon" >
-                    <span className="fa fa-car" />
-                  </div>
-                </Button>
-                <Button onClick={() => this.props.history.push('/agencyPublications')} className="d-flex flex-row">
-                  <div className="d-flex flex-column">
-                    <h4>3</h4>
-                    <h6>Destacados</h6>
-                  </div>
-                  <div className="container-icon" >
-                    <span className="fa fa-star-o" />
-                  </div>
-                </Button>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
-          <ModalBody>
-            El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={() => this.toggle()}>OK</Button>
-          </ModalFooter>
-        </Modal>
-        <style jsx>{style}</style>
+
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+            <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
+            <ModalBody>
+              El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={() => this.toggle()}>OK</Button>
+            </ModalFooter>
+          </Modal>
+        </div>
       </div>
     );
   }

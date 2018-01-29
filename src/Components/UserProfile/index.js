@@ -91,55 +91,71 @@ class UserProfile extends React.Component {
     return (
       <div>
         <AdminBar history={history} />
-        <Row>
-          <Col md="3">
-            <UserSideBar history={history} location={location} />
-          </Col>
-          <Col md="9">
-            <Row>
-              {!userProfile.loading &&
-              <Col md="5">
-                <h6><b>NOMBRE Y APELLIDO</b></h6>
-                {this.state.modifyActive ?
-                  <Input type="text" name="name" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
-                : <h4>{this.state.name}</h4>}
-                <h6><b>DOMICILIO</b></h6>
-                {this.state.modifyActive ?
-                  <Input type="text" name="address" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
-                  : <h4>{this.state.address}</h4>}
-                <h6><b>EMAIL DE CONTACTO</b></h6>
-                <h4>{this.state.email}</h4>
-                <h6><b>TELEFONO DE CONTACTO</b></h6>
-                {this.state.modifyActive ?
-                  <Input type="text" name="phone" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
-                  : <h4>{this.state.phone}</h4>}
-                {this.state.modifyActive ?
-                  <span>
-                    <Button color="primary" onClick={() => this.update()} >Guardar</Button>
-                    <Button color="warning" onClick={() => this.toggle()} >Cancelar</Button>
-                  </span>
-                  : <Button color="secondary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
-              </Col>}
-              <Col md="5">
-                <h6><b>¿Quieres cambiar la contraseña?</b></h6>
-                <FormGroup>
-                  <Label for="exampleEmail">Contraseña actual</Label>
-                  <Input type="password" onChange={e => this.setState({ oldPassword: e.target.value })} value={this.state.oldPassword} name="password" id="exampleText" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Nueva Contraseña</Label>
-                  <Input type="password" onChange={e => this.setState({ repeatNpass: e.target.value })} value={this.state.repeatNpass} name="password" id="exampleText" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Repetir nueva Contraseña</Label>
-                  <Input type="password" onChange={e => this.setState({ newPassword: e.target.value })} value={this.state.newPassword} name="password" id="exampleText" />
-                </FormGroup>
-                <Button type="secondary" disabled={this.isPasswordFormInvalid()} onClick={() => this.updatePassword()}>Cambiar</Button>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
+        <div className="container-fluid">
+          <Row>
+            <Col md="3">
+              <UserSideBar history={history} location={location} />
+            </Col>
+            <Col md="9" className="mt-4">
+              <Row>
+                {!userProfile.loading &&
+                <Col md="6" className="container-data-input-group">
+                  <div className="card p-4" style={{ height: '100%' }}>
+                    <div className="data-input-group">
+                      <label>NOMBRE Y APELLIDO</label>
+                      {this.state.modifyActive ?
+                        <Input type="text" name="name" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
+                : <p>{this.state.name}</p>}
+                    </div>
+                    <div className="data-input-group">
+                      <h6><b>DOMICILIO</b></h6>
+                      {this.state.modifyActive ?
+                        <Input type="text" name="address" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
+                  : <p>{this.state.address}</p>}
+                    </div>
+                    <div className="data-input-group">
+
+                      <h6><b>EMAIL DE CONTACTO</b></h6>
+                      <p>{this.state.email}</p>
+                    </div>
+                    <div className="data-input-group">
+
+                      <h6><b>TELEFONO DE CONTACTO</b></h6>
+                      {this.state.modifyActive ?
+                        <Input type="text" name="phone" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
+                  : <p>{this.state.phone}</p>}
+                    </div>
+                    <div className="underline" />
+                    {this.state.modifyActive ?
+                      <span>
+                        <Button color="primary" onClick={() => this.update()} >Guardar</Button>
+                        <Button color="warning" onClick={() => this.toggle()} >Cancelar</Button>
+                      </span>
+                  : <Button className="btn-link-primary align-self-end" color="primary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
+                  </div>
+                </Col>}
+                <Col md="6" className="container-data-input-group">
+                  <div className="card p-4" style={{ height: '100%' }}>
+                    <h6 className="title-division"><b>¿Quieres cambiar la contraseña?</b></h6>
+                    <FormGroup>
+                      <Label for="exampleEmail">Contraseña actual</Label>
+                      <Input type="password" onChange={e => this.setState({ oldPassword: e.target.value })} value={this.state.oldPassword} name="password" id="exampleText" />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Nueva Contraseña</Label>
+                      <Input type="password" onChange={e => this.setState({ repeatNpass: e.target.value })} value={this.state.repeatNpass} name="password" id="exampleText" />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Repetir nueva Contraseña</Label>
+                      <Input type="password" onChange={e => this.setState({ newPassword: e.target.value })} value={this.state.newPassword} name="password" id="exampleText" />
+                    </FormGroup>
+                    <Button type="secondary" className="btn-link-primary align-self-end" disabled={this.isPasswordFormInvalid()} onClick={() => this.updatePassword()}><img src="/assets/images/icon-check-red.svg" alt="" />Cambiar</Button>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

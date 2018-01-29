@@ -42,43 +42,77 @@ class AgencyMicrosite extends Component {
     return (
       <div>
         <AdminBar history={this.props.history} />
-    
-        <Row>
-          <Col md="3">
-            <AdminSideBar history={this.props.history} location={this.props.location} />
-          </Col>
-          <Col md="9">
-            <Row>
-              <Col md="5">
-                <h6><b>NOMBRE DE LA AGENCIA</b></h6>
-                <h4>Manzur Automotores</h4>
-                <h6><b>EMAIL DE CONTACTO</b></h6>
-                <h4>rodrigo@gmail.com</h4>
-                <h6><b>TELEFONO FIJO</b></h6>
-                <h4>33987654</h4>
-                <h6><b>DOMICILIO</b></h6>
-                <h4>Palero 20, Ciudad, Mendoza.</h4>
-                <h6><b>TELEFONO DE CONTACTO</b></h6>
-                <h4>261-5951833</h4>
-                <Button type="secondary">Modificar</Button>
-              </Col>
-              <Col md="5">
-                <Label for="exampleEmail">FOTO DE PORTADA</Label>
-                <ImageCrop
-                  aspectRatio={16 / 9}
-                  cropImage={img => this.getimageSlider1(img)}
-                />
-                <Label for="exampleEmail">MARCA DE LA AGENCIA O FOTO DE PERFIL</Label>
-                <ImageCrop
-                  aspectRatio={16 / 9}
-                  cropImage={img => this.getimageSlider2(img)}
-                />
-                <Button type="secondary">Guardar</Button>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
+        <div class="container-fluid">
+          <Row>
+            <Col md="3">
+              <AdminSideBar history={this.props.history} location={this.props.location} />
+            </Col>
+            <Col md="9" className="mt-4">
+              <Row>
+                <Col md="6" className="container-data-input-group">
+                  <div className="card p-4" style={{height:`100%`}}>
+                    <div className="data-input-group">
+                      <label>NOMBRE DE LA AGENCIA</label>
+                      <p>xxx</p>
+                    </div>
+                    <div className="data-input-group">
+                      <label>DOMICILIO</label>
+                      <p>xxx</p>
+                    </div>
+                    <div className="data-input-group">
+                      <label>EMAIL DE CONTACTO</label>
+                      <p>xxx</p>
+                    </div>
+                    <div className="data-input-group">
+                      <label>TELEFONO DE CONTACTO</label>
+                      <p>xxx</p>
+                    </div>
+                    <div className="data-input-group">
+                      <label>TELEFONO FIJO</label>
+                      <p>xxx</p>
+                    </div>
+                    <div class="underline"></div>
+                    <Button type="primary" className="btn-link-primary align-self-end">
+                      <img src="/assets/images/icon-edit-red.svg" alt="" />
+                      Editar
+                    </Button>
+                  </div>
+                </Col>
+
+                <Col md="6" className="container-data-input-group">
+                  <div className="card p-4" style={{height:`100%`}}>
+                    <div className="data-input-group">
+                      <label>FOTO DE PORTADA</label>
+                      <div class="col-12">
+                        <ImageCrop
+                          aspectRatio={16 / 9}
+                          cropImage={img => this.getimageSlider1(img)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="data-input-group">
+                      <label>MARCA DE LA AGENCIA O FOTO DE PERFI</label>
+                      <div class="col-12">
+                        <ImageCrop
+                          aspectRatio={16 / 9}
+                          cropImage={img => this.getimageSlider2(img)}
+                        />
+                      </div>
+                    </div>
+
+                    <div class="underline"></div>
+                    <Button type="secondary" className="btn-link-primary align-self-end">
+                      <img src="/assets/images/icon-check-red.svg" alt="" />
+                      Guardar
+                    </Button>
+                  </div>
+
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

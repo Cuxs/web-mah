@@ -83,19 +83,8 @@ export default class ImageCrop extends Component {
 
   render() {
     return (
-      <div>
-        <div>
-          {this.shouldShowSelectImage()
-            ? <div>
-              <Label>Elegí una imagen</Label>
-              <Input type="file" name="file" id="exampleFile" onChange={event => this.onChange(event)} />
-            </div>
-            : <div>
-              <Button color="primary" onClick={() => this.cropImage()}>Guardar</Button>
-              <Button onClick={() => this.setState({ cropResult: `${process.env.REACT_APP_SERVER}/${this.props.previewImage}` })}> Cancelar </Button>
-            </div>
-              }
-          <br />
+      <div className="row">
+        <div class="col-4">
           {this.shouldShowCropper()
             ? <Cropper
               style={{ height: 400, width: '100%' }}
@@ -107,8 +96,25 @@ export default class ImageCrop extends Component {
                 this.cropper = cropper;
               }}
             />
-            : <img src={this.state.cropResult} alt="cropImage" />}
+            : <img src={this.state.cropResult} alt="cropImage" width="100%"/>}
         </div>
+        <div class="col-8">
+          {this.shouldShowSelectImage()
+            ? <div className="form-group">
+              <Label className="file" for="exampleFile">
+                <img src="/assets/images/icon-load-red.svg" alt="" />
+                Cargar imagen
+              </Label>
+              <Input type="file" name="file" id="exampleFile" onChange={event => this.onChange(event)} />
+            </div>
+            : <div>
+              <Button color="primary" className="btn-link" onClick={() => this.cropImage()}>Guardar</Button>
+              <Button color="default" className="btn-link"  onClick={() => this.setState({ cropResult: `${process.env.REACT_APP_SERVER}/${this.props.previewImage}` })}> Cancelar </Button>
+            </div>
+              }
+        </div>
+
+
         <br style={{ clear: 'both' }} />
         <style jsx>{
           `

@@ -18,34 +18,42 @@ const style = {
 };
 
 export default () => (
-  <Row style={style.container} >
-    <Col sm="4" xs="12" style={style.containerCredit} >
-      <Col md="4" >
-        <img src="http://placecage.com/c/80/80" style={style.imgCredit} alt="banner" />
+  <div className="container-fluid">
+    <Row className="home-posibilities">
+      <Col sm="4" xs="12">
+        <Row className="justify-content-between">
+          <Col sm="4" className="text-right">
+            <img src="/assets/images/icon-landing-1.svg"  alt="banner" />
+          </Col>
+          <Col sm="8">
+            <h5>Publicación gratis</h5>
+            <p>Podes crear una publicación rápido y fácil.</p>
+          </Col>
+        </Row>
       </Col>
-      <Col md="8">
-        <h5>Publicación gratis</h5>
-        <p>Podes crear una publicación rápido y fácil.</p>
+      <Col sm="4" xs="12">
+        <Row className="justify-content-between">
+          <Col md="4" className="text-right">
+            <img src="/assets/images/icon-landing-2.svg" alt="banner" />
+          </Col>
+          <Col md="8">
+            <h5>Inmediata</h5>
+            <p>Podés publicar tu auto de manera inmediata sin necesidad de registrarte.</p>
+          </Col>
+        </Row>
       </Col>
-    </Col>
-    <Col sm="4" xs="12" style={style.containerCredit} >
-      <Col md="4" >
-        <img src="http://placecage.com/c/80/80" style={style.imgCredit} alt="banner" />
+      <Col sm="4" xs="12">
+        <Row className="justify-content-between">
+          <Col md="4" className="text-right">
+            <img src="/assets/images/icon-landing-3.svg" alt="banner" />
+          </Col>
+          <Col md="8">
+            <h5>60 días</h5>
+            <p>Tu anuncio estará expuesto durante 60 días. Vende fácil y rápido.</p>
+          </Col>
+        </Row>
       </Col>
-      <Col md="8">
-        <h5>Inmediata</h5>
-        <p>Podés publicar tu auto de manera inmediata sin necesidad de registrarte.</p>
-      </Col>
-    </Col>
-    <Col sm="4" xs="12" style={style.containerCredit} >
-      <Col md="4" >
-        <img src="http://placecage.com/c/80/80" style={style.imgCredit} alt="banner" />
-      </Col>
-      <Col md="8">
-        <h5>60 días</h5>
-        <p>Tu anuncio estará expuesto durante 60 días. Vende fácil y rápido.</p>
-      </Col>
-    </Col>
-  </Row>
+    </Row>
+  </div>
 );
 

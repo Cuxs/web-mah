@@ -206,7 +206,7 @@ class SearchCars extends Component {
           history={history}
           location={location}
         />
-        <div className="container-section">
+        <div className="container-fluid mb-4 mt-4">
           <Row>
             <Col md="8" sm="12">
               <BreadCrum url={window.location.href} />
@@ -216,7 +216,7 @@ class SearchCars extends Component {
             </Col>
           </Row>
         </div>
-        <div className="container-section">
+        <div className="container-fluid">
           <Row>
             <Col md="3" sm="12" className="sidebar-filters">
               <FiltersList filters={this.state.filters} search={this.props.location.search} history={history} />
@@ -267,7 +267,6 @@ class SearchCars extends Component {
 
         </div>
         <Footer />
-        <style jsx>{style}</style>
       </div>
     );
   }

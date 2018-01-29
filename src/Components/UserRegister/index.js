@@ -12,14 +12,12 @@ import Plans from '../../stories/Plans';
 
 const Home = () => (
   <div>
-    <div>
-      <RegisterBar />
-      <BannerUser />
-      <FeaturesUser />
-      <Plans />
-      <Faq />
-      <Footer />
-    </div>
+    <RegisterBar />
+    <BannerUser />
+    <FeaturesUser />
+    <Plans />
+    <Faq />
+    <Footer />
   </div>
 );
 

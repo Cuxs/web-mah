@@ -41,32 +41,89 @@ class UserInbox extends Component {
     return (
       <div>
         <AdminBar history={history} />
-        <Row>
-          <Col md="3">
-            <UserSideBar history={history} location={location} />
-          </Col>
-          <Col md="9">
-            {loadingComments ? (
-              <img
-                style={{ height: '400px' }}
-                src="/loading.gif"
-                key={0}
-                alt="Loading..."
-              />
-          ) : (
-            <span>
-              {!loading && (
-                <NumberOfUnreads
-                  results={CountUnreadMessages[0]}
-                  totalMsg={Threads.length}
+        <div className="container-fluid">
+          <Row>
+            <Col md="3">
+              <UserSideBar history={history} location={location} />
+            </Col>
+            <Col md="9" className="mt-4">
+              {loadingComments ? (
+                <img
+                  style={{ height: '400px' }}
+                  src="/loading.gif"
+                  key={0}
+                  alt="Loading..."
                 />
+              ) : (
+                <span>
+                  {!loading && (
+                    <NumberOfUnreads
+                      results={CountUnreadMessages[0]}
+                      totalMsg={Threads.length}
+                    />
+                  )}
+                  {sortedThreads.map(thr => <CardMessagge data={thr} />)}
+                </span>
               )}
-              {sortedThreads.map(thr => <CardMessagge data={thr} />)}
-            </span>
-          )}
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
+
+              <div className="cont-list-messages">
+                <div className="list-message">
+                  <div className="row">
+                    <div className="col-2">
+                      <img src="http://lorempixel.com/200/200/" alt="" width="100%" />
+                    </div>
+                    <div className="col-10">
+                      <div className="row align-items-center">
+                        <div className="col-9">
+                          <small>22/02/17 |  10:33</small>
+                          <p className="context-item">
+                            <strong>Fiat Palio Weekend</strong>
+                            1.8 Adventure Locker Pack Xtreme. 2014 - 42.018 km
+                          </p>
+                          <p>Hola, quisiera saber si recibe permuta?</p>
+                        </div>
+                        <div className="col-3 text-center">
+                          <a href="" className="btn btn-link-primary">
+                            <img src="/assets/images/icon-envelop-red.svg" alt="" />
+                            Responder
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="list-message">
+                  <div className="row">
+                    <div className="col-2">
+                      <img src="http://lorempixel.com/200/200/" alt="" width="100%" />
+                    </div>
+                    <div className="col-10">
+                      <div className="row align-items-center">
+                        <div className="col-9">
+                          <small>22/02/17 |  10:33</small>
+                          <p className="context-item">
+                            <strong>Fiat Palio Weekend</strong>
+                            1.8 Adventure Locker Pack Xtreme. 2014 - 42.018 km
+                          </p>
+                          <p>Hola, quisiera saber si recibe permuta?</p>
+                        </div>
+                        <div className="col-3 text-center">
+                          <a href="" className="btn btn-link-primary">
+                            <img src="/assets/images/icon-envelop2-red.svg" alt="" />
+                            Ver
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

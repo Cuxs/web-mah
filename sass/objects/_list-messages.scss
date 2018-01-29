@@ -1,0 +1,16 @@
+.cont-list-messages{
+  .list-message{
+    @include border-radius(3px);
+    overflow:hidden;
+    border:solid 1px $gray-300;
+    cursor:pointer;
+    margin-bottom:40px;
+    padding:15px;
+    small{
+      color:$gray-600;
+    }
+    .context-item{
+      color:$gray-600;
+    }
+  }
+}

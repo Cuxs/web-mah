@@ -53,6 +53,8 @@
           text-transform: uppercase;
         }
         p{
+          margin: 0;
+          font-weight: 500;
           &.disable{
             text-decoration: line-through;
             color: lightgrey;
