@@ -22,12 +22,12 @@ class StepThree extends React.Component {
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" className="bg">
-              <div class="col-md-8 float-right">
-                <div class="text-block">
+              <div className="col-md-8 float-right">
+                <div className="text-block">
                   <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
                   <p>Registrate en muy pocos pasos</p>
                 </div>
-                <div class="text-block">
+                <div className="text-block">
                   <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
                   Soy un Particular. <a href="" className="link">Registrarme</a></p>
                 </div>

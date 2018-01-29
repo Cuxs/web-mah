@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Button, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Row, Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 
 import AdminBar from '../../stories/AdminBar';
@@ -23,6 +23,9 @@ class UserProfile extends React.Component {
       oldPassword: '',
       newPassword: '',
       repeatNpass: '',
+      responseMsg: '',
+      responseTitle: '',
+      modal: false,
     };
     this.update = this.update.bind(this);
   }
@@ -42,7 +45,11 @@ class UserProfile extends React.Component {
       modifyActive: !this.state.modifyActive,
     });
   }
-
+  toggleModal() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
   update() {
     this.props.updateData({
       variables: {
@@ -53,9 +60,12 @@ class UserProfile extends React.Component {
       },
     }).then(({ data: { modifyUserData: uData } }) => {
       this.setState({
+        modal: true,        
         name: uData.name,
         address: uData.address,
         phone: uData.phone,
+        responseTitle: 'Felicitaciones',
+        responseMsg: 'Datos actualizados con éxito',
       });
       this.toggle();
     }).catch(err => console.log(err));
@@ -67,14 +77,33 @@ class UserProfile extends React.Component {
         oldPassword: this.state.oldPassword,
         newPassword: this.state.newPassword,
       },
-    }).then(({ data: { updatePassword } }) => {
+    }).then(() => {
       this.setState({
+        modal: true,        
         oldPassword: '',
         newPassword: '',
         repeatNpass: '',
+        responseTitle: 'Felicitaciones',
+        responseMsg: 'Contraseña actualizada con éxito',
       });
-      console.log(updatePassword);
-    }).catch(err => console.log(err));
+    }).catch(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors) {
+        graphQLErrors.map(({ message }) =>
+          this.setState({
+            responseTitle: 'Error',
+            responseMsg: message,
+            modal: true,
+          }));
+      }
+      if (networkError) {
+        this.setState({
+          responseTitle: 'Error',
+
+          responseMsg: networkError,
+          modal: true,
+        });
+      }
+    });
   }
   isPasswordFormInvalid() {
     if (this.state.newPassword !== this.state.repeatNpass ||
@@ -86,7 +115,7 @@ class UserProfile extends React.Component {
 
   render() {
     const {
-      history, location, userProfile, userProfile: { User },
+      history, location, userProfile,
     } = this.props;
     return (
       <div>
@@ -156,6 +185,15 @@ class UserProfile extends React.Component {
             </Col>
           </Row>
         </div>
+        <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>{this.state.responseTitle}</ModalHeader>
+          <ModalBody>
+            <h5>{this.state.responseMsg}</h5>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => this.toggleModal()}>OK</Button>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }

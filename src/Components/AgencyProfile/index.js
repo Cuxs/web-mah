@@ -30,7 +30,7 @@ class AgencyProfile extends React.Component {
     return (
       <div>
         <AdminBar history={this.props.history} />
-        <div class="container-fluid">
+        <div className="container-fluid">
           <Row>
             <Col md="3">
               <AdminSideBar history={this.props.history} location={this.props.location} />
@@ -60,7 +60,7 @@ class AgencyProfile extends React.Component {
                       <p>xxx</p>
                     </div>
 
-                    <div class="underline"></div>
+                    <div className="underline"></div>
                     <Button type="primary" className="btn-link-primary align-self-end">
                       <img src="/assets/images/icon-edit-red.svg" alt="" />
                       Editar

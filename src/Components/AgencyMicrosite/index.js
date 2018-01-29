@@ -42,7 +42,7 @@ class AgencyMicrosite extends Component {
     return (
       <div>
         <AdminBar history={this.props.history} />
-        <div class="container-fluid">
+        <div className="container-fluid">
           <Row>
             <Col md="3">
               <AdminSideBar history={this.props.history} location={this.props.location} />
@@ -71,7 +71,7 @@ class AgencyMicrosite extends Component {
                       <label>TELEFONO FIJO</label>
                       <p>xxx</p>
                     </div>
-                    <div class="underline"></div>
+                    <div className="underline"></div>
                     <Button type="primary" className="btn-link-primary align-self-end">
                       <img src="/assets/images/icon-edit-red.svg" alt="" />
                       Editar
@@ -83,7 +83,7 @@ class AgencyMicrosite extends Component {
                   <div className="card p-4" style={{height:`100%`}}>
                     <div className="data-input-group">
                       <label>FOTO DE PORTADA</label>
-                      <div class="col-12">
+                      <div className="col-12">
                         <ImageCrop
                           aspectRatio={16 / 9}
                           cropImage={img => this.getimageSlider1(img)}
@@ -93,7 +93,7 @@ class AgencyMicrosite extends Component {
 
                     <div className="data-input-group">
                       <label>MARCA DE LA AGENCIA O FOTO DE PERFI</label>
-                      <div class="col-12">
+                      <div className="col-12">
                         <ImageCrop
                           aspectRatio={16 / 9}
                           cropImage={img => this.getimageSlider2(img)}
@@ -101,7 +101,7 @@ class AgencyMicrosite extends Component {
                       </div>
                     </div>
 
-                    <div class="underline"></div>
+                    <div className="underline"></div>
                     <Button type="secondary" className="btn-link-primary align-self-end">
                       <img src="/assets/images/icon-check-red.svg" alt="" />
                       Guardar

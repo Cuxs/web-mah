@@ -125,7 +125,7 @@ class UserPublications extends React.Component {
     } = this.props;
     return (<div>
       <AdminBar history={history} />
-      <div class="container-fluid">
+      <div className="container-fluid">
         <Row>
           <Col md="3">
             <UserSideBar history={history} location={location} />
@@ -133,8 +133,8 @@ class UserPublications extends React.Component {
           <Col md="9" className="mt-4">
             <NumberOfResult results={this.state.totalCount} />
             <AdminFilter history={history} location={location} />
-            <div class="container-box-item">
-              <div class="col-12">
+            <div className="container-box-item">
+              <div className="col-12">
                 <InfiniteScroll
                   pageStart={1}
                   loadMore={this.doSearch}

@@ -325,17 +325,8 @@ class SearchBar extends Component {
 
             </ModalBody>
             <ModalFooter>
-              <div class="row">
-                <div class="col-3 float-left offset-3">
-                  <Button
-                    disabled={this.isLoginFormIncomplete()}
-                    color="default"
-                    className="alternative"
-                  >
-                    Salir
-                  </Button>
-                </div>
-                <div class="col-3 float-right">
+              <div className="row">
+                <div className="col-3 float-left offset-3">
                   <Button
                     disabled={this.isLoginFormIncomplete()}
                     onClick={() => this.loginUser(this.state.email, this.state.password)}
@@ -345,8 +336,17 @@ class SearchBar extends Component {
                     Iniciar sesión
                   </Button>
                 </div>
-                <div class="col-md-6 offset-md-3">
-                  <div class="underline"></div>
+                <div className="col-3 float-right">
+                  <Button
+                    onClick={() => this.toggleModal()}
+                    color="default"
+                    className="alternative"
+                  >
+                    Salir
+                  </Button>
+                </div>
+                <div className="col-md-6 offset-md-3">
+                  <div className="underline" />
                   <p>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
                   <p>No tengo cuenta. Soy una concesionaria. <a href="" className="btn-link">Registrar Agencia</a></p>
                 </div>
