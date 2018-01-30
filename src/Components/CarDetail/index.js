@@ -60,10 +60,10 @@ class CarDetail extends Component {
         <SearchBar history={history} location={location} />
         <div className="container-fluid mb-4 mt-4">
           <Row>
-            <Col md="8" sm="12">
+            <Col md="8" sm="12" xs="12">
               <BreadCrum url={window.location.href} />
             </Col>
-            <Col md="4" sm="12">
+            <Col md="4" sm="12" xs="12">
               <PublicityBanner />
             </Col>
           </Row>
@@ -75,7 +75,7 @@ class CarDetail extends Component {
           {!carDetailData.loading &&
             carDetailData.Publication !== null && (
               <Row>
-                <Col md="8" sm="12">
+                <Col md="8" sm="12" xs="12">
                   <CarCarousel
                     photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
                   />
@@ -83,13 +83,13 @@ class CarDetail extends Component {
                   <div className="container-data-input-group">
                     <h5 className="title">Resumen</h5>
                     <Row>
-                      <Col md="6" sm="12">
+                      <Col md="6" sm="6" xs="12">
                         <div className="data-input-group">
                           <label>ESTADO</label>
                           <p>{carDetailData.Publication.carState}</p>
                         </div>
                       </Col>
-                      <Col md="6" sm="12">
+                      <Col md="6" sm="6" xs="12">
                         <div className="data-input-group">
                           <label>KM</label>
                           <p>{thousands(
@@ -102,13 +102,13 @@ class CarDetail extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md="6" sm="12">
+                      <Col md="6" sm="6" xs="12" >
                         <div className="data-input-group">
                           <label>MARCA</label>
                           <p>{carDetailData.Publication.brand}</p>
                         </div>
                       </Col>
-                      <Col md="6" sm="12">
+                      <Col md="6" sm="6" xs="12">
                         <div className="data-input-group">
                           <label>AÑO</label>
                           <p>{carDetailData.Publication.year}</p>
@@ -116,13 +116,13 @@ class CarDetail extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md="6" sm="12">
+                      <Col md="6" sm="6" xs="12">
                         <div className="data-input-group">
                           <label>MODELO</label>
                           <p>{carDetailData.Publication.modelName}</p>
                         </div>
                       </Col>
-                      <Col md="6" sm="12">
+                      <Col md="6" sm="6" xs="12">
                         <div className="data-input-group">
                           <label>COMBUSTIBLE</label>
                           <p>{carDetailData.Publication.fuel}</p>
@@ -147,89 +147,100 @@ class CarDetail extends Component {
                   </div>
 
                 </Col>
-                <Col md="4" sm="12" className="sheet sheet-min">
-                  <div className="item-data">
-                    <small className="item-year">{carDetailData.Publication.year} -{' '}
-                    {thousands(carDetailData.Publication.kms, 0, ',', '.')} km</small>
-                    <p className="item-name"><strong>{`${carDetailData.Publication.brand} ${
-                    carDetailData.Publication.group
-                      }`}
-                    </strong></p>
-                    <p className="item-description">
-                      {carDetailData.Publication.modelName}
-                    </p>
-                    <p className="item-price"><strong>${thousands(carDetailData.Publication.price, 2, ',', '.')}</strong></p>
-                  </div>
+                <Col md="4" sm="12" xs="12" className="sheet sheet-min">
+                  <Row>
+                    <Col md="12" sm="6" xs="12">
+                      <Row>
+                        <div className="item-data">
+                          <small className="item-year">{carDetailData.Publication.year} -{' '}
+                          {thousands(carDetailData.Publication.kms, 0, ',', '.')} km</small>
+                          <p className="item-name"><strong>{`${carDetailData.Publication.brand} ${
+                          carDetailData.Publication.group
+                            }`}
+                          </strong></p>
+                          <p className="item-description">
+                            {carDetailData.Publication.modelName}
+                          </p>
+                          <p className="item-price"><strong>${thousands(carDetailData.Publication.price, 2, ',', '.')}</strong></p>
+                        </div>
+
+                      </Row>
+                      <Button color="primary">¡Solicitá tu crédito</Button>
+
+                      <div className="container-social">
+                        <button className="btn btn-social-icon">
+                          <img src="/assets/images/icon-facebook.svg" />
+                        </button>
+                        <button className="btn btn-social-icon">
+                          <img src="/assets/images/icon-twitter.svg" />
+                        </button>
+                      </div>
+                    </Col>
+                    <Col md="12" sm="6" xs="12">
+                      <div className="container-data-input-group">
+                        <h5>
+                          {carDetailData.Publication.User.agencyName ||
+                            carDetailData.Publication.User.name}
+                        </h5>
+
+                        {carDetailData.Publication.User.agencyName && (
+                          <Button color="link">Ver todos los autos</Button>
+                        )}
+                        <div className="data-input-group">
+                          <label>DOMICILIO</label>
+                          <p>
+                            {carDetailData.Publication.User.agencyAdress ||
+                              carDetailData.Publication.User.address ||
+                              'No especificado'}
+                          </p>
+                        </div>
+
+                        <div className="data-input-group">
+                          <label>TELÉFONOS</label>
+                          <p>
+                            {carDetailData.Publication.User.agencyPhone && ' / '}
+                            {carDetailData.Publication.User.phone ||
+                              'No especificado'}{' '}
+                          </p>
+                        </div>
+
+                        <div className="data-input-group">
+                          <label>EMAIL</label>
+                          <p>
+                            {carDetailData.Publication.User.agencyEmail ||
+                              carDetailData.Publication.User.email ||
+                              'No especificado'}
+                          </p>
+                        </div>
+                      </div>
+
+                      {getUserDataFromToken().id !==
+                        carDetailData.Publication.User.id &&
+                        !commentThreadData.loading && (
+                          <MessageCarDetail
+                            commentThread_id={
+                              (commentThreadData.CommentThread && !_.isEmpty(commentThreadData.CommentThread))
+                                ? commentThreadData.CommentThread[0].id
+                                : null
+                            }
+                            location={location}
+                            history={history}
+                            publicationUserId={carDetailData.Publication.User.id}
+                            publicationId={parse(location.search).publication_id}
+                          />
+                        )}
+                      {getUserDataFromToken().id ===
+                        carDetailData.Publication.User.id && (
+                        <Button color="secondary">Editar Publicación</Button>
+                      )}
+                    </Col>
+                  </Row>
 
 
 
-                  <Button color="primary">¡Solicitá tu crédito</Button>
-
-                  <div className="container-social">
-                    <button className="btn btn-social-icon">
-                      <img src="/assets/images/icon-facebook.svg" />
-                    </button>
-                    <button className="btn btn-social-icon">
-                      <img src="/assets/images/icon-twitter.svg" />
-                    </button>
-                  </div>
 
 
-                  <div className="container-data-input-group">
-                    <h5>
-                      {carDetailData.Publication.User.agencyName ||
-                        carDetailData.Publication.User.name}
-                    </h5>
 
-                    {carDetailData.Publication.User.agencyName && (
-                      <Button color="link">Ver todos los autos</Button>
-                    )}
-                    <div className="data-input-group">
-                      <label>DOMICILIO</label>
-                      <p>
-                        {carDetailData.Publication.User.agencyAdress ||
-                          carDetailData.Publication.User.address ||
-                          'No especificado'}
-                      </p>
-                    </div>
-
-                    <div className="data-input-group">
-                      <label>TELÉFONOS</label>
-                      <p>
-                        {carDetailData.Publication.User.agencyPhone && ' / '}
-                        {carDetailData.Publication.User.phone ||
-                          'No especificado'}{' '}
-                      </p>
-                    </div>
-
-                    <div className="data-input-group">
-                      <label>EMAIL</label>
-                      <p>
-                        {carDetailData.Publication.User.agencyEmail ||
-                          carDetailData.Publication.User.email ||
-                          'No especificado'}
-                      </p>
-                    </div>
-                  </div>
-                  {getUserDataFromToken().id !==
-                    carDetailData.Publication.User.id &&
-                    !commentThreadData.loading && (
-                      <MessageCarDetail
-                        commentThread_id={
-                          (commentThreadData.CommentThread && !_.isEmpty(commentThreadData.CommentThread))
-                            ? commentThreadData.CommentThread[0].id
-                            : null
-                        }
-                        location={location}
-                        history={history}
-                        publicationUserId={carDetailData.Publication.User.id}
-                        publicationId={parse(location.search).publication_id}
-                      />
-                    )}
-                  {getUserDataFromToken().id ===
-                    carDetailData.Publication.User.id && (
-                    <Button color="secondary">Editar Publicación</Button>
-                  )}
                 </Col>
               </Row>
             )}

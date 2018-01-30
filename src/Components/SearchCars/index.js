@@ -3,6 +3,7 @@
 
 import React, { Component } from 'react';
 import {
+  Button,
   Col,
   Row,
   Dropdown,
@@ -208,30 +209,34 @@ class SearchCars extends Component {
         />
         <div className="container-fluid mb-4 mt-4">
           <Row>
-            <Col md="8" sm="12">
+            <Col md="8" sm="12" xs="12">
               <BreadCrum url={window.location.href} />
             </Col>
-            <Col md="4" sm="12">
+            <Col md="4" sm="12" xs="12">
               <PublicityBanner />
             </Col>
           </Row>
         </div>
         <div className="container-fluid">
           <Row>
-            <Col md="3" sm="12" className="sidebar-filters">
+            <Button type="primary" className="btn-lg btn-sidebarfilters-open d-block d-lg-none">FILTROS</Button>
+            <Col md="3" sm="4" className="sidebar-filters d-none d-lg-block">
+              <Button color="primary" className="btn-link-primary btn-sidebar-close d-none">
+                <img src="/assets/images/icon-close.svg" alt="" />
+              </Button>
               <FiltersList filters={this.state.filters} search={this.props.location.search} history={history} />
             </Col>
-            <Col md="9" sm="12">
+            <Col lg="9" md="12" sm="12" xs="12">
               <Row className="header-filters align-items-center">
-                <Col md="8" sm="12">
+                <Col md="8" sm="12" xs="12">
                   <NumberOfResult results={this.state.totalResults} />
                 </Col>
-                <Col md="4" sm="12">
+                <Col md="4" sm="12" xs="12">
                   <Row className="align-items-center">
-                    <div className="col-5 text-right">
+                    <div className="col-5 col-md-5 col-sm-3 col-xs-2 text-right">
                       <p>Ordenar por</p>
                     </div>
-                    <div className="col-7">
+                    <div className="col-7 col-md-7 col-sm-9 col-xs-10">
                       <Dropdown isOpen={this.state.OrderDropdown} toggle={this.toggleOrderDropdown}>
                         <DropdownToggle caret color="default" className="btn-select">
                           {this.state.dropDownOrderValue}

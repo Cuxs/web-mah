@@ -69,9 +69,21 @@
   }
 
   &.btn-sidebar-close{
-    position: absolute;
+    position: fixed;
     top:20px;
     right: 20px;
     max-width: 50px !important;
+  }
+
+  &.btn-sidebarfilters-open{
+    position: fixed;
+    bottom:20px;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    max-width: 150px !important;
+    margin:auto;
+    @include border-radius(40px);
   }
 }
