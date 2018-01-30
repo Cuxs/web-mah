@@ -71,6 +71,28 @@ export const updatePassword = (data) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+export const uploadAgencyImages = (profileImage, bannerImage, id) => {
+  const url = `${server}/uploadAgencyImages/${id}`;
+  const formData = new FormData();
+
+  formData.append('profileImage', profileImage);
+  formData.append('bannerImage', bannerImage);
+
+  const options = {
+    method: 'POST',
+    headers: {
+      mimeType: 'multipart/form-data',
+      Authorization: token,
+    },
+    body: formData,
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
 export const getFiltersAndTotalResult = (search) => {
   const url = `${server}/getFiltersAndTotalResult`;
   const options = {

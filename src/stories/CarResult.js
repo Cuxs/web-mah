@@ -8,7 +8,6 @@ import {
 import style from '../Styles/carResult';
 import { thousands } from '../Modules/functions';
 
-
 export default class CarResult extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +18,6 @@ export default class CarResult extends Component {
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
   }
-
 
   onExiting() {
     this.animating = true;
@@ -34,13 +32,19 @@ export default class CarResult extends Component {
   }
   next() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === this.props.photoGalery.length - 1 ? 0 : this.state.activeIndex + 1;
+    const nextIndex =
+      this.state.activeIndex === this.props.photoGalery.length - 1
+        ? 0
+        : this.state.activeIndex + 1;
     this.setState({ activeIndex: nextIndex });
   }
 
   previous() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === 0 ? this.props.photoGalery.length - 1 : this.state.activeIndex - 1;
+    const nextIndex =
+      this.state.activeIndex === 0
+        ? this.props.photoGalery.length - 1
+        : this.state.activeIndex - 1;
     this.setState({ activeIndex: nextIndex });
   }
 
@@ -48,16 +52,12 @@ export default class CarResult extends Component {
     if (this.props.data.CurrentState !== null) {
       const state = this.props.data.CurrentState.stateName;
 
-
-      if ((state === 'Destacada')) {
-        return (<p className="item-state" >DESTACADO</p>);
+      if (state === 'Destacada') {
+        return <p className="item-state">DESTACADO</p>;
       }
       if (state === 'Vendida') {
-        return (
-          <p className="item-state" >VENDIDO</p>
-        );
+        return <p className="item-state">VENDIDO</p>;
       }
-
     }
     return true;
   }
@@ -70,37 +70,58 @@ export default class CarResult extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <a href={`/carDetail?publication_id=${this.props.data.id}`}><img style={{ position: 'relative', width: '100%', height: 'auto' }} src={item.src} alt={item.altText} /></a>
+        <a href={`/carDetail?publication_id=${this.props.data.id}`}>
+          <img
+            style={{ position: 'relative', width: '100%', height: 'auto' }}
+            src={item.src}
+            alt={item.altText}
+          />
+        </a>
       </CarouselItem>
     ));
     return (
-
-        <div className="item-car">
-          <div className="photos">
-            <Carousel
+      <div className="item-car">
+        <div className="photos">
+          <Carousel
+            activeIndex={activeIndex}
+            next={this.next}
+            previous={this.previous}
+            interval={10000}
+          >
+            <CarouselIndicators
+              items={this.props.photoGalery}
               activeIndex={activeIndex}
-              next={this.next}
-              previous={this.previous}
-              interval={10000}
-            >
-              <CarouselIndicators items={this.props.photoGalery} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-              {slides}
+              onClickHandler={this.goToIndex}
+            />
+            {slides}
 
-              <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
-              <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-            </Carousel>
-            {this.featuredOrSold()}
-          </div>
-          <div className="item-data">
-            <p className="item-category"><span>{this.props.data.group}</span></p>
-            <p className="item-name"><strong>{this.props.data.modelName}</strong></p>
-            <p className="item-description">{this.props.data.kms}</p>
-            <p className="item-price"><strong>${this.props.data.price}</strong></p>
-            <small className="item-year">{this.props.data.year}</small>
-          </div>
+            <CarouselControl
+              direction="prev"
+              directionText="Previous"
+              onClickHandler={this.previous}
+            />
+            <CarouselControl
+              direction="next"
+              directionText="Next"
+              onClickHandler={this.next}
+            />
+          </Carousel>
+          {this.featuredOrSold()}
         </div>
-
-
+        <div className="item-data">
+          <p className="item-category">
+            <span>{this.props.data.group}</span>
+          </p>
+          <p className="item-name">
+            <strong>{this.props.data.modelName}</strong>
+          </p>
+          <p className="item-description">{this.props.data.kms}</p>
+          <p className="item-price">
+            <strong>${this.props.data.price}</strong>
+          </p>
+          <small className="item-year">{this.props.data.year}</small>
+        </div>
+      </div>
     );
   }
 }
