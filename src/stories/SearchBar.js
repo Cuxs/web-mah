@@ -146,17 +146,24 @@ class SearchBar extends Component {
     return (
       <div className="container-fluid">
         <Row className="header">
-          <Col md="6">
-
-            <Row className="align-items-center">
-              <Col md="3">
-                <Row>
-                  <a onClick={() => this.props.history.push('/')} >
-                    <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
-                  </a>
-                </Row>
-              </Col>
-              <Col md="4">
+          <Col md="2">
+            <Row>
+              <a onClick={() => this.props.history.push('/')} className="brand">
+                <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
+              </a>
+            </Row>
+          </Col>
+          <Col md="10" className="d-xl-none">
+            <Button color="primary" className="float-right btn-sidebar-open btn-link-primary">
+              <img src="/assets/images/icon-menu.svg" alt="" />
+            </Button>
+          </Col>
+          <Col md="10" className="sidebar-mobile d-none d-xl-block">
+            <Button color="primary" className="btn-link-primary btn-sidebar-close d-none">
+              <img src="/assets/images/icon-close.svg" alt="" />
+            </Button>
+            <Row className="align-items-center area-btns justify-content-start">
+              <Col lg="3" xs="12" sm="12">
                 {/* <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} /> */}
                 <Row>
                   <Autosuggest
@@ -173,7 +180,7 @@ class SearchBar extends Component {
                   <style jsx>{autocompleteStyles}</style>
                 </Row>
               </Col>
-              <Col md="3">
+              <Col lg="1" sm="10" xs="10">
                 <Row>
                   <ButtonDropdown
                     isOpen={this.state.dropdownOpen}
@@ -198,7 +205,7 @@ class SearchBar extends Component {
                 </Row>
               </Col>
 
-              <Col md="auto">
+              <Col lg="auto" sm="2" xs="2">
                 <Row>
                   <Button
                     style={{ cursor: 'pointer' }}
@@ -212,24 +219,21 @@ class SearchBar extends Component {
                   </Button>
                 </Row>
               </Col>
-
-
-            </Row>
-          </Col>
-          <Col md="6" className="flex-row-reverse">
-            <Row className="align-items-center area-btns justify-content-start">
-              <Col md="auto">
+              <div className="w-100 d-block d-lg-none"></div>
+              <Col lg="auto">
                 <Row>
-                  <Button color="primary" href="/pledgeCredits" > Solicitá tu crédito</Button>
+                  <Button color="primary" className="ml-4" href="/pledgeCredits" > Solicitá tu crédito</Button>
                 </Row>
               </Col>
-              <Col md="3">
+              <div className="w-100 d-block d-lg-none"></div>
+              <Col lg="auto">
                 <Row>
                   <Button color="secondary" className="btn-link" href="/friendlyAgency" >Consecionarias</Button>
                 </Row>
               </Col>
+              <div className="w-100 d-block d-lg-none"></div>
               {this.state.isUserLogged ? (
-                <Col md="3">
+                <Col lg="auto">
                   <Row>
                     <ButtonDropdown
                       isOpen={this.state.dropdownUser}
@@ -248,9 +252,9 @@ class SearchBar extends Component {
                   </Row>
                 </Col>
               ) : (
-                <Col md="auto">
+                <Col lg="auto">
                   <Row>
-                    <Col md="auto">
+                    <Col lg="auto">
                       <Row>
                         <ButtonDropdown
                           isOpen={this.state.dropdownOpenPublicate}
@@ -277,7 +281,7 @@ class SearchBar extends Component {
                         </ButtonDropdown>
                       </Row>
                     </Col>
-                    <Col md="auto">
+                    <Col lg="auto">
                       <Row>
                         <Button color="default" className="btn-link" onClick={() => this.toggleModal()}>
                           Iniciá Sesión

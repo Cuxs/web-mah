@@ -7,7 +7,7 @@ export default () => (
     <Row className="microsite-portrait">
       <img src="http://placecage.com/c/1920/330" alt="banner" width="100%"/>
     </Row>
-    <div class="container">
+    <div className="container">
       <Row className="microsite-data">
         <Col md="3" className="microsite-data-avatar">
           <img src="http://placecage.com/c/250/250" alt="banner" width="100%"/>

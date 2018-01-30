@@ -84,13 +84,13 @@ class CarDetail extends Component {
                     <h5 className="title">Resumen</h5>
                     <Row>
                       <Col md="6" sm="12">
-                        <div class="data-input-group">
+                        <div className="data-input-group">
                           <label>ESTADO</label>
                           <p>{carDetailData.Publication.carState}</p>
                         </div>
                       </Col>
                       <Col md="6" sm="12">
-                        <div class="data-input-group">
+                        <div className="data-input-group">
                           <label>KM</label>
                           <p>{thousands(
                             carDetailData.Publication.kms,
@@ -103,13 +103,13 @@ class CarDetail extends Component {
                     </Row>
                     <Row>
                       <Col md="6" sm="12">
-                        <div class="data-input-group">
+                        <div className="data-input-group">
                           <label>MARCA</label>
                           <p>{carDetailData.Publication.brand}</p>
                         </div>
                       </Col>
                       <Col md="6" sm="12">
-                        <div class="data-input-group">
+                        <div className="data-input-group">
                           <label>AÑO</label>
                           <p>{carDetailData.Publication.year}</p>
                         </div>
@@ -117,13 +117,13 @@ class CarDetail extends Component {
                     </Row>
                     <Row>
                       <Col md="6" sm="12">
-                        <div class="data-input-group">
+                        <div className="data-input-group">
                           <label>MODELO</label>
                           <p>{carDetailData.Publication.modelName}</p>
                         </div>
                       </Col>
                       <Col md="6" sm="12">
-                        <div class="data-input-group">
+                        <div className="data-input-group">
                           <label>COMBUSTIBLE</label>
                           <p>{carDetailData.Publication.fuel}</p>
                         </div>
@@ -139,7 +139,7 @@ class CarDetail extends Component {
                       />
                     )}
 
-                  <div class="container-data-input-group">
+                  <div className="container-data-input-group">
                     <div className="data-input-group">
                       <h5>Comentarios del Vendedor</h5>
                       <p>{carDetailData.Publication.observation}</p>
@@ -184,7 +184,7 @@ class CarDetail extends Component {
                     {carDetailData.Publication.User.agencyName && (
                       <Button color="link">Ver todos los autos</Button>
                     )}
-                    <div class="data-input-group">
+                    <div className="data-input-group">
                       <label>DOMICILIO</label>
                       <p>
                         {carDetailData.Publication.User.agencyAdress ||
@@ -193,7 +193,7 @@ class CarDetail extends Component {
                       </p>
                     </div>
 
-                    <div class="data-input-group">
+                    <div className="data-input-group">
                       <label>TELÉFONOS</label>
                       <p>
                         {carDetailData.Publication.User.agencyPhone && ' / '}
@@ -202,14 +202,14 @@ class CarDetail extends Component {
                       </p>
                     </div>
 
-                    <div class="data-input-group">
+                    <div className="data-input-group">
                       <label>EMAIL</label>
                       <p>
                         {carDetailData.Publication.User.agencyEmail ||
                           carDetailData.Publication.User.email ||
                           'No especificado'}
                       </p>
-                    </div>                  
+                    </div>
                   </div>
                   {getUserDataFromToken().id !==
                     carDetailData.Publication.User.id &&

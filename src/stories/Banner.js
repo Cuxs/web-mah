@@ -4,9 +4,8 @@ import { Row } from 'reactstrap';
 
 export default () => (
   <div className="container-fluid">
-    <Row>
-      <div className="banner-home" >
-        <img src="http://placecage.com/c/1440/330" alt="banner" width="100%"/>
+    <Row className="banner-home align-items-center" style={{background: `url(http://placecage.com/c/1440/330) no-repeat center center`}}>
+      <div className="col-md-4 col-sm-12 col-xs-12">
         <h3>Cambia la forma de comprar o vender tu auto</h3>
       </div>
     </Row>

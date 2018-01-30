@@ -18,7 +18,7 @@ const StepOne = ({ data }) => (
               <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
               <p>Registrate en muy pocos pasos</p>
             </div>
-            <div class="text-block">
+            <div className="text-block">
               <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
               Soy un Particular. <a href="" className="link">Registrarme</a></p>
             </div>

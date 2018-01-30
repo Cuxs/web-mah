@@ -43,7 +43,7 @@ const CardPublication = ({ onHighlight, data, data: { CurrentState: { stateName 
             <img src="/assets/images/icon-edit-red.svg" /> Editar</Button>}
           {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right" onClick={() => onHighlight()} >
             <img src="/assets/images/icon-star-red.svg" /> Destacar</Button>}
-          <div class="clearfix"></div>
+          <div className="clearfix"></div>
         </div>
       </div>
     </div>

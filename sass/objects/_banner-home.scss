@@ -1,23 +1,23 @@
 .banner-home{
-  img{
-
-  }
+  background-size: cover !important;
+  padding: 5vw;
+  width: 100vw;
   h3{
     @include text-shadow(0, 0, 10px, $gray-900);
     font:bold #{$h1-font-size}/#{$h1-font-size+0.1} $font-family-sans-serif;
-    position: absolute;
+    //position: absolute;
     color: $white;
-    top:120px;
-    left: 10vw;
-    width:480px;
+    //top:120px;
+    //left: 10vw;
+    //width:480px;
   }
 
   .container-data-input-group{
-    position: absolute;
-    right: 40px;
-    top:0;
-    bottom: 0;
-    margin: auto;
+    // position: absolute;
+    // right: 40px;
+    // top:0;
+    // bottom: 0;
+    // margin: auto;
     .cont-form{
       background-color: $white;
       margin-top: 25px;
@@ -27,5 +27,12 @@
         border-top: none;
       }
     }
+  }
+}
+
+
+@media screen and (max-width: 990px) {
+  .banner-home{
+    text-align: center;
   }
 }

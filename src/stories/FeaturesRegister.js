@@ -20,7 +20,7 @@ const style = {
 export default () => (
   <div className="container-fluid">
     <Row className="home-posibilities">
-      <Col sm="4" xs="12">
+      <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">
           <Col sm="4" className="text-right">
             <img src="/assets/images/icon-landing-1.svg"  alt="banner" />
@@ -31,7 +31,7 @@ export default () => (
           </Col>
         </Row>
       </Col>
-      <Col sm="4" xs="12">
+      <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">
           <Col md="4" className="text-right">
             <img src="/assets/images/icon-landing-2.svg" alt="banner" />
@@ -42,7 +42,7 @@ export default () => (
           </Col>
         </Row>
       </Col>
-      <Col sm="4" xs="12">
+      <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">
           <Col md="4" className="text-right">
             <img src="/assets/images/icon-landing-3.svg" alt="banner" />

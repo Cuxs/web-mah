@@ -6,7 +6,7 @@ export default () => (
   <footer className="footer">
     <div className="container-fluid">
       <Row className="justify-content-center">
-        <div className="col-4" >
+        <div className="col-lg-4 col-md-12" >
           <h4>MI AUTO HOY</h4>
           <p>www.miautohoy.com</p>
           <p>Todos los derechos reservados // Copyright 2015/2016</p>
@@ -14,21 +14,21 @@ export default () => (
           <p>info@miautohoy.com // Tel. (0260) - 4420183</p>
           <p>* Términos y Condiciones</p>
         </div>
-        <div className="col-2" >
+        <div className="col-lg-2 col-md-4 col-sm-12 col-xs-12" >
           <ul>
             <li><a href="">Nuevos</a></li>
             <li><a href="">Usados</a></li>
             <li><a href="">Concesionarias</a></li>
           </ul>
         </div>
-        <div className="col-2" >
+        <div className="col-lg-2 col-md-4 col-sm-12 col-xs-12" >
           <ul>
             <li><a href="">Créditos prendarios</a></li>
             <li><a href="">Personal Shopper</a></li>
             <li><a href="">Créditos libre destino</a></li>
           </ul>
         </div>
-        <div className="col-2" >
+        <div className="col-lg-2 col-md-4 col-sm-12 col-xs-12" >
           <ul>
             <li><a href="mailto:contacto@miautohoy.com">contacto@miautohoy.com</a></li>
             <li><a href="" tel="(0260) – 4420183">Tel. (0260) – 4420183</a></li>
