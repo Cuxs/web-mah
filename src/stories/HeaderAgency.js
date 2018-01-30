@@ -9,25 +9,25 @@ export default () => (
     </Row>
     <div className="container">
       <Row className="microsite-data">
-        <Col md="3" className="microsite-data-avatar">
+        <Col lg="3" md="6" sm="6" xs="6" className="microsite-data-avatar">
           <img src="http://placecage.com/c/250/250" alt="banner" width="100%"/>
         </Col>
-        <div className="col-md-9 container-data-input-group" >
+        <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 container-data-input-group" >
           <h3><strong>NOMBRE DE LA AGENCIA</strong></h3>
           <Row>
-            <Col md="4">
+            <Col md="4" sm="12" xs="12">
               <div className="data-input-group">
                 <label>DOMICILIO</label>
                 <p>Av. Mitre/ Av. Mitre, San Rafael, Mendoza</p>
               </div>
             </Col>
-            <Col md="4">
+            <Col md="4" sm="12" xs="12">
               <div className="data-input-group">
                 <label>TELÉFONO</label>
                 <p>2604-4337724 / 2604-329383</p>
               </div>
             </Col>
-            <Col md="4">
+            <Col md="4" sm="12" xs="12">
               <div className="data-input-group">
                 <label>EMAIL</label>
                 <p>automotoresmojacar@hotmail.com</p>
