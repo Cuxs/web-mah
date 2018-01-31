@@ -11,16 +11,11 @@ import { animateScroll as scroll } from 'react-scroll';
 
 import SearchMutation from '../../ApolloQueries/SearchMutation';
 
-import Footer from '../../stories/Footer';
-import BreadCrum from '../../stories/BreadCrum';
-import PublicityBanner from '../../stories/PublicityBanner';
-import FiltersList from '../../stories/FiltersList';
 import CarResultContainer from '../../stories/CarResultContainer';
 import CarResult from '../../stories/CarResult';
 import SearchBar from '../../stories/SearchBar';
 import TopTopNav from '../../stories/TopTopNav';
 import NumberOfResult from '../../stories/NumberOfResult';
-import Banner from '../../stories/Banner';
 import HeaderAgency from '../../stories/HeaderAgency';
 
 import { getFiltersAndTotalResult } from '../../Modules/fetches';

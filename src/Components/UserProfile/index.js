@@ -60,7 +60,7 @@ class UserProfile extends React.Component {
       },
     }).then(({ data: { modifyUserData: uData } }) => {
       this.setState({
-        modal: true,        
+        modal: true,
         name: uData.name,
         address: uData.address,
         phone: uData.phone,
@@ -79,7 +79,7 @@ class UserProfile extends React.Component {
       },
     }).then(() => {
       this.setState({
-        modal: true,        
+        modal: true,
         oldPassword: '',
         newPassword: '',
         repeatNpass: '',
@@ -98,7 +98,6 @@ class UserProfile extends React.Component {
       if (networkError) {
         this.setState({
           responseTitle: 'Error',
-
           responseMsg: networkError,
           modal: true,
         });
@@ -137,19 +136,18 @@ class UserProfile extends React.Component {
                 : <p>{this.state.name}</p>}
                     </div>
                     <div className="data-input-group">
-                      <h6><b>DOMICILIO</b></h6>
+                      <label>DOMICILIO</label>
                       {this.state.modifyActive ?
                         <Input type="text" name="address" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
                   : <p>{this.state.address}</p>}
                     </div>
                     <div className="data-input-group">
-
-                      <h6><b>EMAIL DE CONTACTO</b></h6>
+                      <label>EMAIL DE CONTACTO</label>
                       <p>{this.state.email}</p>
                     </div>
                     <div className="data-input-group">
 
-                      <h6><b>TELEFONO DE CONTACTO</b></h6>
+                      <label>TELEFONO DE CONTACTO</label>
                       {this.state.modifyActive ?
                         <Input type="text" name="phone" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
                   : <p>{this.state.phone}</p>}
@@ -157,8 +155,8 @@ class UserProfile extends React.Component {
                     <div className="underline" />
                     {this.state.modifyActive ?
                       <span>
-                        <Button color="primary" onClick={() => this.update()} >Guardar</Button>
-                        <Button color="warning" onClick={() => this.toggle()} >Cancelar</Button>
+                        <Button color="primary" className="btn-link-primary align-self-end" onClick={() => this.update()}>  <img src="/assets/images/icon-check-red.svg" alt="" />Guardar</Button>
+                        <Button color="warning" className="btn-link-warning align-self-end" onClick={() => this.toggle()} >Cancelar</Button>
                       </span>
                   : <Button className="btn-link-primary align-self-end" color="primary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
                   </div>
@@ -201,7 +199,7 @@ class UserProfile extends React.Component {
 
 const options = () => ({
   variables: {
-    id: getUserDataFromToken().id,
+    MAHtoken: getUserToken(),
   },
 });
 

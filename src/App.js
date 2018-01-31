@@ -30,6 +30,9 @@ import PublicateWithoutRegisterStepOne from './Components/PublicateWithoutRegist
 import PublicateWithoutRegisterStepTwo from './Components/PublicateWithoutRegister/StepTwo';
 import PublicateWithoutRegisterStepThree from './Components/PublicateWithoutRegister/StepThree';
 import PublicateWithoutRegisterStepFour from './Components/PublicateWithoutRegister/StepFour';
+import SuperAdminPublications from './Components/SuperAdminPublications';
+import SuperAdminInbox from './Components/SuperAdminInbox';
+import SuperAdminUsers from './Components/SuperAdminUsers';
 import UserAdmin from './Components/UserAdmin';
 import UserProfile from './Components/UserProfile';
 import UserInbox from './Components/UserInbox';
@@ -117,6 +120,9 @@ const App = () => (
         <Route exact path="/publicateWithoutRegisterS2" component={PublicateWithoutRegisterStepTwo} />
         <Route exact path="/publicateWithoutRegisterS3" component={PublicateWithoutRegisterStepThree} />
         <Route exact path="/publicateWithoutRegisterS4" component={PublicateWithoutRegisterStepFour} />
+        <Route exact path="/superAdminPublications" component={SuperAdminPublications} />
+        <Route exact path="/superAdminInbox" component={SuperAdminInbox} />
+        <Route exact path="/superAdminUsers" component={SuperAdminUsers} />
         <Route exact path="/userAdmin" component={UserAdmin} />
         <Route exact path="/userPublications" component={UserPublications} />
         <Route exact path="/userProfile" component={UserProfile} />

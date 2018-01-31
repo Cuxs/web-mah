@@ -3,7 +3,7 @@ import { FormGroup, Input, Dropdown, DropdownItem, DropdownMenu, DropdownToggle,
 import { parse, stringify } from 'query-string';
 /* eslint react/jsx-filename-extension: 0 */
 
-class AdminFilter extends Component {
+class SuperAdminFilter extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,12 +11,15 @@ class AdminFilter extends Component {
       stateDropdown: false,
 
       dropDownTipoValue: parse(props.location.search).carState || 'Tipo',
+      dropDownTipoUserValue: 'Tipo de Cliente',
       dropDownPublicationStateValue: parse(props.location.search).stateName || 'Estado de Publicación',
     };
     this.toggleTipoDropdown = this.toggleTipoDropdown.bind(this);
+    this.toggleTipoUserDropdown = this.toggleTipoUserDropdown.bind(this);
     this.toggleStateDropdown = this.toggleStateDropdown.bind(this);
 
     this.changeTipoValue = this.changeTipoValue.bind(this);
+    this.changeTipoUserValue = this.changeTipoUserValue.bind(this);
     this.changeStateValue = this.changeStateValue.bind(this);
   }
 
@@ -25,10 +28,6 @@ class AdminFilter extends Component {
     const { location, history, location: { pathname } } = this.props;
     searchObj = (parse(location.search));
     searchObj[property] = value;
-    if (value === 'Todas') {
-      delete searchObj.stateName;
-      history.push(`${pathname}?${stringify(searchObj)}`);
-    }
     history.push(`${pathname}?${stringify(searchObj)}`);
   }
 
@@ -40,6 +39,15 @@ class AdminFilter extends Component {
   changeTipoValue(e) {
     this.searchWithParam('carState', e.currentTarget.textContent);
     this.setState({ dropDownTipoValue: e.currentTarget.textContent });
+  }
+  toggleTipoUserDropdown() {
+    this.setState({
+      tipoUserDropdown: !this.state.tipoUserDropdown,
+    });
+  }
+  changeTipoUserValue(e) {
+    this.searchWithParam('carState', e.currentTarget.textContent);
+    this.setState({ dropDownTipoUserValue: e.currentTarget.textContent });
   }
 
   toggleStateDropdown() {
@@ -58,10 +66,23 @@ class AdminFilter extends Component {
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">
           <Row className="align-items-center">
-            <div className="col-4 col-lg-2  col-md-4 col-sm-4 col-xs-4 text-right">
+            <div className="col-2 text-right">
               <p>Filtrar por</p>
             </div>
-            <div className="col-8 col-lg-4 col-md-6 col-sm-6 col-xs-6">
+            <div className="col-2">
+              <Dropdown size="sm" isOpen={this.state.tipoUserDropdown} toggle={this.toggleTipoUserDropdown}>
+                <DropdownToggle caret className="btn-select btn-default">
+                  {this.state.dropDownTipoUserValue}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Elije una</DropdownItem>
+                  <DropdownItem onClick={e => this.changeTipoUserValue(e)}>Usuario</DropdownItem>
+                  <DropdownItem onClick={e => this.changeTipoUserValue(e)}>Agencia</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+
+            <div className="col-2">
               <Dropdown size="sm" isOpen={this.state.tipoDropdown} toggle={this.toggleTipoDropdown}>
                 <DropdownToggle caret className="btn-select btn-default">
                   {this.state.dropDownTipoValue}
@@ -73,18 +94,16 @@ class AdminFilter extends Component {
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <div className="d-block d-lg-none w-100" />
-            <div className="col-4 col-lg-2 col-md-4 col-sm-4 col-xs-4 text-right">
-              <p>Estado: </p>
+            <div className="col-2 text-right">
+              <p>Ordenar por</p>
             </div>
-            <div className="col-8 col-lg-4 col-md-6 col-sm-6 col-xs-6">
+            <div className="col-4">
               <Dropdown size="sm" isOpen={this.state.stateDropdown} toggle={this.toggleStateDropdown}>
                 <DropdownToggle caret className="btn-select btn-default">
                   {this.state.dropDownPublicationStateValue}
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem header>Elije una</DropdownItem>
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }}>Todas</DropdownItem >
                   <DropdownItem onClick={(e) => { this.changeStateValue(e); }}>Pendiente</DropdownItem >
                   <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Publicada </DropdownItem >
                   <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Destacada </DropdownItem >
@@ -104,4 +123,4 @@ class AdminFilter extends Component {
   }
 }
 
-export default AdminFilter;
+export default SuperAdminFilter;

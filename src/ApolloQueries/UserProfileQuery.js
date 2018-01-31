@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const UserDetailQuery = gql`
-query User($id: Int!) {
-    User(id: $id) {
+query User($MAHtoken: String!) {
+    User(MAHtoken: $MAHtoken) {
       name
       address
       email

@@ -78,7 +78,7 @@ class Inbox extends Component {
     const publicationUserId = getUserDataFromToken().id;
     return (
       <div>
-        <AdminBar />
+        <AdminBar history={this.props.history} />
         <Row>
           <Col md="6">
             <Button type="secondary" onClick={() => history.goBack()} >{'< Volver a Bandeja de Entrada'}</Button>

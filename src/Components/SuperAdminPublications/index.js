@@ -2,23 +2,19 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button, Label } from 'reactstrap';
 import qs from 'query-string';
 import { graphql, compose } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import AdminBar from '../../stories/AdminBar';
-import UserSideBar from '../../stories/UserSideBar';
-import AdminFilter from '../../stories/AdminFilter';
-import CardPublication from '../../stories/CardPublication';
-import NumberOfResult from '../../stories/NumberOfResult';
+import SuperAdminFilter from '../../stories/SuperAdminFilter';
+import SuperAdminSideBar from '../../stories/SuperAdminSideBar';
+import SACardPublication from '../../stories/SACardPublication';
 import { getUserToken } from '../../Modules/sessionFunctions';
 import SearchUserPublicationQuery from '../../ApolloQueries/UserPublicationsQuery';
 
-import style from '../../Styles/pledgeCredits';
-
-
-class UserPublications extends React.Component {
+class SuperAdminPublications extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,11 +46,13 @@ class UserPublications extends React.Component {
       })
       .catch(err => console.log(err));
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.search !== this.props.location.search) {
       this.doSearch(1, true, nextProps);
     }
   }
+
   doSearch(page, newSearch, nextProps) {
     let location;
     if (nextProps) { location = nextProps.location; } else {
@@ -92,16 +90,21 @@ class UserPublications extends React.Component {
         }
       });
   }
+
   toggle() {
     this.setState({
       modal: !this.state.modal,
     });
   }
+
   renderData() {
     const {
       hasNextPage,
     } = this.state;
 
+    if (hasNextPage === false) {
+      return <p>No hay más publicaciones que mostrar</p>;
+    }
     if (this.state.loading) {
       return <p>Cargando...</p>;
     }
@@ -113,24 +116,21 @@ class UserPublications extends React.Component {
     }
     const items = [];
     publications.map(pub => (
-      items.push(<CardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
+      items.push(<SACardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
     return items;
   }
+
   render() {
-    const {
-      history, location,
-    } = this.props;
     return (
       <div>
-        <AdminBar history={history} />
-        <div className="container">
+        <AdminBar history={this.props.history} />
+        <div className="container-fluid">
           <Row>
-            <Col lg="3" md="12" sm="12" xs="12">
-              <UserSideBar history={history} location={location} />
+            <Col md="3">
+              <SuperAdminSideBar history={this.props.history} location={this.props.location} />
             </Col>
-            <Col lg="9" md="12" sm="12" xs="12" className="mt-4">
-              <NumberOfResult results={this.state.totalCount} />
-              <AdminFilter history={history} location={location} />
+            <Col md="9">
+              <SuperAdminFilter history={this.props.history} location={this.props.location} />
               <div className="container-box-item">
                 <div className="col-12">
                   <InfiniteScroll
@@ -159,6 +159,7 @@ class UserPublications extends React.Component {
     );
   }
 }
+
 const options = ({ location }) => ({
   variables: {
     MAHtoken: getUserToken(),
@@ -173,4 +174,4 @@ const withPublicationsPerPage = graphql(SearchUserPublicationQuery, {
 });
 const withData = compose(withPublicationsPerPage);
 
-export default withData(UserPublications);
+export default withData(SuperAdminPublications);
