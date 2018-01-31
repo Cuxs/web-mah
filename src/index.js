@@ -18,7 +18,7 @@ import registerServiceWorker from './registerServiceWorker';
 const cache = new InMemoryCache();
 
 const httpLink = new HttpLink({
-  uri: 'http://192.168.99.157/:4000/graphql',
+  uri: 'http://localhost:4000/graphql',
 });
 
 // Create a WebSocket link:
