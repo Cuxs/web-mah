@@ -25,6 +25,10 @@ class AdminFilter extends Component {
     const { location, history, location: { pathname } } = this.props;
     searchObj = (parse(location.search));
     searchObj[property] = value;
+    if (value === 'Todas') {
+      delete searchObj.stateName;
+      history.push(`${pathname}?${stringify(searchObj)}`);
+    }
     history.push(`${pathname}?${stringify(searchObj)}`);
   }
 
@@ -70,7 +74,7 @@ class AdminFilter extends Component {
               </Dropdown>
             </div>
             <div className="col-2 text-right">
-              <p>Ordenar por</p>
+              <p>Estado: </p>
             </div>
             <div className="col-4">
               <Dropdown size="sm" isOpen={this.state.stateDropdown} toggle={this.toggleStateDropdown}>
@@ -79,6 +83,7 @@ class AdminFilter extends Component {
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem header>Elije una</DropdownItem>
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }}>Todas</DropdownItem >
                   <DropdownItem onClick={(e) => { this.changeStateValue(e); }}>Pendiente</DropdownItem >
                   <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Publicada </DropdownItem >
                   <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Destacada </DropdownItem >
