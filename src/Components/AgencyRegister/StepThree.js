@@ -21,15 +21,11 @@ class StepThree extends React.Component {
         <RegisterBar onlyLogin />
         <div className="container-fluid register-steps">
           <Row>
-            <Col md="6" sm="12" className="bg">
+            <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-8 float-right">
                 <div className="text-block">
                   <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
                   <p>Registrate en muy pocos pasos</p>
-                </div>
-                <div className="text-block">
-                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
-                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
                 </div>
 
                 <div className="steps">
@@ -52,11 +48,15 @@ class StepThree extends React.Component {
                   </div>
 
                 </div>
+                <div className="text-block">
+                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
+                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
+                </div>
 
               </div>
             </Col>
-            <Col md="6">
-              <div className="col-md-9 float-left">
+            <Col md="6" sm="12" xs="12">
+              <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Información del dueño o responsable de la concessionaria </h4>
                 <FormGroup>
                   <Label for="exampleEmail">Nombre y Apellido</Label>
@@ -80,8 +80,8 @@ class StepThree extends React.Component {
                 </FormGroup>
                 <div>
                   <div className="underline" />
-                  <Button color="default" className="col-6 float-left" onClick={() => this.props.history.push('/agencyRegisterS2')}>Volver</Button>
-                  <Button color="primary" className="col-6 float-right" onClick={() => this.props.history.push('/agencyAdmin')}>Registrarme</Button>
+                  <Button color="default" className="float-left" onClick={() => this.props.history.push('/agencyRegisterS2')}>Volver</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.props.history.push('/agencyAdmin')}>Registrarme</Button>
                 </div>
               </div>
             </Col>

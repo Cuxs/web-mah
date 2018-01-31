@@ -15,7 +15,7 @@
           position: absolute;
           top:10px;
           left:15px;
-          z-index: 100;
+          z-index: 10;
           background-color: transparentize($primary, 0.2);
           padding:5px 10px;
           font:700 $font-size-sm $font-family-sans-serif;
@@ -110,8 +110,42 @@
     @include border-radius(3px);
     overflow: hidden;
   }
+  h4{
+    font:700 18px/22px $font-family-sans-serif;
+    text-transform: uppercase;
+  }
   &:hover,&.active{
     border-color:$secondary;
+  }
+}
+
+
+@media screen and (max-width: 960px) {
+  .container-box-item{
+    .box-item{
+      .item-car{
+
+        // ADMIN
+        &.wide{
+          p{
+            &.item-state{
+              right: -5px;
+              top: -25px;
+            }
+          }
+          .item-admin{
+            text-align: center;
+            .btn{
+              float: none !important;
+              display: block;
+              margin:auto;
+              max-width: 200px;
+            }
+          }
+        }
+      }
+
+    }
   }
 }
 

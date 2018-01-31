@@ -21,15 +21,11 @@ class StepOne extends React.Component {
         <RegisterBar onlyLogin history={this.props.history} />
         <div className="container-fluid register-steps">
           <Row>
-            <Col md="6" sm="12" className="bg">
+            <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-9 float-right">
                 <div className="text-block">
                   <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
                   <p>Registrate en muy pocos pasos</p>
-                </div>
-                <div class="text-block">
-                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
-                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
                 </div>
 
                 <div className="steps">
@@ -50,11 +46,16 @@ class StepOne extends React.Component {
                     <h4>Información del responsable de la concessionaria</h4>
                     <a className="link">Modificar datos</a>
                   </div>
+
+                </div>
+                <div className="text-block">
+                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
+                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
                 </div>
               </div>
             </Col>
-            <Col md="6">
-              <div className="col-md-9 float-left">
+            <Col md="6" sm="12" xs="12">
+              <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Registrarme</h4>
                 <FormGroup>
                   <Label for="exampleEmail">Email</Label>
@@ -78,8 +79,8 @@ class StepOne extends React.Component {
                 </FormGroup>
                 <div>
                   <div className="underline" />
-                  <Button color="default" className="col-6 float-left" onClick={() => this.props.history.push('/agencyRegisterS1')} >Volver</Button>
-                  <Button color="primary" className="col-6 float-right" onClick={() => this.props.history.push('/agencyRegisterS2')} >Siguiente</Button>
+                  <Button color="default" className="float-left" onClick={() => this.props.history.push('/agencyRegisterS1')} >Volver</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.props.history.push('/agencyRegisterS2')} >Siguiente</Button>
                 </div>
               </div>
             </Col>

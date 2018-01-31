@@ -29,15 +29,11 @@ class StepThree extends React.Component {
         <RegisterBar onlyLogin />
         <div className="container-fluid register-steps">
           <Row>
-            <Col md="6" sm="12" className="bg">
-              <div className="col-md-8 float-right">
+            <Col md="6" sm="12" xs="12" className="bg">
+              <div className="col-md-9 float-right">
                 <div className="text-block">
                   <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
                   <p>Registrate en muy pocos pasos</p>
-                </div>
-                <div className="text-block">
-                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
-                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
                 </div>
 
                 <div className="steps">
@@ -61,7 +57,7 @@ class StepThree extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col md="6" sm="12">
+            <Col md="6" sm="12" xs="12" className="mb-4">
               <div className="mt-4 mb-4">
                 <h6>Al registrarme, declaro ser mayor de 18 años de edad y acepta los Términos y condiciones de miautohoy.com</h6>
               </div>

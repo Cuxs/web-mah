@@ -5,7 +5,7 @@ import { Col, Row } from 'reactstrap';
 
 export default ({ children }) => {
   const item = children.map(row =>
-    (<Col sm="3" xs="12" className="box-item" >
+    (<Col lg="3" md="6" sm="12" xs="12" className="box-item" >
       {row}
     </Col>
     ));

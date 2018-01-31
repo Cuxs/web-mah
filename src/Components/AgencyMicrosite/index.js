@@ -100,15 +100,15 @@ class AgencyMicrosite extends Component {
     return (
       <div>
         <AdminBar history={this.props.history} />
-        <div className="container-fluid">
+        <div className="container">
           <Row>
-            <Col md="3">
+            <Col lg="3" md="12" sm="12" xs="12">            
               <UserSideBar history={history} location={location} />
             </Col>
-            <Col md="9" className="mt-4">
+            <Col lg="9" md="12" sm="12" xs="12" className="mt-4">
               <Row>
-                <Col md="6" className="container-data-input-group">
-                  <div className="card p-4" style={{ height: '100%' }}>
+                <Col lg="6" md="12" sm="12" xs="12" className="container-data-input-group">
+                  <div className="card p-4 mb-4">
                     <div className="data-input-group">
                       <Label>NOMBRE DE LA AGENCIA</Label>
                       {this.state.modifyActive ? (
@@ -200,8 +200,8 @@ class AgencyMicrosite extends Component {
                   </div>
                 </Col>
 
-                <Col md="6" className="container-data-input-group">
-                  <div className="card p-4" style={{ height: '100%' }}>
+                <Col lg="6" md="12" sm="12" xs="12" className="container-data-input-group">
+                  <div className="card p-4 mb-4">
                     <div className="data-input-group">
                       <Label>FOTO DE PORTADA</Label> <small>(Recomendado 1440 x 360)</small>
                       <div className="col-12">

@@ -12,6 +12,7 @@
     padding: 10px 15px;
     height: 50px;
     line-height: 30px;
+    letter-spacing: 1px;
     @include border-radius(3px);
     &.alternative{
       background-color: transparent;
@@ -22,6 +23,9 @@
   //SECONDARY
   &.btn-secondary{
     @include border-radius(3px);
+    font:700 14px $font-family-sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   // LINK
@@ -66,5 +70,24 @@
       height: 20px;
       margin: -4px 20px 0 0;
     }
+  }
+
+  &.btn-sidebar-close{
+    position: fixed;
+    top:20px;
+    right: 20px;
+    max-width: 50px !important;
+  }
+
+  &.btn-sidebarfilters-open{
+    position: fixed;
+    bottom:20px;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    max-width: 150px !important;
+    margin:auto;
+    @include border-radius(40px);
   }
 }

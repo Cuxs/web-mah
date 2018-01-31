@@ -12,15 +12,11 @@ const StepOne = ({ data }) => (
     <RegisterBar onlyLogin />
     <div className="container-fluid register-steps">
       <Row>
-        <Col md="6" sm="12" className="bg">
-          <div className="col-md-8 float-right">
+        <Col md="6" sm="12" xs="12" className="bg">
+          <div className="col-md-9 float-right">
             <div className="text-block">
               <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
               <p>Registrate en muy pocos pasos</p>
-            </div>
-            <div class="text-block">
-              <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
-              Soy un Particular. <a href="" className="link">Registrarme</a></p>
             </div>
 
             <div className="steps">
@@ -44,7 +40,7 @@ const StepOne = ({ data }) => (
             </div>
           </div>
         </Col>
-        <Col md="6">
+        <Col md="6" sm="12" xs="12" className="mb-4">
           <div className="col-md-9 float-left">
             <h4 className="title-division">Registrarme</h4>
             <Button color="primary" className="btn-facebook" >

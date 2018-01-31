@@ -59,18 +59,18 @@ class CarSpecification extends Component {
   }
   items(array) {
     return (
-      <div className="data-input-group">
+      <div className="data-input-group special">
         <Row>
           {array.left.map((row) => {
             if (typeof row.value === 'boolean' || row.value === null) {
               return (
-                <Col md="6" sm="12">
+                <Col md="6" sm="6" xs="12">
                   <p className={row.value ? 'active' : 'disable'}>{row.key}</p>
                 </Col>
               );
             }
             return (
-              <Col md="6" sm="12">
+              <Col md="6" sm="6" xs="12">
                 <p>
                   {row.key} : {row.value}
                 </p>
@@ -80,13 +80,13 @@ class CarSpecification extends Component {
           {array.right.map((row) => {
             if (typeof row.value === 'boolean' || row.value === null) {
               return (
-                <Col md="6" sm="12">
+                <Col md="6" sm="6" xs="12">
                   <p className={row.value ? 'active' : 'disable'}>{row.key}</p>
                 </Col>
               );
             }
             return (
-              <Col md="6" sm="12">
+              <Col md="6" sm="6" xs="12">
                 <p>
                   {row.key} : {row.value}
                 </p>
@@ -101,7 +101,7 @@ class CarSpecification extends Component {
   render() {
     return (
       <Row>
-        <Col md="12" className="container-data-input-group">
+        <Col sm="12" xs="12" className="container-data-input-group">
           <h5>Detalles</h5>
           {this.items(this.prepareRow(this.state.detailSpecs))}
           <h5>Seguridad</h5>

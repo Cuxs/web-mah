@@ -58,10 +58,10 @@ class AdminFilter extends Component {
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">
           <Row className="align-items-center">
-            <div className="col-2 text-right">
+            <div className="col-4 col-lg-2  col-md-4 col-sm-4 col-xs-4 text-right">
               <p>Filtrar por</p>
             </div>
-            <div className="col-4">
+            <div className="col-8 col-lg-4 col-md-6 col-sm-6 col-xs-6">
               <Dropdown size="sm" isOpen={this.state.tipoDropdown} toggle={this.toggleTipoDropdown}>
                 <DropdownToggle caret className="btn-select btn-default">
                   {this.state.dropDownTipoValue}
@@ -73,10 +73,11 @@ class AdminFilter extends Component {
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <div className="col-2 text-right">
+            <div className="d-block d-lg-none w-100" />
+            <div className="col-4 col-lg-2 col-md-4 col-sm-4 col-xs-4 text-right">
               <p>Estado: </p>
             </div>
-            <div className="col-4">
+            <div className="col-8 col-lg-4 col-md-6 col-sm-6 col-xs-6">
               <Dropdown size="sm" isOpen={this.state.stateDropdown} toggle={this.toggleStateDropdown}>
                 <DropdownToggle caret className="btn-select btn-default">
                   {this.state.dropDownPublicationStateValue}

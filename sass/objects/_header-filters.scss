@@ -14,5 +14,9 @@
     font:#{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
     color:$secondary;
     width: 100%;
+    text-transform: inherit;
+  }
+  .w-100{
+    margin-bottom:20px;
   }
 }

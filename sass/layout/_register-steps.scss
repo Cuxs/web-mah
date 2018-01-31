@@ -2,6 +2,18 @@
   .bg{
     background:$gray-100;
     min-height: calc(100vh - 80px);
+    p{
+      a{
+        color:$secondary;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .title-division{
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px;
   }
 
   .steps{
@@ -40,6 +52,19 @@
           background: $secondary url('/assets/images/icon-check-white.svg') no-repeat center center;
         }
       }
+    }
+  }
+
+  .btn-default{
+    text-transform: uppercase;
+    color:$gray-500;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .register-steps{
+    .bg{
+      min-height: auto;
     }
   }
 }

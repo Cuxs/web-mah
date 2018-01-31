@@ -89,76 +89,89 @@ class CreatePublication extends React.Component {
     return (
       <div>
         <AdminBar />
-        <Row>
-          <Col md="6" sm="12">
-            <h4>Vendé tu auto ya!</h4>
-            <h6>En muy simples pasos podés publicar tu auto.</h6>
+        <div className="container-fluid register-steps">
+          <Row>
+            <Col md="6" sm="12" xs="12" className="bg">
+              <div className="col-md-8 float-right">
+                <div className="text-block">
+                  <h4 className="title-division-primary">Vendé tu auto ya!</h4>
+                  <p>En muy simples pasos podés publicar tu auto.</p>
+                </div>
 
-            <h6>PASO 1</h6>
-            <h4><b>Contanos de tu auto</b></h4>
+                <div className="steps">
+                  <div className="step">
+                    <h6>PASO 1</h6>
+                    <h4>Contanos de tu auto</h4>
+                    <a className="link">Modificar datos</a>
+                  </div>
 
-            <div className="underline" />
-
-            <h6>PASO 2</h6>
-            <h4>Mostralo con fotos</h4>
-
-          </Col>
-          <Col md="4">
-            <h4>Describe tu auto</h4>
-            <FormGroup>
-              <Label for="exampleSelect">¿Qué tipo de auto quieres vender?</Label>
-              <Input type="select" name="select" id="exampleSelect">
-                <option>Usado</option>
-                <option>Nuevo</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleSelect">¿Cuál es la marca?</Label>
-              <Input type="select" name="select" onChange={event => this.onChangeBrand(event)} value={this.state.brand} >
-                <option value={0} >Selecciona una marca</option>
-                {!this.props.ta3AllBrands.loading && AllBrands.map(brand => <option value={brand.ta3_nmarc} >{brand.ta3_marca}</option>)}
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleSelect">¿Cuál es el grupo?</Label>
-              <Input type="select" name="select" onChange={event => this.onChangeGroup(event)} value={this.state.group}>
-                <option>Selecciona un grupo</option>
-                {this.state.Groups && this.state.Groups.map(group => <option value={group.gru_cgrup} >{group.gru_ngrup}</option>)}
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleSelect">¿Cuál es el modelo?</Label>
-              <Input type="select" name="select" onChange={event => this.onChangeModel(event)} value={this.state.model}>
-                <option>Selecciona un modelo</option>
-                {this.state.Models && this.state.Models.map(model => <option value={model.ta3_codia} >{model.ta3_model}</option>)}
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleSelect">¿Cuál es el año?</Label>
-              <Input type="select" name="select" onChange={event => this.onChangeYear(event)} value={this.state.year}>
-                <option>Selecciona un año</option>
-                {this.state.Prices && this.state.Prices.map((year) => {
+                  <div className="step disable">
+                    <h6>PASO 2</h6>
+                    <h4>Mostralo con fotos</h4>
+                    <a className="link">Modificar datos</a>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col md="6" sm="12" xs="12">
+              <div className="col-md-9 float-left pb-4">
+                <h4 className="title-division">Describe tu auto</h4>
+                <FormGroup>
+                  <Label for="exampleSelect">¿Qué tipo de auto quieres vender?</Label>
+                  <Input type="select" name="select" id="exampleSelect">
+                    <option>Usado</option>
+                    <option>Nuevo</option>
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleSelect">¿Cuál es la marca?</Label>
+                  <Input type="select" name="select" onChange={event => this.onChangeBrand(event)} value={this.state.brand} >
+                    <option value={0} >Selecciona una marca</option>
+                    {!this.props.ta3AllBrands.loading && AllBrands.map(brand => <option value={brand.ta3_nmarc} >{brand.ta3_marca}</option>)}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleSelect">¿Cuál es el grupo?</Label>
+                  <Input type="select" name="select" onChange={event => this.onChangeGroup(event)} value={this.state.group}>
+                    <option>Selecciona un grupo</option>
+                    {this.state.Groups && this.state.Groups.map(group => <option value={group.gru_cgrup} >{group.gru_ngrup}</option>)}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleSelect">¿Cuál es el modelo?</Label>
+                  <Input type="select" name="select" onChange={event => this.onChangeModel(event)} value={this.state.model}>
+                    <option>Selecciona un modelo</option>
+                    {this.state.Models && this.state.Models.map(model => <option value={model.ta3_codia} >{model.ta3_model}</option>)}
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleSelect">¿Cuál es el año?</Label>
+                  <Input type="select" name="select" onChange={event => this.onChangeYear(event)} value={this.state.year}>
+                    <option>Selecciona un año</option>
+                    {this.state.Prices && this.state.Prices.map((year) => {
                   if (year.precio !== 0) {
                     return (<option value={year.anio} >{year.anio}</option>);
                   }
                 })}
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">¿Cuántos kilometros tiene?</Label>
-              <Input type="numeric" value={this.state.kms} onChange={event => this.setState({ kms: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">¿A qué precio lo querés vender?</Label>
-              <Input type="numeric" value={this.state.price} onChange={event => this.setState({ price: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-              {this.state.priceSuggested && <p>Precio Sugerido: <b>$ {this.state.priceSuggested}</b></p>}
-            </FormGroup>
+                  </Input>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">¿Cuántos kilometros tiene?</Label>
+                  <Input type="numeric" value={this.state.kms} onChange={event => this.setState({ kms: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">¿A qué precio lo querés vender?</Label>
+                  <Input type="numeric" value={this.state.price} onChange={event => this.setState({ price: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
+                  {this.state.priceSuggested && <p>Precio Sugerido: <b>$ {this.state.priceSuggested}</b></p>}
+                </FormGroup>
 
-            <div className="underline" />
-            <Button color="primary" onClick={() => this.next()} >Siguiente</Button>
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
+                <div className="underline" />
+                <Button color="primary" onClick={() => this.next()} >Siguiente</Button>
+              </div>
+            </Col>
+          </Row>
+          <style jsx>{style}</style>
+        </div>
       </div>
     );
   }

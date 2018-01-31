@@ -17,3 +17,34 @@
     }
   }
 }
+
+.recharts-wrapper{
+  width: 100% !important;
+  margin-bottom: 40px;
+  & > svg {
+    width: 100% !important;
+    height: auto;
+  }
+}
+
+
+@media screen and (max-width: 990px) {
+  .data-graph{
+    a{
+      h2{
+        color:$primary;
+        font-weight: 900;
+      }
+      p{
+        color:$secondary;
+        margin:0;
+        line-height: 30px;
+      }
+      .container-icon{
+        position: absolute;
+        top:-20px;
+        right: 5px;
+      }
+    }
+  }
+}

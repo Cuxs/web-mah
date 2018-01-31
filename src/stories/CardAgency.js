@@ -8,7 +8,7 @@ const CardAgency = () => (
         <img src="http://placecage.com/c/230/150" alt="banner" width="100%"/>
       </div>
       <div className="col-md-8">
-        <h4><strong>Nombre de la Agencia</strong></h4>
+        <h4>Nombre de la Agencia</h4>
         <div className="data-input-group">
           <label>DOMICILIO</label>
           <p>Av. Mitre 1468/ Av. Mitre 1719 San Rafael, Mendoza</p>
