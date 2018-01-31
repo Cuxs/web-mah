@@ -147,8 +147,9 @@ class UserAdmin extends React.Component {
                   <div className="data-graph col-sm-12 col-xs-12">
                     <a
                       onClick={() => history.push('/userPublications')}
-                      className="d-flex flex-row"
+                      color="default"
                     >
+                      <div className="row">
                       {activePub.loading ? (
                         <img
                           style={{ height: '70px' }}
@@ -167,14 +168,16 @@ class UserAdmin extends React.Component {
                           <img src="/assets/images/icon-car-white.svg" alt="" />
                         </div>
                       </div>
+                    </div>
                     </a>
                   </div>
 
                   <div className="data-graph col-sm-12 col-xs-12">
                     <a
                       onClick={() => history.push('/userPublications')}
-                      className="d-flex flex-row"
+                      color="default"
                     >
+                      <div className="row">
                       {activePub.loading ? (
                         <img
                           style={{ height: '70px' }}
@@ -197,6 +200,7 @@ class UserAdmin extends React.Component {
                           <img src="/assets/images/icon-star-white.svg" alt="" />
                         </div>
                       </div>
+                    </div>
                     </a>
                   </div>
 
