@@ -207,7 +207,7 @@ class SearchCars extends Component {
           history={history}
           location={location}
         />
-        <div className="container-fluid mb-4 mt-4">
+        <div className="container mb-4 mt-4">
           <Row>
             <Col md="8" sm="12" xs="12">
               <BreadCrum url={window.location.href} />
@@ -217,7 +217,7 @@ class SearchCars extends Component {
             </Col>
           </Row>
         </div>
-        <div className="container-fluid">
+        <div className="container">
           <Row>
             <Button type="primary" className="btn-lg btn-sidebarfilters-open d-block d-lg-none">FILTROS</Button>
             <Col md="3" sm="4" className="sidebar-filters d-none d-lg-block">
@@ -257,7 +257,9 @@ class SearchCars extends Component {
                   </Row>
                 </Col>
               </Row>
-              <ActiveFilters history={this.props.history} searchData={qs.parse(this.props.location.search)} />
+              <div className="cont-activefilters">
+                <ActiveFilters history={this.props.history} searchData={qs.parse(this.props.location.search)} />
+              </div>
               <InfiniteScroll
                 pageStart={1}
                 loadMore={this.doSearch}

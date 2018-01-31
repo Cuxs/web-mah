@@ -21,6 +21,15 @@
           font:700 $font-size-sm $font-family-sans-serif;
           @include border-radius(25px);
           color:$white;
+          &.item-state{
+            position: absolute;
+            left: 15px;
+            color:$white;
+            padding: 5px 10px;
+            &.sold{
+              background-color: #FBD134;
+            }
+          }
         }
       }
       @at-root .item-data{

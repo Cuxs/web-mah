@@ -36,12 +36,11 @@
     }
   }
   .form-control{
-    padding:15px !important;
+    padding:0 15px !important;
     height: 50px !important;
     line-height: 50px !important;
     @include placeholder{
-      font:300 14px $font-family-sans-serif;
-      line-height: 40px;
+      font:300 14px/45px $font-family-sans-serif;
       color:$gray-600;
     }
   }
