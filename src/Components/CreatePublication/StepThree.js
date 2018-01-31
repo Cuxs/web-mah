@@ -10,9 +10,9 @@ import AdminBar from '../../stories/AdminBar';
 import style from '../../Styles/register';
 
 
-const CreatePublication = () => (
+const CreatePublication = ({ history }) => (
   <div>
-    <AdminBar />
+    <AdminBar history={history} />
     <div className="container-fluid register-steps">
       <Row>
         <Col md="6" sm="12" xs="12" className="bg pb-4">

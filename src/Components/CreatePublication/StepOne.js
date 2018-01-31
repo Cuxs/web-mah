@@ -33,7 +33,7 @@ class CreatePublication extends React.Component {
     } = this.props;
     return (
       <div>
-        <AdminBar />
+        <AdminBar history={this.props.history} />
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">
