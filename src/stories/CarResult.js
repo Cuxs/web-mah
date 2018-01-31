@@ -56,7 +56,7 @@ export default class CarResult extends Component {
         return <p className="item-state">DESTACADO</p>;
       }
       if (state === 'Vendida') {
-        return <p className="item-state">VENDIDO</p>;
+        return <p className="sold item-state">VENDIDO</p>;
       }
     }
     return true;

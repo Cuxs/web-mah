@@ -45,6 +45,7 @@ class SearchCars extends Component {
       totalResults: 0,
       loading: true,
       renderedData: 0,
+      filterClass: '',
       dropDownOrderValue: '. . .',
     };
     this.doSearch = this.doSearch.bind(this);
@@ -219,9 +220,9 @@ class SearchCars extends Component {
         </div>
         <div className="container">
           <Row>
-            <Button type="primary" className="btn-lg btn-sidebarfilters-open d-block d-lg-none">FILTROS</Button>
-            <Col md="3" sm="4" className="sidebar-filters d-none d-lg-block">
-              <Button color="primary" className="btn-link-primary btn-sidebar-close d-none">
+            <Button type="primary" onClick={() => this.setState({ filterClass: 'active' })} className="btn-lg btn-sidebarfilters-open d-block d-lg-none">FILTROS</Button>
+            <Col md="3" sm="4" className={`sidebar-filters d-none d-lg-block ${this.state.filterClass}`}>
+              <Button color="primary" onClick={() => this.setState({ filterClass: '' })} className="btn-link-primary btn-sidebar-close d-none">
                 <img src="/assets/images/icon-close.svg" alt="" />
               </Button>
               <FiltersList filters={this.state.filters} search={this.props.location.search} history={history} />
@@ -231,7 +232,7 @@ class SearchCars extends Component {
                 <Col md="8" sm="12" xs="12">
                   <NumberOfResult results={this.state.totalResults} />
                 </Col>
-                <div className="w-100 d-block d-sm-none mt-2 mb-2"></div>
+                <div className="w-100 d-block d-sm-none mt-2 mb-2" />
                 <Col md="4" sm="12" xs="12">
                   <Row className="align-items-center">
                     <div className="col-5 col-md-5 col-sm-3 col-xs-2 text-right">
