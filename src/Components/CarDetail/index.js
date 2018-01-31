@@ -58,7 +58,7 @@ class CarDetail extends Component {
       <div>
         <TopTopNav />
         <SearchBar history={history} location={location} />
-        <div className="container-fluid mb-4 mt-4">
+        <div className="container mb-4 mt-4">
           <Row>
             <Col md="8" sm="12" xs="12">
               <BreadCrum url={window.location.href} />
@@ -68,7 +68,7 @@ class CarDetail extends Component {
             </Col>
           </Row>
         </div>
-        <div className="container-fluid">
+        <div className="container">
           {carDetailData.Publication === null && (
             <h3>Esta publicación no exite o ha sido eliminada.</h3>
           )}

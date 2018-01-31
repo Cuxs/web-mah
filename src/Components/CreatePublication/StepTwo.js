@@ -60,7 +60,7 @@ class CreatePublication extends Component {
         <AdminBar />
         <div className="container-fluid register-steps">
           <Row>
-            <Col md="6" sm="12" className="bg">
+            <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-8 float-right">
                 <div className="text-block">
                   <h4 className="title-division-primary">Vendé tu auto ya!</h4>
@@ -82,7 +82,7 @@ class CreatePublication extends Component {
                 </div>
               </div>
             </Col>
-            <Col md="6">
+            <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left">
                 <h4 className="title-division">Cómo luce?</h4>
                 <ImageCrop
@@ -91,7 +91,7 @@ class CreatePublication extends Component {
 
                 />
                 <div className="underline" />
-                <Button color="primary" href="/createPublicationS3" >Siguiente</Button>
+                <Button color="primary" className="float-right" href="/createPublicationS3" >Siguiente</Button>
               </div>
 
             </Col>

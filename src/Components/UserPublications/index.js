@@ -125,12 +125,12 @@ class UserPublications extends React.Component {
     } = this.props;
     return (<div>
       <AdminBar history={history} />
-      <div className="container-fluid">
+      <div className="container">
         <Row>
-          <Col md="3">
+          <Col lg="3" md="12" sm="12" xs="12">
             <UserSideBar history={history} location={location} />
           </Col>
-          <Col md="9" className="mt-4">
+          <Col lg="9" md="12" sm="12" xs="12" className="mt-4">
             <NumberOfResult results={this.state.totalCount} />
             <AdminFilter history={history} location={location} />
             <div className="container-box-item">

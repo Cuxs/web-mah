@@ -231,6 +231,7 @@ class SearchCars extends Component {
                 <Col md="8" sm="12" xs="12">
                   <NumberOfResult results={this.state.totalResults} />
                 </Col>
+                <div className="w-100 d-block d-sm-none mt-2 mb-2"></div>
                 <Col md="4" sm="12" xs="12">
                   <Row className="align-items-center">
                     <div className="col-5 col-md-5 col-sm-3 col-xs-2 text-right">

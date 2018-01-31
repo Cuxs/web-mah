@@ -14,7 +14,7 @@ const CreatePublication = () => (
     <AdminBar />
     <div className="container-fluid register-steps">
       <Row>
-        <Col md="6" sm="12" className="bg">
+        <Col md="6" sm="12" xs="12" className="bg">
           <div className="col-md-8 float-right">
             <div className="text-block">
               <h4 className="title-division-primary">Vendé tu auto ya!</h4>
@@ -36,8 +36,8 @@ const CreatePublication = () => (
             </div>
           </div>
         </Col>
-        <Col md="6">
-          <div className="col-md-9 float-left">
+        <Col md="6" sm="12" xs="12">
+          <div className="col-md-9 float-left pb-4">
             <h4 className="title-division">Describe tu auto</h4>
             <FormGroup>
               <Label for="exampleSelect">¿Qué tipo de auto quieres vender?</Label>

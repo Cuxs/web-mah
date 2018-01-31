@@ -31,17 +31,15 @@ export default class AdminBar extends React.Component {
               </a>
             </Row>
           </Col>
-          <Col md="2">
-            <div className="row">
-              <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                <DropdownToggle caret className="float-right btn-link" style={{minWidth:`100%`}}>
-                  {getUserDataFromToken().name}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem onClick={() => { clearSession(); this.props.history.push('/'); }} >Cerrar Sesión</DropdownItem>
-                </DropdownMenu>
-              </ButtonDropdown>
-            </div>
+          <Col md="2" sm="3" xs="6">
+            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+              <DropdownToggle caret className="float-right btn-link" style={{minWidth:`100%`}}>
+                {getUserDataFromToken().name}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={() => { clearSession(); this.props.history.push('/'); }} >Cerrar Sesión</DropdownItem>
+              </DropdownMenu>
+            </ButtonDropdown>
           </Col>
         </Row>
       </div>

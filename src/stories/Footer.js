@@ -4,7 +4,7 @@ import { Row } from 'reactstrap';
 
 export default () => (
   <footer className="footer">
-    <div className="container-fluid">
+    <div className="container">
       <Row className="justify-content-center">
         <div className="col-lg-4 col-md-12" >
           <h4>MI AUTO HOY</h4>

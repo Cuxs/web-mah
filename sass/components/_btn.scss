@@ -12,6 +12,7 @@
     padding: 10px 15px;
     height: 50px;
     line-height: 30px;
+    letter-spacing: 1px;
     @include border-radius(3px);
     &.alternative{
       background-color: transparent;
@@ -22,6 +23,9 @@
   //SECONDARY
   &.btn-secondary{
     @include border-radius(3px);
+    font:700 14px $font-family-sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   // LINK

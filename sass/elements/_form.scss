@@ -1,8 +1,9 @@
 .form-group{
   label{
-    font:bold 14px $font-family-sans-serif;
+    font:700 14px $font-family-sans-serif;
     color:$gray-600;
     width: 100%;
+    letter-spacing:0.76px;
     a{
       float: right;
       font-weight: 500;
@@ -35,7 +36,9 @@
     }
   }
   .form-control{
-    padding:15px;
+    padding:15px !important;
+    height: 50px !important;
+    line-height: 50px !important;
     @include placeholder{
       font:300 14px $font-family-sans-serif;
       line-height: 40px;

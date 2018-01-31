@@ -18,3 +18,20 @@
     }
   }
 }
+
+@media screen and (max-width: 960px) {
+  .microsite-header{
+    .microsite-portrait{
+
+    }
+    .microsite-data{
+      .microsite-data-avatar{
+        margin: -150px auto 0 auto;
+      }
+      .container-data-input-group{
+        margin-top: 40px;
+        text-align: center;
+      }
+    }
+  }
+}

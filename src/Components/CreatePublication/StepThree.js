@@ -15,7 +15,7 @@ const CreatePublication = () => (
     <AdminBar />
     <div className="container-fluid register-steps">
       <Row>
-        <Col md="6" sm="12" className="bg">
+        <Col md="6" sm="12" xs="12" className="bg pb-4">
           <div className="col-md-8 float-right">
             <div className="text-block">
               <h4 className="title-division-primary">Vendé tu auto ya!</h4>
@@ -35,17 +35,12 @@ const CreatePublication = () => (
                 <a className="link">Modificar datos</a>
               </div>
             </div>
+
+            <Button color="primary" className="float-right" href="" >PUBLICAR</Button>
           </div>
         </Col>
 
-        <Col md="6">
-          <div className="col-md-9 float-left">
-            <h4 className="title-division">xxx</h4>
-            <p>xxx</p>
-            <div className="underline" />
-            <Button color="primary" href="" >PUBLICAR</Button>
-          </div>
-        </Col>
+
       </Row>
     </div>
   </div>

@@ -71,6 +71,7 @@
         font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
         text-transform: uppercase;
         @include border-radius(3px);
+        border:none;
       }
 
     }

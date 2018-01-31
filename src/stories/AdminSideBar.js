@@ -1,10 +1,13 @@
 import React from 'react';
-import { Col, Button } from 'reactstrap';
+import { Col, Button, Row } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
 
 const AgencyAdmin = ({ history, location }) => (
-  <Col md="12" className="sidebar-user" >
+  <Row className="sidebar-user" >
+    <Button color="primary" className="btn-link d-block d-lg-none float-left" >
+      <img src="/assets/images/icon-menu.svg" /> Menu
+    </Button>
     <ul>
       <li>
         <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/agencyAdmin' ? 'active' : ''} onClick={() => history.push('/agencyAdmin')} >Inicio</Button>
@@ -23,7 +26,7 @@ const AgencyAdmin = ({ history, location }) => (
       </li>
     </ul>
     <Button style={{ cursor: 'pointer' }} color="primary" className={location.pathname === '/createPublication' ? 'active' : ''} onClick={() => history.push('/createPublication')} >Crear publicación</Button>
-  </Col>
+  </Row>
 );
 
 export default AgencyAdmin;

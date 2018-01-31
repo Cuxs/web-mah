@@ -18,15 +18,15 @@ const FriendlyAgency = ({ history, location }) => (
         history={history}
         location={location}
       />
-      <div className="container-fluid">
+      <div className="container">
         <Row className="mb-4 mt-4">
           <Col md="8" sm="12" xs="12" />
-          <Col md="4" sm="12" xs="12">
+          <Col lg="4" md="12" sm="12" xs="12">
             <PublicityBanner />
           </Col>
         </Row>
         <Row>
-          <Col md="4" sm="12" xs="12">
+          <Col md="12" sm="12" xs="12">
             <h3 className="title-division">Concesionarios adheridos</h3>
           </Col>
         </Row>

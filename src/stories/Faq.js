@@ -4,7 +4,7 @@ import { Col, Row } from 'reactstrap';
 
 
 export default () => (
-  <Col md="container-fluid" >
+  <div className="container" >
     <div className="row">
       <div className="col-12">
         <h3 className="title-division">Preguntas Frecuentes</h3>
@@ -34,6 +34,6 @@ export default () => (
         </div>
       </Col>
     </Row>
-  </Col>
+  </div>
 );
 

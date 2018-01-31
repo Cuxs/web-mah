@@ -18,7 +18,7 @@ const style = {
 };
 
 export default () => (
-  <div className="container-fluid">
+  <div className="container">
     <Row className="home-posibilities">
       <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">

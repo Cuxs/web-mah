@@ -21,12 +21,12 @@ const CardPublication = ({ onHighlight, data, data: { CurrentState: { stateName 
 
   <div className="box-item" >
     <div className="row item-car wide" >
-      <div className="col-4">
+      <div className="col-12 col-lg-4 col-md-4 col-sm-4">
         <div className="row">
           <img src={photoGaleryParser(data.ImageGroup)[0].src} alt="banner" width="100%"/>
         </div>
       </div>
-      <div className="col-8">
+      <div className="col-12 col-lg-8 col-md-8 col-sm-8">
         <div className="item-data" >
           <p className="item-state badge badge-secondary published">{stateName}</p>
           <p className="item-name"><strong>{data.brand} {data.group}</strong></p>

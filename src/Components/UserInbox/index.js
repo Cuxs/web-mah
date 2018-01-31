@@ -41,12 +41,12 @@ class UserInbox extends Component {
     return (
       <div>
         <AdminBar history={history} />
-        <div className="container-fluid">
+        <div className="container">
           <Row>
-            <Col md="3">
+            <Col md="3" className="d-none d-md-block">
               <UserSideBar history={history} location={location} />
             </Col>
-            <Col md="9" className="mt-4">
+            <Col md="9" sm="12" xs="12" className="mt-4">
               {loadingComments ? (
                 <img
                   style={{ height: '400px' }}

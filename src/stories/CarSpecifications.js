@@ -59,7 +59,7 @@ class CarSpecification extends Component {
   }
   items(array) {
     return (
-      <div className="data-input-group">
+      <div className="data-input-group special">
         <Row>
           {array.left.map((row) => {
             if (typeof row.value === 'boolean' || row.value === null) {

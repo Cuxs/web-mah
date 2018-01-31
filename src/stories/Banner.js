@@ -4,9 +4,13 @@ import { Row } from 'reactstrap';
 
 export default () => (
   <div className="container-fluid">
-    <Row className="banner-home align-items-center" style={{background: `url(http://placecage.com/c/1440/330) no-repeat center center`}}>
-      <div className="col-md-4 col-sm-12 col-xs-12">
-        <h3>Cambia la forma de comprar o vender tu auto</h3>
+    <Row className="banner-home" style={{background: `url(http://placecage.com/c/1440/330) no-repeat center center`}}>
+      <div className="container">
+        <Row className="align-items-center justify-content-between">
+          <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
+            <h3>Cambia la forma de comprar o vender tu auto</h3>
+          </div>
+        </Row>
       </div>
     </Row>
   </div>

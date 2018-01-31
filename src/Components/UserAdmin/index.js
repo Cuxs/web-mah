@@ -82,17 +82,17 @@ class UserAdmin extends React.Component {
     return (
       <div>
         <AdminBar history={history} />
-        <div className="container-fluid">
+        <div className="container">
           <Row>
-            <Col md="3">
+            <Col lg="3" md="12" sm="12" xs="12">
               <UserSideBar history={history} location={location} />
             </Col>
-            <Col md="9">
+            <Col lg="9" md="12" sm="12" xs="12">
               <Row>
                 <Col md="12">
                   <h1 className="title-division-primary">¡Hola {getUserDataFromToken().name}!</h1>
                 </Col>
-                <Col md="8">
+                <Col lg="8" md="6" sm="12" xs="12">
                   <Label for="exampleEmail">Reporte de autos vendidos</Label>
                   <LineChart
                     width={600}
@@ -113,8 +113,8 @@ class UserAdmin extends React.Component {
                     <Line type="monotone" dataKey="ventas" stroke="blue" />
                   </LineChart>
                 </Col>
-                <Col md="4">
-                  <div className="data-graph">
+                <Col lg="4" md="6" sm="12" xs="12">
+                  <div className="data-graph col-sm-12 col-xs-12">
                     <a
                       onClick={() => history.push('/userInbox')}
                       color="default"
@@ -144,7 +144,7 @@ class UserAdmin extends React.Component {
                     </a>
                   </div>
 
-                  <div className="data-graph">
+                  <div className="data-graph col-sm-12 col-xs-12">
                     <a
                       onClick={() => history.push('/userPublications')}
                       className="d-flex flex-row"
@@ -170,7 +170,7 @@ class UserAdmin extends React.Component {
                     </a>
                   </div>
 
-                  <div className="data-graph">
+                  <div className="data-graph col-sm-12 col-xs-12">
                     <a
                       onClick={() => history.push('/userPublications')}
                       className="d-flex flex-row"
