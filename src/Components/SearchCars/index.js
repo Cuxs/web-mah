@@ -42,7 +42,7 @@ class SearchCars extends Component {
     this.state = {
       filters: {},
       Publications: [],
-      totalResults: 0,
+      totalResults: '',
       loading: true,
       renderedData: 0,
       filterClass: '',

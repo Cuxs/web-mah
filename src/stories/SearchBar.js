@@ -317,7 +317,7 @@ class SearchBar extends Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Contraseña <a href="">¿Olvidaste tu contraseña?</a></Label>
+                  <Label for="exampleEmail">Contraseña </Label>
                   <Input
                     type="password"
                     name="password"
@@ -325,6 +325,7 @@ class SearchBar extends Component {
                     onChange={e => this.setState({ password: e.target.value })}
                     placeholder="123456"
                   />
+                  <a href="">¿Olvidaste tu contraseña?</a>
                 </FormGroup>
 
               </div>

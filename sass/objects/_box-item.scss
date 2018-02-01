@@ -88,6 +88,9 @@
             &.sold{
               background-color: #FBD134;
             }
+            &.highlighted{
+              background-color: #be0015;
+            }
           }
           &.item-name strong, &.item-price strong{
             font-size: $h3-font-size;

@@ -16,6 +16,15 @@ const isPubVisible = (stateName) => {
   }
   return false;
 };
+const pubStateClass = (stateName) => {
+  switch (stateName) {
+    case 'Publicada': return 'published';
+    case 'Vendida': return 'sold';
+    case 'Destacada': return 'highlighted';
+    case 'Pendiente': return 'pending';
+    default: return '';
+  }
+};
 const isPubEditable = (stateName) => {
   if (
     stateName === 'Publicada' ||
@@ -44,7 +53,7 @@ const CardPublication = ({
       </div>
       <div className="col-12 col-lg-8 col-md-8 col-sm-8">
         <div className="item-data" >
-          <p className="item-state badge badge-secondary published">{stateName}</p>
+          <p className={`item-state badge badge-secondary ${pubStateClass(stateName)}`}>{stateName}</p>
           <p className="item-name"><strong>{data.brand} {data.group}</strong></p>
           <p className="item-description">{data.model}</p>
           <p className="item-price">

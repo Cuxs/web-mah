@@ -6,6 +6,7 @@ import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 're
 import qs from 'query-string';
 import { graphql, compose } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
+import FlipMove from 'react-flip-move';
 
 import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
@@ -133,14 +134,17 @@ class UserPublications extends React.Component {
               <AdminFilter history={history} location={location} />
               <div className="container-box-item">
                 <div className="col-12">
-                  <InfiniteScroll
-                    pageStart={1}
-                    loadMore={this.doSearch}
-                    hasMore={this.state.renderedData < this.state.totalCount}
-                    loader={<img src="/loading.gif" key={0} alt="Loading..." />}
-                  >
-                    {this.renderData()}
-                  </InfiniteScroll>
+                  <FlipMove duration={1000} appearAnimation="fade">
+                    <InfiniteScroll
+                      pageStart={1}
+                      loadMore={this.doSearch}
+                      hasMore={this.state.renderedData < this.state.totalCount}
+                      loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                    >
+
+                      {this.renderData()}
+                    </InfiniteScroll>
+                  </FlipMove>
                 </div>
               </div>
             </Col>
