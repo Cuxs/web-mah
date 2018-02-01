@@ -5,15 +5,15 @@ const CountUnreadMessagesQuery = gql`query UnreadMessages($MAHtoken: String!){
 }`;
 
 const CountActivePublications = gql`
-query AllPublications($MAHtoken: String, $stateName: String, $limit:Int, $order:String){
-  AllPublications(MAHtoken: $MAHtoken, stateName:$stateName, limit:$limit, order:$order){
-    id  
-    CurrentState{
-      stateName
-    }
-  }
+query CountActivePublications($MAHtoken: String){
+  CountActivePublications(MAHtoken: $MAHtoken)
+}
+`;
+const CountHighLighPublications = gql`
+query CountHighLighPublications($MAHtoken: String){
+  CountHighLighPublications(MAHtoken: $MAHtoken)
 }
 `;
 
-export { CountUnreadMessagesQuery, CountActivePublications };
+export { CountUnreadMessagesQuery, CountActivePublications, CountHighLighPublications };
 
