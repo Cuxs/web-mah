@@ -155,24 +155,26 @@ class UserAdmin extends React.Component {
                   <div className="data-graph col-sm-12 col-xs-12">
                     <a
                       onClick={() => history.push('/userPublications')}
-                      className="d-flex flex-row"
+                      color="default"
                     >
-                      {activePub.loading ? (
-                        <img
-                          style={{ height: '70px' }}
-                          src="/loading.gif"
-                          key={0}
-                          alt="Loading..."
-                        />
+                      <div className="row">
+                        {activePub.loading ? (
+                          <img
+                            style={{ height: '70px' }}
+                            src="/loading.gif"
+                            key={0}
+                            alt="Loading..."
+                          />
                       ) : (
                         <div className="col-8">
                           <h2>{CountActivePublications}</h2>
                           <p>Publicaciones activas</p>
                         </div>
                       )}
-                      <div className="col-4">
-                        <div className="container-icon">
-                          <img src="/assets/images/icon-car-white.svg" alt="" />
+                        <div className="col-4">
+                          <div className="container-icon">
+                            <img src="/assets/images/icon-car-white.svg" alt="" />
+                          </div>
                         </div>
                       </div>
                     </a>
@@ -181,15 +183,16 @@ class UserAdmin extends React.Component {
                   <div className="data-graph col-sm-12 col-xs-12">
                     <a
                       onClick={() => history.push('/userPublications')}
-                      className="d-flex flex-row"
+                      color="default"
                     >
-                      {highLightPub.loading ? (
-                        <img
-                          style={{ height: '70px' }}
-                          src="/loading.gif"
-                          key={0}
-                          alt="Loading..."
-                        />
+                      <div className="row">
+                        {activePub.loading ? (
+                          <img
+                            style={{ height: '70px' }}
+                            src="/loading.gif"
+                            key={0}
+                            alt="Loading..."
+                          />
                       ) : (
                         <div className="col-8">
                           <h2>
@@ -200,12 +203,13 @@ class UserAdmin extends React.Component {
                           <p>Destacados</p>
                         </div>
                       )}
-                      <div className="col-4">
-                        <div className="container-icon">
-                          <img
-                            src="/assets/images/icon-star-white.svg"
-                            alt=""
-                          />
+                        <div className="col-4">
+                          <div className="container-icon">
+                            <img
+                              src="/assets/images/icon-star-white.svg"
+                              alt=""
+                            />
+                          </div>
                         </div>
                       </div>
                     </a>

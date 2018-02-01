@@ -9,7 +9,8 @@
       .photos{
         // margin-bottom:10px;
         background-color: $gray-500;
-        min-height: 150px;
+        height: 140px;
+        overflow: hidden;
         position: relative;
         p{
           position: absolute;

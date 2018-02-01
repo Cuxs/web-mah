@@ -119,7 +119,7 @@ class UserProfile extends React.Component {
     return (
       <div>
         <AdminBar history={history} />
-        <div className="container-fluid">
+        <div className="container">
           <Row>
             <Col md="3">
               <UserSideBar history={history} location={location} />
