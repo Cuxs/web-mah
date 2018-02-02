@@ -3,9 +3,12 @@
 
 import React, { Component } from 'react';
 import { Col, Row, Button } from 'reactstrap';
+import { parse, stringify } from 'query-string';
 
 import AdminBar from '../../stories/AdminBar';
 import ImageCrop from '../../stories/ImageCrop';
+import { createPublication } from '../../Modules/fetches';
+
 
 import style from '../../Styles/register';
 
@@ -14,47 +17,136 @@ class CreatePublication extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageSlider1: '',
-      previewimageSlider1: '',
-      imageSlider2: '',
-      previewimageSlider2: '',
-      imageSlider3: '',
-      previewimageSlider3: '',
+      image1: '',
+      previewimage1: '',
+      image2: '',
+      previewimage2: '',
+      image3: '',
+      previewimage3: '',
+      image4: '',
+      previewimage4: '',
+      image5: '',
+      previewimage5: '',
+      image6: '',
+      previewimage6: '',
+      image7: '',
+      previewimage7: '',
+      image8: '',
+      previewimage8: '',
     };
   }
 
-
   componentWillReceiveProps(nextProps) {
     this.setState({
-      previewimageSlider1: nextProps.promotion.imageSlider1,
-      previewimageSlider2: nextProps.promotion.imageSlider2,
-      previewimageSlider3: nextProps.promotion.imageSlider3,
+      previewimage1: nextProps.promotion.image1,
+      previewimage2: nextProps.promotion.image2,
+      previewimage3: nextProps.promotion.image3,
+      previewimage4: nextProps.promotion.image4,
+      previewimage5: nextProps.promotion.image5,
+      previewimage6: nextProps.promotion.image6,
+      previewimage7: nextProps.promotion.image7,
+      previewimage8: nextProps.promotion.image8,
     });
   }
 
-  getimageSlider1(img) {
-    this.setState({ imageSlider1: img });
+  disabled(){
+    return !(this.state.image1 !== '' || this.state.image2 !== '' || this.state.image3 !== '');
   }
-  getimageSlider2(img) {
-    this.setState({ imageSlider2: img });
+
+  getimage1(img) {
+    if (this.state.image1 !== '' || this.state.image2 !== '' || this.state.image3 !== '') {
+      return this.setState({ image1: img, done: true });
+    }
+    this.setState({ image1: img });
   }
-  getimageSlider3(img) {
-    this.setState({ imageSlider3: img });
+  getimage2(img) {
+    if (this.state.image1 !== '' || this.state.image2 !== '' || this.state.image3 !== '') {
+      return this.setState({ image2: img, done: true });
+    }
+    this.setState({ image2: img });
+  }
+  getimage3(img) {
+    if (this.state.image1 !== '' || this.state.image2 !== '' || this.state.image3 !== '') {
+      return this.setState({ image3: img, done: true });
+    }
+    this.setState({ image3: img });
+  }
+  getimage4(img) {
+    this.setState({ image4: img });
+  }
+  getimage5(img) {
+    this.setState({ image5: img });
+  }
+  getimage6(img) {
+    this.setState({ image6: img });
+  }
+  getimage7(img) {
+    this.setState({ image7: img });
+  }
+  getimage8(img) {
+    this.setState({ image8: img });
   }
 
   _handleSubmit() {
-    const imageSlider1 = this.state.imageSlider1,
-      imageSlider2 = this.state.imageSlider2,
-      imageSlider3 = this.state.imageSlider3;
+    const {
+      image1, image2, image3, image4, image5, image6, image7, image8,
+    } = this.state;
 
     this.props.updateSliders(
-      imageSlider1,
-      imageSlider2,
-      imageSlider3,
+      image1,
+      image2,
+      image3,
+      image4,
+      image5,
+      image6,
+      image7,
+      image8,
     );
   }
 
+  createPub() {
+    const {
+      image1, image2, image3, image4, image5, image6, image7, image8,
+    } = this.state;
+    const search = parse(this.props.location.search);
+    const dataCar = {
+      Caracteristics: parse(search.Caracteristics),
+      TecnicalData: parse(search.TecnicalData),
+      Additionals: parse(search.Additionals),
+      DataCar: parse(search.DataCar),
+      Image: { imageGroup : [image1, image2, image3, image4, image5, image6, image7, image8]},
+    };
+    const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar)
+    
+    createPublication(dataPublication, dataCar.Image)
+      .then((resp) => {
+        console.log(resp)
+        // this.setState({
+        //   modal: true,
+        //   responseTitle: 'Éxito',
+        //   responseMsg: resp.message,
+        // });
+      })
+      .catch((e) => {
+        //const error = parseError;
+        console.log(e)
+        // this.setState({
+        //   modal: true,
+        //   responseTitle: error.title,
+        //   responseMsg: error.message,
+        // });
+      });
+  }
+
   render() {
+    console.log(this.state)
+    const search = parse(this.props.location.search);
+    const dataCar = {
+      Caracteristics: stringify(parse(search.Caracteristics)),
+      TecnicalData: stringify(parse(search.TecnicalData)),
+      Additionals: stringify(parse(search.Additionals)),
+      DataCar: stringify(parse(search.DataCar)),
+    };
     return (
       <div>
         <AdminBar />
@@ -74,11 +166,13 @@ class CreatePublication extends Component {
                     <a className="link">Modificar datos</a>
                   </div>
 
-                  <div className="step">
+                  <div className={`step ${this.state.done ? 'done' : ''}`} >
                     <h6>PASO 2</h6>
                     <h4>Mostralo con fotos</h4>
-                    <a className="link">Modificar datos</a>
+                    <p className="info">* Mínimo 3 fotos</p>
+
                   </div>
+                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.createPub()} >Publicar</Button>
                 </div>
               </div>
             </Col>
@@ -86,12 +180,52 @@ class CreatePublication extends Component {
               <div className="col-md-9 float-left">
                 <h4 className="title-division">Cómo luce?</h4>
                 <ImageCrop
-                  aspectRatio={16 / 9}
-                  cropImage={img => this.getimageSlider1(img)}
-
+                  aspectRatio={160 / 106}
+                  cropImage={img => this.getimage1(img)}
+                  previewImage={this.state.previewimage1}
                 />
+                <ImageCrop
+                  aspectRatio={160 / 106}
+                  cropImage={img => this.getimage2(img)}
+                  previewImage={this.state.previewimage2}
+                />
+                <ImageCrop
+                  aspectRatio={160 / 106}
+                  cropImage={img => this.getimage3(img)}
+                  previewImage={this.state.previewimage3}
+                />
+                <Button color="primary">Más fotos</Button>
+                <div className="more-crops">
+                  <ImageCrop
+                    aspectRatio={160 / 106}
+                    cropImage={img => this.getimage4(img)}
+                    previewImage={this.state.previewimage4}
+                  />
+                  <ImageCrop
+                    aspectRatio={160 / 106}
+                    cropImage={img => this.getimage5(img)}
+                    previewImage={this.state.previewimage5}
+                  />
+                  <ImageCrop
+                    aspectRatio={160 / 106}
+                    cropImage={img => this.getimage6(img)}
+                    previewImage={this.state.previewimage6}
+                  />
+                  <ImageCrop
+                    aspectRatio={160 / 106}
+                    cropImage={img => this.getimage7(img)}
+                    previewImage={this.state.previewimage7}
+                  />
+                  <ImageCrop
+                    aspectRatio={160 / 106}
+                    cropImage={img => this.getimage8(img)}
+                    previewImage={this.state.previewimage8}
+                  />
+                </div>
                 <div className="underline" />
-                <Button color="primary" className="float-right" href="/createPublicationS3" >Siguiente</Button>
+                <div>
+                  <Button color="secondary" onClick={() => this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`)}>Volver</Button>
+                </div>
               </div>
 
             </Col>

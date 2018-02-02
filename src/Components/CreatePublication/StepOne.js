@@ -3,34 +3,74 @@
 
 import React from 'react';
 import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
-import { parse } from 'query-string';
+import { parse, stringify } from 'query-string';
+
+import { withApollo } from 'react-apollo/withApollo';
 
 import AdminBar from '../../stories/AdminBar';
 import { InfoCarQuery } from '../../ApolloQueries/TautosQuery';
 
 import style from '../../Styles/register';
 
-class CreatePublication extends React.Component {
+class CreatePublicationS1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    if (parse(this.props.location.search).Caracteristics) {
+      const data = parse(this.props.location.search);
+      console.log(data);
+      return this.setState({
+        Caracteristics: parse(data.Caracteristics),
+        TecnicalData: parse(data.TecnicalData),
+        Additionals: parse(data.Additionals),
+        DataCar: parse(data.DataCar),
+      })
+    } else {
     this.props.client.query({
       query: InfoCarQuery,
       variables: {
-        ta3_codia: parse(this.props.location.search).model,
+        ext_codia: parse(this.props.location.search).codia,
       },
     })
-      .then(response => this.setState({ Models: response.data.Models }));
+      .then(response => this.setState({
+        Caracteristics: response.data.Caracteristics,
+        TecnicalData: response.data.TecnicalData,
+        Additionals: response.data.Additionals,
+      }));
+    }
+  }
+
+  onChangeCheck(object, name, value) {
+    let newObject = {};
+    newObject = Object.assign({}, this.state[object]);
+    newObject[name] = value;
+    switch (object) {
+      case 'Caracteristics':
+        return this.setState({ Caracteristics: newObject });
+      case 'TecnicalData':
+        return this.setState({ TecnicalData: newObject });
+      default:
+        return this.setState({ Additionals: newObject });
+    }
+  }
+
+  next() {
+    const dataCar = {
+      DataCar: stringify(parse(this.props.location.search)),
+    };
+    const dataExtras = {
+      Caracteristics: stringify(this.state.Caracteristics),
+      TecnicalData: stringify(this.state.TecnicalData),
+      Additionals: stringify(this.state.Additionals),
+    };
+    this.props.history.push(`/createPublicationS2?${stringify(dataCar)}&${stringify(dataExtras)}`);
   }
 
   render() {
-    const {
-      location,
-      ta3InfoCarQuery: { InfoCarQuery },
-    } = this.props;
+    const { Caracteristics, TecnicalData, Additionals } = this.state;
     return (
       <div>
         <AdminBar />
@@ -59,76 +99,79 @@ class CreatePublication extends React.Component {
               </div>
             </Col>
             <Col md="6" sm="12" xs="12">
-              <div className="col-md-9 float-left pb-4">
-                <h4 className="title-division">¿Qué extras tiene?</h4>
-                <FormGroup check className="d-flex flex-column" >
-                  <Label>Características</Label>
+              { Caracteristics &&
+                <div className="col-md-9 float-left pb-4">
+                  <h4 className="title-division">¿Qué extras tiene?</h4>
+                  <FormGroup check className="d-flex flex-column" >
+                    <Label>Características generales</Label>
 
-                  {console.log(InfoCarQuery)}
+                    <Label check>
+                      <Input type="checkbox" checked={Caracteristics.Airbag === 'SI'} onChange={() => this.onChangeCheck('Caracteristics', 'Airbag', Caracteristics.Airbag === 'SI' ? 'NO' : 'SI')} />{' '} Airbag
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Caracteristics.AireAcondicionado === 'SI'} onChange={() => this.onChangeCheck('Caracteristics', 'AireAcondicionado', Caracteristics.AireAcondicionado === 'SI' ? 'NO' : 'SI')} />{' '} Aire Acondicionado
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Caracteristics.FrenosAbs === 'SI'} onChange={() => this.onChangeCheck('Caracteristics', 'FrenosAbs', Caracteristics.FrenosAbs === 'SI' ? 'NO' : 'SI')} />{' '} Frenos ABS
+                    </Label>
+                  </FormGroup>
 
-                  <Label check>
-                    <Input type="checkbox" />{' '} Aire Acondicionado
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Alarma
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Asiento rebatible
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Cierre centralizado
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Tapizado de cuero
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Velocidad crucero
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Volante regulable
-                  </Label>
-                </FormGroup>
+                  <FormGroup check className="d-flex flex-column" >
+                    <Label>Datos Técnicos</Label>
 
-                <FormGroup check className="d-flex flex-column" >
-                  <Label>Seguridad</Label>
+                    <Label check>
+                      <Input type="checkbox" checked={TecnicalData.Climatizador === 'SI'} onChange={() => this.onChangeCheck('TecnicalData', 'Climatizador', TecnicalData.Climatizador === 'SI' ? 'NO' : 'SI')} />{' '} Climatizador
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={TecnicalData.ControlDeTraccion === 'SI'} onChange={() => this.onChangeCheck('TecnicalData', 'ControlDeTraccion', TecnicalData.ControlDeTraccion === 'SI' ? 'NO' : 'SI')} />{' '} Control de tracción
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={TecnicalData.ControlDeEstabilidad === 'SI'} onChange={() => this.onChangeCheck('TecnicalData', 'ControlDeEstabilidad', TecnicalData.ControlDeEstabilidad === 'SI' ? 'NO' : 'SI')} />{' '} Control de estabilidad
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={TecnicalData.FarosAntiniebla === 'SI'} onChange={() => this.onChangeCheck('TecnicalData', 'FarosAntiniebla', TecnicalData.FarosAntiniebla === 'SI' ? 'NO' : 'SI')} />{' '} Faros antiniebla
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={TecnicalData.SensorEstacionamiento === 'SI'} onChange={() => this.onChangeCheck('TecnicalData', 'SensorEstacionamiento', TecnicalData.SensorEstacionamiento === 'SI' ? 'NO' : 'SI')} />{' '} Sensor de estacionamiento
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={TecnicalData.TechoCorredizo === 'SI'} onChange={() => this.onChangeCheck('TecnicalData', 'TechoCorredizo', TecnicalData.TechoCorredizo === 'SI' ? 'NO' : 'SI')} />{' '} Techo corredizo
+                    </Label>
+                  </FormGroup>
 
-                  <Label check>
-                    <Input type="checkbox" />{' '} Airbag
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Cierre automático
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Control de estabilidad
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Faros antiniebla
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Frenos ABS
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Sensor de estacionamiento
-                  </Label>
-                </FormGroup>
+                  <FormGroup check className="d-flex flex-column" >
+                    <Label>Adicionales</Label>
 
-                <FormGroup check className="d-flex flex-column" >
-                  <Label>Audio/Multimedia</Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Additionals.TapizadoCuero === 'SI'} onChange={() => this.onChangeCheck('Additionals', 'TapizadoCuero', Additionals.TapizadoCuero === 'SI' ? 'NO' : 'SI')} />{' '} Tapizado de cuero
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Additionals.ComputadoraABordo === 'SI'} onChange={() => this.onChangeCheck('Additionals', 'ComputadoraABordo', Additionals.ComputadoraABordo === 'SI' ? 'NO' : 'SI')} />{' '} Computadora a bordo
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Additionals.FarosDeXenon === 'SI'} onChange={() => this.onChangeCheck('Additionals', 'FarosDeXenon', Additionals.FarosDeXenon === 'SI' ? 'NO' : 'SI')} />{' '} Faros de xenón
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Additionals.SensorDeLluvia === 'SI'} onChange={() => this.onChangeCheck('Additionals', 'SensorDeLluvia', Additionals.SensorDeLluvia === 'SI' ? 'NO' : 'SI')} />{' '} Sensor de lluvia
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Additionals.VolanteConLevas === 'SI'} onChange={() => this.onChangeCheck('Additionals', 'VolanteConLevas', Additionals.VolanteConLevas === 'SI' ? 'NO' : 'SI')} />{' '} Volante con levas
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Additionals.Bluetooth === 'SI'} onChange={() => this.onChangeCheck('Additionals', 'Bluetooth', Additionals.Bluetooth === 'SI' ? 'NO' : 'SI')} />{' '} Bluetooth
+                    </Label>
+                    <Label check>
+                      <Input type="checkbox" checked={Additionals.AsientosTermicos === 'SI'} onChange={() => this.onChangeCheck('Additionals', 'AsientosTermicos', Additionals.AsientosTermicos === 'SI' ? 'NO' : 'SI')} />{' '} Asientos térmicos
+                    </Label>
+                  </FormGroup>
 
-                  <Label check>
-                    <Input type="checkbox" />{' '} Bluetooth
-                  </Label>
-                  <Label check>
-                    <Input type="checkbox" />{' '} Entrada auxiliar
-                  </Label>
-                </FormGroup>
-
-                <div>
-                  <div className="underline" />
-                  <Button color="secondary" onClick={() => this.props.history.push(`/createPublication${(this.props.location.search)}`)}>Volver</Button>
-                  <Button color="primary" onClick={() => this.props.history.push('/createPublicationS2')}>Registrarme</Button>
+                  <div>
+                    <div className="underline" />
+                    <Button color="secondary" onClick={() => this.props.history.push(`/createPublication${(this.props.location.search)}`)}>Volver</Button>
+                    <Button color="primary" onClick={() => this.next()}>Siguiente</Button>
+                  </div>
                 </div>
-              </div>
+              }
             </Col>
           </Row>
           <style jsx>{style}</style>
@@ -138,4 +181,4 @@ class CreatePublication extends React.Component {
   }
 }
 
-export default CreatePublication;
+export default withApollo(CreatePublicationS1);

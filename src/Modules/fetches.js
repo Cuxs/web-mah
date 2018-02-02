@@ -93,6 +93,29 @@ export const uploadAgencyImages = (profileImage, bannerImage, id) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+export const createPublication = (dataPublication, {imageGroup}) => {
+  const url = `${server}/createPublication`;
+  const formData = new FormData();
+  imageGroup.map((img)=>{
+    formData.append('imageGroup', img)
+  })
+  formData.append('dataPublication', JSON.stringify(dataPublication));
+
+  const options = {
+    method: 'POST',
+    headers: {
+      mimeType: 'multipart/form-data',
+      Authorization: token,
+    },
+    body: formData,
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
 export const getFiltersAndTotalResult = (search) => {
   const url = `${server}/getFiltersAndTotalResult`;
   const options = {

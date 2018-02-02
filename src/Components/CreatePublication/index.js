@@ -18,13 +18,42 @@ class CreatePublication extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      carState: this.props.location.search === '' ? 'Nuevo' : parse(this.props.location.search).carState,
       brand: this.props.location.search === '' ? 0 : parse(this.props.location.search).brand,
       group: this.props.location.search === '' ? 0 : parse(this.props.location.search).group,
-      model: this.props.location.search === '' ? 0 : parse(this.props.location.search).model,
+      codia: this.props.location.search === '' ? 0 : parse(this.props.location.search).codia,
       year: this.props.location.search === '' ? 0 : parse(this.props.location.search).year,
       kms: this.props.location.search === '' ? '' : parse(this.props.location.search).kms,
       price: this.props.location.search === '' ? '' : parse(this.props.location.search).price,
+      observation: this.props.location.search === '' ? '' : parse(this.props.location.search).observation,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.search !== '') {
+      this.props.client.query({
+        query: GroupsQuery,
+        variables: {
+          gru_nmarc: parse(this.props.location.search).brand,
+        },
+      })
+        .then(response => this.setState({ Groups: response.data.Group }));
+      this.props.client.query({
+        query: ModelsQuery,
+        variables: {
+          ta3_nmarc: parse(this.props.location.search).brand,
+          ta3_cgrup: parse(this.props.location.search).group,
+        },
+      })
+        .then(response => this.setState({ Models: response.data.Models }));
+      this.props.client.query({
+        query: YearsQuery,
+        variables: {
+          ta3_codia: parse(this.props.location.search).model,
+        },
+      })
+        .then(response => this.setState({ Prices: response.data.Price }));
+    }
   }
 
   onChangeBrand(event) {
@@ -51,7 +80,8 @@ class CreatePublication extends React.Component {
   }
 
   onChangeModel(event) {
-    this.setState({ model: event.target.value });
+    const index = event.nativeEvent.target.selectedIndex;
+    this.setState({ codia: event.target.value, modelName: event.nativeEvent.target[index].text });
     this.props.client.query({
       query: YearsQuery,
       variables: {
@@ -70,13 +100,16 @@ class CreatePublication extends React.Component {
 
   next() {
     const dataCar = {
+      carState: this.state.carState,
       brand: this.state.brand,
       group: this.state.group,
-      model: this.state.model,
+      codia: this.state.codia,
+      modelName: this.state.modelName,
       year: this.state.year,
       kms: this.state.kms,
       price: this.state.price,
       priceSuggested: this.state.priceSuggested,
+      observation: this.state.observation,
     };
     this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`);
   }
@@ -118,9 +151,9 @@ class CreatePublication extends React.Component {
                 <h4 className="title-division">Describe tu auto</h4>
                 <FormGroup>
                   <Label for="exampleSelect">¿Qué tipo de auto quieres vender?</Label>
-                  <Input type="select" name="select" id="exampleSelect">
-                    <option>Usado</option>
-                    <option>Nuevo</option>
+                  <Input type="select" name="select" onChange={event => this.setState({ carState: event.target.value })} value={this.state.carState}>
+                    <option value="Nuevo">Nuevo</option>
+                    <option value="Usado">Usado</option>
                   </Input>
                 </FormGroup>
                 <FormGroup>
@@ -139,7 +172,7 @@ class CreatePublication extends React.Component {
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleSelect">¿Cuál es el modelo?</Label>
-                  <Input type="select" name="select" onChange={event => this.onChangeModel(event)} value={this.state.model}>
+                  <Input type="select" name="select" onChange={event => this.onChangeModel(event)} value={this.state.codia}>
                     <option>Selecciona un modelo</option>
                     {this.state.Models && this.state.Models.map(model => <option value={model.ta3_codia} >{model.ta3_model}</option>)}
                   </Input>
@@ -163,6 +196,10 @@ class CreatePublication extends React.Component {
                   <Label for="exampleEmail">¿A qué precio lo querés vender?</Label>
                   <Input type="numeric" value={this.state.price} onChange={event => this.setState({ price: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
                   {this.state.priceSuggested && <p>Precio Sugerido: <b>$ {this.state.priceSuggested}</b></p>}
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleText">Observaciones</Label>
+                  <Input type="textarea" value={this.state.observation} onChange={event => this.setState({ observation: event.target.value })} />
                 </FormGroup>
 
                 <div className="underline" />
