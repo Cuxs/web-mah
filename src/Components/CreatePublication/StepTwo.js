@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import { Col, Row, Button, Modal, ModalFooter, ModalHeader, ModalBody } from 'reactstrap';
 import { parse, stringify } from 'query-string';
 
 import AdminBar from '../../stories/AdminBar';
@@ -33,9 +33,18 @@ class CreatePublication extends Component {
       previewimage7: '',
       image8: '',
       previewimage8: '',
+      modal: false,
+      responseMsg: '',
+      responseTitle: '',
     };
+    this.toggle = this.toggle.bind(this);
   }
 
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
   componentWillReceiveProps(nextProps) {
     this.setState({
       previewimage1: nextProps.promotion.image1,
@@ -121,20 +130,18 @@ class CreatePublication extends Component {
     createPublication(dataPublication, dataCar.Image)
       .then((resp) => {
         console.log(resp)
-        // this.setState({
-        //   modal: true,
-        //   responseTitle: 'Éxito',
-        //   responseMsg: resp.message,
-        // });
+        this.setState({
+          modal: true,
+          responseTitle: 'Éxito',
+          responseMsg: resp.message,
+        });
       })
       .catch((e) => {
-        //const error = parseError;
-        console.log(e)
-        // this.setState({
-        //   modal: true,
-        //   responseTitle: error.title,
-        //   responseMsg: error.message,
-        // });
+        this.setState({
+          modal: true,
+          responseTitle: error.title,
+          responseMsg: error.message,
+        });
       });
   }
 
@@ -170,7 +177,6 @@ class CreatePublication extends Component {
                     <h6>PASO 2</h6>
                     <h4>Mostralo con fotos</h4>
                     <p className="info">* Mínimo 3 fotos</p>
-
                   </div>
                   <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.createPub()} >Publicar</Button>
                 </div>
@@ -227,7 +233,15 @@ class CreatePublication extends Component {
                   <Button color="secondary" onClick={() => this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`)}>Volver</Button>
                 </div>
               </div>
-
+              <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                <ModalHeader toggle={this.toggleModal}>{this.state.responseTitle}</ModalHeader>
+                <ModalBody>
+                  <h5>{this.state.responseMsg}</h5>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={() => this.props.history.push('/userPublications')} >OK</Button>
+                </ModalFooter>
+              </Modal>
             </Col>
           </Row>
         </div>
