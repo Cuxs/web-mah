@@ -136,7 +136,7 @@ class CreatePublication extends Component {
           responseMsg: resp.message,
         });
       })
-      .catch((e) => {
+      .catch((error) => {
         this.setState({
           modal: true,
           responseTitle: error.title,
