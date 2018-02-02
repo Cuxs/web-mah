@@ -102,7 +102,7 @@ class AgencyMicrosite extends Component {
         <AdminBar history={this.props.history} />
         <div className="container">
           <Row>
-            <Col lg="3" md="12" sm="12" xs="12">            
+            <Col lg="3" md="12" sm="12" xs="12">
               <UserSideBar history={history} location={location} />
             </Col>
             <Col lg="9" md="12" sm="12" xs="12" className="mt-4">
@@ -242,7 +242,9 @@ class AgencyMicrosite extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>{this.state.responseTitle}</ModalHeader>
           <ModalBody>
-            <h5>{this.state.responseMsg}</h5>
+            <div className="col-md-6 offset-md-3">
+              <h5>{this.state.responseMsg}</h5>
+            </div>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => this.toggleModal()}>OK</Button>

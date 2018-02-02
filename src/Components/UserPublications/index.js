@@ -14,7 +14,7 @@ import AdminFilter from '../../stories/AdminFilter';
 import CardPublication from '../../stories/CardPublication';
 import NumberOfResult from '../../stories/NumberOfResult';
 import { getUserToken } from '../../Modules/sessionFunctions';
-import SearchUserPublicationQuery from '../../ApolloQueries/UserPublicationsQuery';
+import { SearchUserPublicationQuery } from '../../ApolloQueries/UserPublicationsQuery';
 
 import style from '../../Styles/pledgeCredits';
 
@@ -23,11 +23,13 @@ class UserPublications extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
       publications: [],
       totalCount: 0,
       hasNextPage: false,
       renderedData: 0,
+      modal: false,
+      modalTitle: '',
+      modalMessage: '',
     };
 
     this.doSearch = this.doSearch.bind(this);
@@ -95,6 +97,8 @@ class UserPublications extends React.Component {
   }
   toggle() {
     this.setState({
+      modalTitle: 'Felicitaciones',
+      modalMessage: 'El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted',
       modal: !this.state.modal,
     });
   }
@@ -150,9 +154,11 @@ class UserPublications extends React.Component {
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-            <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
+            <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>
             <ModalBody>
-              El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
+              <div className="col-md-6 offset-md-3">
+                {this.state.modalMessage}
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={() => this.toggle()}>OK</Button>

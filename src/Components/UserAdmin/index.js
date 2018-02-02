@@ -225,8 +225,10 @@ class UserAdmin extends React.Component {
           >
             <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
             <ModalBody>
+              <div className="col-md-6 offset-md-3">
               El pedido para destacar su publicación ha sido enviado. A la
               brevedad nos comunicaremos con usted.
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={() => this.toggle()}>

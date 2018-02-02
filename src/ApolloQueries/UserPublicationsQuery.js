@@ -28,4 +28,19 @@ mutation searchPublication($carState: String, $state: String, $MAHtoken: String,
   }
 }
     `;
-export default SearchUserPublicationQuery;
+
+const markAsSoldMutation = gql`
+mutation markAsSold($publication_id: Int, $MAHtoken:String){
+  markAsSold(publication_id:,$publication_id, MAHtoken: $MAHtoken) {
+    id
+  }
+}
+`;
+const highlightPublication = gql`
+mutation highlightPublication($publication_id: Int, $MAHtoken:String){
+  highlightPublication(publication_id:,$publication_id, MAHtoken: $MAHtoken) {
+    id
+  }
+}
+`;
+export { SearchUserPublicationQuery, markAsSoldMutation, highlightPublication };

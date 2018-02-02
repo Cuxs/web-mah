@@ -27,7 +27,7 @@ class StepFour extends React.Component {
   render() {
     return (
       <div>
-        <AdminBar history={this.props.history}/>
+        <AdminBar history={this.props.history} />
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" xs="12" className="bg pb-4">
@@ -65,7 +65,9 @@ class StepFour extends React.Component {
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
             <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
             <ModalBody>
+              <div className="col-md-6 offset-md-3">
               Tu auto se ha publicado correctamente.
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" href="/" >OK</Button>

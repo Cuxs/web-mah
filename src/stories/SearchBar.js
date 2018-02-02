@@ -16,6 +16,7 @@ import {
   FormGroup,
   Label,
 } from 'reactstrap';
+import { Notification } from 'react-notification';
 import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
 import {
@@ -55,6 +56,7 @@ class SearchBar extends Component {
       showErrorModal: false,
       errorTitle: '',
       errorMessage: '',
+      isNotificationActive: false,
       isUserLogged: isUserLogged(),
       carState:
         this.props.carState === undefined ? 'Usado' : this.props.carState,
@@ -64,6 +66,7 @@ class SearchBar extends Component {
     this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
     this.onChange = this.onChange.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.toggleNotification = this.toggleNotification.bind(this);
   }
 
   onChange(event, { newValue, method }) {
@@ -113,6 +116,11 @@ class SearchBar extends Component {
       modal: !this.state.modal,
     });
   }
+  toggleNotification() {
+    this.setState({
+      isNotificationActive: !this.state.isNotificationActive,
+    });
+  }
   loginUser(email, password) {
     login(email, password)
       .then((response) => {
@@ -120,6 +128,7 @@ class SearchBar extends Component {
         saveState({ login: { MAHtoken } });
         this.toggleModal();
         this.setState({
+          isNotificationActive: true,
           email: '',
           password: '',
           isUserLogged: true,
@@ -366,6 +375,15 @@ class SearchBar extends Component {
             buttonName="Aceptar"
             showNotificationModal={this.state.showErrorModal}
             handleClose={() => this.setState({ showErrorModal: false })}
+          />
+          <Notification
+            isActive={this.state.isNotificationActive}
+            message={`Bienvenido ${getUserDataFromToken().name}!`}
+            title="Hola!"
+            barStyle={{ backgroundColor: '#48D2A0', zIndex: 3000, fontSize: '18px' }}
+            dismissAfter={3500}
+            onDismiss={this.toggleNotification}
+            onClick={() => this.setState({ isNotificationActive: false })}
           />
         </Row>
       </div>
