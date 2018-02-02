@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
+import qs from 'query-string';
 
 import photoGaleryParser from '../Modules/photoGaleryParser';
 import { thousands } from '../Modules/functions';
 import { getUserToken } from '../Modules/sessionFunctions';
-import { markAsSoldMutation, highlightPublication } from '../ApolloQueries/UserPublicationsQuery';
+import { markAsSoldMutation, highlightPublication, SearchUserPublicationQuery } from '../ApolloQueries/UserPublicationsQuery';
 
 /* eslint react/jsx-filename-extension:0 */
 /* eslint class-methods-use-this: 0 */
@@ -72,6 +72,17 @@ class CardPublication extends Component {
         MAHtoken: getUserToken(),
         publication_id: this.state.pubId,
       },
+/*       update: (proxy, { data: { markAsSold } }) => {
+        proxy.readQuery({
+          query: SearchUserPublicationQuery,
+          variables: {
+            MAHtoken: getUserToken(),
+            state: qs.parse(this.props.location.search).stateName,
+            carState: qs.parse(this.props.location.search).carState,
+
+          },
+        });
+      }, */
     })
       .then((data) => {
         this.toggleModalState('');
@@ -169,7 +180,7 @@ class CardPublication extends Component {
               <h6>Publicación {!this.isPubVisible(stateName) && 'no'} visible</h6>
             </div>
             <div className="item-admin" >
-              {stateName !== 'Vendida' && <Button onClick={() => { this.toggleModalState(data.id); }} className="btn-default btn-link-primary float-left">Marcar como Vendido</Button>}
+              {stateName !== 'Vendida' && stateName !== 'Pendiente' && <Button onClick={() => { this.toggleModalState(data.id); }} className="btn-default btn-link-primary float-left">Marcar como Vendido</Button>}
               {this.isPubEditable(stateName) &&
               <Button className="btn-default btn-link-primary float-right">
                 <img src="/assets/images/icon-edit-red.svg" alt="E" /> Editar
@@ -210,7 +221,7 @@ class CardPublication extends Component {
   }
 }
 const withMarkPublicationAsSold = graphql(markAsSoldMutation, { name: 'ChangeToSold' });
-const withHighlightPublication = graphql(markAsSoldMutation, { name: 'HighlightPub' });
+const withHighlightPublication = graphql(highlightPublication, { name: 'HighlightPub' });
 const withData = compose(withMarkPublicationAsSold, withHighlightPublication);
 
 

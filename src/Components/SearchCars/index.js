@@ -262,7 +262,7 @@ class SearchCars extends Component {
                 <ActiveFilters history={this.props.history} searchData={qs.parse(this.props.location.search)} />
               </div>
               <InfiniteScroll
-                pageStart={1}
+                pageStart={0}
                 loadMore={this.doSearch}
                 hasMore={this.state.renderedData < this.state.totalResults}
                 loader={<img src="/loading.gif" key={0} alt="Loading..." />}

@@ -59,6 +59,7 @@
           margin: 0;
           //font-weight: 500;
           &.disable{
+            color: lightgray;
             text-decoration: line-through;
           }
         }

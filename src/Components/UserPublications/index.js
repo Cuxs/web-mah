@@ -118,7 +118,7 @@ class UserPublications extends React.Component {
     }
     const items = [];
     publications.map(pub => (
-      items.push(<CardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
+      items.push(<CardPublication location={this.props.location} data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
     return items;
   }
   render() {
@@ -140,7 +140,7 @@ class UserPublications extends React.Component {
                 <div className="col-12">
                   <FlipMove duration={1000} appearAnimation="fade">
                     <InfiniteScroll
-                      pageStart={1}
+                      pageStart={0}
                       loadMore={this.doSearch}
                       hasMore={this.state.renderedData < this.state.totalCount}
                       loader={<img src="/loading.gif" key={0} alt="Loading..." />}

@@ -134,7 +134,7 @@ class SuperAdminPublications extends React.Component {
               <div className="container-box-item">
                 <div className="col-12">
                   <InfiniteScroll
-                    pageStart={1}
+                    pageStart={0}
                     loadMore={this.doSearch}
                     hasMore={this.state.renderedData < this.state.totalCount}
                     loader={<img src="/loading.gif" key={0} alt="Loading..." />}
