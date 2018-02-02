@@ -6,6 +6,7 @@ import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 're
 import qs from 'query-string';
 import { graphql, compose } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
+import FlipMove from 'react-flip-move';
 
 import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
@@ -13,7 +14,7 @@ import AdminFilter from '../../stories/AdminFilter';
 import CardPublication from '../../stories/CardPublication';
 import NumberOfResult from '../../stories/NumberOfResult';
 import { getUserToken } from '../../Modules/sessionFunctions';
-import SearchUserPublicationQuery from '../../ApolloQueries/UserPublicationsQuery';
+import { SearchUserPublicationQuery } from '../../ApolloQueries/UserPublicationsQuery';
 
 import style from '../../Styles/pledgeCredits';
 
@@ -22,11 +23,13 @@ class UserPublications extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
       publications: [],
       totalCount: 0,
       hasNextPage: false,
       renderedData: 0,
+      modal: false,
+      modalTitle: '',
+      modalMessage: '',
     };
 
     this.doSearch = this.doSearch.bind(this);
@@ -94,6 +97,8 @@ class UserPublications extends React.Component {
   }
   toggle() {
     this.setState({
+      modalTitle: 'Felicitaciones',
+      modalMessage: 'El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted',
       modal: !this.state.modal,
     });
   }
@@ -113,7 +118,7 @@ class UserPublications extends React.Component {
     }
     const items = [];
     publications.map(pub => (
-      items.push(<CardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
+      items.push(<CardPublication location={this.props.location} data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
     return items;
   }
   render() {
@@ -133,22 +138,27 @@ class UserPublications extends React.Component {
               <AdminFilter history={history} location={location} />
               <div className="container-box-item">
                 <div className="col-12">
-                  <InfiniteScroll
-                    pageStart={1}
-                    loadMore={this.doSearch}
-                    hasMore={this.state.renderedData < this.state.totalCount}
-                    loader={<img src="/loading.gif" key={0} alt="Loading..." />}
-                  >
-                    {this.renderData()}
-                  </InfiniteScroll>
+                  <FlipMove duration={1000} appearAnimation="fade">
+                    <InfiniteScroll
+                      pageStart={0}
+                      loadMore={this.doSearch}
+                      hasMore={this.state.renderedData < this.state.totalCount}
+                      loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                    >
+
+                      {this.renderData()}
+                    </InfiniteScroll>
+                  </FlipMove>
                 </div>
               </div>
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-            <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
+            <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>
             <ModalBody>
-              El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
+              <div className="col-md-6 offset-md-3">
+                {this.state.modalMessage}
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={() => this.toggle()}>OK</Button>

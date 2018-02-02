@@ -16,6 +16,7 @@ import {
   FormGroup,
   Label,
 } from 'reactstrap';
+import { Notification } from 'react-notification';
 import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
 import {
@@ -49,11 +50,13 @@ class SearchBar extends Component {
       dropdownUser: false,
       dropdownOpenPublicate: false,
       modal: false,
+      sidebar: '',
       email: '',
       password: '',
       showErrorModal: false,
       errorTitle: '',
       errorMessage: '',
+      isNotificationActive: false,
       isUserLogged: isUserLogged(),
       carState:
         this.props.carState === undefined ? 'Usado' : this.props.carState,
@@ -63,6 +66,7 @@ class SearchBar extends Component {
     this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
     this.onChange = this.onChange.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.toggleNotification = this.toggleNotification.bind(this);
   }
 
   onChange(event, { newValue, method }) {
@@ -87,6 +91,7 @@ class SearchBar extends Component {
     return false;
   }
   submitSearch() {
+    this.setState({ sidebar: '' });
     this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${
       this.state.carState
     }`);
@@ -106,10 +111,14 @@ class SearchBar extends Component {
       dropdownUser: !this.state.dropdownUser,
     });
   }
-
   toggleModal() {
     this.setState({
       modal: !this.state.modal,
+    });
+  }
+  toggleNotification() {
+    this.setState({
+      isNotificationActive: !this.state.isNotificationActive,
     });
   }
   loginUser(email, password) {
@@ -119,6 +128,7 @@ class SearchBar extends Component {
         saveState({ login: { MAHtoken } });
         this.toggleModal();
         this.setState({
+          isNotificationActive: true,
           email: '',
           password: '',
           isUserLogged: true,
@@ -154,12 +164,12 @@ class SearchBar extends Component {
             </Row>
           </Col>
           <Col md="10" className="d-xl-none">
-            <Button color="primary" className="float-right btn-sidebar-open btn-link-primary">
+            <Button color="primary" onClick={() => this.setState({ sidebar: 'active' })} className="float-right btn-sidebar-open btn-link-primary">
               <img src="/assets/images/icon-menu.svg" alt="" />
             </Button>
           </Col>
-          <Col md="10" className="sidebar-mobile d-none d-xl-block">
-            <Button color="primary" className="btn-link-primary btn-sidebar-close d-none">
+          <Col md="10" className={`sidebar-mobile d-none d-xl-block ${this.state.sidebar}`}>
+            <Button color="primary" onClick={() => this.setState({ sidebar: '' })} className="btn-link-primary btn-sidebar-close d-none">
               <img src="/assets/images/icon-close.svg" alt="" />
             </Button>
             <Row className="align-items-center area-btns justify-content-start">
@@ -219,19 +229,19 @@ class SearchBar extends Component {
                   </Button>
                 </Row>
               </Col>
-              <div className="w-100 d-block d-lg-none"></div>
+              <div className="w-100 d-block d-lg-none" />
               <Col lg="auto">
                 <Row>
                   <Button color="primary" className="ml-4" href="/pledgeCredits" > Solicitá tu crédito</Button>
                 </Row>
               </Col>
-              <div className="w-100 d-block d-lg-none"></div>
+              <div className="w-100 d-block d-lg-none" />
               <Col lg="auto">
                 <Row>
                   <Button color="secondary" className="btn-link" href="/friendlyAgency" >Consecionarias</Button>
                 </Row>
               </Col>
-              <div className="w-100 d-block d-lg-none"></div>
+              <div className="w-100 d-block d-lg-none" />
               {this.state.isUserLogged ? (
                 <Col lg="auto">
                   <Row>
@@ -316,7 +326,7 @@ class SearchBar extends Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Contraseña <a href="">¿Olvidaste tu contraseña?</a></Label>
+                  <Label for="exampleEmail">Contraseña </Label>
                   <Input
                     type="password"
                     name="password"
@@ -324,6 +334,7 @@ class SearchBar extends Component {
                     onChange={e => this.setState({ password: e.target.value })}
                     placeholder="123456"
                   />
+                  <a href="">¿Olvidaste tu contraseña?</a>
                 </FormGroup>
 
               </div>
@@ -364,6 +375,15 @@ class SearchBar extends Component {
             buttonName="Aceptar"
             showNotificationModal={this.state.showErrorModal}
             handleClose={() => this.setState({ showErrorModal: false })}
+          />
+          <Notification
+            isActive={this.state.isNotificationActive}
+            message={`Bienvenido ${getUserDataFromToken().name}!`}
+            title="Hola!"
+            barStyle={{ backgroundColor: '#48D2A0', zIndex: 3000, fontSize: '18px' }}
+            dismissAfter={3500}
+            onDismiss={this.toggleNotification}
+            onClick={() => this.setState({ isNotificationActive: false })}
           />
         </Row>
       </div>

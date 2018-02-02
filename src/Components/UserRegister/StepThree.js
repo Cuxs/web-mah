@@ -61,7 +61,7 @@ class StepThree extends React.Component {
               <div className="mt-4 mb-4">
                 <h6>Al registrarme, declaro ser mayor de 18 años de edad y acepta los Términos y condiciones de miautohoy.com</h6>
               </div>
-              <div className="underline"></div>
+              <div className="underline" />
               <Button color="primary" onClick={() => this.toggle()} > Registrarme</Button>
             </Col>
 
@@ -69,7 +69,9 @@ class StepThree extends React.Component {
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
             <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
             <ModalBody>
+              <div className="col-md-6 offset-md-3">
               Tu cuenta ha sido creada con éxito.
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" href="/userAdmin" >OK</Button>
@@ -77,7 +79,7 @@ class StepThree extends React.Component {
           </Modal>
         </div>
       </div>
-    )
+    );
   }
 }
 

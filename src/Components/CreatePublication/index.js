@@ -4,7 +4,6 @@
 import React from 'react';
 import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
-import _ from 'lodash';
 import { stringify, parse } from 'query-string';
 
 import AdminBar from '../../stories/AdminBar';
@@ -121,7 +120,7 @@ class CreatePublication extends React.Component {
     } = this.props;
     return (
       <div>
-        <AdminBar />
+        <AdminBar history={this.props.history} />
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">

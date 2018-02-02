@@ -12,7 +12,7 @@ export default ({ children }) => {
 
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <Row className="container-box-item">
         <Col md="12">
           <h3 className="title-division">Últimos Publicados</h3>

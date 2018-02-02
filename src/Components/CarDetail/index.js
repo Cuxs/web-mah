@@ -235,12 +235,6 @@ class CarDetail extends Component {
                       )}
                     </Col>
                   </Row>
-
-
-
-
-
-
                 </Col>
               </Row>
             )}

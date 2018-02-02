@@ -5,11 +5,11 @@
       @include border-radius(3px);
       overflow:hidden;
       border:solid 1px $gray-300;
-      cursor:pointer;
       .photos{
         // margin-bottom:10px;
         background-color: $gray-500;
-        min-height: 150px;
+        height: 140px;
+        overflow: hidden;
         position: relative;
         p{
           position: absolute;
@@ -21,6 +21,15 @@
           font:700 $font-size-sm $font-family-sans-serif;
           @include border-radius(25px);
           color:$white;
+          &.item-state{
+            position: absolute;
+            left: 15px;
+            color:$white;
+            padding: 5px 10px;
+            &.sold{
+              background-color: #FBD134;
+            }
+          }
         }
       }
       @at-root .item-data{
@@ -77,6 +86,9 @@
             }
             &.sold{
               background-color: #FBD134;
+            }
+            &.highlighted{
+              background-color: #be0015;
             }
           }
           &.item-name strong, &.item-price strong{

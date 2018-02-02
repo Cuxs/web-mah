@@ -36,9 +36,7 @@
   .sidebar-filters{
     padding:5vh 0;
     position: fixed;
-    top:0;
-    left:0;
-    bottom:0;
+    top:100vh;
     right:0;
     z-index: 100;
     background-color: $white;
@@ -47,9 +45,21 @@
     height: 100vh;
     overflow-y:scroll;
     box-shadow:0 0 10px $gray-500;
+    display: block !important;
+    -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+
     //display: none;
     &.active{
+      top:0;
+      right:0;
       display: block !important;
+      -webkit-transition: all 500ms ease-out;
+      -moz-transition: all 500ms ease-out;
+      -o-transition: all 500ms ease-out;
+      transition: all 500ms ease-out;
     }
     ul{
       width: 200px;

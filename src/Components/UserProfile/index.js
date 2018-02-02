@@ -119,7 +119,7 @@ class UserProfile extends React.Component {
     return (
       <div>
         <AdminBar history={history} />
-        <div className="container-fluid">
+        <div className="container">
           <Row>
             <Col md="3">
               <UserSideBar history={history} location={location} />
@@ -186,7 +186,9 @@ class UserProfile extends React.Component {
         <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>{this.state.responseTitle}</ModalHeader>
           <ModalBody>
-            <h5>{this.state.responseMsg}</h5>
+            <div className="col-md-6 offset-md-3">
+              <h5>{this.state.responseMsg}</h5>
+            </div>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => this.toggleModal()}>OK</Button>

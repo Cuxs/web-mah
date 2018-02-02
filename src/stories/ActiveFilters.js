@@ -18,14 +18,17 @@ export default ({ searchData, history }) => split(searchData).map((filter) => {
       filter.key === 'state') {
     return (
       <Button
+        color="defaul"
         style={{ cursor: 'pointer' }}
         name={filter.value}
+        size="sm"
         onClick={() => {
             delete searchData[filter.key];
             history.push(`/SearchCars?${stringify(searchData)}`);
           }}
       >
         {filter.value}
+        <img src="/assets/images/icon-close.svg" />
       </Button>);
   }
 });

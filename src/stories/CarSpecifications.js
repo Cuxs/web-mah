@@ -65,14 +65,14 @@ class CarSpecification extends Component {
             if (typeof row.value === 'boolean' || row.value === null) {
               return (
                 <Col md="6" sm="6" xs="12">
-                  <p className={row.value ? 'active' : 'disable'}>{row.key}</p>
+                  <p className={row.value ? 'active' : 'disable'}>{_.upperFirst(_.lowerCase(row.key))}</p>
                 </Col>
               );
             }
             return (
               <Col md="6" sm="6" xs="12">
                 <p>
-                  {row.key} : {row.value}
+                  {_.upperFirst(_.lowerCase(row.key))} : {row.value === '.' ? 'No especificado' : row.value}
                 </p>
               </Col>
             );
@@ -81,7 +81,7 @@ class CarSpecification extends Component {
             if (typeof row.value === 'boolean' || row.value === null) {
               return (
                 <Col md="6" sm="6" xs="12">
-                  <p className={row.value ? 'active' : 'disable'}>{row.key}</p>
+                  <p className={row.value ? 'active' : 'disable'}>{_.upperFirst(_.lowerCase(row.key))}</p>
                 </Col>
               );
             }
