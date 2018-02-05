@@ -59,7 +59,7 @@ class CreatePublication extends Component {
   }
 
   disabled(){
-    return !(this.state.image1 !== '' || this.state.image2 !== '' || this.state.image3 !== '');
+    return !(this.state.image1 !== '' && this.state.image2 !== '' && this.state.image3 !== '');
   }
 
   getimage1(img) {

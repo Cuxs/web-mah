@@ -55,6 +55,13 @@ class CreatePublication extends React.Component {
     }
   }
 
+  disabled() {
+    const {
+      brand, group, codia, year, kms, price,
+    } = this.state;
+    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '');
+  }
+
   onChangeBrand(event) {
     this.setState({ brand: event.target.value });
     this.props.client.query({
@@ -202,7 +209,7 @@ class CreatePublication extends React.Component {
                 </FormGroup>
 
                 <div className="underline" />
-                <Button color="primary" onClick={() => this.next()} >Siguiente</Button>
+                <Button color="primary" disabled={this.disabled()} onClick={() => this.next()} >Siguiente</Button>
               </div>
             </Col>
           </Row>
