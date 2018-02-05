@@ -61,6 +61,16 @@
   }
 }
 
+.more-crops {
+  display: none;
+}
+.link-more {
+  margin-bottom: 30px;
+  color: $primary !important;
+  border-width: 0px;
+  font-size: 16px !important;
+}
+
 @media screen and (max-width: 990px) {
   .register-steps{
     .bg{

@@ -36,6 +36,7 @@ class CreatePublication extends Component {
       modal: false,
       responseMsg: '',
       responseTitle: '',
+      more: false,
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -200,8 +201,10 @@ class CreatePublication extends Component {
                   cropImage={img => this.getimage3(img)}
                   previewImage={this.state.previewimage3}
                 />
-                <Button color="primary">Más fotos</Button>
-                <div className="more-crops">
+                <div style={{ paddingBottom: '30px' }} >
+                  <Button color="link" className={`link-more float-right ${this.state.more ? 'more-crops' : ''}`} onClick={() => this.setState({ more: true })} >+ Más fotos</Button>
+                </div>
+                <div className={this.state.more ? '' : 'more-crops'}>
                   <ImageCrop
                     aspectRatio={160 / 106}
                     cropImage={img => this.getimage4(img)}
