@@ -5,19 +5,26 @@ import React, { Component } from 'react';
 import { Col, Row } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
+import { branch, renderComponent } from 'recompose';
 
 import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
 import CardMessagge from '../../stories/CardMessagge';
 import NumberOfUnreads from '../../stories/NumberOfUnreads';
 
-import style from '../../Styles/pledgeCredits';
 import {
   CommentThreadQuery,
   CountUnreadMessagesQuery,
   CommentThreadSubscription,
 } from '../../ApolloQueries/UserInboxQuery';
-import { getUserToken } from '../../Modules/sessionFunctions';
+import { getUserToken, isUserLogged } from '../../Modules/sessionFunctions';
+import LoginComponent from '../../stories/LoginComponent';
+
+const renderForUnloggedUser = (component, propName = 'data') =>
+  branch(
+    props => !isUserLogged(),
+    renderComponent(component),
+  );
 
 class UserInbox extends Component {
   componentWillMount() {
@@ -111,6 +118,9 @@ const withThreadSubscription = graphql(CommentThreadQuery, {
   }),
 });
 
-const withData = compose(withUnreadMessagesQuantity, withCommentThread, withThreadSubscription);
+const withData = compose(
+  withUnreadMessagesQuantity, withCommentThread, renderForUnloggedUser(LoginComponent, 'commentThreadData'),
+  withThreadSubscription,
+);
 
 export default withData(UserInbox);

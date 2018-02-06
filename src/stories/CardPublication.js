@@ -161,6 +161,7 @@ class CardPublication extends Component {
                 src={photoGaleryParser(data.ImageGroup)[0].src}
                 alt="banner"
                 width="100%"
+                height="100%"
               />
             </div>
           </div>

@@ -35,7 +35,6 @@ import NotificationModal from '../stories/NotificationModal';
 import parseError from '../Modules/errorParser';
 import { login } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
-
 /* eslint react/jsx-filename-extension: 0 */
 
 class SearchBar extends Component {
@@ -332,7 +331,7 @@ class SearchBar extends Component {
                     name="password"
                     value={this.state.password}
                     onChange={e => this.setState({ password: e.target.value })}
-                    placeholder="123456"
+                    placeholder="******"
                   />
                   <a href="">¿Olvidaste tu contraseña?</a>
                 </FormGroup>

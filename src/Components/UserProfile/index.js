@@ -4,12 +4,19 @@
 import React from 'react';
 import { Col, Row, Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
+import { branch, renderComponent } from 'recompose';
 
 import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
 import { UserDetailQuery, UserDataMutation, UserPasswordMutation } from '../../ApolloQueries/UserProfileQuery';
-import { getUserDataFromToken, getUserToken } from '../../Modules/sessionFunctions';
-import style from '../../Styles/pledgeCredits';
+import { getUserToken, isUserLogged } from '../../Modules/sessionFunctions';
+import LoginComponent from '../../stories/LoginComponent';
+
+const renderForUnloggedUser = (component, propName = 'data') =>
+  branch(
+    props => !isUserLogged(),
+    renderComponent(component),
+  );
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -208,6 +215,11 @@ const options = () => ({
 const withUserData = graphql(UserDetailQuery, { name: 'userProfile', options });
 const withUserDataMutation = graphql(UserDataMutation, { name: 'updateData' });
 const withPasswordMutation = graphql(UserPasswordMutation, { name: 'updatePassword' });
-const withData = compose(withUserData, withUserDataMutation, withPasswordMutation);
+const withData = compose(
+  withUserData,
+  renderForUnloggedUser(LoginComponent, 'userProfile'),
+  withUserDataMutation,
+  withPasswordMutation,
+);
 
 export default withData(UserProfile);

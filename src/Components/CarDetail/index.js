@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { Col, Row, Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
+import { branch, renderComponent } from 'recompose';
 import { parse } from 'query-string';
 import _ from 'lodash';
 
@@ -22,8 +23,8 @@ import CarCarousel from '../../stories/CarCarousel';
 import CarSpecifications from '../../stories/CarSpecifications';
 import MessageCarDetail from '../../stories/MessagesCarDetail';
 
-//import style from '../../Styles/carDetail';
-//import socialStyle from '../../Styles/bootstrap-social';
+import _404page from '../../stories/404page';
+import LoadingComponent from '../../stories/LoadingComponent';
 
 import { thousands } from '../../Modules/functions';
 import photoGaleryParser from '../../Modules/photoGaleryParser';
@@ -32,19 +33,46 @@ import {
   getUserDataFromToken,
 } from '../../Modules/sessionFunctions';
 
+const renderForNullPublication = (component, propName = 'data') =>
+  branch(
+    props => props[propName] && props[propName].Publication === null,
+    renderComponent(component),
+  );
+
+const renderWhileLoading = (component, propName = 'data', propName2 = 'data') =>
+  branch(
+    props => props[propName] && props[propName].loading && props[propName2].loading,
+    renderComponent(component),
+  );
+
 class CarDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
+      disabledPublicationClass: '',
+      stateMessage: '',
+      showPublication: true,
     };
 
     this.toggle = this.toggle.bind(this);
+    this.isPublicationVisible = this.isPublicationVisible.bind(this);
   }
+
   toggle() {
     this.setState({
       modal: !this.state.modal,
     });
+  }
+  isPublicationVisible() {
+    const { carDetailData, carSpecsData } = this.props;
+    if (!carDetailData.loading && !carSpecsData.loading) {
+      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente') {
+        return false;
+      }
+      return true;
+    }
+    return true;
   }
   render() {
     const {
@@ -54,6 +82,14 @@ class CarDetail extends Component {
       history,
       location,
     } = this.props;
+    let hiddenClass = '';
+    if (!carDetailData.loading && !carSpecsData.loading) {
+      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente') {
+        hiddenClass = 'hidden';
+      } else {
+        hiddenClass = '';
+      }
+    }
     return (
       <div>
         <TopTopNav />
@@ -68,7 +104,18 @@ class CarDetail extends Component {
             </Col>
           </Row>
         </div>
-        <div className="container">
+        {!this.isPublicationVisible() && (
+          <Row>
+            <div className="col-md-3 hidden-sm-down" />
+            <Col md="6" sm="12" xs="12">
+              <h3 className="hiddenMessage">
+                Esta publicación esta pendiente de aprobación.
+              </h3>
+            </Col>
+            <div className="col-md-3 hidden-sm-down" />
+          </Row>
+        )}
+        <div className={`container ${hiddenClass}`}>
           {carDetailData.Publication === null && (
             <h3>Esta publicación no exite o ha sido eliminada.</h3>
           )}
@@ -79,7 +126,6 @@ class CarDetail extends Component {
                   <CarCarousel
                     photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
                   />
-
                   <div className="container-data-input-group">
                     <h5 className="title">Resumen</h5>
                     <Row>
@@ -92,17 +138,19 @@ class CarDetail extends Component {
                       <Col md="6" sm="6" xs="12">
                         <div className="data-input-group">
                           <label>KM</label>
-                          <p>{thousands(
-                            carDetailData.Publication.kms,
-                            0,
-                            ',',
-                            '.',
-                          )}</p>
+                          <p>
+                            {thousands(
+                              carDetailData.Publication.kms,
+                              0,
+                              ',',
+                              '.',
+                            )}
+                          </p>
                         </div>
                       </Col>
                     </Row>
                     <Row>
-                      <Col md="6" sm="6" xs="12" >
+                      <Col md="6" sm="6" xs="12">
                         <div className="data-input-group">
                           <label>MARCA</label>
                           <p>{carDetailData.Publication.brand}</p>
@@ -130,43 +178,57 @@ class CarDetail extends Component {
                       </Col>
                     </Row>
                   </div>
-
-
                   {!carSpecsData.loading &&
                     carSpecsData.Publication.Specifications !== null && (
                       <CarSpecifications
                         data={carSpecsData.Publication.Specifications}
                       />
                     )}
-
                   <div className="container-data-input-group">
                     <div className="data-input-group">
                       <h5>Comentarios del Vendedor</h5>
                       <p>{carDetailData.Publication.observation}</p>
                     </div>
                   </div>
-
                 </Col>
                 <Col md="4" sm="12" xs="12" className="sheet sheet-min">
                   <Row>
                     <Col md="12" sm="6" xs="12">
                       <Row>
                         <div className="item-data">
-                          <small className="item-year">{carDetailData.Publication.year} -{' '}
-                          {thousands(carDetailData.Publication.kms, 0, ',', '.')} km</small>
-                          <p className="item-name"><strong>{`${carDetailData.Publication.brand} ${
-                          carDetailData.Publication.group
-                            }`}
-                          </strong></p>
+                          <small className="item-year">
+                            {carDetailData.Publication.year} -{' '}
+                            {thousands(
+                              carDetailData.Publication.kms,
+                              0,
+                              ',',
+                              '.',
+                            )}{' '}
+                            km
+                          </small>
+                          <p className="item-name">
+                            <strong>
+                              {`${carDetailData.Publication.brand} ${
+                                carDetailData.Publication.group
+                              }`}
+                            </strong>
+                          </p>
                           <p className="item-description">
                             {carDetailData.Publication.modelName}
                           </p>
-                          <p className="item-price"><strong>${thousands(carDetailData.Publication.price, 2, ',', '.')}</strong></p>
+                          <p className="item-price">
+                            <strong>
+                              ${thousands(
+                                carDetailData.Publication.price,
+                                2,
+                                ',',
+                                '.',
+                              )}
+                            </strong>
+                          </p>
                         </div>
-
                       </Row>
                       <Button color="primary">¡Solicitá tu crédito</Button>
-
                       <div className="container-social">
                         <button className="btn btn-social-icon">
                           <img src="/assets/images/icon-facebook.svg" />
@@ -182,7 +244,6 @@ class CarDetail extends Component {
                           {carDetailData.Publication.User.agencyName ||
                             carDetailData.Publication.User.name}
                         </h5>
-
                         {carDetailData.Publication.User.agencyName && (
                           <Button color="link">Ver todos los autos</Button>
                         )}
@@ -194,16 +255,15 @@ class CarDetail extends Component {
                               'No especificado'}
                           </p>
                         </div>
-
                         <div className="data-input-group">
                           <label>TELÉFONOS</label>
                           <p>
-                            {carDetailData.Publication.User.agencyPhone && ' / '}
+                            {carDetailData.Publication.User.agencyPhone &&
+                              ' / '}
                             {carDetailData.Publication.User.phone ||
                               'No especificado'}{' '}
                           </p>
                         </div>
-
                         <div className="data-input-group">
                           <label>EMAIL</label>
                           <p>
@@ -213,20 +273,24 @@ class CarDetail extends Component {
                           </p>
                         </div>
                       </div>
-
                       {getUserDataFromToken().id !==
                         carDetailData.Publication.User.id &&
                         !commentThreadData.loading && (
                           <MessageCarDetail
                             commentThread_id={
-                              (commentThreadData.CommentThread && !_.isEmpty(commentThreadData.CommentThread))
+                              commentThreadData.CommentThread &&
+                              !_.isEmpty(commentThreadData.CommentThread)
                                 ? commentThreadData.CommentThread[0].id
                                 : null
                             }
                             location={location}
                             history={history}
-                            publicationUserId={carDetailData.Publication.User.id}
-                            publicationId={parse(location.search).publication_id}
+                            publicationUserId={
+                              carDetailData.Publication.User.id
+                            }
+                            publicationId={
+                              parse(location.search).publication_id
+                            }
                           />
                         )}
                       {getUserDataFromToken().id ===
@@ -239,9 +303,8 @@ class CarDetail extends Component {
               </Row>
             )}
         </div>
-
+        }
         <Footer />
-
       </div>
     );
   }
@@ -269,7 +332,13 @@ const withCommentThread = graphql(CommentThreadQuery, {
   options,
 });
 
-const withData = compose(withSpecs, withCarDetails, withCommentThread);
+const withData = compose(
+  withSpecs,
+  withCarDetails,
+  withCommentThread,
+  renderForNullPublication(_404page, 'carDetailData'),
+  renderWhileLoading(LoadingComponent, 'carDetailData', 'carSpecsData'),
+);
 const CarDetailwithData = withData(CarDetail);
 
 export default CarDetailwithData;

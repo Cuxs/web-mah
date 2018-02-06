@@ -42,6 +42,8 @@ import UserRegisterStepOne from './Components/UserRegister/StepOne';
 import UserRegisterStepTwo from './Components/UserRegister/StepTwo';
 import UserRegisterStepThree from './Components/UserRegister/StepThree';
 import WithoutRegister from './Components/WithoutRegister';
+import _404page from './stories/404page';
+import LoginComponent from './stories/LoginComponent';
 
 const About = () => (
   <div>
@@ -132,6 +134,9 @@ const App = () => (
         <Route exact path="/userRegisterS2" component={UserRegisterStepTwo} />
         <Route exact path="/userRegisterS3" component={UserRegisterStepThree} />
         <Route exact path="/withoutRegister" component={WithoutRegister} />
+        
+        <Route exact path="/login" component={LoginComponent} />
+        <Route component={_404page} />
       </Switch>
     </div>
   </Router>

@@ -23,11 +23,12 @@ import {
 } from 'recharts';
 import { graphql, compose } from 'react-apollo';
 import { split } from 'split-object';
+import { branch, renderComponent } from 'recompose';
 
 import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
 
-import style from '../../Styles/pledgeCredits';
+import LoadingComponent from '../../stories/LoadingComponent';
 import {
   CountUnreadMessagesQuery,
   CountActivePublications,
@@ -36,11 +37,25 @@ import {
 import {
   getUserToken,
   getUserDataFromToken,
+  isUserLogged,
 } from '../../Modules/sessionFunctions';
 import { getSoldPublications } from '../../Modules/fetches';
+import LoginComponent from '../../stories/LoginComponent';
+
+const renderWhileLoading = (component, propName = 'data') =>
+  branch(
+    props => props[propName] && props[propName].loading,
+    renderComponent(component),
+  );
+const renderForUnloggedUser = (component, propName = 'data') =>
+  branch(
+    props => !isUserLogged(),
+    renderComponent(component),
+  );
 
 class UserAdmin extends React.Component {
   constructor(props) {
+    console.log(props);
     super(props);
     this.state = {
       modal: false,
@@ -263,8 +278,10 @@ const withHighLighPublications = graphql(CountHighLighPublications, {
 });
 const withData = compose(
   withUnreadMessagesData,
+  renderForUnloggedUser(LoginComponent, 'unreadMessages'),
   withActivePublicationsCount,
   withHighLighPublications,
+  renderWhileLoading(LoadingComponent, 'highLightPub'),
 );
 
 export default withData(UserAdmin);

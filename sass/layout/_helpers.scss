@@ -4,8 +4,19 @@
   height: 1px;
   width: 100%;
 }
-
-
+.hidden{
+  filter: blur(12px);
+  opacity: 2
+}
+.hiddenMessage{
+  background: white;
+  color:#ffc107;
+  position: relative;
+  z-index: 1000; 
+  padding:10px 10px 10px 36px;
+  margin:10px;
+  border:1px solid #f2c779;
+}
 .bg-100{
   background-color: $gray-100;
 }

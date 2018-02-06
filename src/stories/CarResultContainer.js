@@ -12,7 +12,6 @@ export default ({ children }) => {
      </Col>
     ));
 
-
   return (
     <div className="">
       <Row className="container-box-item">

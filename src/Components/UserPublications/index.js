@@ -7,17 +7,31 @@ import qs from 'query-string';
 import { graphql, compose } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
 import FlipMove from 'react-flip-move';
+import { branch, renderComponent } from 'recompose';
 
 import AdminBar from '../../stories/AdminBar';
 import UserSideBar from '../../stories/UserSideBar';
 import AdminFilter from '../../stories/AdminFilter';
 import CardPublication from '../../stories/CardPublication';
 import NumberOfResult from '../../stories/NumberOfResult';
-import { getUserToken } from '../../Modules/sessionFunctions';
+import { getUserToken, isUserLogged } from '../../Modules/sessionFunctions';
 import { SearchUserPublicationQuery } from '../../ApolloQueries/UserPublicationsQuery';
 
 import style from '../../Styles/pledgeCredits';
+import LoginComponent from '../../stories/LoginComponent';
+import LoadingComponent from '../../stories/LoadingComponent';
 
+
+const renderWhileLoading = (component, propName = 'data') =>
+  branch(
+    props => props[propName] && props[propName].loading,
+    renderComponent(component),
+  );
+const renderUnloggedUser = (component, propName = 'data') =>
+  branch(
+    props => !isUserLogged(),
+    renderComponent(component),
+  );
 
 class UserPublications extends React.Component {
   constructor(props) {
@@ -181,6 +195,10 @@ const withPublicationsPerPage = graphql(SearchUserPublicationQuery, {
   name: 'PubsPerPage',
   options,
 });
-const withData = compose(withPublicationsPerPage);
+const withData = compose(
+  withPublicationsPerPage,
+  renderWhileLoading(LoadingComponent, 'PubsPerPage'),
+  renderUnloggedUser(LoginComponent, 'PubsPerPage'),
+);
 
 export default withData(UserPublications);
