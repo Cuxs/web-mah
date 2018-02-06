@@ -55,7 +55,7 @@ class CreatePublication extends React.Component {
       this.props.client.query({
         query: YearsQuery,
         variables: {
-          ta3_codia: parse(this.props.location.search).model,
+          ta3_codia: parse(this.props.location.search).codia,
         },
       })
         .then(response => this.setState({ Prices: response.data.Price }));
@@ -119,8 +119,6 @@ class CreatePublication extends React.Component {
   }
 
   onChangeYear(newYear) {
-    console.log(this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio);
-    console.log(this.state.Prices);
     this.setState({
       year: newYear,
       priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio,
@@ -141,7 +139,6 @@ class CreatePublication extends React.Component {
       priceSuggested: this.state.priceSuggested,
       observation: this.state.observation,
     };
-    console.log(dataCar);
     this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`);
   }
 
@@ -186,6 +183,7 @@ class CreatePublication extends React.Component {
                     id="carState-select"
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
+                    autoFocus
                     clearable={false}
                     onSelectResetsInput={false}
                     options={[{ value: 'Nuevo', label: 'Nuevo' }, { value: 'Usado', label: 'Usado' }]}
@@ -203,7 +201,6 @@ class CreatePublication extends React.Component {
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
-                    autoFocus
                     options={prepareArraySelect(AllBrands, 'ta3_nmarc', 'ta3_marca')}
                     simpleValue
                     clearable
@@ -222,7 +219,6 @@ class CreatePublication extends React.Component {
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
-                    autoFocus
                     options={prepareArraySelect(this.state.Groups, 'gru_cgrup', 'gru_ngrup')}
                     simpleValue
                     clearable
@@ -241,7 +237,6 @@ class CreatePublication extends React.Component {
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
-                    autoFocus
                     options={prepareArraySelect(this.state.Models, 'ta3_codia', 'ta3_model')}
                     simpleValue
                     clearable
@@ -260,7 +255,6 @@ class CreatePublication extends React.Component {
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
-                    autoFocus
                     options={prepareArraySelect(_.filter(this.state.Prices, o => o.precio !== 0), 'anio', 'anio')}
                     simpleValue
                     clearable
@@ -287,7 +281,7 @@ class CreatePublication extends React.Component {
                 </FormGroup>
 
                 <div className="underline" />
-                <Button color="primary" disabled={this.disabled()} onClick={() => this.next()} >Siguiente</Button>
+                <Button color="primary" className="float-right" disabled={this.disabled()} onClick={() => this.next()} >Siguiente</Button>
               </div>
             </Col>
           </Row>

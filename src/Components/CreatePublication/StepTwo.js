@@ -179,7 +179,6 @@ class CreatePublication extends Component {
                     <h4>Mostralo con fotos</h4>
                     <p className="info">* Mínimo 3 fotos</p>
                   </div>
-                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.createPub()} >Publicar</Button>
                 </div>
               </div>
             </Col>
@@ -232,8 +231,9 @@ class CreatePublication extends Component {
                   />
                 </div>
                 <div className="underline" />
-                <div>
-                  <Button color="secondary" onClick={() => this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`)}>Volver</Button>
+                <div style={{ width: '100%' }} className="d-flex justify-content-between align-items-center" >
+                  <Button color="default" onClick={() => this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`)}>Volver</Button>
+                  <Button color="primary" disabled={this.disabled()} onClick={() => this.createPub()} >Publicar</Button>
                 </div>
               </div>
               <Modal isOpen={this.state.modal} toggle={this.toggle}>

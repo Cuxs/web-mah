@@ -11,6 +11,7 @@ import AdminBar from '../../stories/AdminBar';
 import { InfoCarQuery } from '../../ApolloQueries/TautosQuery';
 
 import style from '../../Styles/register';
+import search from '../../Styles/search';
 
 class CreatePublicationS1 extends React.Component {
   constructor(props) {
@@ -19,10 +20,11 @@ class CreatePublicationS1 extends React.Component {
   }
 
   componentWillMount() {
+    const search = parse(this.props.location.search);
     this.props.client.query({
       query: InfoCarQuery,
       variables: {
-        ext_codia: parse(this.props.location.search).codia,
+        ext_codia: search.Caracteristics ? parse(search.DataCar).codia : search.codia,
       },
     })
       .then(response => this.setState({
@@ -44,6 +46,13 @@ class CreatePublicationS1 extends React.Component {
       default:
         return this.setState({ Additionals: newObject });
     }
+  }
+
+  previous() {
+    const search = parse(this.props.location.search);
+    const sendData = search.Caracteristics ? parse(search.DataCar) : search;
+    console.log(sendData);
+    this.props.history.push(`/createPublication?${(stringify(sendData))}`);
   }
 
   next() {
@@ -154,9 +163,9 @@ class CreatePublicationS1 extends React.Component {
                     </Label>
                   </FormGroup>
 
-                  <div>
-                    <div className="underline" />
-                    <Button color="secondary" onClick={() => this.props.history.push(`/createPublication${(this.props.location.search)}`)}>Volver</Button>
+                  <div className="underline" />
+                  <div className="d-flex justify-content-between align-items-center" >
+                    <Button color="default" onClick={() => this.previous()}>Volver</Button>
                     <Button color="primary" onClick={() => this.next()}>Siguiente</Button>
                   </div>
                 </div>
