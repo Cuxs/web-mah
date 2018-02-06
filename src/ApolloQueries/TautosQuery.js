@@ -51,7 +51,7 @@ const InfoCarQuery = gql`query Caracteristics($ext_codia: Int!) {
     Importado
     Caja
     FrenosAbs
-    Airbag
+    AirBag
   }
   TecnicalData(ex2_codia: $ext_codia) {
     Climatizador

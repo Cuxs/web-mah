@@ -19,16 +19,6 @@ class CreatePublicationS1 extends React.Component {
   }
 
   componentWillMount() {
-    if (parse(this.props.location.search).Caracteristics) {
-      const data = parse(this.props.location.search);
-      console.log(data);
-      return this.setState({
-        Caracteristics: parse(data.Caracteristics),
-        TecnicalData: parse(data.TecnicalData),
-        Additionals: parse(data.Additionals),
-        DataCar: parse(data.DataCar),
-      })
-    } else {
     this.props.client.query({
       query: InfoCarQuery,
       variables: {
@@ -40,7 +30,6 @@ class CreatePublicationS1 extends React.Component {
         TecnicalData: response.data.TecnicalData,
         Additionals: response.data.Additionals,
       }));
-    }
   }
 
   onChangeCheck(object, name, value) {

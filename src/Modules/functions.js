@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const thousands = (number, decimals, decPoint, thousandsSep) => {
   decimals = decimals || 0;
   number = parseFloat(number);
@@ -19,3 +21,17 @@ export const thousands = (number, decimals, decPoint, thousandsSep) => {
 
   return (number < 0 ? '-' : '') + numbersString + formattedNumber + (decimalsString ? (decPoint + decimalsString) : '');
 };
+
+export const prepareArraySelect = (array, rowValue, rowLabel) => {
+  const newArray = [];
+    
+  _.each(array, (item) => {
+    const objectItem = {};
+    objectItem.value = item[rowValue];
+    objectItem.label = item[rowLabel];
+    newArray.push(objectItem);
+  });
+
+  return newArray;
+};
+
