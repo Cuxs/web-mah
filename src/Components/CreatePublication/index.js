@@ -5,10 +5,14 @@ import React from 'react';
 import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { stringify, parse } from 'query-string';
+import _ from 'lodash';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 import AdminBar from '../../stories/AdminBar';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../ApolloQueries/TautosQuery';
+import { prepareArraySelect } from '../../Modules/functions';
 
 import style from '../../Styles/register';
 
@@ -18,13 +22,16 @@ class CreatePublication extends React.Component {
     super(props);
     this.state = {
       carState: this.props.location.search === '' ? 'Nuevo' : parse(this.props.location.search).carState,
-      brand: this.props.location.search === '' ? 0 : parse(this.props.location.search).brand,
-      group: this.props.location.search === '' ? 0 : parse(this.props.location.search).group,
-      codia: this.props.location.search === '' ? 0 : parse(this.props.location.search).codia,
-      year: this.props.location.search === '' ? 0 : parse(this.props.location.search).year,
+      brand: this.props.location.search === '' ? '' : parse(this.props.location.search).brand,
+      group: this.props.location.search === '' ? '' : parse(this.props.location.search).group,
+      codia: this.props.location.search === '' ? '' : parse(this.props.location.search).codia,
+      year: this.props.location.search === '' ? '' : parse(this.props.location.search).year,
       kms: this.props.location.search === '' ? '' : parse(this.props.location.search).kms,
       price: this.props.location.search === '' ? '' : parse(this.props.location.search).price,
       observation: this.props.location.search === '' ? '' : parse(this.props.location.search).observation,
+      Groups: [],
+      Models: [],
+      Prices: [],
     };
   }
 
@@ -62,47 +69,64 @@ class CreatePublication extends React.Component {
     return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '');
   }
 
-  onChangeBrand(event) {
-    this.setState({ brand: event.target.value });
+  onChangeBrand(newBrand) {
+    this.setState({
+      brand: newBrand,
+      group: '',
+      codia: '',
+      Models: [],
+      modelName: '',
+      Prices: [],
+      year: '',
+      priceSuggested: '',
+    });
     this.props.client.query({
       query: GroupsQuery,
       variables: {
-        gru_nmarc: event.target.value,
+        gru_nmarc: newBrand,
       },
     })
       .then(response => this.setState({ Groups: response.data.Group }));
   }
 
-  onChangeGroup(event) {
-    this.setState({ group: event.target.value });
+  onChangeGroup(newGroup) {
+    this.setState({
+      group: newGroup,
+      modelName: '',
+      Prices: [],
+      year: '',
+      priceSuggested: '',
+    });
     this.props.client.query({
       query: ModelsQuery,
       variables: {
         ta3_nmarc: this.state.brand,
-        ta3_cgrup: event.target.value,
+        ta3_cgrup: newGroup,
       },
     })
       .then(response => this.setState({ Models: response.data.Models }));
   }
 
-  onChangeModel(event) {
-    const index = event.nativeEvent.target.selectedIndex;
-    this.setState({ codia: event.target.value, modelName: event.nativeEvent.target[index].text });
+  onChangeModel(newModel) {
+    this.setState({ codia: newModel, modelName: _.find(this.state.Models, ['ta3_codia', newModel]).ta3_model });
     this.props.client.query({
       query: YearsQuery,
       variables: {
-        ta3_codia: event.target.value,
+        ta3_codia: newModel,
       },
     })
       .then(response => this.setState({ Prices: response.data.Price }));
   }
 
-  onChangeYear(event) {
+  onChangeYear(newYear) {
+    console.log(this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio);
+    console.log(this.state.Prices);
     this.setState({
-      year: event.target.value,
-      priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(event.target.value, 10)].precio,
+      year: newYear,
+      priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio,
     });
   }
+
 
   next() {
     const dataCar = {
@@ -117,6 +141,7 @@ class CreatePublication extends React.Component {
       priceSuggested: this.state.priceSuggested,
       observation: this.state.observation,
     };
+    console.log(dataCar);
     this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`);
   }
 
@@ -157,42 +182,95 @@ class CreatePublication extends React.Component {
                 <h4 className="title-division">Describe tu auto</h4>
                 <FormGroup>
                   <Label for="exampleSelect">¿Qué tipo de auto quieres vender?</Label>
-                  <Input type="select" name="select" onChange={event => this.setState({ carState: event.target.value })} value={this.state.carState}>
-                    <option value="Nuevo">Nuevo</option>
-                    <option value="Usado">Usado</option>
-                  </Input>
+                  <Select
+                    id="carState-select"
+                    ref={(ref) => { this.select = ref; }}
+                    onBlurResetsInput={false}
+                    clearable={false}
+                    onSelectResetsInput={false}
+                    options={[{ value: 'Nuevo', label: 'Nuevo' }, { value: 'Usado', label: 'Usado' }]}
+                    simpleValue
+                    name="selected-state"
+                    value={this.state.carState}
+                    onChange={newValue => this.setState({ carState: newValue })}
+                  />
                 </FormGroup>
+
                 <FormGroup>
                   <Label for="exampleSelect">¿Cuál es la marca?</Label>
-                  <Input type="select" name="select" onChange={event => this.onChangeBrand(event)} value={this.state.brand} >
-                    <option value={0} >Selecciona una marca</option>
-                    {!this.props.ta3AllBrands.loading && AllBrands.map(brand => <option value={brand.ta3_nmarc} >{brand.ta3_marca}</option>)}
-                  </Input>
+                  <Select
+                    id="brand-select"
+                    ref={(ref) => { this.select = ref; }}
+                    onBlurResetsInput={false}
+                    onSelectResetsInput={false}
+                    autoFocus
+                    options={prepareArraySelect(AllBrands, 'ta3_nmarc', 'ta3_marca')}
+                    simpleValue
+                    clearable
+                    name="selected-state"
+                    value={this.state.brand}
+                    placeholder="Selecciona una marca"
+                    onChange={newValue => this.onChangeBrand(newValue)}
+                    searchable
+                    noResultsText="No se encontraron resultados"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleSelect">¿Cuál es el grupo?</Label>
-                  <Input type="select" name="select" onChange={event => this.onChangeGroup(event)} value={this.state.group}>
-                    <option>Selecciona un grupo</option>
-                    {this.state.Groups && this.state.Groups.map(group => <option value={group.gru_cgrup} >{group.gru_ngrup}</option>)}
-                  </Input>
+                  <Select
+                    id="groups-select"
+                    ref={(ref) => { this.select = ref; }}
+                    onBlurResetsInput={false}
+                    onSelectResetsInput={false}
+                    autoFocus
+                    options={prepareArraySelect(this.state.Groups, 'gru_cgrup', 'gru_ngrup')}
+                    simpleValue
+                    clearable
+                    name="selected-state"
+                    value={this.state.group}
+                    placeholder="Selecciona un grupo"
+                    onChange={newValue => this.onChangeGroup(newValue)}
+                    searchable
+                    noResultsText="No se encontraron resultados"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleSelect">¿Cuál es el modelo?</Label>
-                  <Input type="select" name="select" onChange={event => this.onChangeModel(event)} value={this.state.codia}>
-                    <option>Selecciona un modelo</option>
-                    {this.state.Models && this.state.Models.map(model => <option value={model.ta3_codia} >{model.ta3_model}</option>)}
-                  </Input>
+                  <Select
+                    id="models-select"
+                    ref={(ref) => { this.select = ref; }}
+                    onBlurResetsInput={false}
+                    onSelectResetsInput={false}
+                    autoFocus
+                    options={prepareArraySelect(this.state.Models, 'ta3_codia', 'ta3_model')}
+                    simpleValue
+                    clearable
+                    name="selected-state"
+                    value={this.state.codia}
+                    placeholder="Selecciona un modelo"
+                    onChange={newValue => this.onChangeModel(newValue)}
+                    searchable
+                    noResultsText="No se encontraron resultados"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleSelect">¿Cuál es el año?</Label>
-                  <Input type="select" name="select" onChange={event => this.onChangeYear(event)} value={this.state.year}>
-                    <option>Selecciona un año</option>
-                    {this.state.Prices && this.state.Prices.map((year) => {
-                  if (year.precio !== 0) {
-                    return (<option value={year.anio} >{year.anio}</option>);
-                  }
-                })}
-                  </Input>
+                  <Select
+                    id="year-select"
+                    ref={(ref) => { this.select = ref; }}
+                    onBlurResetsInput={false}
+                    onSelectResetsInput={false}
+                    autoFocus
+                    options={prepareArraySelect(_.filter(this.state.Prices, o => o.precio !== 0), 'anio', 'anio')}
+                    simpleValue
+                    clearable
+                    name="selected-state"
+                    value={this.state.year}
+                    placeholder="Selecciona un año"
+                    onChange={newValue => this.onChangeYear(newValue)}
+                    searchable
+                    noResultsText="No se encontraron resultados"
+                  />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">¿Cuántos kilometros tiene?</Label>

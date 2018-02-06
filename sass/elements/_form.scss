@@ -51,7 +51,26 @@
     }
   }
 }
-
+.Select-control{
+  height: 48px !important;
+  line-height: 46px !important;
+}
+.Select-input {
+  height: 46px !important;
+}
+.Select-placeholder {
+  line-height: 48px !important;
+}
+.Select--single > .Select-control .Select-value {
+  line-height: 46px !important;
+}
+.Select.is-focused:not(.is-open) > .Select-control {
+  border-color: rgb(131, 131, 131) !important;
+  box-shadow: none !important;
+}
+.Select-menu-outer {
+  background-color: rgb(202, 202, 202) !important;
+}
 
 // CHECKBOX
 .form-check{
