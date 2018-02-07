@@ -11,7 +11,6 @@ import AdminBar from '../../stories/AdminBar';
 import { InfoCarQuery } from '../../ApolloQueries/TautosQuery';
 
 import style from '../../Styles/register';
-import search from '../../Styles/search';
 
 class CreatePublicationS1 extends React.Component {
   constructor(props) {
@@ -51,7 +50,6 @@ class CreatePublicationS1 extends React.Component {
   previous() {
     const search = parse(this.props.location.search);
     const sendData = search.Caracteristics ? parse(search.DataCar) : search;
-    console.log(sendData);
     this.props.history.push(`/createPublication?${(stringify(sendData))}`);
   }
 

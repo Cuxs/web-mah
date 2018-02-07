@@ -144,7 +144,6 @@ class CreatePublication extends React.Component {
 
   render() {
     const {
-      location,
       ta3AllBrands: { AllBrands },
     } = this.props;
     return (
