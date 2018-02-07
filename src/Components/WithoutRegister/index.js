@@ -10,9 +10,9 @@ import Footer from '../../stories/Footer';
 import Plans from '../../stories/Plans';
 
 
-const WithoutRegister = () => (
+const WithoutRegister = ({ history, location }) => (
   <div>
-    <RegisterBar />
+    <RegisterBar history={history} location={location} />
     <BannerWithoutRegister />
     <FeaturesWithoutRegister />
     <Plans />

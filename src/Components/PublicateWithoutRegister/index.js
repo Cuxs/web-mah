@@ -6,8 +6,6 @@ import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
 
 import AdminBar from '../../stories/AdminBar';
 
-import style from '../../Styles/register';
-
 
 const CreatePublication = ({ history }) => (
   <div>

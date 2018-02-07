@@ -6,8 +6,6 @@ import { Col, Row, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 're
 
 import AdminBar from '../../stories/AdminBar';
 
-import style from '../../Styles/register';
-
 class StepFour extends React.Component {
   constructor(props) {
     super(props);
