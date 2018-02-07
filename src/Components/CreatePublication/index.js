@@ -15,7 +15,15 @@ import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../Apol
 import { prepareArraySelect } from '../../Modules/functions';
 
 import style from '../../Styles/register';
+import LoginComponent from '../../stories/LoginComponent';
+import { branch, renderComponent } from 'recompose';
+import { isUserLogged } from '../../Modules/sessionFunctions';
 
+const renderForUnloggedUser = (component, propName = 'data') =>
+  branch(
+    props => !isUserLogged(),
+    renderComponent(component),
+  );
 
 class CreatePublication extends React.Component {
   constructor(props) {
@@ -303,7 +311,10 @@ const WithAllBrands = graphql(AllBrandsQuery, {
 });
 
 
-const withData = compose(WithAllBrands);
+const withData = compose(
+  WithAllBrands,
+  renderForUnloggedUser(LoginComponent, 'userProfile'),
+);
 
 export default withApollo(withData(CreatePublication));
 
