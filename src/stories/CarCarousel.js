@@ -59,6 +59,7 @@ export default class CarResult extends Component {
       <div>
         <div className="car-container">
           <Carousel
+            pauser={['hover', false]}
             activeIndex={activeIndex}
             next={this.next}
             previous={this.previous}

@@ -4,9 +4,9 @@ import Footer from '../stories/Footer';
 import RegisterBar from '../stories/RegisterBar';
 /* eslint react/jsx-filename-extension: 0 */
 
-export default () => (
+export default ({ location, history }) => (
   <div>
-    <RegisterBar />
+    <RegisterBar location={location} history={history} />
     <Row>
       <Col md={4} />
       <Col md={4} sm={4} xs={12}>
