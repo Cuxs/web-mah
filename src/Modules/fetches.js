@@ -29,6 +29,26 @@ export const login = (email, password) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+export const loginAdmin = (email, password) => {
+  const url = `${server}/loginAdmin`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      password,
+    }),
+  };
+
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (_.isUndefined(responseData.status) || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
 export const recoverPassword = (email) => {
   const url = `${server}/recoverPass`;
   const options = {

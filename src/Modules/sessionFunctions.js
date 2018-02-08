@@ -7,6 +7,15 @@ const isUserLogged = () => {
   }
   return false;
 };
+const isAdminLogged = () => {
+  if (loadState()) {
+    if (decode(loadState().login.MAHtoken).userType === 'Admin') {
+      return true;
+    }
+    return false;
+  }
+  return false;
+};
 const getUserDataFromToken = () => {
   if (loadState()) {
     if (loadState().login.MAHtoken) {
@@ -19,5 +28,5 @@ const clearSession = () => {
   localStorage.clear();
 };
 const getUserToken = () => (loadState() ? loadState().login.MAHtoken : null);
-export { isUserLogged, getUserDataFromToken, clearSession, getUserToken };
+export { isUserLogged, getUserDataFromToken, clearSession, getUserToken, isAdminLogged };
 

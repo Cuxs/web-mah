@@ -265,7 +265,7 @@ class SearchCars extends Component {
                 pageStart={0}
                 loadMore={this.doSearch}
                 hasMore={this.state.renderedData < this.state.totalResults}
-                loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                loader={<img className="loading-gif" src="/loading.gif" key={0} alt="Loading..." />}
               >
                 {this.renderData()}
               </InfiniteScroll>

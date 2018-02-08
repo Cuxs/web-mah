@@ -84,6 +84,7 @@ class Inbox extends Component {
             <Button type="secondary" onClick={() => history.goBack()} >{'< Volver a Bandeja de Entrada'}</Button>
             {(ThreadsQuery.loading || messagesData.loading) ?
               <img
+                className="loading-gif"
                 style={{ height: '250px' }}
                 src="/loading.gif"
                 key={0}

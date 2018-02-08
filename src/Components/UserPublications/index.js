@@ -17,19 +17,11 @@ import NumberOfResult from '../../stories/NumberOfResult';
 import { getUserToken, isUserLogged } from '../../Modules/sessionFunctions';
 import { SearchUserPublicationQuery } from '../../ApolloQueries/UserPublicationsQuery';
 
-import style from '../../Styles/pledgeCredits';
 import LoginComponent from '../../stories/LoginComponent';
-import LoadingComponent from '../../stories/LoadingComponent';
 
-
-const renderWhileLoading = (component, propName = 'data') =>
-  branch(
-    props => props[propName] && props[propName].loading,
-    renderComponent(component),
-  );
 const renderUnloggedUser = (component, propName = 'data') =>
   branch(
-    props => !isUserLogged(),
+    () => !isUserLogged(),
     renderComponent(component),
   );
 
@@ -127,12 +119,12 @@ class UserPublications extends React.Component {
     const {
       publications, totalCount,
     } = this.state;
-    if (totalCount === 0) {
-      return 'No hay resultados, pruebe con otros filtros';
-    }
     const items = [];
     publications.map(pub => (
       items.push(<CardPublication location={this.props.location} data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
+    if (hasNextPage === false) {
+      items.push(<p>No hay más publicaciones que mostrar</p>);
+    }
     return items;
   }
   render() {
@@ -154,12 +146,12 @@ class UserPublications extends React.Component {
                 <div className="col-12">
                   <FlipMove duration={1000} appearAnimation="fade">
                     <InfiniteScroll
+                      initialLoad
                       pageStart={0}
                       loadMore={this.doSearch}
-                      hasMore={this.state.renderedData < this.state.totalCount}
+                      hasMore={this.state.hasNextPage}
                       loader={<img src="/loading.gif" key={0} alt="Loading..." />}
                     >
-
                       {this.renderData()}
                     </InfiniteScroll>
                   </FlipMove>
@@ -197,7 +189,6 @@ const withPublicationsPerPage = graphql(SearchUserPublicationQuery, {
 });
 const withData = compose(
   withPublicationsPerPage,
-  renderWhileLoading(LoadingComponent, 'PubsPerPage'),
   renderUnloggedUser(LoginComponent, 'PubsPerPage'),
 );
 

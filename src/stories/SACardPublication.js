@@ -23,7 +23,12 @@ const SACardPublication = ({ onHighlight, data, data: { CurrentState: { stateNam
     <div className="row item-car wide" >
       <div className="col-4">
         <div className="row">
-          <img src={photoGaleryParser(data.ImageGroup)[0].src} alt="banner" width="100%" />
+          <img
+            src={photoGaleryParser(data.ImageGroup)[0].src}
+            alt="banner"
+            width="100%"
+            height="100%"
+          />
         </div>
       </div>
       <div className="col-8">

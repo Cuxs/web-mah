@@ -11,7 +11,7 @@ import AdminBar from '../../stories/AdminBar';
 import SuperAdminFilter from '../../stories/SuperAdminFilter';
 import SuperAdminSideBar from '../../stories/SuperAdminSideBar';
 import SACardPublication from '../../stories/SACardPublication';
-import { getUserToken } from '../../Modules/sessionFunctions';
+import { isAdminLogged } from '../../Modules/sessionFunctions';
 import { SearchUserPublicationQuery } from '../../ApolloQueries/UserPublicationsQuery';
 
 class SuperAdminPublications extends React.Component {
@@ -30,7 +30,10 @@ class SuperAdminPublications extends React.Component {
   }
 
   componentWillMount() {
-    this.props.PubsPerPage()
+    if (!isAdminLogged()) {
+      this.props.history.push('/loginAdmin');
+    }
+    return this.props.PubsPerPage()
       .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
         const existingPubs = this.state.publications;
         Publications.map((pub) => {
@@ -60,7 +63,6 @@ class SuperAdminPublications extends React.Component {
     }
     this.props.PubsPerPage({
       variables: {
-        MAHtoken: getUserToken(),
         state: qs.parse(location.search).stateName,
         carState: qs.parse(location.search).carState,
         page,
@@ -102,9 +104,6 @@ class SuperAdminPublications extends React.Component {
       hasNextPage,
     } = this.state;
 
-    if (hasNextPage === false) {
-      return <p>No hay más publicaciones que mostrar</p>;
-    }
     if (this.state.loading) {
       return <p>Cargando...</p>;
     }
@@ -117,6 +116,9 @@ class SuperAdminPublications extends React.Component {
     const items = [];
     publications.map(pub => (
       items.push(<SACardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
+    if (hasNextPage === false) {
+      items.push(<p>No hay más publicaciones que mostrar</p>);
+    }
     return items;
   }
 
@@ -135,9 +137,10 @@ class SuperAdminPublications extends React.Component {
                 <div className="col-12">
                   <InfiniteScroll
                     pageStart={0}
+                    initialLoad={false}
                     loadMore={this.doSearch}
                     hasMore={this.state.renderedData < this.state.totalCount}
-                    loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                    loader={<img className="loading-gif" src="/loading.gif" key={0} alt="Loading..." />}
                   >
                     {this.renderData()}
                   </InfiniteScroll>
@@ -164,7 +167,6 @@ class SuperAdminPublications extends React.Component {
 
 const options = ({ location }) => ({
   variables: {
-    MAHtoken: getUserToken(),
     state: qs.parse(location.search).stateName,
     carState: qs.parse(location.search).carState,
     page: 1,

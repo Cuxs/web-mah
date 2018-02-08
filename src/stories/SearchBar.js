@@ -30,6 +30,7 @@ import {
   isUserLogged,
   getUserDataFromToken,
   clearSession,
+  isAdminLogged,
 } from '../Modules/sessionFunctions';
 import NotificationModal from '../stories/NotificationModal';
 import parseError from '../Modules/errorParser';
@@ -256,6 +257,12 @@ class SearchBar extends Component {
                           onClick={() => (this.props.history.push('/userAdmin'))}
                         >Mi cuenta
                         </DropdownItem>
+                        {isAdminLogged() &&
+                        <DropdownItem
+                          value="myAccount"
+                          onClick={() => (this.props.history.push('/superAdmin'))}
+                        >Administrador
+                        </DropdownItem>}
                         <DropdownItem value="closeSession" onClick={() => { clearSession(); this.setState({ isUserLogged: false }); }}>Cerrar Sesión</DropdownItem>
                       </DropdownMenu>
                     </ButtonDropdown>

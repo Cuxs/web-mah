@@ -144,6 +144,7 @@ class UserAdmin extends React.Component {
                       <div className="row">
                         {unreadMessages.loading ? (
                           <img
+                            className="loading-gif"
                             style={{ height: '70px' }}
                             src="/loading.gif"
                             key={0}
@@ -175,7 +176,7 @@ class UserAdmin extends React.Component {
                       <div className="row">
                         {activePub.loading ? (
                           <img
-                            style={{ height: '70px' }}
+                            className="loading-gif"
                             src="/loading.gif"
                             key={0}
                             alt="Loading..."
@@ -203,7 +204,7 @@ class UserAdmin extends React.Component {
                       <div className="row">
                         {activePub.loading ? (
                           <img
-                            style={{ height: '70px' }}
+                            className="loading-gif"
                             src="/loading.gif"
                             key={0}
                             alt="Loading..."

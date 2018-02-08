@@ -86,14 +86,14 @@ class AdminFilter extends Component {
                   <DropdownItem header>Elije una</DropdownItem>
                   <DropdownItem onClick={(e) => { this.changeStateValue(e); }}>Todas</DropdownItem >
                   <DropdownItem onClick={(e) => { this.changeStateValue(e); }}>Pendiente</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Publicada </DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Destacada </DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Suspendida </DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Vendida </DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Archivada </DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Eliminada </DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Vencida </DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Apto para garantía </DropdownItem >
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Publicada</DropdownItem >
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Destacada</DropdownItem >
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Suspendida</DropdownItem >
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Vendida</DropdownItem >
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Archivada</DropdownItem >
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Eliminada</DropdownItem >
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Vencida</DropdownItem >
+                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Apto para garantía</DropdownItem >
                 </DropdownMenu>
               </Dropdown>
             </div>

@@ -5,6 +5,7 @@ import {
   Route,
   Link,
   Switch,
+  Redirect,
 } from 'react-router-dom';
 import Home from './Components/Home';
 import AgencyMicrosite from './Components/AgencyMicrosite';
@@ -44,6 +45,7 @@ import UserRegisterStepThree from './Components/UserRegister/StepThree';
 import WithoutRegister from './Components/WithoutRegister';
 import _404page from './stories/404page';
 import LoginComponent from './stories/LoginComponent';
+
 
 const About = () => (
   <div>
@@ -134,7 +136,8 @@ const App = () => (
         <Route exact path="/userRegisterS2" component={UserRegisterStepTwo} />
         <Route exact path="/userRegisterS3" component={UserRegisterStepThree} />
         <Route exact path="/withoutRegister" component={WithoutRegister} />
-        
+        <Redirect from="/superadmin" to="/superAdminPublications" />
+        <Redirect from="/loginAdmin" to={{ pathname: '/login', state: 'isAdmin' }} />
         <Route exact path="/login" component={LoginComponent} />
         <Route component={_404page} />
       </Switch>

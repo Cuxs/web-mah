@@ -49,6 +49,7 @@ class UserInbox extends Component {
             <Col md="9" className="mt-4">
               {loadingComments ? (
                 <img
+                  className="loading-gif"
                   style={{ height: '400px' }}
                   src="/loading.gif"
                   key={0}

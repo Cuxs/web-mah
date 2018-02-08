@@ -106,7 +106,7 @@ class SuperAdminPublications extends React.Component {
                     pageStart={0}
                     loadMore={this.doSearch}
                     hasMore={this.state.renderedData < this.state.totalCount}
-                    loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                    loader={<img src="/loading.gif" className="loading-gif" key={0} alt="Loading..." />}
                   >
                     <Row>
                       {this.renderData()}
