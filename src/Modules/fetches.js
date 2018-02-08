@@ -109,6 +109,9 @@ export const createPublication = (dataPublication, {imageGroup}) => {
     },
     body: formData,
   };
+  if (!token) {
+    delete options.headers.Authorization;
+  }
   return fetch(url, options)
     .then(response => response.json())
     .then(responseData =>

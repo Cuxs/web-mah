@@ -24,7 +24,7 @@ class StepThree extends React.Component {
             <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-8 float-right">
                 <div className="text-block">
-                  <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
+                  <h4 className="title-division-primary">Creá tu cuenta como Concesionario!</h4>
                   <p>Registrate en muy pocos pasos</p>
                 </div>
 
@@ -37,13 +37,13 @@ class StepThree extends React.Component {
 
                   <div className="step done">
                     <h6>PASO 2</h6>
-                    <h4>Contanos sobre tu concessionaria</h4>
+                    <h4>Contanos sobre tu Concesionario</h4>
                     <a className="link">Modificar datos</a>
                   </div>
 
                   <div className="step">
                     <h6>PASO 3</h6>
-                    <h4>Información del responsable de la concessionaria</h4>
+                    <h4>Información del responsable de la Concesionario</h4>
                     <a className="link">Modificar datos</a>
                   </div>
 
@@ -57,7 +57,7 @@ class StepThree extends React.Component {
             </Col>
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left pb-4">
-                <h4 className="title-division">Información del dueño o responsable de la concessionaria </h4>
+                <h4 className="title-division">Información del dueño o responsable del Concesionario </h4>
                 <FormGroup>
                   <Label for="exampleEmail">Nombre y Apellido</Label>
                   <Input type="text" name="name" id="exampleEmail" />
