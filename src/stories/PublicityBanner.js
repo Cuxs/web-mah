@@ -5,11 +5,9 @@ import { Col, Row } from 'reactstrap';
 export default () => (
   <Col md="12">
     <Row className="publicityBanner align-items-center">
-      <div className="col-10">Comprá tu auto aquí y te financiamos hasta el 60%. <a href="/form"></a> </div>
-      <div className="col-2"><a href="/form"><img src="/assets/images/icon-arrow-right.svg" /></a></div>
+      <div className="col-10">Comprá tu auto aquí y te financiamos hasta el 60%. <a href="/form" /> </div>
+      <div className="col-2"><a href="/form"><img src="/assets/images/icon-arrow-right.svg" alt="Ir al formulario" /></a></div>
     </Row>
   </Col>
 );
-
-
 

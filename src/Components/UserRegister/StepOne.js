@@ -5,7 +5,6 @@ import React from 'react';
 import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
 
 import RegisterBar from '../../stories/RegisterBar';
-import style from '../../Styles/register';
 
 const StepOne = ({ data }) => (
   <div>
