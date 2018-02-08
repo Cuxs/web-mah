@@ -24,7 +24,7 @@ class StepOne extends React.Component {
             <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-9 float-right">
                 <div className="text-block">
-                  <h4 className="title-division-primary">Creá tu cuenta como Particular!</h4>
+                  <h4 className="title-division-primary">Creá tu cuenta como Concesionario!</h4>
                   <p>Registrate en muy pocos pasos</p>
                 </div>
 
@@ -37,13 +37,13 @@ class StepOne extends React.Component {
 
                   <div className="step disable">
                     <h6>PASO 2</h6>
-                    <h4>Contanos sobre tu concessionaria</h4>
+                    <h4>Contanos sobre tu Concesionario</h4>
                     <a className="link">Modificar datos</a>
                   </div>
 
                   <div className="step disable">
                     <h6>PASO 3</h6>
-                    <h4>Información del responsable de la concessionaria</h4>
+                    <h4>Información del responsable de la Concesionario</h4>
                     <a className="link">Modificar datos</a>
                   </div>
 
@@ -79,7 +79,6 @@ class StepOne extends React.Component {
                 </FormGroup>
                 <div>
                   <div className="underline" />
-                  <Button color="default" className="float-left" onClick={() => this.props.history.push('/agencyRegisterS1')} >Volver</Button>
                   <Button color="primary" className="float-right" onClick={() => this.props.history.push('/agencyRegisterS2')} >Siguiente</Button>
                 </div>
               </div>

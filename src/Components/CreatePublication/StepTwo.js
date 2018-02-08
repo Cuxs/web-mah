@@ -10,9 +10,6 @@ import ImageCrop from '../../stories/ImageCrop';
 import { createPublication } from '../../Modules/fetches';
 
 
-import style from '../../Styles/register';
-
-
 class CreatePublication extends Component {
   constructor(props) {
     super(props);
@@ -179,7 +176,6 @@ class CreatePublication extends Component {
                     <h4>Mostralo con fotos</h4>
                     <p className="info">* Mínimo 3 fotos</p>
                   </div>
-                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.createPub()} >Publicar</Button>
                 </div>
               </div>
             </Col>
@@ -232,14 +228,15 @@ class CreatePublication extends Component {
                   />
                 </div>
                 <div className="underline" />
-                <div>
-                  <Button color="secondary" onClick={() => this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`)}>Volver</Button>
+                <div style={{ width: '100%' }} className="d-flex justify-content-between align-items-center" >
+                  <Button color="default" onClick={() => this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`)}>Volver</Button>
+                  <Button color="primary" disabled={this.disabled()} onClick={() => this.createPub()} >Publicar</Button>
                 </div>
               </div>
               <Modal isOpen={this.state.modal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggleModal}>{this.state.responseTitle}</ModalHeader>
                 <ModalBody>
-                  <h5>{this.state.responseMsg}</h5>
+                  <div className="col-md-6 offset-md-3">{this.state.responseMsg}</div>
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={() => this.props.history.push('/userPublications')} >OK</Button>
