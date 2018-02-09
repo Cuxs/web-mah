@@ -5,7 +5,9 @@ import _ from 'lodash';
 import { thousands } from '../Modules/functions';
 /* eslint react/jsx-filename-extension: 0 */
 
-const CardMessagge = ({ data, data: { Publication }, data: { Publication: { ImageGroup }, messages } }) => {
+const CardMessagge = ({
+  admin, data, data: { Publication }, data: { Publication: { ImageGroup }, messages },
+}) => {
   let unreadMessages = false;
   messages.map((msg) => {
     if (!msg.read) {
@@ -13,18 +15,28 @@ const CardMessagge = ({ data, data: { Publication }, data: { Publication: { Imag
     }
   });
   return (
-    <div className="d-flex flex-row card" >
-      {unreadMessages && <p> UNREAD </p>}
-      <img src={`${process.env.REACT_APP_API}/images/${ImageGroup.image1}`} style={{ width: '100px' }}alt="banner" />
-      <div className="info-container">
-        <div className="d-flex flex-row justify-content-between" >
-          <div className="d-flex flex-column align-items-end" >
-            <h6>{moment(_.last(messages).createdAt).format('DD/MM/YYYY hh:mm')}</h6>
-            <h6><b>{Publication.brand} {Publication.modelName}</b> {Publication.year} - {thousands(Publication.kms, 0, ',', '.')}km</h6>
-            <h4>$ {thousands(Publication.price, 2, ',', '.')}</h4>
-            <h6>Ultimo mensaje: {_.truncate((_.last(messages).content), { length: 40 })}</h6>
+    <div className="list-message">
+      <div className="row">
+        <div className="col-3">
+          <img className="loading-gif" src={`${process.env.REACT_APP_API}/images/${ImageGroup.image1}`} style={{ width: '100%' }}alt="banner" />
+        </div>
+        <div className="col-9">
+          <div className="row align-items-center">
+            <div className="col-9">
+              <p className="context-item" >{moment(_.last(messages).createdAt).format('DD/MM/YYYY hh:mm')}</p>
+
+              <h4><b>{Publication.brand} {Publication.modelName}</b></h4>
+              <p> {Publication.year} - {thousands(Publication.kms, 0, ',', '.')}km</p>
+              <small>$ {thousands(Publication.price, 2, ',', '.')}</small>
+              <p>Ultimo mensaje: {_.truncate((_.last(messages).content), { length: 40 })}</p>
+            </div>
+            <div className="col-3 text-center">
+              <a href={`/inbox?ct_id=${data.id}`}className="btn btn-link-primary">
+                <img src={unreadMessages ? '/assets/images/icon-envelop-red.svg' : '/assets/images/icon-envelop2-red.svg'} alt="" />
+                {admin ? 'Ver' : 'Responder'}
+              </a>
+            </div>
           </div>
-          <Button type="secondary" href={`/inbox?ct_id=${data.id}`} >Responder</Button>
         </div>
       </div>
       <style jsx>{
