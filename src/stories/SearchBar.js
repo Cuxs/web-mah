@@ -218,12 +218,12 @@ class SearchBar extends Component {
               <Col lg="auto" sm="2" xs="2">
                 <Row>
                   <Button
+                    color="primary"
                     style={{ cursor: 'pointer' }}
-                    className="icon is-small"
+                    className="icon is-small btn-icon"
                     onClick={() => {
                       this.submitSearch();
                     }}
-                    className="icon is-small btn-icon"
                   >
                     <img src="/assets/images/icon-search.svg" alt="" />
                   </Button>
@@ -232,7 +232,7 @@ class SearchBar extends Component {
               <div className="w-100 d-block d-lg-none" />
               <Col lg="auto">
                 <Row>
-                  <Button color="primary" className="ml-4" href="/pledgeCredits" > Solicitá tu crédito</Button>
+                  <Button color="secondary" className="ml-4" href="/pledgeCredits" > Solicitá tu crédito</Button>
                 </Row>
               </Col>
               <div className="w-100 d-block d-lg-none" />

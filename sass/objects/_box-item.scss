@@ -27,7 +27,7 @@
             color:$white;
             padding: 5px 10px;
             &.sold{
-              background-color: #FBD134;
+              background-color: rgba(42, 59, 89, 0.8);
             }
           }
         }
@@ -79,16 +79,16 @@
             min-width: 100px;
             padding: 5px 10px;
             &.published{
-              background-color: #48D2A0;
+              background-color: rgba(72, 210, 160, 0.8);
             }
             &.pending{
-              background-color: #358ED7;
+              background-color: rgba(53, 142, 215, 0.8);
             }
             &.sold{
-              background-color: #FBD134;
+              background-color: rgba(42, 59, 89, 0.8);
             }
             &.highlighted{
-              background-color: #be0015;
+              background-color: rgba(190, 0, 21, 0.8);
             }
           }
           &.item-name strong, &.item-price strong{

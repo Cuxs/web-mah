@@ -1,0 +1,18 @@
+.simulator-container{
+  background-color: #fafafa;
+  padding: 20px;
+  border: solid 1px $gray-300;
+  border-radius: 4px;
+  margin-bottom: 30px;
+}
+.price-container {
+  padding-top: 45px;
+  h2{
+    color: $secondary;
+  }
+}
+.small-letter {
+  font-size: 12px;
+  margin-bottom: 0px;
+  line-height: 2;
+}

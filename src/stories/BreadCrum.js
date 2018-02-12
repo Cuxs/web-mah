@@ -1,18 +1,11 @@
 import React from 'react';
-import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Breadcrumb } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
 export default (props) => {
-  const url = new URL(props.url).pathname;
-  const rute = url.split('/');
   return (
     <div>
-      <Breadcrumb>
-        {rute.map(row => (
-          <BreadcrumbItem>{row}</BreadcrumbItem>
-        ))
-        }
-      </Breadcrumb>
+      <Breadcrumb><a href="/">{'< VOLVER'}</a></Breadcrumb>
     </div>
   );
 };

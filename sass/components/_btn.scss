@@ -27,6 +27,13 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
+  .btn-secondary:not([disabled]):not(.disabled):active, .btn-secondary:not([disabled]):not(.disabled).active, .show>.btn-secondary.dropdown-toggle {    background-color: transparent !important;
+    color: $primary;
+    background-color: transparent !important;
+  }
+  .btn-secondary:focus, .btn-secondary.focus {
+    box-shadow: none !important;
+  }
 
   // LINK
   &.btn-link{
@@ -36,10 +43,10 @@
     color:$secondary;
     line-height: 30px;
     &-active{
-      border:none;
-      background:none;
+      border:none !important;
+      background:none !important;
       font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
-      color:$primary;
+      color:$primary !important;
       border-right: solid 1px $gray-300;
     }
   }
