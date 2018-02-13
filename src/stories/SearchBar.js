@@ -260,7 +260,7 @@ class SearchBar extends Component {
                         {isAdminLogged() &&
                         <DropdownItem
                           value="myAccount"
-                          onClick={() => (this.props.history.push('/superAdmin'))}
+                          onClick={() => (this.props.history.push('/admin'))}
                         >Administrador
                         </DropdownItem>}
                         <DropdownItem value="closeSession" onClick={() => { clearSession(); this.setState({ isUserLogged: false }); }}>Cerrar Sesión</DropdownItem>

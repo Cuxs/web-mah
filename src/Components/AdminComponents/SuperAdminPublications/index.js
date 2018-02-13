@@ -7,6 +7,8 @@ import qs from 'query-string';
 import { graphql, compose } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
+import { animateScroll as scroll } from 'react-scroll';
+
 
 import AdminBar from '../../../stories/AdminBar';
 import SuperAdminFilter from '../../../stories/SuperAdminFilter';
@@ -31,6 +33,7 @@ class SuperAdminPublications extends React.Component {
   }
 
   componentWillMount() {
+    scroll.scrollTo(100, { duration: 2000 });
     if (!isAdminLogged()) {
       this.props.history.push('/loginAdmin');
     }
@@ -53,8 +56,11 @@ class SuperAdminPublications extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.setState({});
     if (nextProps.location.search !== this.props.location.search) {
-      this.doSearch(1, true, nextProps);
+      this.setState({}, () => {
+        this.doSearch(1, true, nextProps);
+      });
     }
   }
 
@@ -127,7 +133,7 @@ class SuperAdminPublications extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ height: '1000px' }}>
         <AdminBar history={this.props.history} />
         <div className="container-fluid">
           <Row>

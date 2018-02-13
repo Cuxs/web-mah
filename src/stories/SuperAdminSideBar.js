@@ -27,7 +27,10 @@ class SuperAdminSideBar extends React.Component {
             <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/superAdminPublications' ? 'active' : ''} onClick={() => history.push('/superAdminPublications')} >Publicaciones</Button>
           </li>
           <li>
-            <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/superAdminInbox' ? 'active' : ''} onClick={() => history.push('/superAdminInbox')} >Mensajes</Button>
+            <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/superAdminInbox' ? 'active' : ''} onClick={() => history.push('/superAdminInbox')} >Mensajes Directos</Button>
+          </li>
+          <li>
+            <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/superAdminAllMessages' ? 'active' : ''} onClick={() => history.push('/superAdminAllMessages')} >Todos los mensajes</Button>
           </li>
           <li>
             <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/superAdminUsers' ? 'active' : ''} onClick={() => history.push('/superAdminUsers')} >Usuarios</Button>

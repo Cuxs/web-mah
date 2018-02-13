@@ -52,7 +52,7 @@ class UserPublications extends React.Component {
         Publications.map((pub) => {
           existingPubs.push(pub);
         });
-        existingPubs = _.uniqBy(existingPubs, 'id');        
+        existingPubs = _.uniqBy(existingPubs, 'id');
         this.setState({
           publications: existingPubs,
           hasNextPage,
@@ -64,10 +64,11 @@ class UserPublications extends React.Component {
       .catch(err => console.log(err));
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({});
     scroll.scrollTo(100, { duration: 1000 });
     if (nextProps.location.search !== this.props.location.search) {
-      this.doSearch(1, true, nextProps);
+      this.setState({}, () => {
+        this.doSearch(1, true, nextProps);
+      });
     }
   }
   doSearch(page, newSearch, nextProps) {
@@ -88,7 +89,7 @@ class UserPublications extends React.Component {
         Publications.map((pub) => {
           existingPubs.push(pub);
         });
-        existingPubs = _.uniqBy(existingPubs, 'id');        
+        existingPubs = _.uniqBy(existingPubs, 'id');
         if (newSearch) {
           this.setState({
             publications: Publications,
@@ -129,7 +130,7 @@ class UserPublications extends React.Component {
     const items = publications.map(pub => (
       (<CardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
     if (hasNextPage === false) {
-      return (<p>No hay más publicaciones que mostrar</p>);
+      items.push(<p>No hay más publicaciones que mostrar</p>);
     }
     return items;
   }

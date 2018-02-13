@@ -11,26 +11,20 @@ import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
 import CardMessagge from '../../../stories/CardMessagge';
 import NumberOfUnreads from '../../../stories/NumberOfUnreads';
 
-import style from '../../../Styles/pledgeCredits';
-import {
-  CommentThreadQuery,
-  CountUnreadMessagesQuery,
-  CommentThreadSubscription,
-} from '../../../ApolloQueries/UserInboxQuery';
-import { getUserToken } from '../../../Modules/sessionFunctions';
+import { AdminAllCommentThreads } from '../../../ApolloQueries/SuperAdminAllMessages';
+import { getUserToken, isAdminLogged } from '../../../Modules/sessionFunctions';
 
-class SuperAdminInbox extends Component {
+class SuperAdminAllMessages extends Component {
   componentWillMount() {
-    this.props.subscribeToNewThreads({
-      MAHtoken: getUserToken(),
-    });
+    if (!isAdminLogged()) {
+      this.props.history.push('/loginAdmin');
+    }
   }
   render() {
     const {
       history,
       location,
-      unreadMessagesData: { loading, CountUnreadMessages },
-      commentThreadData: { CommentThread: Threads, loading: loadingComments },
+      commentThreadData: { AdminCommentThread: Threads, loading: loadingComments },
     } = this.props;
     let sortedThreads = [];
     /* sortedThreads = _.orderBy(Threads, ['updatedAt'], ['desc']); */
@@ -57,10 +51,10 @@ class SuperAdminInbox extends Component {
                 />
               ) : (
                 <div className="cont-list-messages">
-                  {!loading && (
+                  {!loadingComments && (
                   <NumberOfUnreads
-                    results={CountUnreadMessages[0]}
                     totalMsg={Threads.length}
+                    admin
                   />
                   )}
                   {sortedThreads.map(thr => <CardMessagge data={thr} admin />)}
@@ -77,41 +71,14 @@ class SuperAdminInbox extends Component {
 const options = () => ({
   variables: {
     MAHtoken: getUserToken(),
-    MAHtokenP2: getUserToken(),
   },
 });
 
-const withUnreadMessagesQuantity = graphql(CountUnreadMessagesQuery, {
-  name: 'unreadMessagesData',
-  options,
-});
-const withCommentThread = graphql(CommentThreadQuery, {
+const withCommentThread = graphql(AdminAllCommentThreads, {
   name: 'commentThreadData',
   options,
 });
-const withThreadSubscription = graphql(CommentThreadQuery, {
-  name: 'threadSubscriptions',
-  options,
-  props: props => ({
-    subscribeToNewThreads: params =>
-      props.threadSubscriptions.subscribeToMore({
-        document: CommentThreadSubscription,
-        variables: {
-          MAHtoken: params.MAHtoken,
-        },
-        updateQuery: (prev, { subscriptionData }) => {
-          if (!subscriptionData.data) {
-            return prev;
-          }
-          const newFeedItem = subscriptionData.data.threadAdded;
-          return Object.assign({}, prev, {
-            CommentThread: [...prev.CommentThread, newFeedItem],
-          });
-        },
-      }),
-  }),
-});
 
-const withData = compose(withUnreadMessagesQuantity, withCommentThread, withThreadSubscription);
+const withData = compose(withCommentThread);
 
-export default withData(SuperAdminInbox);
+export default withData(SuperAdminAllMessages);

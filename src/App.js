@@ -1,5 +1,5 @@
 /* eslint react/jsx-filename-extension: 0 */
-import React from 'react';
+import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -43,6 +43,8 @@ import UserRegisterStepOne from './Components/GeneralComponents/UserRegister/Ste
 import UserRegisterStepTwo from './Components/GeneralComponents/UserRegister/StepTwo';
 import UserRegisterStepThree from './Components/GeneralComponents/UserRegister/StepThree';
 import WithoutRegister from './Components/GeneralComponents/WithoutRegister';
+import SuperAdminAllMessages from './Components/AdminComponents/SuperAdminAllMessages';
+
 import _404page from './stories/404page';
 import LoginComponent from './stories/LoginComponent';
 
@@ -91,57 +93,65 @@ const Topics = ({ match }) => (
   </div>
 );
 
-const App = () => (
-  <Router>
-    <div>
-      {/*     <ul>
+class App extends Component {
+  componentDidMount() {
+
+  }
+  render() {
+    return (
+      <Router>
+        <div>
+          {/*     <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
         <li><Link to="/topics">Topics</Link></li>
       </ul> */}
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/searchCars" component={SearchCars} />
-        <Route exact path="/agencyMicrosite" component={AgencyMicrosite} />
-        <Route exact path="/agencyRegister" component={AgencyRegister} />
-        <Route exact path="/agencyRegisterS1" component={AgencyRegisterStepOne} />
-        <Route exact path="/agencyRegisterS2" component={AgencyRegisterStepTwo} />
-        <Route exact path="/agencyRegisterS3" component={AgencyRegisterStepThree} />
-        <Route exact path="/carDetail" component={CarDetail} />
-        <Route exact path="/createPublication" component={CreatePublication} />
-        <Route exact path="/createPublicationS1" component={CreatePublicationStepOne} />
-        <Route exact path="/createPublicationS2" component={CreatePublicationStepTwo} />
-        <Route exact path="/createPublicationS3" component={CreatePublicationStepThree} />
-        <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
-        <Route exact path="/friendlyAgency" component={FriendlyAgency} />
-        <Route exact path="/inbox" component={Inbox} />
-        <Route exact path="/microsite" component={Microsite} />
-        <Route exact path="/pledgeCredits" component={PledgeCredits} />
-        <Route exact path="/personalShopperS1" component={PersonalShopper} />
-        <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
-        <Route exact path="/publicateWithoutRegister" component={PublicateWithoutRegister} />
-        <Route exact path="/publicateWithoutRegisterS1" component={PublicateWithoutRegisterStepOne} />
-        <Route exact path="/publicateWithoutRegisterS2" component={PublicateWithoutRegisterStepTwo} />
-        <Route exact path="/publicateWithoutRegisterS3" component={PublicateWithoutRegisterStepThree} />
-        <Route exact path="/publicateWithoutRegisterS4" component={PublicateWithoutRegisterStepFour} />
-        <Route exact path="/superAdminPublications" component={SuperAdminPublications} />
-        <Route exact path="/superAdminInbox" component={SuperAdminInbox} />
-        <Route exact path="/superAdminUsers" component={SuperAdminUsers} />
-        <Route exact path="/userAdmin" component={UserAdmin} />
-        <Route exact path="/userPublications" component={UserPublications} />
-        <Route exact path="/userProfile" component={UserProfile} />
-        <Route exact path="/userInbox" component={UserInbox} />
-        <Route exact path="/userRegister" component={UserRegister} />
-        <Route exact path="/userRegisterS1" component={UserRegisterStepOne} />
-        <Route exact path="/userRegisterS2" component={UserRegisterStepTwo} />
-        <Route exact path="/userRegisterS3" component={UserRegisterStepThree} />
-        <Route exact path="/withoutRegister" component={WithoutRegister} />
-        <Redirect from="/superadmin" to="/superAdminPublications" />
-        <Redirect from="/loginAdmin" to={{ pathname: '/login', state: 'isAdmin' }} />
-        <Route exact path="/login" component={LoginComponent} />
-        <Route component={_404page} />
-      </Switch>
-    </div>
-  </Router>
-);
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/searchCars" component={SearchCars} />
+            <Route exact path="/agencyMicrosite" component={AgencyMicrosite} />
+            <Route exact path="/agencyRegister" component={AgencyRegister} />
+            <Route exact path="/agencyRegisterS1" component={AgencyRegisterStepOne} />
+            <Route exact path="/agencyRegisterS2" component={AgencyRegisterStepTwo} />
+            <Route exact path="/agencyRegisterS3" component={AgencyRegisterStepThree} />
+            <Route exact path="/carDetail" component={CarDetail} />
+            <Route exact path="/createPublication" component={CreatePublication} />
+            <Route exact path="/createPublicationS1" component={CreatePublicationStepOne} />
+            <Route exact path="/createPublicationS2" component={CreatePublicationStepTwo} />
+            <Route exact path="/createPublicationS3" component={CreatePublicationStepThree} />
+            <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
+            <Route exact path="/friendlyAgency" component={FriendlyAgency} />
+            <Route exact path="/inbox" component={Inbox} />
+            <Route exact path="/microsite" component={Microsite} />
+            <Route exact path="/pledgeCredits" component={PledgeCredits} />
+            <Route exact path="/personalShopperS1" component={PersonalShopper} />
+            <Route exact path="/personalShopperS2" component={PersonalShopperStepTwo} />
+            <Route exact path="/publicateWithoutRegister" component={PublicateWithoutRegister} />
+            <Route exact path="/publicateWithoutRegisterS1" component={PublicateWithoutRegisterStepOne} />
+            <Route exact path="/publicateWithoutRegisterS2" component={PublicateWithoutRegisterStepTwo} />
+            <Route exact path="/publicateWithoutRegisterS3" component={PublicateWithoutRegisterStepThree} />
+            <Route exact path="/publicateWithoutRegisterS4" component={PublicateWithoutRegisterStepFour} />
+            <Route exact path="/superAdminPublications" component={SuperAdminPublications} />
+            <Route exact path="/superAdminInbox" component={SuperAdminInbox} />
+            <Route exact path="/superAdminAllMessages" component={SuperAdminAllMessages} />
+            <Route exact path="/superAdminUsers" component={SuperAdminUsers} />
+            <Route exact path="/userAdmin" component={UserAdmin} />
+            <Route exact path="/userPublications" component={UserPublications} />
+            <Route exact path="/userProfile" component={UserProfile} />
+            <Route exact path="/userInbox" component={UserInbox} />
+            <Route exact path="/userRegister" component={UserRegister} />
+            <Route exact path="/userRegisterS1" component={UserRegisterStepOne} />
+            <Route exact path="/userRegisterS2" component={UserRegisterStepTwo} />
+            <Route exact path="/userRegisterS3" component={UserRegisterStepThree} />
+            <Route exact path="/withoutRegister" component={WithoutRegister} />
+            <Redirect from="/admin" to="/superAdminPublications" />
+            <Redirect from="/loginAdmin" to={{ pathname: '/login', state: 'isAdmin' }} />
+            <Route exact path="/login" component={LoginComponent} />
+            <Route component={_404page} />
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
+}
 export default App;
