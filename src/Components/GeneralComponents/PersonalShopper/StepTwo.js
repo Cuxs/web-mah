@@ -2,7 +2,8 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Col, Row, FormGroup, Input, Label, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { parse } from 'query-string';
 
 import SearchBar from '../../../stories/SearchBar';
 
@@ -22,6 +23,11 @@ class PersonalShopper extends React.Component {
       phone: '',
       messagge: '',
     };
+  }
+
+  componentWillMount() {
+    const search = parse(this.props.location.search);
+    console.log(search);
   }
 
   render() {
@@ -98,6 +104,15 @@ class PersonalShopper extends React.Component {
               </div>
             </Col>
           </Row>
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggleModal}>¡Felicitaciones!</ModalHeader>
+            <ModalBody>
+              <div className="col-md-6 offset-md-3">Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.</div>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={() => this.props.history.push('/')} >OK</Button>
+            </ModalFooter>
+          </Modal>
         </div>
         <style jsx>{style}</style>
       </div>

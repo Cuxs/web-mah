@@ -25,7 +25,7 @@ const Home = ({ data, history, location }) => (
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
         <Banner />
-        <CreditsBanner />
+        <CreditsBanner history={history} />
         <CarHomeContainer>
           {data.AllPublications.map(row => (
             <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} />))

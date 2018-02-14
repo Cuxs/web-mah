@@ -13,7 +13,6 @@ import SearchBar from '../../../stories/SearchBar';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery } from '../../../ApolloQueries/TautosQuery';
 import { prepareArraySelect } from '../../../Modules/functions';
-import style from '../../../Styles/pledgeCredits';
 
 
 class PersonalShopper extends React.Component {
@@ -64,6 +63,32 @@ class PersonalShopper extends React.Component {
 
   onChangeModel(newModel) {
     this.setState({ codia: newModel });
+  }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+
+  disabled() {
+    const {
+      kms, year, price, brand, group, codia,
+    } = this.state;
+    return !(kms !== '' && year !== '' && price !== '' && brand !== '' && group !== '' && codia !== '');
+  }
+
+  next() {
+    const dataCredit = {
+      kms: this.state.kms,
+      year: this.state.year,
+      price: this.state.price,
+      brand: this.state.brand,
+      group: this.state.group,
+      codia: this.state.codia,
+      observation: this.state.observation,
+    };
+    this.props.history.push(`/personalShopperS2?${stringify(dataCredit)}`);
   }
 
   render() {
@@ -197,12 +222,11 @@ class PersonalShopper extends React.Component {
                   <Label for="exampleText">Descripción</Label>
                   <Input type="textarea" value={this.state.observation} onChange={event => this.setState({ observation: event.target.value })} />
                 </FormGroup>
-                <Button color="primary" className="float-right" href="/personalShopperS2"> Siguiente</Button>
+                <Button color="primary" disabled={this.disabled()} onClick={() => this.next()} className="float-right"> Siguiente</Button>
               </div>
             </Col>
           </Row>
         </div>
-        <style jsx>{style}</style>
       </div>
     );
   }

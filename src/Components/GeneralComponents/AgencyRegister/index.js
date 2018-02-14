@@ -13,9 +13,9 @@ import Plans from '../../../stories/Plans';
 const Home = ({ history }) => (
   <div>
     <div>
-      <RegisterBar history={history} />
+      <RegisterBar history={history} onClickBenefits="#features" />
       <BannerRegister history={history} />
-      <FeaturesRegister />
+      <FeaturesRegister id="features" />
       <Plans history={history} />
       <Faq />
       <Footer history={history} />

@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Col, Row, FormGroup, Input, Label, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Slider from 'react-rangeslider';
 
 import SearchBar from '../../../stories/SearchBar';
@@ -21,11 +21,41 @@ class PledgeCredits extends React.Component {
       email: '',
       phone: '',
       messagge: '',
+      modal: false,
     };
+    this.toggle = this.toggle.bind(this);
   }
 
   handleOnChange(value) {
     this.setState({ volume: value });
+  }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+
+  disabled() {
+    const {
+      name, dni, address, ganancy, financyAmount, creditReason, email, phone,
+    } = this.state;
+    return !(name !== '' && dni !== '' && address !== '' && ganancy !== '' && financyAmount !== '' && creditReason !== '' && email !== '' && phone !== '');
+  }
+
+  requestCredit() {
+    const dataRequest = {
+      name: this.state.name,
+      dni: this.state.dni,
+      address: this.state.address,
+      ganancy: this.state.ganancy,
+      financyAmount: this.state.financyAmount,
+      creditReason: this.state.creditReason,
+      email: this.state.email,
+      phone: this.state.phone,
+      messagge: this.state.messagge,
+    };
+    console.log(dataRequest);
   }
 
   render() {
@@ -146,10 +176,19 @@ class PledgeCredits extends React.Component {
                   <Label for="exampleText">Mensaje</Label>
                   <Input type="textarea" value={this.state.messagge} onChange={event => this.setState({ messagge: event.target.value })} />
                 </FormGroup>
-                <Button color="primary"> Solicitá</Button>
+                <Button color="primary" className="float-right" disabled={this.disabled()} onClick={() => this.requestCredit()} > Solicitar</Button>
               </div>
             </Col>
           </Row>
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggleModal}>¡Felicitaciones!</ModalHeader>
+            <ModalBody>
+              <div className="col-md-6 offset-md-3">Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.</div>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={() => this.props.history.push('/')} >OK</Button>
+            </ModalFooter>
+          </Modal>
         </div>
       </div>
     );

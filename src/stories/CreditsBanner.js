@@ -17,7 +17,7 @@ const style = {
   },
 };
 
-export default () => (
+export default ({ history }) => (
   <div className="container-fluid">
     <Row className="home-posibilities">
       <Col md="4" sm="12" xs="12">
@@ -28,7 +28,7 @@ export default () => (
           <Col md="8" sm="9" xs="12">
             <h5>Créditos Prendarios </h5>
             <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
-            <Button color="primary"> Consultá</Button>
+            <Button color="primary" onClick={() => history.push('/pledgeCredits')} > Consultá</Button>
           </Col>
         </Row>
       </Col>
@@ -40,7 +40,7 @@ export default () => (
           <Col md="8" sm="9" xs="12">
             <h5>Personal Shopper </h5>
             <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
-            <Button color="primary"> Consultá</Button>
+            <Button color="primary" onClick={() => history.push('/personalShopperS1')} > Consultá</Button>
           </Col>
         </Row>
       </Col>
@@ -52,7 +52,7 @@ export default () => (
           <Col md="8" sm="9" xs="12">
             <h5>Créditos de libre destino</h5>
             <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
-            <Button color="primary"> Consultá</Button>
+            <Button color="primary" onClick={() => history.push('/freeDestinationCredits')} > Consultá</Button>
           </Col>
         </Row>
       </Col>
