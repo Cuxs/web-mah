@@ -31,6 +31,6 @@ export default ({ location, history }) => (
       </Col>
       <Col md={4} />
     </Row>
-    <Footer />
+    <Footer history={history} />
   </div>
 );

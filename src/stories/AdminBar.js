@@ -31,12 +31,11 @@ export default class AdminBar extends React.Component {
               </a>
             </Row>
           </Col>
-          <Col md="2" sm="3" xs="6">
+          <Col md="1" sm="3" xs="6" >
             <div>
               <ButtonDropdown
                 isOpen={this.state.dropdownUser}
                 toggle={this.toggle}
-                className="float-right"
                 style={{ width: 'auto' }}
               >
                 <DropdownToggle caret className="btn-link-active btn-block">{getUserDataFromToken().name}</DropdownToggle>

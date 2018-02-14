@@ -97,7 +97,7 @@ class CarDetail extends Component {
         <div className="container mb-4 mt-4">
           <Row>
             <Col md="8" sm="12" xs="12">
-              <BreadCrum url={window.location.href} />
+              <BreadCrum history={history} />
             </Col>
             <Col md="4" sm="12" xs="12">
               <PublicityBanner />
@@ -304,7 +304,7 @@ class CarDetail extends Component {
             )}
         </div>
         }
-        <Footer />
+        <Footer history={history}/>
       </div>
     );
   }

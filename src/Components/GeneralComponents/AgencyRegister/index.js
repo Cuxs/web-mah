@@ -18,7 +18,7 @@ const Home = ({ history }) => (
       <FeaturesRegister />
       <Plans history={history} />
       <Faq />
-      <Footer />
+      <Footer history={history} />
     </div>
   </div>
 );

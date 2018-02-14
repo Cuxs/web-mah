@@ -1,11 +1,11 @@
 import React from 'react';
-import { Breadcrumb } from 'reactstrap';
+import { Breadcrumb, Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
-export default (props) => {
+export default ({ history }) => {
   return (
     <div>
-      <Breadcrumb><a href="/">{'< VOLVER'}</a></Breadcrumb>
+      <Breadcrumb><Button color="link" onClick={() => history.push('/')}>{'< VOLVER'}</Button></Breadcrumb>
     </div>
   );
 };

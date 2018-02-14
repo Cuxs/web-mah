@@ -23,7 +23,7 @@ export default () => (
       <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">
           <Col sm="4" className="text-right">
-            <img src="/assets/images/icon-landing-1.svg"  alt="banner" />
+            <img src="/assets/images/icon-landing-1.svg" alt="banner" />
           </Col>
           <Col sm="8">
             <h5>Gratis e ilimitado</h5>

@@ -8,7 +8,7 @@ export default ({ history }) => (
       <div className="container">
         <Row className="align-items-center justify-content-between">
           <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
-            <h3>Cambia la forma de comprar o vender tu auto</h3>
+            <h3>Publicá gratis, todos tus datos y creá tu consecionaria online</h3>
           </div>
           <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 float-right" >
             <div className="cont-form">

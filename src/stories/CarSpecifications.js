@@ -12,6 +12,7 @@ class CarSpecification extends Component {
       securitySpecs: [],
       extraSpecs: [],
       confortSpecs: [],
+      showMore: false,
     };
   }
   componentWillMount() {
@@ -104,12 +105,23 @@ class CarSpecification extends Component {
         <Col sm="12" xs="12" className="container-data-input-group">
           <h5>Detalles</h5>
           {this.items(this.prepareRow(this.state.detailSpecs))}
-          <h5>Seguridad</h5>
-          {this.items(this.prepareRow(this.state.securitySpecs))}
-          <h5>Confort</h5>
-          {this.items(this.prepareRow(this.state.confortSpecs))}
-          <h5>Extras</h5>
-          {this.items(this.prepareRow(this.state.extraSpecs))}
+          {!this.state.showMore &&
+            <div className="d-flex justify-content-center align-items-center" >
+              <button onClick={() => this.setState({ showMore: true })} className="btn btn-more" >
+                <img src="/assets/images/icon-arrow-bottom.svg" alt="Ver más" width="15" height="15" />
+              </button>
+            </div>
+          }
+          {this.state.showMore &&
+            <div>
+              <h5>Seguridad</h5>
+              {this.items(this.prepareRow(this.state.securitySpecs))}
+              <h5>Confort</h5>
+              {this.items(this.prepareRow(this.state.confortSpecs))}
+              <h5>Extras</h5>
+              {this.items(this.prepareRow(this.state.extraSpecs))}
+            </div>
+          }
         </Col>
       </Row>
     );

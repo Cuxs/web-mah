@@ -43,7 +43,7 @@ const Home = ({ data, history, location }) => (
           <img src="http://placecage.com/c/250/130" alt="banner" />
           <img src="http://placecage.com/c/250/130" alt="banner" />
         </FriendlyCompanies>
-        <Footer />
+        <Footer history={history} />
       </div>
       }
   </div>

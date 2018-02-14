@@ -22,7 +22,7 @@ const WithoutRegister = ({ history, location }) => (
     <FeaturesWithoutRegister />
     <Plans />
     <Faq />
-    <Footer />
+    <Footer history={history} />
   </div>
 );
 
