@@ -4,7 +4,7 @@ import { Row, Col, FormGroup, Input, Button } from 'reactstrap';
 
 export default () => (
   <div className="container-fluid">
-    <Row className="banner-home" style={{background: `url(http://placecage.com/c/1440/330) no-repeat center center`}}>
+    <Row className="banner-home" style={{ background: 'url(/assets/images/image-free.png) no-repeat center center' }}>
       <div className="container">
         <Row className="align-items-center justify-content-between">
           <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">

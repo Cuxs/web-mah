@@ -27,7 +27,7 @@ export default ({ history }) => (
           </Col>
           <Col md="8" sm="9" xs="12">
             <h5>Créditos Prendarios </h5>
-            <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+            <p>Créditos a tu medida, a las tazas más bajas y hasta con 60 meses de plazo.</p>
             <Button color="primary" onClick={() => history.push('/pledgeCredits')} > Consultá</Button>
           </Col>
         </Row>
@@ -39,7 +39,7 @@ export default ({ history }) => (
           </Col>
           <Col md="8" sm="9" xs="12">
             <h5>Personal Shopper </h5>
-            <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+            <p>¿Cansado de buscar? Te ayudamos a buscar un auto a tu medida asesorándote en cada proceso.</p>
             <Button color="primary" onClick={() => history.push('/personalShopperS1')} > Consultá</Button>
           </Col>
         </Row>
@@ -51,7 +51,7 @@ export default ({ history }) => (
           </Col>
           <Col md="8" sm="9" xs="12">
             <h5>Créditos de libre destino</h5>
-            <p>tur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna al</p>
+            <p>Hacé con tu préstamo lo que desees y lo que siempre soñaste.</p>
             <Button color="primary" onClick={() => history.push('/freeDestinationCredits')} > Consultá</Button>
           </Col>
         </Row>

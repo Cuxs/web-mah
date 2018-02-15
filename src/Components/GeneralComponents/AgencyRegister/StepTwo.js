@@ -3,16 +3,53 @@
 
 import React from 'react';
 import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { stringify, parse } from 'query-string';
 
 import RegisterBar from '../../../stories/RegisterBar';
-import style from '../../../Styles/register';
 
 class StepTwo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      nameAgency: parse(this.props.location.search).nameAgency ? parse(this.props.location.search).nameAgency : '',
+      addressAgency: '',
+      phoneAgency: '',
+      emailAgency: '',
     };
+  }
+
+  disabled() {
+    return !(this.state.email !== '' && this.state.pass !== '' && this.state.repeatPass !== '' && this.state.name !== '' && this.state.phone !== '');
+  }
+
+  previous() {
+    const search = parse(this.props.location.search);
+
+    const dataAgency = {
+      email: parse(search.dataAgency).email,
+      pass: parse(search.dataAgency).pass,
+      repeatPass: parse(search.dataAgency).repeatPass,
+      name: parse(search.dataAgency).name,
+      phone: parse(search.dataAgency).phone,
+    };
+    this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}}`);
+  }
+
+  next() {
+    const search = parse(this.props.location.search);
+
+    const dataAgency = {
+      email: parse(search.dataAgency).email,
+      pass: parse(search.dataAgency).pass,
+      repeatPass: parse(search.dataAgency).repeatPass,
+      name: parse(search.dataAgency).name,
+      phone: parse(search.dataAgency).phone,
+      emailAgency: this.state.email,
+      phoneAgency: this.state.phone,
+      nameAgency: this.state.name,
+      addressAgency: this.state.address,
+    };
+    this.props.history.push(`/agencyRegisterS3?${stringify(dataAgency)}`);
   }
 
   render() {
@@ -49,8 +86,9 @@ class StepTwo extends React.Component {
 
                 </div>
                 <div className="text-block">
-                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
-                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
+                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br />
+                  Soy un Particular. <a href="" className="link">Registrarme</a>
+                  </p>
                 </div>
 
               </div>
@@ -60,24 +98,24 @@ class StepTwo extends React.Component {
                 <h4 className="title-division">Información de la agencia </h4>
                 <FormGroup>
                   <Label for="exampleEmail">Nombre de la Agencia</Label>
-                  <Input type="text" name="name" id="exampleEmail" />
+                  <Input type="text" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Dirección de la Agencia</Label>
-                  <Input type="text" name="address" id="exampleText" />
+                  <Input type="text" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Email de la Agencia</Label>
-                  <Input type="text" name="email" id="exampleText" />
+                  <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Teléfono de la Agencia</Label>
-                  <Input type="numeric" name="phone" id="exampleEmail" />
+                  <Input type="numeric" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
                 </FormGroup>
                 <div>
                   <div className="underline" />
-                  <Button color="default" className="float-left" onClick={() => this.props.history.push('/agencyRegisterS1')}>Volver</Button>
-                  <Button color="primary" className="float-right" onClick={() => this.props.history.push('/agencyRegisterS3')}>Siguiente</Button>
+                  <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.next()}>Siguiente</Button>
                 </div>
               </div>
             </Col>

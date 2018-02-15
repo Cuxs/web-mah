@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { stringify, parse } from 'query-string';
 
 import RegisterBar from '../../../stories/RegisterBar';
 import style from '../../../Styles/register';
@@ -11,9 +12,30 @@ class StepOne extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      email: parse(this.props.location.search).email ? parse(this.props.location.search).email : '',
+      pass: '',
+      repeatPass: '',
+      name: '',
+      phone: '',
     };
   }
+
+  next() {
+    const dataAgency = {
+      email: this.state.email,
+      pass: this.state.pass,
+      repeatPass: this.state.repeatPass,
+      name: this.state.name,
+      phone: this.state.phone,
+      agencyName: parse(this.props.location.search).agencyName ? parse(this.props.location.search).agencyName : '',
+    };
+    this.props.history.push(`/agencyRegisterS2?${stringify(dataAgency)}`);
+  }
+
+  disabled() {
+    return !(this.state.email !== '' && this.state.pass !== '' && this.state.repeatPass !== '' && this.state.name !== '' && this.state.phone !== '');
+  }
+
 
   render() {
     return (
@@ -49,8 +71,9 @@ class StepOne extends React.Component {
 
                 </div>
                 <div className="text-block">
-                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
-                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
+                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br />
+                  Soy un Particular. <a href="" className="link">Registrarme</a>
+                  </p>
                 </div>
               </div>
             </Col>
@@ -59,27 +82,27 @@ class StepOne extends React.Component {
                 <h4 className="title-division">Registrarme</h4>
                 <FormGroup>
                   <Label for="exampleEmail">Email</Label>
-                  <Input type="email" name="email" id="exampleEmail" />
+                  <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Contraseña</Label>
-                  <Input type="password" name="password" id="exampleText" />
+                  <Input type="password" value={this.state.pass} onChange={event => this.setState({ pass: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Repetir contraseña</Label>
-                  <Input type="password" name="repeatPassword" id="exampleText" />
+                  <Input type="password" value={this.state.repeatPass} onChange={event => this.setState({ repeatPass: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Nombre del Administrador</Label>
-                  <Input type="text" name="name" id="exampleText" />
+                  <Input type="text" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Teléfono</Label>
-                  <Input type="numeric" name="phone" id="exampleEmail" />
+                  <Input type="numeric" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
                 </FormGroup>
                 <div>
                   <div className="underline" />
-                  <Button color="primary" className="float-right" onClick={() => this.props.history.push('/agencyRegisterS2')} >Siguiente</Button>
+                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.next()} >Siguiente</Button>
                 </div>
               </div>
             </Col>

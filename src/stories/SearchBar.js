@@ -17,6 +17,7 @@ import {
   Label,
 } from 'reactstrap';
 import { Notification } from 'react-notification';
+import _ from 'lodash';
 import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
 import {
@@ -250,7 +251,7 @@ class SearchBar extends Component {
                       toggle={this.toggleUser}
                     >
                       <Button style={{ cursor: 'pointer' }} color="primary" className={this.props.location.pathname === '/createPublication' ? 'active' : ''} onClick={() => this.props.history.push('/createPublication')} >Publica Ya!</Button>
-                      <DropdownToggle caret className="btn-link-active btn-block">{getUserDataFromToken().name}</DropdownToggle>
+                      <DropdownToggle caret className="btn-link-active btn-block">{_.truncate(getUserDataFromToken().name, { length: 10 })}</DropdownToggle>
                       <DropdownMenu>
                         {!isAdminLogged() &&
                         <DropdownItem
@@ -351,21 +352,21 @@ class SearchBar extends Component {
               <div className="row">
                 <div className="col-3 float-left offset-3">
                   <Button
+                    onClick={() => this.toggleModal()}
+                    color="default"
+                    className="alternative"
+                  >
+                      Salir
+                  </Button>
+                </div>
+                <div className="col-3 float-right">
+                  <Button
                     disabled={this.isLoginFormIncomplete()}
                     onClick={() => this.loginUser(this.state.email, this.state.password)}
                     color="primary"
                     className="alternative"
                   >
                     Iniciar sesión
-                  </Button>
-                </div>
-                <div className="col-3 float-right">
-                  <Button
-                    onClick={() => this.toggleModal()}
-                    color="default"
-                    className="alternative"
-                  >
-                    Salir
                   </Button>
                 </div>
                 <div className="col-md-6 offset-md-3">

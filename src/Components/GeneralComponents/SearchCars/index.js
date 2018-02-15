@@ -230,11 +230,11 @@ class SearchCars extends Component {
             </Col>
             <Col lg="9" md="12" sm="12" xs="12">
               <Row className="header-filters align-items-center">
-                <Col md="8" sm="12" xs="12">
+                <Col md="6" sm="12" xs="12">
                   <NumberOfResult results={this.state.totalResults} />
                 </Col>
                 <div className="w-100 d-block d-sm-none mt-2 mb-2" />
-                <Col md="4" sm="12" xs="12">
+                <Col md="6" sm="12" xs="12">
                   <Row className="align-items-center">
                     <div className="col-5 col-md-5 col-sm-3 col-xs-2 text-right">
                       <p>Ordenar por</p>
