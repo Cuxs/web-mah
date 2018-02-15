@@ -1,117 +1,282 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
+/* eslint class-methods-use-this: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row } from 'reactstrap';
+import {
+  Col,
+  Row,
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+} from 'reactstrap';
+import { parse } from 'query-string';
 import { graphql, compose } from 'react-apollo';
-import _ from 'lodash';
+import { ChatFeed, Message } from 'react-chat-ui';
+import jwtDecode from 'jwt-decode';
+import moment from 'moment';
 
 import AdminBar from '../../../stories/AdminBar';
-import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
-import CardMessagge from '../../../stories/CardMessagge';
-import NumberOfUnreads from '../../../stories/NumberOfUnreads';
+import NotificationModal from '../../../stories/NotificationModal';
+
+import {
+  CommentThreadQuery,
+  markThreadAsReaded,
+} from '../../../ApolloQueries/InboxQuery';
+import {
+  MessageQuery,
+  MessageSubscription,
+  addMessageMutation,
+} from '../../../ApolloQueries/MessagesCarDetailQuery';
 
 import style from '../../../Styles/pledgeCredits';
 import {
-  CommentThreadQuery,
-  CountUnreadMessagesQuery,
-  CommentThreadSubscription,
-} from '../../../ApolloQueries/UserInboxQuery';
-import { getUserToken } from '../../../Modules/sessionFunctions';
+  getUserToken,
+  getUserDataFromToken,
+  isAdminLogged,
+} from '../../../Modules/sessionFunctions';
+import { DeleteCT } from '../../../ApolloQueries/SuperAdminAllMessages';
+import { thousands } from '../../../Modules/functions';
 
 class SuperAdminInbox extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      deleteModal: false,
+      notiTitle: '',
+      notiMessage: '',
+      showNotiModal: false,
+    };
+    this.toggleDeleteModal = this.toggleDeleteModal.bind(this);
+    this.deleteMessage = this.deleteMessage.bind(this);
+  }
   componentWillMount() {
-    this.props.subscribeToNewThreads({
-      MAHtoken: getUserToken(),
+    if (!isAdminLogged()) {
+      this.props.history.push('/loginAdmin');
+    }
+    this.props.subscribeToNewMessages({
+      commentThread_id: parse(this.props.location.search).ct_id,
     });
   }
+  fillStateWithMessages(ThreadsQuery, messagesData, publicationUserId) {
+    // En caso de ser un mensaje de un usuario anónimo
+    if (!ThreadsQuery.loading) {
+      const anonymName = ThreadsQuery.GetThreadForInbox.chatToken
+        ? jwtDecode(ThreadsQuery.GetThreadForInbox.chatToken).email
+        : null;
+      const messages = [];
+      messagesData.Messages.map((message) => {
+        messages.push(new Message({
+          id: publicationUserId === message.from_id ? 0 : message.from_id,
+          message: message.content,
+          senderName: message.User
+            ? `${message.User.name}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')}`
+            : `${anonymName}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')} `,
+        }));
+      });
+      return messages;
+    }
+    return [
+      new Message({
+        id: 0,
+        message: 'Cargando mensajes...',
+      }),
+    ];
+  }
+  toggleDeleteModal() {
+    this.setState({ deleteModal: !this.state.deleteModal });
+  }
+  deleteMessage(commentThread_id) {
+    this.props
+      .deleteCT({
+        variables: {
+          commentThread_id,
+          MAHtoken: getUserToken(),
+        },
+        refetchQueries: ['AdminCT'],
+      })
+      .then(({ data: { deleteCommentThread } }) => {
+        this.setState({
+          deleteModal: false,
+        });
+        this.props.history.push(`/superAdminAllMessages?rsl=scs&msg=${deleteCommentThread}`);
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors) {
+          graphQLErrors.map(({ message }) =>
+            this.setState({
+              deleteModal: false,
+              notiTitle: 'Error',
+              notiMessage: message,
+              showNotiModal: true,
+            }));
+        }
+        if (networkError) {
+          this.setState({
+            deleteModal: false,
+            notiTitle: 'Error',
+            notiMessage: networkError,
+            showNotiModal: true,
+          });
+        }
+      });
+  }
   render() {
-    const {
-      history,
-      location,
-      unreadMessagesData: { loading, CountUnreadMessages },
-      commentThreadData: { CommentThread: Threads, loading: loadingComments },
-    } = this.props;
-    let sortedThreads = [];
-    /* sortedThreads = _.orderBy(Threads, ['updatedAt'], ['desc']); */
-
-    sortedThreads = (_.sortBy(Threads, th => th.messages.map(ms => (ms.read !== null))));
-
-
+    const ctId = parse(this.props.location.search).ct_id;
+    const { ThreadsQuery, messagesData, history } = this.props;
+    const publicationUserId = getUserDataFromToken().id;
     return (
       <div>
-        <AdminBar history={history} />
-        <div className="container-fluid">
-          <Row>
-            <Col md="3">
-              <SuperAdminSideBar history={history} location={location} />
-            </Col>
-            <Col md="9" className="mt-4">
-              {loadingComments ? (
+        <AdminBar history={this.props.history} />
+        <Row>
+          <Col md="6">
+            <Button type="secondary" onClick={() => history.goBack()}>
+              {'< Volver a Bandeja de Entrada'}
+            </Button>
+            {ThreadsQuery.loading || messagesData.loading ? (
+              <img
+                className="loading-gif"
+                style={{ height: '250px' }}
+                src="/loading.gif"
+                key={0}
+                alt="Loading..."
+              />
+            ) : (
+              <div className="d-flex flex-row">
                 <img
-                  className="loading-gif"
-                  style={{ height: '400px' }}
-                  src="/loading.gif"
-                  key={0}
-                  alt="Loading..."
+                  src={`${process.env.REACT_APP_API}/images/${
+                    ThreadsQuery.GetThreadForInbox.Publication.ImageGroup.image1
+                  }`}
+                  alt="banner"
                 />
-              ) : (
-                <div className="cont-list-messages">
-                  {!loading && (
-                  <NumberOfUnreads
-                    results={CountUnreadMessages[0]}
-                    totalMsg={Threads.length}
-                  />
-                  )}
-                  {sortedThreads.map(thr => <CardMessagge data={thr} admin />)}
+                <div className="d-flex flex-column">
+                  <h6>
+                    {ThreadsQuery.GetThreadForInbox.Publication.brand}{' '}
+                    {ThreadsQuery.GetThreadForInbox.Publication.group}
+                  </h6>
+                  <h6>
+                    {ThreadsQuery.GetThreadForInbox.Publication.modelName}
+                  </h6>
+                  <h6>
+                    ${' '}
+                    {thousands(
+                      ThreadsQuery.GetThreadForInbox.Publication.price,
+                      2,
+                      ',',
+                      '.',
+                    )}
+                  </h6>
+                  <h6>
+                    {ThreadsQuery.GetThreadForInbox.Publication.year} -{' '}
+                    {thousands(
+                      ThreadsQuery.GetThreadForInbox.Publication.kms,
+                      0,
+                      ',',
+                      '.',
+                    )}
+                  </h6>
                 </div>
-              )}
-            </Col>
-          </Row>
-        </div>
+              </div>
+            )}
+          </Col>
+          <Col md="6">
+            <ChatFeed
+              maxHeight={500}
+              messages={this.fillStateWithMessages(
+                ThreadsQuery,
+                messagesData,
+                publicationUserId,
+              )} // Boolean: list of message objects
+              hasInputField={false} // Boolean: use our input, or use your own
+              showSenderName // show the name of the user who sent the message
+              bubblesCentered // Boolean should the bubbles be centered in the feed?
+            />
+            <Button color="primary" onClick={() => this.toggleDeleteModal()}>
+              Eliminar Conversación
+            </Button>
+          </Col>
+        </Row>
+        <style jsx>{style}</style>
+        <Modal isOpen={this.state.deleteModal} toggle={this.toggleDeleteModal}>
+          <ModalHeader toggle={this.toggleDeleteModal}>Confirme</ModalHeader>
+          <ModalBody>
+            <div className="col-md-9 offset-md-2">
+              <p>¿Desea eliminar este mensaje?</p>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => this.deleteMessage(ctId)}>
+              OK
+            </Button>
+            <Button color="secondary" onClick={() => this.toggleDeleteModal()}>
+              Cancelar
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <NotificationModal
+          primaryText={this.state.notiTitle}
+          secondaryText={this.state.notiMessage}
+          buttonName="Aceptar"
+          showNotificationModal={this.state.showNotiModal}
+          handleClose={() => this.setState({ showNotiModal: false })}
+        />
       </div>
     );
   }
 }
 
-const options = () => ({
+const options = ({ location }) => ({
   variables: {
     MAHtoken: getUserToken(),
-    MAHtokenP2: getUserToken(),
+    id: parse(location.search).ct_id,
+    commentThread_id: parse(location.search).ct_id, // requerida por MessageQuery
   },
 });
-
-const withUnreadMessagesQuantity = graphql(CountUnreadMessagesQuery, {
-  name: 'unreadMessagesData',
+const withThreadData = graphql(CommentThreadQuery, {
+  name: 'ThreadsQuery',
   options,
 });
-const withCommentThread = graphql(CommentThreadQuery, {
-  name: 'commentThreadData',
+const withMessages = graphql(MessageQuery, {
+  name: 'messagesData',
   options,
 });
-const withThreadSubscription = graphql(CommentThreadQuery, {
-  name: 'threadSubscriptions',
+const withMessageMutation = graphql(addMessageMutation);
+const withMarkThreadAsReadedMutation = graphql(markThreadAsReaded, {
+  name: 'markAsRead',
+});
+const withMessagesSubscription = graphql(MessageQuery, {
+  name: 'messagesSubscriptions',
   options,
   props: props => ({
-    subscribeToNewThreads: params =>
-      props.threadSubscriptions.subscribeToMore({
-        document: CommentThreadSubscription,
+    subscribeToNewMessages: params =>
+      props.messagesSubscriptions.subscribeToMore({
+        document: MessageSubscription,
         variables: {
-          MAHtoken: params.MAHtoken,
+          commentThread_id: params.commentThread_id,
         },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) {
             return prev;
           }
-          const newFeedItem = subscriptionData.data.threadAdded;
+          const newFeedItem = subscriptionData.data.messageAdded;
           return Object.assign({}, prev, {
-            CommentThread: [...prev.CommentThread, newFeedItem],
+            Messages: [...prev.Messages, newFeedItem],
           });
         },
       }),
   }),
 });
+const withDeleteCTMutation = graphql(DeleteCT, { name: 'deleteCT' });
 
-const withData = compose(withUnreadMessagesQuantity, withCommentThread, withThreadSubscription);
+const withData = compose(
+  withThreadData,
+  withMessages,
+  withMarkThreadAsReadedMutation,
+  withMessagesSubscription,
+  withMessageMutation,
+  withDeleteCTMutation,
+);
 
 export default withData(SuperAdminInbox);

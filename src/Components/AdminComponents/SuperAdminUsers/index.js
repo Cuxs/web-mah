@@ -12,6 +12,7 @@ import SuperAdminFilterUser from '../../../stories/SuperAdminFilterUser';
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
 import SACardUser from '../../../stories/SACardUser';
 import AllUsersQuery from '../../../ApolloQueries/UserQuery';
+import { isAdminLogged } from '../../../Modules/sessionFunctions';
 
 class SuperAdminPublications extends React.Component {
   constructor(props) {
@@ -28,6 +29,9 @@ class SuperAdminPublications extends React.Component {
   }
 
   componentWillMount() {
+    if (!isAdminLogged()) {
+      this.props.history.push('/loginAdmin');
+    }
     this.props.client.query({
       query: AllUsersQuery,
       variables: {

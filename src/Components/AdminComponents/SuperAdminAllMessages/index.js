@@ -5,19 +5,36 @@ import React, { Component } from 'react';
 import { Col, Row } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
+import { parse } from 'query-string';
 
 import AdminBar from '../../../stories/AdminBar';
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
 import CardMessagge from '../../../stories/CardMessagge';
 import NumberOfUnreads from '../../../stories/NumberOfUnreads';
+import NotificationModal from '../../../stories/NotificationModal';
 
 import { AdminAllCommentThreads } from '../../../ApolloQueries/SuperAdminAllMessages';
 import { getUserToken, isAdminLogged } from '../../../Modules/sessionFunctions';
 
 class SuperAdminAllMessages extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notiTitle: '',
+      notiMessage: '',
+      showNotiModal: false,
+    };
+  }
   componentWillMount() {
     if (!isAdminLogged()) {
       this.props.history.push('/loginAdmin');
+    }
+    if (parse(this.props.location.search).rsl === 'scs') {
+      this.setState({
+        notiTitle: 'Hecho',
+        notiMessage: parse(this.props.location.search).msg,
+        showNotiModal: true,
+      });
     }
   }
   render() {
@@ -27,10 +44,7 @@ class SuperAdminAllMessages extends Component {
       commentThreadData: { AdminCommentThread: Threads, loading: loadingComments },
     } = this.props;
     let sortedThreads = [];
-    /* sortedThreads = _.orderBy(Threads, ['updatedAt'], ['desc']); */
-
     sortedThreads = (_.sortBy(Threads, th => th.messages.map(ms => (ms.read !== null))));
-
 
     return (
       <div>
@@ -63,6 +77,13 @@ class SuperAdminAllMessages extends Component {
             </Col>
           </Row>
         </div>
+        <NotificationModal
+          primaryText={this.state.notiTitle}
+          secondaryText={this.state.notiMessage}
+          buttonName="Aceptar"
+          showNotificationModal={this.state.showNotiModal}
+          handleClose={() => this.setState({ showNotiModal: false })}
+        />
       </div>
     );
   }
