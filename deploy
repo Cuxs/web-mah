@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+set -eu
+
+USER=deployer
+SERVER=beta.miautohoy.com
+APP_PATH=/var/www/beta.miautohoy.com/current
+
+echo "Deploying, please wait..."
+
+ssh $USER@$SERVER "mkdir -p $APP_PATH"
+rsync -az --delete --exclude .git --exclude .gitignore \
+  --exclude deploy --exclude node_modules \
+  -e ssh . $USER@$SERVER:$APP_PATH
+ssh $USER@$SERVER "cd $APP_PATH && npm install && npm run build"
+ssh root@$SERVER "systemctl restart betamiautohoy"
+
+echo "Deploy finished"

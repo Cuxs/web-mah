@@ -3,14 +3,16 @@
 
 import React from 'react';
 import { Col, Row, FormGroup, Input, Button } from 'reactstrap';
+import { graphql, compose } from 'react-apollo';
 
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
 import PublicityBanner from '../../../stories/PublicityBanner';
 import CardAgency from '../../../stories/CardAgency';
 import Footer from '../../../stories/Footer';
+import { GetAllAgencies } from '../../../ApolloQueries/FriendlyAgencyQueries';
 
-const FriendlyAgency = ({ history, location }) => (
+const FriendlyAgency = ({ history, location, Agencies }) => (
   <div>
     <div>
       <TopTopNav history={history} />
@@ -32,11 +34,16 @@ const FriendlyAgency = ({ history, location }) => (
         </Row>
         <Row>
           <Col lg="8" md="12" sm="12" xs="12" className="container-data-input-group">
-            <CardAgency />
-            <CardAgency />
-            <CardAgency />
-            <CardAgency />
-            <CardAgency />
+            {Agencies.loading ?
+              <img
+                className="loading-gif"
+                style={{ height: '70px' }}
+                src="/loading.gif"
+                key={0}
+                alt="Loading..."
+              /> :
+              Agencies.GetAllAgencies.map(agencyData => <CardAgency data={agencyData} />)
+          }
           </Col>
           <Col lg="3" md="12" sm="12" xs="12">
             <h5 className="title-division-primary">Adherí tu compañía, <br /> es muy fácil.</h5>
@@ -58,5 +65,6 @@ const FriendlyAgency = ({ history, location }) => (
     </div>
   </div>
 );
-
-export default FriendlyAgency;
+const withAgenciesData = graphql(GetAllAgencies, { name: 'Agencies' });
+const withData = compose(withAgenciesData);
+export default withData(FriendlyAgency);
