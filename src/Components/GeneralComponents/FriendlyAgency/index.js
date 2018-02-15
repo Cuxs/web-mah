@@ -13,7 +13,7 @@ import Footer from '../../../stories/Footer';
 const FriendlyAgency = ({ history, location }) => (
   <div>
     <div>
-      <TopTopNav />
+      <TopTopNav history={history} />
       <SearchBar
         history={history}
         location={location}

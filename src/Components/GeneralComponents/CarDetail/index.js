@@ -92,7 +92,7 @@ class CarDetail extends Component {
     }
     return (
       <div>
-        <TopTopNav />
+        <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
         <div className="container mb-4 mt-4">
           <Row>
@@ -228,7 +228,7 @@ class CarDetail extends Component {
                           </p>
                         </div>
                       </Row>
-                      <Button color="primary">¡Solicitá tu crédito!</Button>
+                      <Button color="primary" onClick={() => history.push('/pledgeCredits')} >¡Solicitá tu crédito!</Button>
                       <div className="container-social">
                         <button className="btn btn-social-icon">
                           <img src="/assets/images/icon-facebook.svg" />

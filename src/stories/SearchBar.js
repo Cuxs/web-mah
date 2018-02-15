@@ -238,7 +238,7 @@ class SearchBar extends Component {
               <div className="w-100 d-block d-lg-none" />
               <Col lg="auto">
                 <Row>
-                  <Button color="secondary" className="btn-link" href="/friendlyAgency" >Consecionarias</Button>
+                  <Button color="secondary" className="btn-link" style={{ boxShadow: 'none' }} href="/friendlyAgency" >Consecionarias</Button>
                 </Row>
               </Col>
               <div className="w-100 d-block d-lg-none" />
@@ -277,7 +277,7 @@ class SearchBar extends Component {
                           isOpen={this.state.dropdownOpenPublicate}
                           toggle={this.togglePublicate}
                         >
-                          <DropdownToggle caret className="btn-link-active" style={{ width: '170px' }}>Publicá Gratis</DropdownToggle>
+                          <DropdownToggle caret className="btn-link-active" style={{ width: '170px', boxShadow: 'none' }}>Publicá Gratis</DropdownToggle>
                           <DropdownMenu className="custom-dropdown">
                             <DropdownItem value="publicateFree" href="/withoutRegister">
                               <h4>¡Publica ya!</h4>

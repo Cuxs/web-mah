@@ -34,9 +34,8 @@
     color: $primary;
     background-color: transparent !important;
   }
-  .btn:focus:not(.is-open), .btn.focus:not(.is-open){
-    box-shadow: none !important;
-  }
+  
+
   
   // SHOW MORE
   &.btn-more {
@@ -121,4 +120,8 @@
     margin:auto;
     @include border-radius(40px);
   }
+}
+
+.btn-secondary:not([disabled]):not(.disabled):active, .btn-secondary:not([disabled]):not(.disabled).active, .show>.btn-secondary.dropdown-toggle{
+  background-color: transparent;
 }

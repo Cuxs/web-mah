@@ -96,7 +96,7 @@ class SearchCars extends Component {
     const { history, location } = this.props;
     return (
       <div>
-        <TopTopNav />
+        <TopTopNav history={history} />
         <SearchBar
           text={text}
           history={history}

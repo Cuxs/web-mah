@@ -33,7 +33,7 @@ class PersonalShopper extends React.Component {
   render() {
     return (
       <div>
-        <SearchBar />
+        <SearchBar history={this.props.history} location={this.props.location} />
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">

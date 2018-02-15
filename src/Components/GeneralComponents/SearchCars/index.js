@@ -46,7 +46,7 @@ class SearchCars extends Component {
       loading: true,
       renderedData: 0,
       filterClass: '',
-      dropDownOrderValue: '. . .',
+      dropDownOrderValue: 'Publicación Reciente',
     };
     this.doSearch = this.doSearch.bind(this);
     this.changeOrderValue = this.changeOrderValue.bind(this);
@@ -97,12 +97,13 @@ class SearchCars extends Component {
 
           });
         } else {
-          const existingPubs = this.state.Publications;
+          let existingPubs = this.state.Publications;
           Publications.map((pub) => {
             existingPubs.push(pub);
           });
+          existingPubs = _.uniqBy(existingPubs, 'id');
           this.setState({
-            Publications: existingPubs,
+            Publications: _.orderBy(existingPubs, ['createdAt'], ['desc']),
             loading: false,
             renderedData: this.state.renderedData + Publications.length,
 
@@ -202,7 +203,7 @@ class SearchCars extends Component {
     const { history, location } = this.props;
     return (
       <div>
-        <TopTopNav />
+        <TopTopNav history={history} />
         <SearchBar
           text={text}
           history={history}
