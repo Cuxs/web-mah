@@ -41,11 +41,6 @@ export default class AdminBar extends React.Component {
               >
                 <DropdownToggle caret className="btn-link-active btn-block">{getUserDataFromToken().name}</DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem
-                    value="myAccount"
-                    onClick={() => (this.props.history.push('/userAdmin'))}
-                  >Mi cuenta
-                  </DropdownItem>
                   {isAdminLogged() &&
                   <DropdownItem
                     value="myAccount"
