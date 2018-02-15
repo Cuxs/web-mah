@@ -8,7 +8,7 @@ export default () => (
       <div className="container">
         <Row className="align-items-center justify-content-between">
           <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
-            <h3>Publicá gratis, sin registro</h3>
+            <h3>Publicá gratis, sin registro. Vendé ya en Mi Auto Hoy!</h3>
           </div>
           <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 align-self-end" >
             <div className="cont-form">

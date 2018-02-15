@@ -149,7 +149,7 @@ class MessagesCarDetail extends Component {
     return (
       <span>
         <FormGroup>
-          <Label for="exampleText">Contactar al Vendedor</Label>
+          <h5>¿Consultas?</h5>
           <ChatFeed
             maxHeight={400}
             messages={fillStateWithMessages(
@@ -187,7 +187,7 @@ class MessagesCarDetail extends Component {
           color="secondary"
           className="btn btn-secondary btn-lg"
         >
-          ENVIAR
+          PREGUNTAR
         </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>

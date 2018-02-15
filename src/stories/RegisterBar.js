@@ -92,7 +92,7 @@ export default class RegisterBar extends Component {
         <Row className="header">
           <Col md="3" sm="6" xs="6">
             <Row>
-              <a onClick={() => this.props.history.push('/')} >
+              <a onClick={() => this.props.history.push('/')} className="brand" >
                 <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
               </a>
             </Row>

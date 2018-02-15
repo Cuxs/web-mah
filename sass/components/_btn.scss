@@ -25,14 +25,38 @@
     @include border-radius(3px);
     font:700 14px $font-family-sans-serif;
     text-transform: uppercase;
+    padding: 10px 15px;
+    height: 50px;
+    line-height: 30px;
     letter-spacing: 1px;
   }
-  .btn-secondary:not([disabled]):not(.disabled):active, .btn-secondary:not([disabled]):not(.disabled).active, .show>.btn-secondary.dropdown-toggle {    background-color: transparent !important;
+  .show>.btn-secondary.dropdown-toggle {
     color: $primary;
     background-color: transparent !important;
   }
-  .btn-secondary:focus, .btn-secondary.focus {
+  .btn:focus:not(.is-open), .btn.focus:not(.is-open){
     box-shadow: none !important;
+  }
+  
+  // SHOW MORE
+  &.btn-more {
+    border: none;
+    padding: 10px 60px;
+  }
+
+  // FOOTER
+  &.btn-footer {
+    color: #fff !important;
+    padding: 0px 12px !important;
+  }
+  &.btn-footerTerms {
+    color: #fff !important;
+    padding: 0px !important;
+  }
+  &.a-footer {
+    color: #fff;
+    padding: 0px;
+    line-height: 30px
   }
 
   // LINK

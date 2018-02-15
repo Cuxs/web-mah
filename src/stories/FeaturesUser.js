@@ -45,11 +45,11 @@ export default () => (
       <Col md="4" sm="3" xs="12">
         <Row className="justify-content-between">
           <Col md="4" className="text-right">
-            <img src="/assets/images/icon-landing-3.svg" alt="banner" />
+            <img src="/assets/images/icon-chat.svg" alt="banner" />
           </Col>
           <Col md="8" sm="9" xs="12">
-            <h5>Minisitio</h5>
-            <p>Creá un espacio único para tu consecionaria y gestioná todas tus publicaciones.</p>
+            <h5>Chat con interesados</h5>
+            <p>Respondé de manera fácil y rápida a tus interesados. Toda la comunicación en un solo lugar.</p>
           </Col>
         </Row>
       </Col>

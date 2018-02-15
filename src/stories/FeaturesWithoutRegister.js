@@ -23,7 +23,7 @@ export default () => (
       <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">
           <Col md="4" sm="3" xs="12" className="text-right">
-            <img src="/assets/images/icon-landing-1.svg"  alt="banner" />
+            <img src="/assets/images/icon-free.svg"  alt="banner" />
           </Col>
           <Col md="8" sm="9" xs="12">
             <h5>Publicación gratis</h5>
@@ -34,7 +34,7 @@ export default () => (
       <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">
           <Col md="4" sm="3" xs="12" className="text-right">
-            <img src="/assets/images/icon-landing-2.svg" alt="banner" />
+            <img src="/assets/images/icon-Inmediatly.svg" alt="banner" />
           </Col>
           <Col md="8" sm="9" xs="12">
             <h5>Inmediata</h5>
@@ -45,7 +45,7 @@ export default () => (
       <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">
           <Col md="4" sm="3" xs="12" className="text-right">
-            <img src="/assets/images/icon-landing-3.svg" alt="banner" />
+            <img src="/assets/images/icon-days.svg" alt="banner" />
           </Col>
           <Col md="8" sm="9" xs="12">
             <h5>60 días</h5>

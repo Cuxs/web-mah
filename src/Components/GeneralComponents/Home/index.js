@@ -25,7 +25,7 @@ const Home = ({ data, history, location }) => (
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
         <Banner />
-        <CreditsBanner />
+        <CreditsBanner history={history} />
         <CarHomeContainer>
           {data.AllPublications.map(row => (
             <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} />))
@@ -43,7 +43,7 @@ const Home = ({ data, history, location }) => (
           <img src="http://placecage.com/c/250/130" alt="banner" />
           <img src="http://placecage.com/c/250/130" alt="banner" />
         </FriendlyCompanies>
-        <Footer />
+        <Footer history={history} />
       </div>
       }
   </div>

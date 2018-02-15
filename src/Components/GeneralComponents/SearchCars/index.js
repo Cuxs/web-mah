@@ -275,7 +275,7 @@ class SearchCars extends Component {
           </Row>
 
         </div>
-        <Footer />
+        <Footer history={history} />
       </div>
     );
   }

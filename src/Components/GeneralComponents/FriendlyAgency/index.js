@@ -54,7 +54,7 @@ const FriendlyAgency = ({ history, location }) => (
           </Col>
         </Row>
       </div>
-      <Footer />
+      <Footer history={history} />
     </div>
   </div>
 );

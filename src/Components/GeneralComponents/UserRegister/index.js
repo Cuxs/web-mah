@@ -10,14 +10,14 @@ import Footer from '../../../stories/Footer';
 import Plans from '../../../stories/Plans';
 
 
-const Home = () => (
+const Home = ({ history }) => (
   <div>
     <RegisterBar />
     <BannerUser />
     <FeaturesUser />
     <Plans />
     <Faq />
-    <Footer />
+    <Footer history={history} />
   </div>
 );
 

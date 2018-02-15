@@ -4,8 +4,16 @@ import React from 'react';
 const CardAgency = () => (
   <div className="box-item-horizontal col-md-12" >
     <div className="row" >
-      <div className="col-md-4">
-        <img src="http://placecage.com/c/230/150" alt="banner" width="100%"/>
+      <div
+        className="col-md-4"
+        style={{
+          backgroundImage: 'url(http://placecage.com/c/230/150)',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          width: 'auto',
+          height: '182px',
+        }}
+      >
       </div>
       <div className="col-md-8">
         <h4>Nombre de la Agencia</h4>

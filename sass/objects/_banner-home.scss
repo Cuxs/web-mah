@@ -3,8 +3,8 @@
   padding: 5vw;
   width: 100vw;
   h3{
-    @include text-shadow(0, 0, 10px, $gray-900);
     font:bold #{$h1-font-size}/#{$h1-font-size+0.1} $font-family-sans-serif;
+    line-height: 40px !important;
     //position: absolute;
     color: $white;
     //top:120px;
