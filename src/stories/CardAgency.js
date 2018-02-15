@@ -1,33 +1,32 @@
 import React from 'react';
 /* eslint react/jsx-filename-extension: 0 */
 
-const CardAgency = () => (
+const CardAgency = ({ data }) => (
   <div className="box-item-horizontal col-md-12" >
     <div className="row" >
       <div
         className="col-md-4"
         style={{
-          backgroundImage: 'url(http://placecage.com/c/230/150)',
+          backgroundImage: `url(${process.env.REACT_APP_API}/images/${data.profileImage})`,
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           width: 'auto',
           height: '182px',
         }}
-      >
-      </div>
+      />
       <div className="col-md-8">
-        <h4>Nombre de la Agencia</h4>
+        <h4>{data.agencyName}</h4>
         <div className="data-input-group">
           <label>DOMICILIO</label>
-          <p>Av. Mitre 1468/ Av. Mitre 1719 San Rafael, Mendoza</p>
+          <p>{data.agencyAdress}</p>
         </div>
         <div className="data-input-group">
           <label>TELÉFONO</label>
-          <p>2604-4337724/ 2604-329383</p>
+          <p>{data.agencyPhone} / {data.phone}</p>
         </div>
         <div className="data-input-group">
           <label>EMAIL</label>
-          <p>agencia@hotmail.com</p>
+          <p>{data.agencyEmail}</p>
         </div>
       </div>
     </div>
