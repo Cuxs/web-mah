@@ -5,6 +5,9 @@
       @include border-radius(3px);
       overflow:hidden;
       border:solid 1px $gray-300;
+      a:hover{
+        text-decoration: none !important;
+      }
       .photos{
         // margin-bottom:10px;
         background-color: $gray-500;

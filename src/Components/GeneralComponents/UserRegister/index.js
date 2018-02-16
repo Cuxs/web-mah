@@ -13,7 +13,7 @@ import Plans from '../../../stories/Plans';
 const Home = ({ history }) => (
   <div>
     <RegisterBar />
-    <BannerUser />
+    <BannerUser history={history} />
     <FeaturesUser />
     <Plans />
     <Faq />

@@ -12,25 +12,26 @@ class StepTwo extends React.Component {
     super(props);
     this.state = {
       nameAgency: parse(this.props.location.search).nameAgency ? parse(this.props.location.search).nameAgency : '',
-      addressAgency: '',
-      phoneAgency: '',
-      emailAgency: '',
+      addressAgency: parse(this.props.location.search).addressAgency ? parse(this.props.location.search).addressAgency : '',
+      phoneAgency: parse(this.props.location.search).phoneAgency ? parse(this.props.location.search).phoneAgency : '',
+      emailAgency: parse(this.props.location.search).emailAgency ? parse(this.props.location.search).emailAgency : '',
     };
   }
 
   disabled() {
-    return !(this.state.email !== '' && this.state.pass !== '' && this.state.repeatPass !== '' && this.state.name !== '' && this.state.phone !== '');
+    return !(this.state.nameAgency !== '' && this.state.addressAgency !== '' && this.state.phoneAgency !== '' && this.state.emailAgency !== '');
   }
 
   previous() {
     const search = parse(this.props.location.search);
 
     const dataAgency = {
-      email: parse(search.dataAgency).email,
-      pass: parse(search.dataAgency).pass,
-      repeatPass: parse(search.dataAgency).repeatPass,
-      name: parse(search.dataAgency).name,
-      phone: parse(search.dataAgency).phone,
+      email: search.email,
+      pass: search.pass,
+      repeatPass: search.repeatPass,
+      name: search.name,
+      address: search.address,
+      phone: search.phone,
     };
     this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}}`);
   }
@@ -39,15 +40,16 @@ class StepTwo extends React.Component {
     const search = parse(this.props.location.search);
 
     const dataAgency = {
-      email: parse(search.dataAgency).email,
-      pass: parse(search.dataAgency).pass,
-      repeatPass: parse(search.dataAgency).repeatPass,
-      name: parse(search.dataAgency).name,
-      phone: parse(search.dataAgency).phone,
-      emailAgency: this.state.email,
-      phoneAgency: this.state.phone,
-      nameAgency: this.state.name,
-      addressAgency: this.state.address,
+      email: search.email,
+      pass: search.pass,
+      repeatPass: search.repeatPass,
+      name: search.name,
+      phone: search.phone,
+      address: search.address,
+      emailAgency: this.state.emailAgency,
+      phoneAgency: this.state.phoneAgency,
+      nameAgency: this.state.nameAgency,
+      addressAgency: this.state.addressAgency,
     };
     this.props.history.push(`/agencyRegisterS3?${stringify(dataAgency)}`);
   }
@@ -98,24 +100,24 @@ class StepTwo extends React.Component {
                 <h4 className="title-division">Información de la agencia </h4>
                 <FormGroup>
                   <Label for="exampleEmail">Nombre de la Agencia</Label>
-                  <Input type="text" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
+                  <Input type="text" value={this.state.nameAgency} onChange={event => this.setState({ nameAgency: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Dirección de la Agencia</Label>
-                  <Input type="text" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
+                  <Input type="text" value={this.state.addressAgency} onChange={event => this.setState({ addressAgency: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Email de la Agencia</Label>
-                  <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
+                  <Input type="email" value={this.state.emailAgency} onChange={event => this.setState({ emailAgency: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Teléfono de la Agencia</Label>
-                  <Input type="numeric" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
+                  <Input type="numeric" value={this.state.phoneAgency} onChange={event => this.setState({ phoneAgency: event.target.value })} />
                 </FormGroup>
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" className="float-right" onClick={() => this.next()}>Siguiente</Button>
+                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.next()}>Siguiente</Button>
                 </div>
               </div>
             </Col>

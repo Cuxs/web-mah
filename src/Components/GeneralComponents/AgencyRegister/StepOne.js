@@ -13,10 +13,11 @@ class StepOne extends React.Component {
     super(props);
     this.state = {
       email: parse(this.props.location.search).email ? parse(this.props.location.search).email : '',
-      pass: '',
-      repeatPass: '',
-      name: '',
-      phone: '',
+      pass: parse(this.props.location.search).pass ? parse(this.props.location.search).pass : '',
+      repeatPass: parse(this.props.location.search).repeatPass ? parse(this.props.location.search).repeatPass : '',
+      name: parse(this.props.location.search).name ? parse(this.props.location.search).name : '',
+      address: parse(this.props.location.search).address ? parse(this.props.location.search).name : '',
+      phone: parse(this.props.location.search).phone ? parse(this.props.location.search).phone : '',
     };
   }
 
@@ -26,14 +27,15 @@ class StepOne extends React.Component {
       pass: this.state.pass,
       repeatPass: this.state.repeatPass,
       name: this.state.name,
+      address: this.state.address,
       phone: this.state.phone,
-      agencyName: parse(this.props.location.search).agencyName ? parse(this.props.location.search).agencyName : '',
+      nameAgency: parse(this.props.location.search).nameAgency ? parse(this.props.location.search).nameAgency : '',
     };
     this.props.history.push(`/agencyRegisterS2?${stringify(dataAgency)}`);
   }
 
   disabled() {
-    return !(this.state.email !== '' && this.state.pass !== '' && this.state.repeatPass !== '' && this.state.name !== '' && this.state.phone !== '');
+    return !(this.state.email !== '' && this.state.pass !== '' && this.state.repeatPass !== '' && this.state.name !== '' && this.state.phone !== '' && this.state.name !== '');
   }
 
 
@@ -93,8 +95,12 @@ class StepOne extends React.Component {
                   <Input type="password" value={this.state.repeatPass} onChange={event => this.setState({ repeatPass: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleEmail">Nombre del Administrador</Label>
+                  <Label for="exampleEmail">Nombre del Encargado</Label>
                   <Input type="text" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="exampleEmail">Domicilio del Encargado</Label>
+                  <Input type="text" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">Teléfono</Label>

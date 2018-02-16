@@ -8,14 +8,14 @@ class BannerRegister extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      agencyName: '',
+      nameAgency: '',
       email: '',
     };
   }
 
   start() {
     const dataAgency = {
-      agencyName: this.state.agencyName,
+      nameAgency: this.state.nameAgency,
       email: this.state.email,
     };
     this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}`);
@@ -34,7 +34,7 @@ class BannerRegister extends React.Component {
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis y empezá a vender ahora!</strong></h5>
                   <FormGroup>
-                    <Input type="textarea" value={this.state.agencyName} onChange={event => this.setState({ agencyName: event.target.value })} placeholder="Nombre de la Consecionaria" />
+                    <Input type="textarea" value={this.state.nameAgency} onChange={event => this.setState({ nameAgency: event.target.value })} placeholder="Nombre de la Consecionaria" />
                   </FormGroup>
                   <FormGroup>
                     <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} placeholder="Correo electrónico" />
