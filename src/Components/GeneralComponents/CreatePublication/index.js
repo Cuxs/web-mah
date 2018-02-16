@@ -220,7 +220,7 @@ class CreatePublication extends React.Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleSelect">¿Cuál es el grupo?</Label>
+                  <Label for="exampleSelect">¿Cuál es el modelo?</Label>
                   <Select
                     id="groups-select"
                     ref={(ref) => { this.select = ref; }}
@@ -238,7 +238,7 @@ class CreatePublication extends React.Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleSelect">¿Cuál es el modelo?</Label>
+                  <Label for="exampleSelect">¿Cuál es el tipo?</Label>
                   <Select
                     id="models-select"
                     ref={(ref) => { this.select = ref; }}

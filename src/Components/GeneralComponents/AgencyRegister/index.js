@@ -15,9 +15,15 @@ const Home = ({ history }) => (
     <div>
       <RegisterBar history={history} />
       <BannerRegister history={history} />
-      <FeaturesRegister id="features" />
-      <Plans history={history} />
-      <Faq />
+      <div id="Features">
+        <FeaturesRegister />
+      </div>
+      <div id="Plans">
+        <Plans />
+      </div>
+      <div id="Faq">
+        <Faq />
+      </div>
       <Footer history={history} />
     </div>
   </div>
