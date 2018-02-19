@@ -166,7 +166,7 @@ class CreatePublication extends Component {
                   <div className="step done">
                     <h6>PASO 1</h6>
                     <h4>Contanos de tu auto</h4>
-                    <a className="link">Modificar datos</a>
+                    <Button className="btn btn-link-primary" onClick={() => this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`)}>Modificar datos</Button>
                   </div>
 
                   <div className={`step ${!this.disabled() ? 'done' : ''}`} >

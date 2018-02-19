@@ -92,7 +92,7 @@ export default class RegisterBar extends Component {
         <Row className="header">
           <Col md="3" sm="6" xs="6">
             <Row>
-              <a onClick={() => this.props.history.push('/')} className="brand" >
+              <a onClick={() => history.push('/')} className="brand" >
                 <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
               </a>
             </Row>
@@ -102,9 +102,9 @@ export default class RegisterBar extends Component {
             <div className="d-none d-md-block">
               { !onlyLogin &&
               <div className="d-inline-block">
-                <Button color="secondary" className="btn-link">BENEFICIOS</Button>
-                <Button color="secondary" className="btn-link">PLANES</Button>
-                <Button color="secondary" className="btn-link">AYUDA</Button>
+                <Button color="secondary" className="btn-link" href="#Features" >BENEFICIOS</Button>
+                <Button color="secondary" className="btn-link" href="#Plans" >PLANES</Button>
+                <Button color="secondary" className="btn-link" href="#Faq" >AYUDA</Button>
                 {this.state.isUserLogged ? (
                   <ButtonDropdown
                     isOpen={this.state.dropdownUser}

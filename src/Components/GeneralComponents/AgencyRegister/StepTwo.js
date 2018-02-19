@@ -2,35 +2,42 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
 import { stringify, parse } from 'query-string';
 
 import RegisterBar from '../../../stories/RegisterBar';
+import Input from '../../../stories/Input';
+
 
 class StepTwo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       nameAgency: parse(this.props.location.search).nameAgency ? parse(this.props.location.search).nameAgency : '',
-      addressAgency: '',
-      phoneAgency: '',
-      emailAgency: '',
+      nameAgencyValidate: parse(this.props.location.search).nameAgency,
+      addressAgency: parse(this.props.location.search).addressAgency ? parse(this.props.location.search).addressAgency : '',
+      addressAgencyValidate: parse(this.props.location.search).addressAgency,
+      phoneAgency: parse(this.props.location.search).phoneAgency ? parse(this.props.location.search).phoneAgency : '',
+      phoneAgencyValidate: parse(this.props.location.search).phoneAgency,
+      emailAgency: parse(this.props.location.search).emailAgency ? parse(this.props.location.search).emailAgency : '',
+      emailAgencyValidate: parse(this.props.location.search).emailAgency,
     };
   }
 
   disabled() {
-    return !(this.state.email !== '' && this.state.pass !== '' && this.state.repeatPass !== '' && this.state.name !== '' && this.state.phone !== '');
+    return !(this.state.nameAgencyValidate && this.state.addressAgencyValidate && this.state.phoneAgencyValidate && this.state.emailAgencyValidate);
   }
 
   previous() {
     const search = parse(this.props.location.search);
 
     const dataAgency = {
-      email: parse(search.dataAgency).email,
-      pass: parse(search.dataAgency).pass,
-      repeatPass: parse(search.dataAgency).repeatPass,
-      name: parse(search.dataAgency).name,
-      phone: parse(search.dataAgency).phone,
+      email: search.email,
+      pass: search.pass,
+      repeatPass: search.repeatPass,
+      name: search.name,
+      address: search.address,
+      phone: search.phone,
     };
     this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}}`);
   }
@@ -39,15 +46,16 @@ class StepTwo extends React.Component {
     const search = parse(this.props.location.search);
 
     const dataAgency = {
-      email: parse(search.dataAgency).email,
-      pass: parse(search.dataAgency).pass,
-      repeatPass: parse(search.dataAgency).repeatPass,
-      name: parse(search.dataAgency).name,
-      phone: parse(search.dataAgency).phone,
-      emailAgency: this.state.email,
-      phoneAgency: this.state.phone,
-      nameAgency: this.state.name,
-      addressAgency: this.state.address,
+      email: search.email,
+      pass: search.pass,
+      repeatPass: search.repeatPass,
+      name: search.name,
+      phone: search.phone,
+      address: search.address,
+      emailAgency: this.state.emailAgency,
+      phoneAgency: this.state.phoneAgency,
+      nameAgency: this.state.nameAgency,
+      addressAgency: this.state.addressAgency,
     };
     this.props.history.push(`/agencyRegisterS3?${stringify(dataAgency)}`);
   }
@@ -69,7 +77,7 @@ class StepTwo extends React.Component {
                   <div className="step done">
                     <h6>PASO 1</h6>
                     <h4>Crear tu cuenta</h4>
-                    <a className="link">Modificar datos</a>
+                    <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previous()} >Modificar datos</Button>
                   </div>
 
                   <div className="step">
@@ -96,26 +104,38 @@ class StepTwo extends React.Component {
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Información de la agencia </h4>
-                <FormGroup>
-                  <Label for="exampleEmail">Nombre de la Agencia</Label>
-                  <Input type="text" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Dirección de la Agencia</Label>
-                  <Input type="text" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Email de la Agencia</Label>
-                  <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Teléfono de la Agencia</Label>
-                  <Input type="numeric" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
-                </FormGroup>
+                <Input
+                  label="Nombre de la Agencia"
+                  type="string"
+                  value={this.state.nameAgency}
+                  onChange={event => this.setState({ nameAgency: event.target.value })}
+                  validate={isValid => this.setState({ nameAgencyValidate: isValid })}
+                />
+                <Input
+                  label="Dirección de la Agencia"
+                  type="alphanumeric"
+                  value={this.state.addressAgency}
+                  onChange={event => this.setState({ addressAgency: event.target.value })}
+                  validate={isValid => this.setState({ addressAgencyValidate: isValid })}
+                />
+                <Input
+                  label="Email de la Agencia"
+                  type="email"
+                  value={this.state.emailAgency}
+                  onChange={event => this.setState({ emailAgency: event.target.value })}
+                  validate={isValid => this.setState({ emailAgencyValidate: isValid })}
+                />
+                <Input
+                  label="Teléfono de la Agencia"
+                  type="numeric"
+                  value={this.state.phoneAgency}
+                  onChange={event => this.setState({ phoneAgency: event.target.value })}
+                  validate={isValid => this.setState({ phoneAgencyValidate: isValid })}
+                />
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" className="float-right" onClick={() => this.next()}>Siguiente</Button>
+                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.next()}>Siguiente</Button>
                 </div>
               </div>
             </Col>

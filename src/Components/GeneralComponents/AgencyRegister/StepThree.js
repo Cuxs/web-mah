@@ -2,62 +2,87 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
 import { stringify, parse } from 'query-string';
 
 import RegisterBar from '../../../stories/RegisterBar';
+import Input from '../../../stories/Input';
+
 
 class StepThree extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-
+      nameOwner: '',
+      nameOwnerValidate: false,
+      addressOwner: '',
+      addressOwnerValidate: false,
+      dniOwner: '',
+      dniOwnerValidate: false,
+      emailOwner: '',
+      emailOwnerValidate: false,
+      phoneOwner: '',
+      phoneOwnerValidate: false,
     };
   }
 
   disabled() {
-    return !(this.state.email !== '' && this.state.pass !== '' && this.state.repeatPass !== '' && this.state.name !== '' && this.state.phone !== '');
+    return !(this.state.nameOwnerValidate && this.state.addressOwnerValidate && this.state.dniOwnerValidate && this.state.emailOwnerValidate && this.state.phoneOwnerValidate);
   }
 
   previous() {
     const search = parse(this.props.location.search);
 
-    const dataInCharge = {
-      email: parse(search.dataAgency).email,
-      pass: parse(search.dataAgency).pass,
-      repeatPass: parse(search.dataAgency).repeatPass,
-      name: parse(search.dataAgency).name,
-      phone: parse(search.dataAgency).phone,
-      emailAgency: parse(search.dataAgency).email,
-      phoneAgency: parse(search.dataAgency).phone,
-      nameAgency: parse(search.dataAgency).name,
-      addressAgency: parse(search.dataAgency).address,
+    const dataAgency = {
+      email: search.email,
+      pass: search.pass,
+      repeatPass: search.repeatPass,
+      name: search.name,
+      phone: search.phone,
+      emailAgency: search.emailAgency,
+      phoneAgency: search.phoneAgency,
+      nameAgency: search.nameAgency,
+      addressAgency: search.addressAgency,
     };
-    this.props.history.push(`/agencyRegisterS1?${stringify(dataInCharge)}}`);
+    this.props.history.push(`/agencyRegisterS2?${stringify(dataAgency)}}`);
+  }
+
+  previousS1() {
+    const search = parse(this.props.location.search);
+
+    const dataAgency = {
+      email: search.email,
+      pass: search.pass,
+      repeatPass: search.repeatPass,
+      name: search.name,
+      phone: search.phone,
+      emailAgency: search.emailAgency,
+      phoneAgency: search.phoneAgency,
+      nameAgency: search.nameAgency,
+      addressAgency: search.addressAgency,
+    };
+    this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}}`);
   }
 
   next() {
     const search = parse(this.props.location.search);
 
-    const dataInCharge = {
-      dataInCharge: stringify({
-        email: parse(search.dataInCharge).email,
-        pass: parse(search.dataInCharge).pass,
-        repeatPass: parse(search.dataInCharge).repeatPass,
-        name: parse(search.dataInCharge).name,
-        phone: parse(search.dataInCharge).phone,
-      }),
-    };
     const dataAgency = {
-      dataAgency: stringify({
-        email: this.state.email,
-        phone: this.state.phone,
-        name: this.state.name,
-        address: this.state.address,
-      }),
+      email: search.email,
+      password: search.pass,
+      name: search.name,
+      phone: search.phone,
+      address: search.address,
+      agencyEmail: search.emailAgency,
+      agencyPhone: search.phoneAgency,
+      agencyName: search.nameAgency,
+      agencyAdress: search.addressAgency,
+      ownerName: this.state.nameOwner,
+      ownerAddress: this.state.addressOwner,
+      ownerDni: this.state.dniOwner,
+      ownerEmail: this.state.emailOwner,
+      ownerPhone: this.state.phoneOwner,
     };
-    this.props.history.push(`/agencyRegisterS3?${stringify(dataInCharge)}&${stringify(dataAgency)}`);
   }
 
   render() {
@@ -77,16 +102,16 @@ class StepThree extends React.Component {
                   <div className="step done">
                     <h6>PASO 1</h6>
                     <h4>Crear tu cuenta</h4>
-                    <a className="link">Modificar datos</a>
+                    <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previousS1()} >Modificar datos</Button>
                   </div>
 
                   <div className="step done">
                     <h6>PASO 2</h6>
                     <h4>Contanos sobre tu Concesionario</h4>
-                    <a className="link">Modificar datos</a>
+                    <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previous()} >Modificar datos</Button>
                   </div>
 
-                  <div className={`step ${this.state.done ? 'done' : ''}`}>
+                  <div className={`step ${this.disabled() ? 'done' : ''}`}>
                     <h6>PASO 3</h6>
                     <h4>Información del responsable de la Concesionario</h4>
                     <a className="link">Modificar datos</a>
@@ -103,30 +128,45 @@ class StepThree extends React.Component {
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Información del dueño o responsable del Concesionario </h4>
-                <FormGroup>
-                  <Label for="exampleEmail">Nombre y Apellido</Label>
-                  <Input type="text" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">DNI</Label>
-                  <Input type="numeric" value={this.state.dni} onChange={event => this.setState({ dni: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Domicilio</Label>
-                  <Input type="text" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Teléfono</Label>
-                  <Input type="text" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Email</Label>
-                  <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
-                </FormGroup>
+                <Input
+                  label="Nombre y Apellido"
+                  type="string"
+                  value={this.state.nameOwner}
+                  onChange={event => this.setState({ nameOwner: event.target.value })}
+                  validate={isValid => this.setState({ nameOwnerValidate: isValid })}
+                />
+                <Input
+                  label="DNI"
+                  type="numeric"
+                  value={this.state.dniOwner}
+                  onChange={event => this.setState({ dniOwner: event.target.value })}
+                  validate={isValid => this.setState({ dniOwnerValidate: isValid })}
+                />
+                <Input
+                  label="Dirección"
+                  type="alphanumeric"
+                  value={this.state.addressOwner}
+                  onChange={event => this.setState({ addressOwner: event.target.value })}
+                  validate={isValid => this.setState({ addressOwnerValidate: isValid })}
+                />
+                <Input
+                  label="Email"
+                  type="email"
+                  value={this.state.emailOwner}
+                  onChange={event => this.setState({ emailOwner: event.target.value })}
+                  validate={isValid => this.setState({ emailOwnerValidate: isValid })}
+                />
+                <Input
+                  label="Teléfono"
+                  type="numeric"
+                  value={this.state.phoneOwner}
+                  onChange={event => this.setState({ phoneOwner: event.target.value })}
+                  validate={isValid => this.setState({ phoneOwnerValidate: isValid })}
+                />
                 <div>
                   <div className="underline" />
-                  <Button color="default" className="float-left" >Volver</Button>
-                  <Button color="primary" className="float-right" >Registrarme</Button>
+                  <Button color="default" onClick={() => this.previous()} className="float-left" >Volver</Button>
+                  <Button color="primary" disabled={this.disabled()} className="float-right" >Registrarme</Button>
                 </div>
               </div>
             </Col>

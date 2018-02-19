@@ -70,57 +70,58 @@ export default class CarResult extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <a href={`/carDetail?publication_id=${this.props.data.id}`}>
-          <img
-            style={{ position: 'relative', width: '100%', height: 'auto' }}
-            src={item.src}
-            alt={item.altText}
-          />
-        </a>
+        <img
+          style={{ position: 'relative', width: '100%', height: 'auto' }}
+          src={item.src}
+          alt={item.altText}
+        />
       </CarouselItem>
     ));
     return (
-      <div className="item-car">
-        <div className="photos">
-          <Carousel
-            activeIndex={activeIndex}
-            next={this.next}
-            previous={this.previous}
-            interval={10000}
-          >
-            <CarouselIndicators
-              items={this.props.photoGalery}
-              activeIndex={activeIndex}
-              onClickHandler={this.goToIndex}
-            />
-            {slides}
 
-            <CarouselControl
-              direction="prev"
-              directionText="Previous"
-              onClickHandler={this.previous}
-            />
-            <CarouselControl
-              direction="next"
-              directionText="Next"
-              onClickHandler={this.next}
-            />
-          </Carousel>
-          {this.featuredOrSold()}
-        </div>
-        <div className="item-data">
-          <p className="item-category">
-            <span>{this.props.data.group}</span>
-          </p>
-          <p className="item-name">
-            <strong>{this.props.data.modelName}</strong>
-          </p>
-          <p className="item-description">{`${thousands(this.props.data.kms, 0, ',', '.')} kms.`}</p>
-          <p className="item-price">
-            <strong>${thousands(this.props.data.price, 2, ',', '.')}</strong>
-          </p>
-          <small className="item-year">{this.props.data.year}</small>
-        </div>
+      <div className="item-car">
+        <a href={`/carDetail?publication_id=${this.props.data.id}`}>
+          <div className="photos">
+            <Carousel
+              activeIndex={activeIndex}
+              next={this.next}
+              previous={this.previous}
+              interval={10000}
+            >
+              <CarouselIndicators
+                items={this.props.photoGalery}
+                activeIndex={activeIndex}
+                onClickHandler={this.goToIndex}
+              />
+              {slides}
+
+              <CarouselControl
+                direction="prev"
+                directionText="Previous"
+                onClickHandler={this.previous}
+              />
+              <CarouselControl
+                direction="next"
+                directionText="Next"
+                onClickHandler={this.next}
+              />
+            </Carousel>
+            {this.featuredOrSold()}
+          </div>
+          <div className="item-data">
+            <p className="item-category">
+              <span>{this.props.data.group}</span>
+            </p>
+            <p className="item-name">
+              <strong>{this.props.data.modelName}</strong>
+            </p>
+            <p className="item-description">{`${thousands(this.props.data.kms, 0, ',', '.')} kms.`}</p>
+            <p className="item-price">
+              <strong>${thousands(this.props.data.price, 2, ',', '.')}</strong>
+            </p>
+            <small className="item-year">{this.props.data.year}</small>
+          </div>
+        </a>
       </div>
     );
   }

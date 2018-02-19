@@ -1,6 +1,8 @@
 import React from 'react';
-import { Row, Col, FormGroup, Input, Button } from 'reactstrap';
+import { Row, Col, FormGroup, Button } from 'reactstrap';
 import { stringify } from 'query-string';
+
+import Input from './Input';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -8,14 +10,20 @@ class BannerRegister extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      agencyName: '',
+      nameAgency: '',
+      nameAgencyValidate: true,
       email: '',
+      emailValidate: true,
     };
+  }
+
+  disabled() {
+    return !(this.state.nameAgencyValidate && this.state.emailValidate);
   }
 
   start() {
     const dataAgency = {
-      agencyName: this.state.agencyName,
+      nameAgency: this.state.nameAgency,
       email: this.state.email,
     };
     this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}`);
@@ -33,13 +41,22 @@ class BannerRegister extends React.Component {
               <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 float-right" >
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis y empezá a vender ahora!</strong></h5>
-                  <FormGroup>
-                    <Input type="textarea" value={this.state.agencyName} onChange={event => this.setState({ agencyName: event.target.value })} placeholder="Nombre de la Consecionaria" />
-                  </FormGroup>
-                  <FormGroup>
-                    <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} placeholder="Correo electrónico" />
-                  </FormGroup>
-                  <Button color="primary" className="btn-block" onClick={() => this.start()} >Comenzar</Button>
+                  <Input
+                    type="string"
+                    value={this.state.nameAgency}
+                    onChange={event => this.setState({ nameAgency: event.target.value })}
+                    validate={isValid => this.setState({ nameAgencyValidate: isValid })}
+                    placeholder="Nombre de la Consecionaria"
+                  />
+                  <Input
+                    type="email"
+                    value={this.state.email}
+                    onChange={event => this.setState({ email: event.target.value })}
+                    validate={isValid => this.setState({ emailValidate: isValid })}
+                    placeholder="Correo electrónico"
+                  />
+
+                  <Button color="primary" disabled={this.disabled()} className="btn-block" onClick={() => this.start()} >Comenzar</Button>
                 </div>
               </div>
             </Row>

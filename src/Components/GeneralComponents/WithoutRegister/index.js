@@ -18,10 +18,16 @@ const WithoutRegister = ({ history, location }) => (
     {isUserLogged() &&
     <Redirect to="/createPublication" />}
     <RegisterBar history={history} location={location} />
-    <BannerWithoutRegister />
-    <FeaturesWithoutRegister />
-    <Plans />
-    <Faq />
+    <BannerWithoutRegister history={history} />
+    <div id="Features">
+      <FeaturesWithoutRegister />
+    </div>
+    <div id="Plans">
+      <Plans />
+    </div>
+    <div id="Faq">
+      <Faq />
+    </div>
     <Footer history={history} />
   </div>
 );

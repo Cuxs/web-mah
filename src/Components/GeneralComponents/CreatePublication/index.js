@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { stringify, parse } from 'query-string';
 import _ from 'lodash';
@@ -10,6 +10,7 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
 import AdminBar from '../../../stories/AdminBar';
+import Input from '../../../stories/Input';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
 import { prepareArraySelect } from '../../../Modules/functions';
@@ -36,7 +37,9 @@ class CreatePublication extends React.Component {
       year: this.props.location.search === '' ? '' : parse(this.props.location.search).year,
       kms: this.props.location.search === '' ? '' : parse(this.props.location.search).kms,
       kmsDisabled: false,
+      kmsValidate: !(this.props.location.search === ''),
       price: this.props.location.search === '' ? '' : parse(this.props.location.search).price,
+      priceValidate: !(this.props.location.search === ''),
       observation: this.props.location.search === '' ? '' : parse(this.props.location.search).observation,
       Groups: [],
       Models: [],
@@ -71,7 +74,10 @@ class CreatePublication extends React.Component {
     }
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 98d45f9fdff29bb78c245ffeb9998acb1d5b5ed2
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
@@ -134,6 +140,12 @@ class CreatePublication extends React.Component {
     return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '');
   }
 
+  disabled() {
+    const {
+      brand, group, codia, year, kmsValidate, priceValidate,
+    } = this.state;
+    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kmsValidate && priceValidate);
+  }
 
   next() {
     const dataCar = {
@@ -237,7 +249,7 @@ class CreatePublication extends React.Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleSelect">¿Cuál es el grupo?</Label>
+                  <Label for="exampleSelect">¿Cuál es el modelo?</Label>
                   <Select
                     id="groups-select"
                     ref={(ref) => { this.select = ref; }}
@@ -255,7 +267,7 @@ class CreatePublication extends React.Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleSelect">¿Cuál es el modelo?</Label>
+                  <Label for="exampleSelect">¿Cuál es el tipo?</Label>
                   <Select
                     id="models-select"
                     ref={(ref) => { this.select = ref; }}
@@ -290,19 +302,31 @@ class CreatePublication extends React.Component {
                     noResultsText="No se encontraron resultados"
                   />
                 </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">¿Cuántos kilometros tiene?</Label>
-                  <Input type="numeric" disabled={this.state.kmsDisabled} value={this.state.kms} onChange={e => this.setState({ kms: e.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">¿A qué precio lo querés vender?</Label>
-                  <Input type="numeric" value={this.state.price} onChange={event => this.setState({ price: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-                  {this.state.priceSuggested && <p>Precio Sugerido: <b>$ {this.state.priceSuggested}</b></p>}
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleText">Observaciones</Label>
-                  <Input type="textarea" value={this.state.observation} onChange={event => this.setState({ observation: event.target.value })} />
-                </FormGroup>
+                <Input
+                  label="¿Cuántos kilometros tiene?"
+                  type="numeric"
+                  value={this.state.kms}
+                  onChange={event => this.setState({ kms: event.target.value })}
+                  validate={isValid => this.setState({ kmsValidate: isValid })}
+                  placeholder="Ingrese un número sin puntos ni comas"
+                  disabled={this.state.kmsDisabled}
+                />
+                <Input
+                  label="¿A qué precio lo querés vender?"
+                  type="numeric"
+                  value={this.state.price}
+                  onChange={event => this.setState({ price: event.target.value })}
+                  validate={isValid => this.setState({ priceValidate: isValid })}
+                  placeholder="Ingrese un número sin puntos ni comas"
+                />
+                {this.state.priceSuggested && <p>Precio Sugerido: <b>$ {this.state.priceSuggested}</b></p>}
+                <Input
+                  label="Observaciones (Opcional)"
+                  type="textarea"
+                  value={this.state.observation}
+                  onChange={event => this.setState({ observation: event.target.value })}
+                  validate={isValid => this.setState({ observationValidate: isValid })}
+                />
 
                 <div className="underline" />
                 <Button color="primary" className="float-right" disabled={this.disabled()} onClick={() => this.next()} >Siguiente</Button>

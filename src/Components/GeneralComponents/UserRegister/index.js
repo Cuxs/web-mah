@@ -12,11 +12,17 @@ import Plans from '../../../stories/Plans';
 
 const Home = ({ history }) => (
   <div>
-    <RegisterBar />
-    <BannerUser />
-    <FeaturesUser />
-    <Plans />
-    <Faq />
+    <RegisterBar history={history} />
+    <BannerUser history={history} />
+    <div id="Features">
+      <FeaturesUser />
+    </div>
+    <div id="Plans">
+      <Plans />
+    </div>
+    <div id="Faq">
+      <Faq />
+    </div>
     <Footer history={history} />
   </div>
 );
