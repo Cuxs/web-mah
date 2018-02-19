@@ -304,7 +304,7 @@ class CarDetail extends Component {
             )}
         </div>
         }
-        <Footer history={history}/>
+        <Footer history={history} />
       </div>
     );
   }
