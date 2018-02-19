@@ -1,8 +1,8 @@
 import React from 'react';
 /* eslint react/jsx-filename-extension: 0 */
 
-const CardAgency = ({ data }) => (
-  <div className="box-item-horizontal col-md-12" >
+const CardAgency = ({ data, history }) => (
+  <div className="box-item-horizontal col-md-12" onClick={() => { history.push(`/microsite?consecionaria=${data.agencyName}&c_id=${data.id}`); }} >
     <div className="row" >
       <div
         className="col-md-4"

@@ -2,35 +2,35 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
-export default () => (
+export default ({ data }) => (
   <div className="col-md-12 microsite-header" >
     <Row className="microsite-portrait">
-      <img src="http://placecage.com/c/1920/330" alt="banner" width="100%"/>
+      <img src={`${process.env.REACT_APP_API}/images/${data.bannerImage}`} alt="banner" width="100%" />
     </Row>
     <div className="container">
       <Row className="microsite-data">
         <Col lg="3" md="6" sm="6" xs="6" className="microsite-data-avatar">
-          <img src="http://placecage.com/c/250/250" alt="banner" width="100%"/>
+          <img src={`${process.env.REACT_APP_API}/images/${data.profileImage}`} alt="ProfilePic" width="100%" />
         </Col>
         <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 container-data-input-group" >
-          <h3><strong>NOMBRE DE LA AGENCIA</strong></h3>
+          <h3><strong>{data.agencyName}</strong></h3>
           <Row>
             <Col md="4" sm="12" xs="12">
               <div className="data-input-group">
                 <label>DOMICILIO</label>
-                <p>Av. Mitre/ Av. Mitre, San Rafael, Mendoza</p>
+                <p>{data.agencyAdress}</p>
               </div>
             </Col>
             <Col md="4" sm="12" xs="12">
               <div className="data-input-group">
                 <label>TELÉFONO</label>
-                <p>2604-4337724 / 2604-329383</p>
+                <p>{data.agencyPhone} / {data.phone}</p>
               </div>
             </Col>
             <Col md="4" sm="12" xs="12">
               <div className="data-input-group">
                 <label>EMAIL</label>
-                <p>automotoresmojacar@hotmail.com</p>
+                <p>{data.agencyEmail}</p>
               </div>
             </Col>
           </Row>

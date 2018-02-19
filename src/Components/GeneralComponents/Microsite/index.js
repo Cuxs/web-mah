@@ -4,12 +4,14 @@
 
 import React, { Component } from 'react';
 import { Col, Row, Button } from 'reactstrap';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
 import qs from 'query-string';
 import { animateScroll as scroll } from 'react-scroll';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import SearchMutation from '../../../ApolloQueries/SearchMutation';
+import { GetAgencyDetail } from '../../../ApolloQueries/FriendlyAgencyQueries';
 
 import CarResultContainer from '../../../stories/CarResultContainer';
 import CarResult from '../../../stories/CarResult';
@@ -20,47 +22,37 @@ import HeaderAgency from '../../../stories/HeaderAgency';
 
 import { getFiltersAndTotalResult } from '../../../Modules/fetches';
 
-import style from '../../../Styles/searchCars';
-
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
-class SearchCars extends Component {
+class Microsite extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filters: {},
       data: { searchPublication: '' },
-      totalResults: 0,
-      activeFilters: [{ name: 'Filtro 1' }, { name: 'Filtro 2' }],
+      totalCount: 0,
     };
   }
   componentWillMount() {
     const url = this.props.location.search;
-    this.doFilterTotalResultSearch(url);
     this.doSearch(url);
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {
       this.doSearch(nextProps.location.search);
-      this.doFilterTotalResultSearch(nextProps.location.search);
     }
     scroll.scrollToTop({ duration: 300 });
-  }
-  doFilterTotalResultSearch(url) {
-    getFiltersAndTotalResult(qs.parse(url))
-      .then(res => this.setState({
-        totalResults: res.data.totalResults,
-        filters: res.data.filters,
-      }));
   }
   doSearch(url) {
     this.props
       .mutate({
-        variables: qs.parse(url),
+        variables: {
+          user_id: qs.parse(url).c_id,
+        },
       })
       .then(({ data }) => {
         this.setState({
           data,
+          totalCount: data.searchPublication.totalCount,
         });
       })
       .catch((error) => {
@@ -68,24 +60,27 @@ class SearchCars extends Component {
       });
   }
   renderData() {
-    if (this.state.totalResults === 0) {
-      return <p>La búsqueda no ha dado resultados, prueba con otro texto </p>;
+    if (this.state.totalCount === 0) {
+      return <p>Esta agencia no posee publiciones activas. </p>;
     }
     if (this.state.data.searchPublication === '') {
       return <p>Cargando...</p>;
     }
     return (
       <div>
-        <NumberOfResult results={this.state.totalResults} />
-        <CarResultContainer>
-          {this.state.data.searchPublication.Publications.map(row => (
-            <CarResult
-              photoGalery={photoGaleryParser(row.ImageGroup)}
-              data={row}
-              {...{ [row.State]: true }}
-            />
+        <div className="offset-md-3">
+          <br />
+          <NumberOfResult results={this.state.totalCount} consecionaria />
+          <CarResultContainer>
+            {this.state.data.searchPublication.Publications.map(row => (
+              <CarResult
+                photoGalery={photoGaleryParser(row.ImageGroup)}
+                data={row}
+                {...{ [row.State]: true }}
+              />
         ))}
-        </CarResultContainer>
+          </CarResultContainer>
+        </div>
       </div>
     );
   }
@@ -93,7 +88,9 @@ class SearchCars extends Component {
   render() {
     const data = this.state.data.searchPublication;
     const { text, carState, page } = qs.parse(this.props.location.search);
-    const { history, location } = this.props;
+    const {
+      history, location, AgencyData,
+    } = this.props;
     return (
       <div>
         <TopTopNav history={history} />
@@ -102,11 +99,39 @@ class SearchCars extends Component {
           history={history}
           location={location}
         />
-        <HeaderAgency />
-
+        {AgencyData.loading ?
+          <img
+            className="loading-gif"
+            style={{ height: '250px' }}
+            src="/loading.gif"
+            key={0}
+            alt="Loading..."
+          /> :
+          <HeaderAgency data={AgencyData.GetAgencyDetail} />
+        }
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.doSearch}
+          hasMore={this.state.renderedData < this.state.totalCount}
+          loader={<img className="loading-gif" src="/loading.gif" key={0} alt="Loading..." />}
+        >
+          {this.renderData()}
+        </InfiniteScroll>
       </div>
     );
   }
 }
+const options = ({ location }) => ({
+  variables: {
+    id: qs.parse(location.search).c_id,
+  },
+});
+const withSearchMutation = graphql(SearchMutation);
+const withAgencyDetail = graphql(GetAgencyDetail, {
+  name: 'AgencyData',
+  options,
+});
 
-export default graphql(SearchMutation)(SearchCars);
+const withData = compose(withAgencyDetail, withSearchMutation);
+
+export default withData(Microsite);
