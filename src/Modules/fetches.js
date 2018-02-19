@@ -113,12 +113,12 @@ export const uploadAgencyImages = (profileImage, bannerImage, id) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-export const createPublication = (dataPublication, {imageGroup}) => {
+export const createPublication = (dataPublication, { imageGroup }) => {
   const url = `${server}/createPublication`;
   const formData = new FormData();
-  imageGroup.map((img)=>{
-    formData.append('imageGroup', img)
-  })
+  imageGroup.map((img) => {
+    formData.append('imageGroup', img);
+  });
   formData.append('dataPublication', JSON.stringify(dataPublication));
 
   const options = {

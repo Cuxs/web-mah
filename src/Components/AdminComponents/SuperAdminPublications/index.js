@@ -124,7 +124,7 @@ class SuperAdminPublications extends React.Component {
     }
     const items = [];
     publications.map(pub => (
-      items.push(<SACardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
+      items.push(<SACardPublication data={pub} history={this.props.history} key={pub.id} onHighlight={() => this.toggle()} />)));
     if (hasNextPage === false) {
       items.push(<p>No hay más publicaciones que mostrar</p>);
     }

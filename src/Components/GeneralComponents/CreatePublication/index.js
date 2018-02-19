@@ -29,12 +29,13 @@ class CreatePublication extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      carState: this.props.location.search === '' ? 'Nuevo' : parse(this.props.location.search).carState,
+      carState: this.props.location.search === '' ? '' : parse(this.props.location.search).carState,
       brand: this.props.location.search === '' ? '' : parse(this.props.location.search).brand,
       group: this.props.location.search === '' ? '' : parse(this.props.location.search).group,
       codia: this.props.location.search === '' ? '' : parse(this.props.location.search).codia,
       year: this.props.location.search === '' ? '' : parse(this.props.location.search).year,
       kms: this.props.location.search === '' ? '' : parse(this.props.location.search).kms,
+      kmsDisabled: false,
       price: this.props.location.search === '' ? '' : parse(this.props.location.search).price,
       observation: this.props.location.search === '' ? '' : parse(this.props.location.search).observation,
       Groups: [],
@@ -70,12 +71,6 @@ class CreatePublication extends React.Component {
     }
   }
 
-  disabled() {
-    const {
-      brand, group, codia, year, kms, price,
-    } = this.state;
-    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '');
-  }
 
   onChangeBrand(newBrand) {
     this.setState({
@@ -132,6 +127,12 @@ class CreatePublication extends React.Component {
       priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio,
     });
   }
+  disabled() {
+    const {
+      brand, group, codia, year, kms, price,
+    } = this.state;
+    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '');
+  }
 
 
   next() {
@@ -148,6 +149,21 @@ class CreatePublication extends React.Component {
       observation: this.state.observation,
     };
     this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`);
+  }
+  carStateChange(newValue) {
+    if (newValue === 'Nuevo') {
+      this.setState({
+        kms: 0,
+        carState: newValue,
+        kmsDisabled: true,
+      });
+    } else {
+      this.setState({
+        carState: newValue,
+        kmsDisabled: false,
+        kms: '',
+      });
+    }
   }
 
   render() {
@@ -193,11 +209,12 @@ class CreatePublication extends React.Component {
                     autoFocus
                     clearable={false}
                     onSelectResetsInput={false}
+                    placeholder="Selecciona un estado"
                     options={[{ value: 'Nuevo', label: 'Nuevo' }, { value: 'Usado', label: 'Usado' }]}
                     simpleValue
                     name="selected-state"
                     value={this.state.carState}
-                    onChange={newValue => this.setState({ carState: newValue })}
+                    onChange={newValue => this.carStateChange(newValue)}
                   />
                 </FormGroup>
 
@@ -275,7 +292,7 @@ class CreatePublication extends React.Component {
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">¿Cuántos kilometros tiene?</Label>
-                  <Input type="numeric" value={this.state.kms} onChange={event => this.setState({ kms: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
+                  <Input type="numeric" disabled={this.state.kmsDisabled} value={this.state.kms} onChange={e => this.setState({ kms: e.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
                 </FormGroup>
                 <FormGroup>
                   <Label for="exampleEmail">¿A qué precio lo querés vender?</Label>

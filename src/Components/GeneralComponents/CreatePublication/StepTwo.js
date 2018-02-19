@@ -127,7 +127,6 @@ class CreatePublication extends Component {
     
     createPublication(dataPublication, dataCar.Image)
       .then((resp) => {
-        console.log(resp)
         this.setState({
           modal: true,
           responseTitle: 'Éxito',
@@ -144,7 +143,6 @@ class CreatePublication extends Component {
   }
 
   render() {
-    console.log(this.state)
     const search = parse(this.props.location.search);
     const dataCar = {
       Caracteristics: stringify(parse(search.Caracteristics)),
@@ -171,7 +169,7 @@ class CreatePublication extends Component {
                     <a className="link">Modificar datos</a>
                   </div>
 
-                  <div className={`step ${this.state.done ? 'done' : ''}`} >
+                  <div className={`step ${!this.disabled() ? 'done' : ''}`} >
                     <h6>PASO 2</h6>
                     <h4>Mostralo con fotos</h4>
                     <p className="info">* Mínimo 3 fotos</p>
@@ -239,7 +237,7 @@ class CreatePublication extends Component {
                   <div className="col-md-6 offset-md-3">{this.state.responseMsg}</div>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" onClick={() => this.props.history.push('/userPublications')} >OK</Button>
+                  <Button color="primary" onClick={() => this.props.history.push('/userPublications?stateName=Pendiente')} >OK</Button>
                 </ModalFooter>
               </Modal>
             </Col>
