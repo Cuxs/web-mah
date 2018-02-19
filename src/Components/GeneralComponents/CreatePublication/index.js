@@ -74,10 +74,7 @@ class CreatePublication extends React.Component {
     }
   }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 98d45f9fdff29bb78c245ffeb9998acb1d5b5ed2
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,

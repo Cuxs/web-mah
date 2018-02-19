@@ -94,8 +94,13 @@ const Topics = ({ match }) => (
 );
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
+    const script = document.createElement('script');
 
+    script.src = '//code.tidio.co/2adtbpujxsburoaa4sm7umttnp1j1wjr.js';
+    script.async = true;
+
+    document.body.appendChild(script);
   }
   render() {
     return (
