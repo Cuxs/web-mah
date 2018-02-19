@@ -2,12 +2,11 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
+import { Col, Row, Button } from 'reactstrap';
 import { stringify, parse } from 'query-string';
 
 import RegisterBar from '../../../stories/RegisterBar';
 import Input from '../../../stories/Input';
-import style from '../../../Styles/register';
 
 class StepOne extends React.Component {
   constructor(props) {

@@ -2,10 +2,12 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Input, Label, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Col, Row, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { parse } from 'query-string';
+import { stringify, parse } from 'query-string';
 
 import SearchBar from '../../../stories/SearchBar';
+import Input from '../../../stories/Input';
 
 import style from '../../../Styles/pledgeCredits';
 
@@ -14,20 +16,68 @@ class PersonalShopper extends React.Component {
     super(props);
     this.state = {
       name: '',
+      nameValidate: false,
       dni: '',
+      dniValidate: false,
       address: '',
+      addressValidate: false,
       ganancy: '',
+      ganancyValidate: false,
       financyAmount: '',
+      financyAmountValidate: false,
       job: '',
+      jobValidate: false,
       email: '',
+      emailValidate: false,
       phone: '',
+      phoneValidate: false,
       messagge: '',
     };
   }
 
-  componentWillMount() {
+  previous() {
     const search = parse(this.props.location.search);
-    console.log(search);
+
+    const dataShopper = {
+      kms: search.kms,
+      year: search.year,
+      price: search.price,
+      brand: search.brand,
+      group: search.group,
+      codia: search.codia,
+      observation: search.observation
+    };
+    this.props.history.push(`/personalShopperS1?${stringify(dataShopper)}}`);
+  }
+
+  register() {
+    const search = parse(this.props.location.search);
+
+    const dataUser = {
+      kms: search.kms,
+      year: search.year,
+      price: search.price,
+      brand: search.brand,
+      group: search.group,
+      codia: search.codia,
+      observation: search.observation,
+      name: this.state.name,
+      dni: this.state.dni,
+      address: this.state.address,
+      ganancy: this.state.ganancy,
+      financyAmount: this.state.address,
+      job: this.state.job,
+      email: this.state.email,
+      phone: this.state.phone,
+    };
+    console.log(dataUser)
+  }
+
+  disabled() {
+    const {
+      nameValidate, dniValidate, addressValidate, ganancyValidate, financyAmountValidate, jobValidate, emailValidate, phoneValidate,
+    } = this.state;
+    return !(nameValidate && dniValidate && addressValidate && ganancyValidate && financyAmountValidate && jobValidate && emailValidate && phoneValidate);
   }
 
   render() {
@@ -47,7 +97,7 @@ class PersonalShopper extends React.Component {
                   <div className="step done">
                     <h6>PASO 1</h6>
                     <h4>Contanos lo que buscás</h4>
-                    <a className="link">Modificar datos</a>
+                    <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previous()} >Modificar datos</Button>
                   </div>
 
                   <div className="step">
@@ -61,45 +111,73 @@ class PersonalShopper extends React.Component {
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Datos del interesado</h4>
-                <FormGroup>
-                  <Label for="exampleEmail">Nombre y Apellido</Label>
-                  <Input type="text" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} placeholder="Nombre del interesado" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Documento de identidad</Label>
-                  <Input type="text" value={this.state.dni} onChange={event => this.setState({ dni: event.target.value })} placeholder="Número de documento" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Domicilio</Label>
-                  <Input type="text" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} placeholder="Domicilio del interesado" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Ingresos</Label>
-                  <Input type="numeric" value={this.state.ganancy} onChange={event => this.setState({ ganancy: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Monto a financiar</Label>
-                  <Input type="numeric" value={this.state.financyAmount} onChange={event => this.setState({ financyAmount: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Ocupación</Label>
-                  <Input type="text" value={this.state.job} onChange={event => this.setState({ job: event.target.value })} placeholder="Ocupación del interesado" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Email</Label>
-                  <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} placeholder="Correo electrónico" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Teléfono</Label>
-                  <Input type="numeric" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} placeholder="Teléfono del intersado" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleText">Mensaje</Label>
-                  <Input type="textarea" value={this.state.messagge} onChange={event => this.setState({ messagge: event.target.value })} />
-                </FormGroup>
-                <div className="d-flex justify-content-between align-items-center" >
-                  <Button color="default" >Volver</Button>
-                  <Button color="primary" >Siguiente</Button>
+                <Input
+                  label="Nombre y Apellido"
+                  type="string"
+                  value={this.state.name}
+                  onChange={event => this.setState({ name: event.target.value })}
+                  validate={isValid => this.setState({ nameValidate: isValid })}
+                />
+                <Input
+                  label="Documento de Identidad"
+                  type="numeric"
+                  value={this.state.dni}
+                  onChange={event => this.setState({ dni: event.target.value })}
+                  validate={isValid => this.setState({ dniValidate: isValid })}
+                />
+                <Input
+                  label="Domicilio"
+                  type="alphanumeric"
+                  value={this.state.address}
+                  onChange={event => this.setState({ address: event.target.value })}
+                  validate={isValid => this.setState({ addressValidate: isValid })}
+                />
+                <Input
+                  label="Ingresos"
+                  type="numeric"
+                  value={this.state.ganancy}
+                  onChange={event => this.setState({ ganancy: event.target.value })}
+                  validate={isValid => this.setState({ ganancyValidate: isValid })}
+                />
+                <Input
+                  label="Monto a financiar"
+                  type="numeric"
+                  value={this.state.financyAmount}
+                  onChange={event => this.setState({ financyAmount: event.target.value })}
+                  validate={isValid => this.setState({ financyAmountValidate: isValid })}
+                />
+                <Input
+                  label="Ocupación"
+                  type="string"
+                  value={this.state.job}
+                  onChange={event => this.setState({ job: event.target.value })}
+                  validate={isValid => this.setState({ jobValidate: isValid })}
+                />
+                <Input
+                  label="Email"
+                  type="string"
+                  value={this.state.email}
+                  onChange={event => this.setState({ email: event.target.value })}
+                  validate={isValid => this.setState({ emailValidate: isValid })}
+                />
+                <Input
+                  label="Teléfono"
+                  type="numeric"
+                  value={this.state.phone}
+                  onChange={event => this.setState({ phone: event.target.value })}
+                  validate={isValid => this.setState({ phoneValidate: isValid })}
+                />
+                <Input
+                  label="Mensaje"
+                  type="textarea"
+                  value={this.state.messagge}
+                  onChange={event => this.setState({ messagge: event.target.value })}
+                  validate={isValid => this.setState({ messaggeValidate: isValid })}
+                />
+                <div>
+                  <div className="underline" />
+                  <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
+                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.register()}>Registrarme</Button>
                 </div>
               </div>
             </Col>

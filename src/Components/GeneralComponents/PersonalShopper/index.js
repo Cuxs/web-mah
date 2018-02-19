@@ -192,7 +192,7 @@ class PersonalShopper extends React.Component {
                       clearable
                       name="selected-state"
                       value={this.state.group}
-                      placeholder="Selecciona un grupo"
+                      placeholder="Selecciona un modelo"
                       onChange={newValue => this.onChangeGroup(newValue)}
                       searchable
                       noResultsText="No se encontraron resultados"
@@ -210,7 +210,7 @@ class PersonalShopper extends React.Component {
                       clearable
                       name="selected-state"
                       value={this.state.codia}
-                      placeholder="Selecciona un modelo"
+                      placeholder="Selecciona un tipo"
                       onChange={newValue => this.onChangeModel(newValue)}
                       searchable
                       noResultsText="No se encontraron resultados"

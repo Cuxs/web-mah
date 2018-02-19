@@ -1,6 +1,8 @@
 import React from 'react';
-import { Row, Col, FormGroup, Input, Button } from 'reactstrap';
+import { Row, Button } from 'reactstrap';
 import { stringify } from 'query-string';
+
+import Input from './Input';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -9,6 +11,7 @@ class BannerUser extends React.Component {
     super(props);
     this.state = {
       email: '',
+      emailValidate: true,
     };
   }
 
@@ -31,10 +34,14 @@ class BannerUser extends React.Component {
               <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 float-right" >
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis!</strong></h5>
-                  <FormGroup>
-                    <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
-                  </FormGroup>
-                  <Button color="primary" onClick={() => this.start()} >Comenzar</Button>
+                  <Input
+                    type="email"
+                    value={this.state.email}
+                    onChange={event => this.setState({ email: event.target.value })}
+                    validate={isValid => this.setState({ emailValidate: isValid })}
+                    placeholder="Correo electrónico"
+                  />
+                  <Button color="primary" className="btn-block" disabled={!this.state.emailValidate} onClick={() => this.start()} >Comenzar</Button>
                 </div>
               </div>
             </Row>

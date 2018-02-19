@@ -110,7 +110,7 @@ class Banner extends React.Component {
                       clearable
                       name="selected-state"
                       value={this.state.group}
-                      placeholder="Selecciona un grupo"
+                      placeholder="Selecciona un modelo"
                       onChange={newValue => this.onChangeGroup(newValue)}
                       searchable
                       noResultsText="No se encontraron resultados"
