@@ -171,6 +171,22 @@ class CreatePublication extends Component {
     this.props.history.push(`/publicateWithoutRegisterS2?${stringify(dataCar)}&${stringify(dataExtras)}&${stringify(dataPerson)}`);
   }
 
+  previousS1() {
+    const search = parse(this.props.location.search);
+    const dataCar = {
+      DataCar: search.DataCar,
+    };
+    const dataExtras = {
+      Caracteristics: search.Caracteristics,
+      TecnicalData: search.TecnicalData,
+      Additionals: search.Additionals,
+    };
+    const dataPerson = {
+      DataPerson: search.DataPerson,
+    };
+    this.props.history.push(`/publicateWithoutRegisterS1?${stringify(dataCar)}&${stringify(dataExtras)}&${stringify(dataPerson)}`);
+  }
+
   render() {
     return (
       <div>
@@ -188,13 +204,13 @@ class CreatePublication extends Component {
                   <div className="step done">
                     <h6>PASO 1</h6>
                     <h4>Contanos de tu auto</h4>
-                    <a className="link">Modificar datos</a>
+                    <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previousS1()} >Modificar datos</Button>
                   </div>
 
                   <div className="step done">
                     <h6>PASO 2</h6>
                     <h4>Dejá tus datos de contacto para recibir mensajes de los interesados</h4>
-                    <a className="link">Modificar datos</a>
+                    <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previous()} >Modificar datos</Button>
                   </div>
 
                   <div className={`step ${this.state.done ? 'done' : ''}`} >

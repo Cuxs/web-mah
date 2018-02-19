@@ -34,4 +34,3 @@ export const prepareArraySelect = (array, rowValue, rowLabel) => {
 
   return newArray;
 };
-

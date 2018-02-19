@@ -2,9 +2,11 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button, Label, FormGroup, Input } from 'reactstrap';
+import { Col, Row, Button, Label, FormGroup } from 'reactstrap';
 import { parse, stringify } from 'query-string';
 
+
+import Input from '../../../stories/Input';
 import AdminBar from '../../../stories/AdminBar';
 
 
@@ -14,8 +16,11 @@ class CreatePublication extends React.Component {
     const search = parse(this.props.location.search);
     this.state = {
       name: search.DataPerson ? parse(search.DataPerson).name : '',
+      nameValidate: search.DataPerson,
       phone: search.DataPerson ? parse(search.DataPerson).phone : '',
+      phoneValidate: search.DataPerson,
       email: search.DataPerson ? parse(search.DataPerson).email : '',
+      emailValidate: search.DataPerson,
     };
   }
 
@@ -60,7 +65,7 @@ class CreatePublication extends React.Component {
   }
 
   disabled() {
-    return !(this.state.email !== '' && this.state.name !== '' && this.state.phone !== '');
+    return !(this.state.emailValidate && this.state.nameValidate && this.state.phoneValidate);
   }
 
   render() {
@@ -80,7 +85,7 @@ class CreatePublication extends React.Component {
                   <div className="step done">
                     <h6>PASO 1</h6>
                     <h4>Contanos de tu auto</h4>
-                    <a className="link">Modificar datos</a>
+                    <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previous()} >Modificar datos</Button>
                   </div>
 
                   <div className="step">
@@ -89,7 +94,7 @@ class CreatePublication extends React.Component {
                     <a className="link">Modificar datos</a>
                   </div>
 
-                  <div className="step">
+                  <div className="step disable">
                     <h6>PASO 3</h6>
                     <h4>Mostralo con fotos</h4>
                     <p className="info">* Mínimo 3 fotos</p>
@@ -131,19 +136,28 @@ class CreatePublication extends React.Component {
             </Col>
             <Col md="6" sm="12" xs="12" className="mb-4">
               <div className="col-md-9 float-left">
-                <h4 className="title-division">Solicitá tu crédito!</h4>
-                <FormGroup>
-                  <Label for="exampleEmail">Nombre y Apellido</Label>
-                  <Input type="text" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Email</Label>
-                  <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Teléfono</Label>
-                  <Input type="numeric" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
-                </FormGroup>
+                <h4 className="title-division">Los interesados se comunicarán con vos</h4>
+                <Input
+                  label="Nombre y Apellido"
+                  type="string"
+                  value={this.state.name}
+                  onChange={event => this.setState({ name: event.target.value })}
+                  validate={isValid => this.setState({ nameValidate: isValid })}
+                />
+                <Input
+                  label="Email"
+                  type="email"
+                  value={this.state.email}
+                  onChange={event => this.setState({ email: event.target.value })}
+                  validate={isValid => this.setState({ emailValidate: isValid })}
+                />
+                <Input
+                  label="Teléfono"
+                  type="numeric"
+                  value={this.state.phone}
+                  onChange={event => this.setState({ phone: event.target.value })}
+                  validate={isValid => this.setState({ phoneValidate: isValid })}
+                />
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()} >Volver</Button>
