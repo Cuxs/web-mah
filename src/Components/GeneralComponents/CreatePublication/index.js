@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { stringify, parse } from 'query-string';
 import _ from 'lodash';
@@ -10,6 +10,7 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
 import AdminBar from '../../../stories/AdminBar';
+import Input from '../../../stories/Input';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
 import { prepareArraySelect } from '../../../Modules/functions';
@@ -35,7 +36,9 @@ class CreatePublication extends React.Component {
       codia: this.props.location.search === '' ? '' : parse(this.props.location.search).codia,
       year: this.props.location.search === '' ? '' : parse(this.props.location.search).year,
       kms: this.props.location.search === '' ? '' : parse(this.props.location.search).kms,
+      kmsValidate: !(this.props.location.search === ''),
       price: this.props.location.search === '' ? '' : parse(this.props.location.search).price,
+      priceValidate: !(this.props.location.search === ''),
       observation: this.props.location.search === '' ? '' : parse(this.props.location.search).observation,
       Groups: [],
       Models: [],
@@ -68,13 +71,6 @@ class CreatePublication extends React.Component {
       })
         .then(response => this.setState({ Prices: response.data.Price }));
     }
-  }
-
-  disabled() {
-    const {
-      brand, group, codia, year, kms, price,
-    } = this.state;
-    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '');
   }
 
   onChangeBrand(newBrand) {
@@ -133,6 +129,12 @@ class CreatePublication extends React.Component {
     });
   }
 
+  disabled() {
+    const {
+      brand, group, codia, year, kmsValidate, priceValidate,
+    } = this.state;
+    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kmsValidate && priceValidate);
+  }
 
   next() {
     const dataCar = {
@@ -273,19 +275,30 @@ class CreatePublication extends React.Component {
                     noResultsText="No se encontraron resultados"
                   />
                 </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">¿Cuántos kilometros tiene?</Label>
-                  <Input type="numeric" value={this.state.kms} onChange={event => this.setState({ kms: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">¿A qué precio lo querés vender?</Label>
-                  <Input type="numeric" value={this.state.price} onChange={event => this.setState({ price: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-                  {this.state.priceSuggested && <p>Precio Sugerido: <b>$ {this.state.priceSuggested}</b></p>}
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleText">Observaciones</Label>
-                  <Input type="textarea" value={this.state.observation} onChange={event => this.setState({ observation: event.target.value })} />
-                </FormGroup>
+                <Input
+                  label="¿Cuántos kilometros tiene?"
+                  type="numeric"
+                  value={this.state.kms}
+                  onChange={event => this.setState({ kms: event.target.value })}
+                  validate={isValid => this.setState({ kmsValidate: isValid })}
+                  placeholder="Ingrese un número sin puntos ni comas"
+                />
+                <Input
+                  label="¿A qué precio lo querés vender?"
+                  type="numeric"
+                  value={this.state.price}
+                  onChange={event => this.setState({ price: event.target.value })}
+                  validate={isValid => this.setState({ priceValidate: isValid })}
+                  placeholder="Ingrese un número sin puntos ni comas"
+                />
+                {this.state.priceSuggested && <p>Precio Sugerido: <b>$ {this.state.priceSuggested}</b></p>}
+                <Input
+                  label="Observaciones (Opcional)"
+                  type="textarea"
+                  value={this.state.observation}
+                  onChange={event => this.setState({ observation: event.target.value })}
+                  validate={isValid => this.setState({ observationValidate: isValid })}
+                />
 
                 <div className="underline" />
                 <Button color="primary" className="float-right" disabled={this.disabled()} onClick={() => this.next()} >Siguiente</Button>

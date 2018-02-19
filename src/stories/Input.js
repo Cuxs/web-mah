@@ -56,7 +56,7 @@ class InputSpecial extends Component {
         break;
 
       case 'password':
-        re = /^/;
+        re = /^.{6,}$/;
         break;
 
       case 'latitude':
@@ -75,7 +75,6 @@ class InputSpecial extends Component {
       default:
         break;
     }
-    console.log()
 
     if (re.test(this.props.value) === true) {
       this.props.validate(true);
