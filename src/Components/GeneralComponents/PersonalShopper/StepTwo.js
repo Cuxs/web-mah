@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { Col, Row, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-import { parse } from 'query-string';
 import { stringify, parse } from 'query-string';
 
 import SearchBar from '../../../stories/SearchBar';
