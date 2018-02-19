@@ -12,4 +12,19 @@ const GetAllAgencies = gql`
     profileImage
   }}`;
 
-export { GetAllAgencies };
+const GetAgencyDetail = gql`
+query GetAgencyDetail($id: Int!){
+  GetAgencyDetail(id: $id){
+    id
+    phone
+    agencyName
+    agencyEmail
+    agencyAdress
+    agencyPhone
+    bannerImage
+    profileImage
+  }
+}
+`;
+
+export { GetAllAgencies, GetAgencyDetail };

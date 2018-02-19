@@ -42,7 +42,7 @@ const FriendlyAgency = ({ history, location, Agencies }) => (
                 key={0}
                 alt="Loading..."
               /> :
-              Agencies.GetAllAgencies.map(agencyData => <CardAgency data={agencyData} />)
+              Agencies.GetAllAgencies.map(agencyData => <CardAgency data={agencyData} history={history} />)
           }
           </Col>
           <Col lg="3" md="12" sm="12" xs="12">
