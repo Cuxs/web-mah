@@ -192,15 +192,19 @@ class MessagesCarDetail extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Tus datos para ponerte en contacto</ModalHeader>
           <ModalBody>
-            <FormGroup>
-              <Label for="exampleEmail">Nombre</Label>
-              <Input value={this.state.name} onChange={e => this.setState({ name: e.target.value })} type="text" name="name" id="exampleEmail" />
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">Email</Label>
-              <Input value={this.state.email} onChange={e => this.setState({ email: e.target.value })} type="email" name="name" id="exampleEmail" />
-              <Button disabled={this.isModalIncomplete()} onClick={() => { this.sendAnonMessage(); }}>Enviar Consulta</Button>
-            </FormGroup>
+            <div className="col-md-8 offset-md-2">
+              <FormGroup>
+                <Label for="exampleEmail">Nombre</Label>
+                <Input value={this.state.name} onChange={e => this.setState({ name: e.target.value })} type="text" name="name" id="exampleEmail" />
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleEmail">Email</Label>
+                <Input value={this.state.email} onChange={e => this.setState({ email: e.target.value })} type="email" name="name" id="exampleEmail" />
+              </FormGroup>
+              <FormGroup>
+                <Button color="primary" disabled={this.isModalIncomplete()} onClick={() => { this.sendAnonMessage(); }}>Enviar Consulta</Button>
+              </FormGroup>
+            </div>
           </ModalBody>
         </Modal>
       </span>
