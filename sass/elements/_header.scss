@@ -45,6 +45,10 @@
   .btn-group{
     margin-top:-1px;
     width: 100%;
+    &>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+      border-bottom-right-radius: 3px !important;
+      border-top-right-radius: 3px !important;
+    }
     .btn-select{
       border:solid 1px $gray-200;
       padding:10px 30px;
