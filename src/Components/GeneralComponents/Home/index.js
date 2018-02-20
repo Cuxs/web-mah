@@ -3,7 +3,8 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
+import { branch, renderComponent } from 'recompose';
 
 import HomeQuery from '../../../ApolloQueries/HomeQuery';
 import CarHomeContainer from '../../../stories/CarHomeContainer';
@@ -15,9 +16,16 @@ import CreditsBanner from '../../../stories/CreditsBanner';
 import LastPublications from '../../../stories/LastPublications';
 import FriendlyCompanies from '../../../stories/FriendlyCompanies';
 import Footer from '../../../stories/Footer';
+import LoadingComponent from '../../../stories/LoadingComponent';
+
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
+const renderWhileLoading = (component, propName = 'data') =>
+  branch(
+    props => props[propName] && props[propName].loading,
+    renderComponent(component),
+  );
 const Home = ({ data, history, location }) => (
   <div>
     {!data.loading &&
@@ -54,4 +62,11 @@ const options = {
     stateName: 'Activas',
   },
 };
-export default graphql(HomeQuery, { options })(Home);
+const withHomeQuery = graphql(HomeQuery, { options });
+const withData = compose(
+  withHomeQuery,
+  renderWhileLoading(LoadingComponent, 'data'),
+);
+
+
+export default withData(Home);

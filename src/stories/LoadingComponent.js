@@ -9,7 +9,7 @@ const LoadingComponent = () => (
       duration={1600}
       direction="alternate"
       loop
-      scale={[1.25, 0.9]}
+      scale={[1.15, 0.9]}
     >
       <div style={{ height: '100vh' }} className="d-flex justify-content-center align-items-center">
         <img src="/logo.png" alt="Cargando..." />
