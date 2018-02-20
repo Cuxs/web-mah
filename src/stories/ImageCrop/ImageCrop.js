@@ -105,29 +105,36 @@ export default class ImageCrop extends Component {
           <br />
           {this.shouldShowCropper() ? (
             <Modal isOpen size="lg">
+              <ModalHeader closebutton="true" >
+                Ajuste la imagen.
+              </ModalHeader>
               <ModalBody>
-                <p style={{ textAlign: 'center' }}>Ajuste la imagen.</p>
-                <small style={{ textAlign: 'center' }}>Use la rueda del mouse para hacer zoom y los puntos de las esquinas para ajustar la imagen.</small>
-                <Cropper
-                  style={{ height: 400, width: '100%' }}
-                  aspectRatio={this.props.aspectRatio}
-                  preview=".img-preview"
-                  guides={false}
-                  src={this.state.src}
-                  ref={(cropper) => {
-                    this.cropper = cropper;
-                  }}
-                />
+                <div className="col-md-10 offset-md-1 text-center">
+                  <p style={{ textAlign: 'center' }}>Use la rueda del mouse para hacer zoom y los puntos de las esquinas para ajustar la imagen.</p>
+                  <Cropper
+                    style={{ height: 400, width: '100%' }}
+                    aspectRatio={this.props.aspectRatio}
+                    preview=".img-preview"
+                    guides={false}
+                    src={this.state.src}
+                    ref={(cropper) => {
+                      this.cropper = cropper;
+                    }}
+                  />
+                </div>
               </ModalBody>
               <ModalFooter>
-                <div>
+                <div className="col-3 float-left">
                   <Button
-                    className="btn btn-primary"
+                    color="primary"
                     onClick={() => this.cropImage()}
                   >
                     Recortar
                   </Button>
+                </div>
+                <div className="col-3 float-right">
                   <Button
+                    color="default"
                     onClick={() =>
                       this.setState({
                         cropResult: `${process.env.REACT_APP_API}/images/${
