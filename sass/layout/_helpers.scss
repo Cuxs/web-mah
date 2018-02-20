@@ -39,3 +39,8 @@
   -webkit-align-content: space-between;
   align-content: space-between;
 }
+
+*:focus {
+    outline: none;
+    box-shadow:none !important;
+}

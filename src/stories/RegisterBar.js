@@ -111,7 +111,7 @@ export default class RegisterBar extends Component {
                     toggle={this.toggleUser}
                     className="dropdown-register-bar"
                   >
-                    <DropdownToggle caret>{getUserDataFromToken().name}</DropdownToggle>
+                    <DropdownToggle caret color="default" className="btn-link">{getUserDataFromToken().name}</DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem
                         value="myAccount"

@@ -251,7 +251,7 @@ class SearchBar extends Component {
                       toggle={this.toggleUser}
                     >
                       <Button style={{ cursor: 'pointer' }} color="primary" className={this.props.location.pathname === '/createPublication' ? 'active' : ''} onClick={() => this.props.history.push('/createPublication')} >Publica Ya!</Button>
-                      <DropdownToggle caret className="btn-link-active btn-block">{_.truncate(getUserDataFromToken().name, { length: 10 })}</DropdownToggle>
+                      <DropdownToggle caret color="default" className="btn-link btn-block">{_.truncate(getUserDataFromToken().name, { length: 10 })}</DropdownToggle>
                       <DropdownMenu>
                         {!isAdminLogged() &&
                         <DropdownItem
