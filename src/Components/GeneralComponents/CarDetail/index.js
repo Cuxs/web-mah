@@ -7,6 +7,7 @@ import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import { parse } from 'query-string';
 import _ from 'lodash';
+import decode from 'jwt-decode';
 
 import {
   CarDetailQuery,
@@ -88,6 +89,10 @@ class CarDetail extends Component {
         hiddenClass = 'hidden';
       } else {
         hiddenClass = '';
+      }
+      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente' && parse(this.props.location.search).t) {
+        const uData = (decode(parse(this.props.location.search).t));
+        if (uData.userType === 'Admin') { hiddenClass = ''; } else { hiddenClass = 'hidden'; }
       }
     }
     return (

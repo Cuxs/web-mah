@@ -124,7 +124,6 @@ class SACardPublication extends Component {
     if (data.User) {
       return data.User.agencyName === null ? data.User.name : data.User.agencyName;
     }
-    console.log(data.name)
     return data.name;
   }
 
@@ -157,7 +156,7 @@ class SACardPublication extends Component {
               {(stateName !== 'Vendida' && stateName !== 'Pendiente') && <Button className="btn-default btn-link-primary float-left">Marcar como Vendido</Button>}
               {isPubEditable(stateName) && <Button className="btn-default btn-link-primary float-right">Editar</Button>}
               {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right" onClick={() => {}} >Destacar</Button>}
-              <Button className="btn-default btn-link-primary float-right" onClick={() => history.push(`/carDetail?publication_id=${data.id}`)} >Ver Publicación</Button>
+              <Button className="btn-default btn-link-primary float-right" onClick={() => history.push(`/carDetail?publication_id=${data.id}&t=${getUserToken()}`)} >Ver Publicación</Button>
               {/* {stateName === 'Vencida' && <Button className="btn-default btn-link-primary float-right" onClick={() => {}} >Editar Vigencia</Button>} */}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right" onClick={() => { this.toggleQuestionModal('desaprobar'); }} >Desaprobar</Button>}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right" onClick={() => { this.toggleQuestionModal('aprobar'); }} >Aprobar</Button>}
