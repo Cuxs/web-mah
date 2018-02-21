@@ -24,6 +24,7 @@ mutation searchPublication($carState: String, $state: String, $MAHtoken: String,
       year
       carState
       kms
+      name
     }
   }
 }

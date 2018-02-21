@@ -84,7 +84,7 @@ class SACardPublication extends Component {
           modal: true,
           questionModal: false,
           modalTitle: 'Hecho',
-          modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,          
+          modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
         });
       })
       .catch(({ graphQLErrors, networkError }) => {
@@ -120,6 +120,14 @@ class SACardPublication extends Component {
     });
   }
 
+  showPublicatorName(data) {
+    if (data.User) {
+      return data.User.agencyName === null ? data.User.name : data.User.agencyName;
+    }
+    console.log(data.name)
+    return data.name;
+  }
+
   render() {
     const { data, history, data: { CurrentState: { stateName } } } = this.props;
     return (
@@ -138,7 +146,7 @@ class SACardPublication extends Component {
           <div className="col-8">
             <div className="item-data" >
               <p className="item-state badge badge-secondary published">{stateName}</p>
-              <p className="item-name"><strong>{data.User.agencyName === null ? data.User.name : data.User.agencyName}</strong></p>
+              <p className="item-name"><strong>{this.showPublicatorName(data)}</strong></p>
               <p className="item-description">{data.brand} {data.group}</p>
               <small>{data.modelName}</small>
             </div>
