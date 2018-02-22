@@ -106,7 +106,7 @@ class StepTwo extends React.Component {
                 <h4 className="title-division">Información de la agencia </h4>
                 <Input
                   label="Nombre de la Agencia"
-                  type="string"
+                  type="text"
                   value={this.state.nameAgency}
                   onChange={event => this.setState({ nameAgency: event.target.value })}
                   validate={isValid => this.setState({ nameAgencyValidate: isValid })}

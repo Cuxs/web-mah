@@ -8,6 +8,7 @@ class InputSpecial extends Component {
     super(props);
     this.state = {
       fieldValidation: true,
+      errorMessage: '',
     };
   }
 
@@ -18,10 +19,10 @@ class InputSpecial extends Component {
     switch (type) {
       case 'email':
         re = /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
-        errorMessage = 'Por favor, ingrese un correo válido. No coinciden los correos.';
+        errorMessage = 'Por favor, ingrese un correo válido.';
         break;
 
-      case 'string':
+      case 'text':
         re = /^[a-z A-Z \s ñÑáéíóúÁÉÍÓÚ]*$/;
         errorMessage = 'Por favor, ingrese solo letras';
         break;
@@ -85,6 +86,7 @@ class InputSpecial extends Component {
       this.props.validate(false);
       this.setState({
         fieldValidation: false,
+        errorMessage,
       });
     }
   }
@@ -101,6 +103,7 @@ class InputSpecial extends Component {
           onBlur={() => this.validate(this.props.type)}
           validate={() => this.props.validate}
         />
+        {!this.state.fieldValidation && <p style={{ color: 'red' }} ><small>{this.state.errorMessage}</small></p>}
       </FormGroup>
     );
   }

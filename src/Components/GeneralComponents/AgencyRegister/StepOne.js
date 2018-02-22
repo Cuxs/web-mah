@@ -94,7 +94,7 @@ class StepOne extends React.Component {
                 />
                 <Input
                   label="Nombre del Encargado"
-                  type="string"
+                  type="text"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
                   validate={isValid => this.setState({ nameValidate: isValid })}

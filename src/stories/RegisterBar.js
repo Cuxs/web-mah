@@ -34,9 +34,9 @@ export default class RegisterBar extends Component {
       isNotificationActive: false,
     };
     this.toggleModal = this.toggleModal.bind(this);
+    this.toggleUser = this.toggleUser.bind(this);
     this.toggleNotification = this.toggleNotification.bind(this);
     this.isLoginFormIncomplete = this.isLoginFormIncomplete.bind(this);
-    this.toggleUser = this.toggleUser.bind(this);
   }
 
   isLoginFormIncomplete() {
@@ -105,35 +105,19 @@ export default class RegisterBar extends Component {
                 <Button color="secondary" className="btn-link" href="#Features" >BENEFICIOS</Button>
                 <Button color="secondary" className="btn-link" href="#Plans" >PLANES</Button>
                 <Button color="secondary" className="btn-link" href="#Faq" >AYUDA</Button>
-                {this.state.isUserLogged ? (
-                  <ButtonDropdown
-                    isOpen={this.state.dropdownUser}
-                    toggle={this.toggleUser}
-                    className="dropdown-register-bar"
-                  >
-                    <DropdownToggle caret color="default" className="btn-link">{getUserDataFromToken().name}</DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem
-                        value="myAccount"
-                        onClick={() => (this.props.history.push('/userAdmin'))}
-                      >Mi cuenta
-                      </DropdownItem>
-                      <DropdownItem value="closeSession" onClick={() => { clearSession(); this.setState({ isUserLogged: false }); }}>Cerrar Sesión</DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown>
-              ) : (
-                <Button color="primary" onClick={() => this.toggleModal()} className="btn-link">INICIAR SESIÓN</Button>
-              )}
+
+                <Button color="primary" onClick={() => this.toggleModal} className="btn-link">INICIAR SESIÓN</Button>
               </div>
-            }
+              }
+
             </div>
             <div className="d-inline-block d-md-none">
               <ButtonDropdown
-                isOpen="true"
-                toggle="true"
+                isOpen={this.state.dropdownUser}
+                toggle={this.toggleUser}
               >
                 <DropdownToggle caret color="default" className="btn-link btn-block" style={{ width: '100px' }}>
-              MENU
+                  MENU
                 </DropdownToggle>
                 <DropdownMenu>
                   { !onlyLogin &&
@@ -155,7 +139,7 @@ export default class RegisterBar extends Component {
                     </DropdownItem>
                     <DropdownItem divider />
                   </div>
-              }
+                }
                   <DropdownItem
                     value="iniciar sesion"
                   >
@@ -216,7 +200,7 @@ export default class RegisterBar extends Component {
               </div>
               <div className="col-3 float-right">
                 <Button
-                  onClick={() => this.toggleModal()}
+                  onClick={() => this.toggleModal}
                   color="default"
                   className="alternative"
                 >

@@ -91,7 +91,7 @@ class FreeDestinationCredits extends React.Component {
                 <h4 className="title-division">Solicitá tu crédito!</h4>
                 <Input
                   label="Nombre y Apellido"
-                  type="string"
+                  type="text"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
                   validate={isValid => this.setState({ nameValidate: isValid })}
@@ -126,14 +126,14 @@ class FreeDestinationCredits extends React.Component {
                 />
                 <Input
                   label="Destino del crédito"
-                  type="string"
+                  type="text"
                   value={this.state.creditReason}
                   onChange={event => this.setState({ creditReason: event.target.value })}
                   validate={isValid => this.setState({ creditReasonValidate: isValid })}
                 />
                 <Input
                   label="Email"
-                  type="string"
+                  type="text"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
                   validate={isValid => this.setState({ emailValidate: isValid })}
