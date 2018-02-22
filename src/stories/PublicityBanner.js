@@ -4,7 +4,7 @@ import { Col, Row } from 'reactstrap';
 
 export default () => (
   <Col md="12">
-    <a href="/form">
+    <a href="/pledgeCredits">
       <Row className="publicityBanner align-items-center">
         <div className="col-10">Comprá tu auto aquí y te financiamos hasta el 60%.</div>
         <div className="col-2"><img src="/assets/images/icon-arrow-right.svg" alt="Ir al formulario" /></div>
