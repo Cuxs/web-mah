@@ -7,6 +7,7 @@ import { stringify, parse } from 'query-string';
 
 import RegisterBar from '../../../stories/RegisterBar';
 import Input from '../../../stories/Input';
+import { registerUser } from '../../../Modules/fetches';
 
 class StepTwo extends React.Component {
   constructor(props) {
@@ -20,21 +21,26 @@ class StepTwo extends React.Component {
       addressValidate: parse(this.props.location.search).address,
       dni: parse(this.props.location.search).dni ? parse(this.props.location.search).dni : '',
       dniValidate: parse(this.props.location.search).dni,
+      pass: parse(this.props.location.search).pass ? parse(this.props.location.search).pass : '',
+      passValidate: parse(this.props.location.search).email,
+      repeatPass: parse(this.props.location.search).repeatPass ? parse(this.props.location.search).repeatPass : '',
+      repeatPassValidate: parse(this.props.location.search).email,
+      modal: '',
+      modalTitle: '',
+      modalText: '',
     };
+    this.toggle = this.toggle.bind(this);
   }
 
   disabled() {
-    return !(this.state.nameValidate && this.state.phoneValidate && this.state.addressValidate && this.state.dniValidate);
+    return !(this.state.nameValidate && this.state.phoneValidate && this.state.addressValidate && this.state.dniValidate && this.state.passValidate && this.state.repeatPassValidate);
   }
-
   previous() {
     const search = parse(this.props.location.search);
-
     const dataUser = {
       email: search.email,
-      pass: search.pass,
     };
-    this.props.history.push(`/userRegisterS1?${stringify(dataUser)}}`);
+    this.props.history.push(`/userRegisterS1?${stringify(dataUser)}`);
   }
 
   register() {
@@ -42,15 +48,32 @@ class StepTwo extends React.Component {
 
     const dataUser = {
       email: search.email,
-      pass: search.pass,
       name: this.state.name,
       phone: this.state.phone,
       address: this.state.address,
       dni: this.state.dni,
+      password: this.state.pass,
     };
-    console.log(dataUser)
+    registerUser(dataUser)
+      .then((res) => {
+        this.setState({
+          modalTitle: 'Felicitaciones',
+          modalText: res.message,
+          modal: true,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          modalTitle: 'Error',
+          modalText: err,
+          modal: true,
+        });
+      });
   }
 
+  toggle() {
+    this.setState({ modal: !this.state.modal });
+  }
   render() {
     return (
       <div>
@@ -112,24 +135,40 @@ class StepTwo extends React.Component {
                   onChange={event => this.setState({ phone: event.target.value })}
                   validate={isValid => this.setState({ phoneValidate: isValid })}
                 />
-
+                <div className="underline" />
+                <Input
+                  label="Contraseña"
+                  type="password"
+                  value={this.state.pass}
+                  onChange={event => this.setState({ pass: event.target.value })}
+                  validate={isValid => this.setState({ passValidate: isValid })}
+                  placeholder="Mínimo 6 caracteres"
+                />
+                <Input
+                  label="Repetir contraseña"
+                  type="password"
+                  value={this.state.repeatPass}
+                  onChange={event => this.setState({ repeatPass: event.target.value })}
+                  validate={isValid => this.setState({ repeatPassValidate: isValid })}
+                  placeholder="Mínimo 6 caracteres"
+                />
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.register()}>Registrarme</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.register()}>Registrarme</Button>
                 </div>
               </div>
             </Col>
           </Row>
-          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-            <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>
             <ModalBody>
               <div className="col-md-6 offset-md-3">
-              Tu cuenta ha sido creada con éxito.
+                {this.state.modalText}
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" href="/userAdmin" >OK</Button>
+              <Button color="primary" onClick={this.toggle} href={`${this.state.modalTitle === 'Error' ? '#' : '/userAdmin'}`} >OK</Button>
             </ModalFooter>
           </Modal>
         </div>

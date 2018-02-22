@@ -14,8 +14,6 @@ class StepOne extends React.Component {
     this.state = {
       email: parse(this.props.location.search).email ? parse(this.props.location.search).email : '',
       emailValidate: parse(this.props.location.search).email,
-      pass: parse(this.props.location.search).pass ? parse(this.props.location.search).pass : '',
-      passValidate: parse(this.props.location.search).pass,
       repeatPass: parse(this.props.location.search).repeatPass ? parse(this.props.location.search).repeatPass : '',
       repeatPassValidate: parse(this.props.location.search).repeatPass,
       name: parse(this.props.location.search).name ? parse(this.props.location.search).name : '',
@@ -30,7 +28,6 @@ class StepOne extends React.Component {
   next() {
     const dataAgency = {
       email: this.state.email,
-      pass: this.state.pass,
       repeatPass: this.state.repeatPass,
       name: this.state.name,
       address: this.state.address,
@@ -41,7 +38,7 @@ class StepOne extends React.Component {
   }
 
   disabled() {
-    return !(this.state.emailValidate && this.state.passValidate && this.state.repeatPassValidate && this.state.addressValidate && this.state.phoneValidate && this.state.nameValidate);
+    return !(this.state.emailValidate && this.state.addressValidate && this.state.phoneValidate && this.state.nameValidate);
   }
 
 
@@ -79,8 +76,8 @@ class StepOne extends React.Component {
 
                 </div>
                 <div className="text-block">
-                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br />
-                  Soy un Particular. <a href="" className="link">Registrarme</a>
+                  <p>Tengo cuenta. <a href="/login" className="link">Iniciar sesión</a> <br />
+                  Soy un Particular. <a href="/userRegister" className="link">Registrarme</a>
                   </p>
                 </div>
               </div>
@@ -89,27 +86,11 @@ class StepOne extends React.Component {
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Registrarme</h4>
                 <Input
-                  label="Email"
+                  label="Email (Email para iniciar sesión)"
                   type="email"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
                   validate={isValid => this.setState({ emailValidate: isValid })}
-                />
-                <Input
-                  label="Contraseña"
-                  type="password"
-                  value={this.state.pass}
-                  onChange={event => this.setState({ pass: event.target.value })}
-                  validate={isValid => this.setState({ passValidate: isValid })}
-                  placeholder="Mínimo 6 caracteres"
-                />
-                <Input
-                  label="Repetir contraseña"
-                  type="password"
-                  value={this.state.repeatPass}
-                  onChange={event => this.setState({ repeatPass: event.target.value })}
-                  validate={isValid => this.setState({ repeatPassValidate: isValid })}
-                  placeholder="Mínimo 6 caracteres"
                 />
                 <Input
                   label="Nombre del Encargado"

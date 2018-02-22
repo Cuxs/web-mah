@@ -55,7 +55,6 @@ const renderForUnloggedUser = (component, propName = 'data') =>
 
 class UserAdmin extends React.Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = {
       modal: false,

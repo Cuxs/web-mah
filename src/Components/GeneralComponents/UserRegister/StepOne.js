@@ -8,32 +8,24 @@ import { stringify, parse } from 'query-string';
 import RegisterBar from '../../../stories/RegisterBar';
 import Input from '../../../stories/Input';
 
-
-
 class StepOne extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: parse(this.props.location.search).email ? parse(this.props.location.search).email : '',
       emailValidate: parse(this.props.location.search).email,
-      pass: parse(this.props.location.search).pass ? parse(this.props.location.search).pass : '',
-      passValidate: parse(this.props.location.search).email,
-      repeatPass: parse(this.props.location.search).repeatPass ? parse(this.props.location.search).repeatPass : '',
-      repeatPassValidate: parse(this.props.location.search).email,
     };
   }
 
   next() {
     const dataUser = {
       email: this.state.email,
-      pass: this.state.pass,
-      repeatPass: this.state.repeatPass,
     };
     this.props.history.push(`/userRegisterS2?${stringify(dataUser)}`);
   }
 
   disabled() {
-    return !(this.state.emailValidate && this.state.passValidate && this.state.repeatPassValidate);
+    return !(this.state.emailValidate);
   }
 
 
@@ -82,29 +74,12 @@ class StepOne extends React.Component {
 
                 <h6>O con tu Email</h6>
                 <br />
-
                 <Input
                   label="Email"
                   type="email"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
                   validate={isValid => this.setState({ emailValidate: isValid })}
-                />
-                <Input
-                  label="Contraseña"
-                  type="password"
-                  value={this.state.pass}
-                  onChange={event => this.setState({ pass: event.target.value })}
-                  validate={isValid => this.setState({ passValidate: isValid })}
-                  placeholder="Mínimo 6 caracteres"
-                />
-                <Input
-                  label="Repetir contraseña"
-                  type="password"
-                  value={this.state.repeatPass}
-                  onChange={event => this.setState({ repeatPass: event.target.value })}
-                  validate={isValid => this.setState({ repeatPassValidate: isValid })}
-                  placeholder="Mínimo 6 caracteres"
                 />
                 <div>
                   <div className="underline" />

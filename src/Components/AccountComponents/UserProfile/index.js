@@ -65,6 +65,7 @@ class UserProfile extends React.Component {
         address: this.state.address,
         phone: this.state.phone,
       },
+      refetchQueries: ['User'],
     }).then(({ data: { modifyUserData: uData } }) => {
       this.setState({
         modal: true,
@@ -149,7 +150,7 @@ class UserProfile extends React.Component {
                   : <p>{this.state.address}</p>}
                     </div>
                     <div className="data-input-group">
-                      <label>EMAIL DE CONTACTO</label>
+                      <label>EMAIL DE CONTACTO <small>(Mail de inicio de sesión)</small></label>
                       <p>{this.state.email}</p>
                     </div>
                     <div className="data-input-group">

@@ -2,11 +2,12 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
+import { Col, Row, Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
 import { stringify, parse } from 'query-string';
 
 import RegisterBar from '../../../stories/RegisterBar';
 import Input from '../../../stories/Input';
+import { regiterAgency, registerAgency } from '../../../Modules/fetches';
 
 
 class StepThree extends React.Component {
@@ -23,11 +24,21 @@ class StepThree extends React.Component {
       emailOwnerValidate: false,
       phoneOwner: '',
       phoneOwnerValidate: false,
+      pass: '',
+      passValidate: false,
+      modal: '',
+      modalTitle: '',
+      modalText: '',
     };
+    this.toggle = this.toggle.bind(this);
   }
 
   disabled() {
-    return !(this.state.nameOwnerValidate && this.state.addressOwnerValidate && this.state.dniOwnerValidate && this.state.emailOwnerValidate && this.state.phoneOwnerValidate);
+    return !(this.state.nameOwnerValidate && this.state.passValidate && this.state.repeatPassValidate && this.state.addressOwnerValidate && this.state.dniOwnerValidate && this.state.emailOwnerValidate && this.state.phoneOwnerValidate);
+  }
+
+  toggle() {
+    this.setState({ modal: !this.state.modal });
   }
 
   previous() {
@@ -64,25 +75,40 @@ class StepThree extends React.Component {
     this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}}`);
   }
 
-  next() {
+  submit() {
     const search = parse(this.props.location.search);
 
     const dataAgency = {
       email: search.email,
-      password: search.pass,
+      password: this.state.pass,
       name: search.name,
-      phone: search.phone,
       address: search.address,
-      agencyEmail: search.emailAgency,
-      agencyPhone: search.phoneAgency,
+      phone: search.phone,
       agencyName: search.nameAgency,
       agencyAdress: search.addressAgency,
+      agencyEmail: search.emailAgency,
+      agencyPhone: search.phoneAgency,
       ownerName: this.state.nameOwner,
       ownerAddress: this.state.addressOwner,
       ownerDni: this.state.dniOwner,
       ownerEmail: this.state.emailOwner,
       ownerPhone: this.state.phoneOwner,
     };
+    registerAgency(dataAgency)
+      .then((res) => {
+        this.setState({
+          modalTitle: 'Felicitaciones',
+          modalText: res.message,
+          modal: true,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          modalTitle: 'Error',
+          modalText: err,
+          modal: true,
+        });
+      });
   }
 
   render() {
@@ -119,8 +145,9 @@ class StepThree extends React.Component {
 
                 </div>
                 <div className="text-block">
-                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br/>
-                  Soy un Particular. <a href="" className="link">Registrarme</a></p>
+                  <p>Tengo cuenta. <a href="/login" className="link">Iniciar sesión</a> <br />
+                  Soy un Particular. <a href="/userRegister" className="link">Registrarme</a>
+                  </p>
                 </div>
 
               </div>
@@ -165,13 +192,42 @@ class StepThree extends React.Component {
                 />
                 <div>
                   <div className="underline" />
+                  <Input
+                    label="Contraseña"
+                    type="password"
+                    value={this.state.pass}
+                    onChange={event => this.setState({ pass: event.target.value })}
+                    validate={isValid => this.setState({ passValidate: isValid })}
+                    placeholder="Mínimo 6 caracteres"
+                  />
+                  <Input
+                    label="Repetir contraseña"
+                    type="password"
+                    value={this.state.repeatPass}
+                    onChange={event => this.setState({ repeatPass: event.target.value })}
+                    validate={isValid => this.setState({ repeatPassValidate: isValid })}
+                    placeholder="Mínimo 6 caracteres"
+                  />
+                  <div className="underline" />
+
                   <Button color="default" onClick={() => this.previous()} className="float-left" >Volver</Button>
-                  <Button color="primary" disabled={this.disabled()} className="float-right" >Registrarme</Button>
+                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => { this.submit(); }}>Registrarme</Button>
                 </div>
               </div>
             </Col>
           </Row>
         </div>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>
+          <ModalBody>
+            <div className="col-md-6 offset-md-3">
+              {this.state.modalText}
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.toggle} href={`${this.state.modalTitle === 'Error' ? '#' : '/userAdmin'}`} >OK</Button>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }

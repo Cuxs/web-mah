@@ -94,8 +94,8 @@ class StepTwo extends React.Component {
 
                 </div>
                 <div className="text-block">
-                  <p>Tengo cuenta. <a href="" className="link">Iniciar sesión</a> <br />
-                  Soy un Particular. <a href="" className="link">Registrarme</a>
+                  <p>Tengo cuenta. <a href="/login" className="link">Iniciar sesión</a> <br />
+                  Soy un Particular. <a href="/userRegister" className="link">Registrarme</a>
                   </p>
                 </div>
 

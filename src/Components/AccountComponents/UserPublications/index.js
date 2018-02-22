@@ -129,7 +129,10 @@ class UserPublications extends React.Component {
     } = this.state;
     const items = publications.map(pub => (
       (<CardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
-    if (hasNextPage === false) {
+    if (totalCount === 0 && hasNextPage === false) {
+      items.push(<p>No se encontraron publicaciones.</p>);
+    }
+    if (hasNextPage === false && totalCount !== 0) {
       items.push(<p>No hay más publicaciones que mostrar</p>);
     }
     return items;
