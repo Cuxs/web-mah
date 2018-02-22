@@ -11,7 +11,7 @@ class SuperAdminFilter extends Component {
       stateDropdown: false,
 
       dropDownTipoValue: parse(props.location.search).carState || 'Tipo',
-      dropDownTipoUserValue: 'Tipo de Cliente',
+      dropDownTipoUserValue: parse(props.location.search).userType || 'Tipo de Cliente',
       dropDownPublicationStateValue: parse(props.location.search).stateName || 'Estado de Publicación',
     };
     this.toggleTipoDropdown = this.toggleTipoDropdown.bind(this);
@@ -46,7 +46,7 @@ class SuperAdminFilter extends Component {
     });
   }
   changeTipoUserValue(e) {
-    this.searchWithParam('carState', e.currentTarget.textContent);
+    this.searchWithParam('userType', e.currentTarget.textContent);
     this.setState({ dropDownTipoUserValue: e.currentTarget.textContent });
   }
 

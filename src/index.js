@@ -17,12 +17,12 @@ import registerServiceWorker from './registerServiceWorker';
 const cache = new InMemoryCache();
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: `${process.env.REACT_APP_API}/graphql`,
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/subscriptions',
+  uri: process.env.REACT_APP_SOCKET,
   options: {
     reconnect: true,
     noServer: true,
