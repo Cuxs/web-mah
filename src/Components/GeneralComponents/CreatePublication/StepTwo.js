@@ -8,6 +8,7 @@ import { parse, stringify } from 'query-string';
 import AdminBar from '../../../stories/AdminBar';
 import ImageCrop from '../../../stories/ImageCrop';
 import { createPublication } from '../../../Modules/fetches';
+import { isAdminLogged } from '../../../Modules/sessionFunctions';
 
 
 class CreatePublication extends Component {
@@ -56,7 +57,7 @@ class CreatePublication extends Component {
     });
   }
 
-  disabled(){
+  disabled() {
     return !(this.state.image1 !== '' && this.state.image2 !== '' && this.state.image3 !== '');
   }
 
@@ -121,10 +122,10 @@ class CreatePublication extends Component {
       TecnicalData: parse(search.TecnicalData),
       Additionals: parse(search.Additionals),
       DataCar: parse(search.DataCar),
-      Image: { imageGroup : [image1, image2, image3, image4, image5, image6, image7, image8]},
+      Image: { imageGroup: [image1, image2, image3, image4, image5, image6, image7, image8] },
     };
-    const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar)
-    
+    const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar);
+
     createPublication(dataPublication, dataCar.Image)
       .then((resp) => {
         this.setState({
@@ -237,7 +238,7 @@ class CreatePublication extends Component {
                   <div className="col-md-6 offset-md-3">{this.state.responseMsg}</div>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" onClick={() => this.props.history.push('/userPublications?stateName=Pendiente')} >OK</Button>
+                  <Button color="primary" onClick={() => (isAdminLogged() ? this.props.history.push('/superAdminPublications?stateName=Pendiente') : this.props.history.push('/userPublications?stateName=Pendiente'))} >OK</Button>
                 </ModalFooter>
               </Modal>
             </Col>

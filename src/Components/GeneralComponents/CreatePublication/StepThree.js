@@ -15,7 +15,7 @@ class CreatePublication extends React.Component {
     super(props);
     this.state = {};
   }
-  
+
   createPub() {
     const search = parse(this.props.location.search);
     const dataCar = {
@@ -23,12 +23,9 @@ class CreatePublication extends React.Component {
       TecnicalData: parse(search.TecnicalData),
       Additionals: parse(search.Additionals),
       DataCar: parse(search.DataCar),
-      Image: parse(search.Image)
+      Image: parse(search.Image),
     };
-    const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar, dataCar.Image)
-
-    console.log(parse(search.imageGroup))
-    console.log(search)
+    const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar, dataCar.Image);
   }
 
   render() {
@@ -43,26 +40,26 @@ class CreatePublication extends React.Component {
                   <h4 className="title-division-primary">Vendé tu auto ya!</h4>
                   <p>En muy simples pasos podés publicar tu auto.</p>
                 </div>
-    
+
                 <div className="steps">
                   <div className="step done">
                     <h6>PASO 1</h6>
                     <h4>Contanos de tu auto</h4>
                     <a className="link">Modificar datos</a>
                   </div>
-    
+
                   <div className="step done">
                     <h6>PASO 2</h6>
                     <h4>Mostralo con fotos</h4>
                     <a className="link">Modificar datos</a>
                   </div>
                 </div>
-    
+
                 <Button color="primary" className="float-right" onClick={() => this.createPub()}>PUBLICAR</Button>
               </div>
             </Col>
-    
-    
+
+
           </Row>
         </div>
       </div>

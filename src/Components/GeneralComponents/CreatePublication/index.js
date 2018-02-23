@@ -157,6 +157,9 @@ class CreatePublication extends React.Component {
       priceSuggested: this.state.priceSuggested,
       observation: this.state.observation,
     };
+    if (parse(this.props.location.search).userId) {
+      dataCar.userId = parse(this.props.location.search).userId;
+    }
     this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`);
   }
   carStateChange(newValue) {
