@@ -32,8 +32,6 @@ import ActiveFilters from '../../../stories/ActiveFilters';
 
 import { getFiltersAndTotalResult } from '../../../Modules/fetches';
 
-import style from '../../../Styles/searchCars';
-
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
 class SearchCars extends Component {
@@ -86,6 +84,7 @@ class SearchCars extends Component {
           year: qs.parse(url).year,
           state: qs.parse(url).state,
           fuel: qs.parse(url).fuel,
+          userType: qs.parse(url).userType,
         },
       })
       .then(({ data: { searchPublication: { Publications } } }) => {
