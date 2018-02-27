@@ -4,91 +4,44 @@
 import React, { Component } from 'react';
 import { Col, Row, Button, Modal, ModalFooter, ModalHeader, ModalBody } from 'reactstrap';
 import { parse, stringify } from 'query-string';
+import DropzoneComponent from 'react-dropzone-component';
+
 
 import AdminBar from '../../../stories/AdminBar';
-import ImageCrop from '../../../stories/ImageCrop';
-import { createPublication } from '../../../Modules/fetches';
+import { server } from '../../../Modules/params';
+
+let myDropzone;
+
+function initCallback(dropzone) {
+  myDropzone = dropzone;
+}
 
 
 class CreatePublication extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      image1: '',
-      previewimage1: '',
-      image2: '',
-      previewimage2: '',
-      image3: '',
-      previewimage3: '',
-      image4: '',
-      previewimage4: '',
-      image5: '',
-      previewimage5: '',
-      image6: '',
-      previewimage6: '',
-      image7: '',
-      previewimage7: '',
-      image8: '',
-      previewimage8: '',
+      disabled: true,
       modalBack: false,
       modal: false,
       responseMsg: '',
       responseTitle: '',
-      more: false,
     };
     this.toggle = this.toggle.bind(this);
     this.toggleBack = this.toggleBack.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      previewimage1: nextProps.promotion.image1,
-      previewimage2: nextProps.promotion.image2,
-      previewimage3: nextProps.promotion.image3,
-      previewimage4: nextProps.promotion.image4,
-      previewimage5: nextProps.promotion.image5,
-      previewimage6: nextProps.promotion.image6,
-      previewimage7: nextProps.promotion.image7,
-      previewimage8: nextProps.promotion.image8,
-    });
-  }
-
-  getimage1(img) {
-    if (this.state.image1 !== '' || this.state.image2 !== '' || this.state.image3 !== '') {
-      return this.setState({ image1: img, done: true });
-    }
-    this.setState({ image1: img });
-  }
-  getimage2(img) {
-    if (this.state.image1 !== '' || this.state.image2 !== '' || this.state.image3 !== '') {
-      return this.setState({ image2: img, done: true });
-    }
-    this.setState({ image2: img });
-  }
-  getimage3(img) {
-    if (this.state.image1 !== '' || this.state.image2 !== '' || this.state.image3 !== '') {
-      return this.setState({ image3: img, done: true });
-    }
-    this.setState({ image3: img });
-  }
-  getimage4(img) {
-    this.setState({ image4: img });
-  }
-  getimage5(img) {
-    this.setState({ image5: img });
-  }
-  getimage6(img) {
-    this.setState({ image6: img });
-  }
-  getimage7(img) {
-    this.setState({ image7: img });
-  }
-  getimage8(img) {
-    this.setState({ image8: img });
-  }
-
   disabled() {
-    return !(this.state.image1 !== '' && this.state.image2 !== '' && this.state.image3 !== '');
+    if (myDropzone) {
+      if (myDropzone.files.length !== 0) {
+        this.setState({ disabled: false });
+        return false;
+      }
+      this.setState({ disabled: true });
+      return false;
+    }
+    this.setState({ disabled: true });
+    return false;
   }
 
   toggle() {
@@ -103,56 +56,8 @@ class CreatePublication extends Component {
     });
   }
 
-  _handleSubmit() {
-    const {
-      image1, image2, image3, image4, image5, image6, image7, image8,
-    } = this.state;
-
-    this.props.updateSliders(
-      image1,
-      image2,
-      image3,
-      image4,
-      image5,
-      image6,
-      image7,
-      image8,
-    );
-  }
-
-  createPub() {
-    const {
-      image1, image2, image3, image4, image5, image6, image7, image8,
-    } = this.state;
-    const search = parse(this.props.location.search);
-    const dataCar = {
-      Caracteristics: parse(search.Caracteristics),
-      TecnicalData: parse(search.TecnicalData),
-      Additionals: parse(search.Additionals),
-      DataCar: parse(search.DataCar),
-      DataPerson: parse(search.DataPerson),
-      Image: { imageGroup: [image1, image2, image3, image4, image5, image6, image7, image8] },
-    };
-    const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar, dataCar.DataPerson);
-
-    console.log(dataPublication);
-    createPublication(dataPublication, dataCar.Image)
-      .then((resp) => {
-        console.log(resp);
-        this.setState({
-          modal: true,
-          responseTitle: 'Éxito',
-          responseMsg: resp.message,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({
-          modal: true,
-          responseTitle: error.title,
-          responseMsg: error.message,
-        });
-      });
+  handleSubmit() {
+    myDropzone.processQueue();
   }
 
   previous() {
@@ -188,6 +93,60 @@ class CreatePublication extends Component {
   }
 
   render() {
+    const componentConfig = {
+      iconFiletypes: ['.jpg', '.png', '.gif'],
+      showFiletypeIcon: true,
+      postUrl: `${server}/createPublication`,
+    };
+
+    const search = parse(this.props.location.search);
+    const dataCar = {
+      Caracteristics: parse(search.Caracteristics),
+      TecnicalData: parse(search.TecnicalData),
+      Additionals: parse(search.Additionals),
+      DataCar: parse(search.DataCar),
+      DataPerson: parse(search.DataPerson),
+    };
+    const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar, dataCar.DataPerson);
+
+    const djsConfig = {
+      paramName: () => 'imageGroup',
+      addRemoveLinks: true,
+      acceptedFiles: 'image/jpeg,image/png,image/gif',
+      autoProcessQueue: false,
+      maxFiles: 8,
+      parallelUploads: 100,
+      uploadMultiple: true,
+      dictInvalidFileType: 'Formato de archivo incorrecto',
+      dictRemoveFile: 'Borrar',
+      dictMaxFilesExceeded: 'Solo se pueden subir hasta 8 imágenes',
+      dictDefaultMessage:
+        'Arrastre aquí las imágenes o haga clic para seleccionarlas.',
+      dictFallbackMessage: 'Su navegador no soporta arrastrar imágenes',
+      dictCancelUpload: 'Cancelar.',
+      dictUploadCanceled: 'Subida cancelada.',
+      dictCancelUploadConfirmation: '¿Esta seguro que desea cancelar la creación de la publicación?',
+      params: dataPublication,
+      headers: {
+        mimeType: 'multipart/form-data',
+      },
+    };
+    const eventHandlers = {
+      init: (dropzone) => {
+        initCallback(dropzone);
+      },
+      addedfile: () => {
+        this.disabled();
+      },
+      successmultiple: (_, res) => {
+        this.setState({
+          modal: true,
+          responseTitle: 'Éxito',
+          responseMsg: res,
+        });
+      },
+    };
+    
     return (
       <div>
         <AdminBar history={this.props.history} />
@@ -224,55 +183,20 @@ class CreatePublication extends Component {
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left">
                 <h4 className="title-division">Cómo luce?</h4>
-                <ImageCrop
-                  aspectRatio={160 / 106}
-                  cropImage={img => this.getimage1(img)}
-                  previewImage={this.state.previewimage1}
+                <DropzoneComponent
+                  config={componentConfig}
+                  eventHandlers={eventHandlers}
+                  djsConfig={djsConfig}
                 />
-                <ImageCrop
-                  aspectRatio={160 / 106}
-                  cropImage={img => this.getimage2(img)}
-                  previewImage={this.state.previewimage2}
-                />
-                <ImageCrop
-                  aspectRatio={160 / 106}
-                  cropImage={img => this.getimage3(img)}
-                  previewImage={this.state.previewimage3}
-                />
-                <div style={{ paddingBottom: '30px' }} >
-                  <Button color="link" className={`link-more float-right ${this.state.more ? 'more-crops' : ''}`} onClick={() => this.setState({ more: true })} >+ Más fotos</Button>
-                </div>
-                <div className={this.state.more ? '' : 'more-crops'}>
-                  <ImageCrop
-                    aspectRatio={160 / 106}
-                    cropImage={img => this.getimage4(img)}
-                    previewImage={this.state.previewimage4}
-                  />
-                  <ImageCrop
-                    aspectRatio={160 / 106}
-                    cropImage={img => this.getimage5(img)}
-                    previewImage={this.state.previewimage5}
-                  />
-                  <ImageCrop
-                    aspectRatio={160 / 106}
-                    cropImage={img => this.getimage6(img)}
-                    previewImage={this.state.previewimage6}
-                  />
-                  <ImageCrop
-                    aspectRatio={160 / 106}
-                    cropImage={img => this.getimage7(img)}
-                    previewImage={this.state.previewimage7}
-                  />
-                  <ImageCrop
-                    aspectRatio={160 / 106}
-                    cropImage={img => this.getimage8(img)}
-                    previewImage={this.state.previewimage8}
-                  />
-                </div>
                 <div className="underline" />
                 <div style={{ width: '100%' }} className="d-flex justify-content-between align-items-center" >
                   <Button color="default" onClick={() => this.setState({ modalBack: true })}>Volver</Button>
-                  <Button color="primary" disabled={this.disabled()} onClick={() => this.createPub()} >Publicar</Button>
+                  <Button
+                    color="primary"
+                    disabled={this.state.disabled}
+                    onClick={() => this.handleSubmit()}
+                  >Publicar
+                  </Button>
                 </div>
               </div>
               <Modal isOpen={this.state.modal} toggle={this.toggle}>
