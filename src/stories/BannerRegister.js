@@ -36,7 +36,7 @@ class BannerRegister extends React.Component {
           <div className="container">
             <Row className="align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
-                <h3>Publicá gratis, todos tus datos y creá tu consecionaria online</h3>
+                <h3>Publicá gratis, todos tus datos y creá tu concesionaria online</h3>
               </div>
               <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 float-right" >
                 <div className="cont-form">
@@ -46,7 +46,7 @@ class BannerRegister extends React.Component {
                     value={this.state.nameAgency}
                     onChange={event => this.setState({ nameAgency: event.target.value })}
                     validate={isValid => this.setState({ nameAgencyValidate: isValid })}
-                    placeholder="Nombre de la Consecionaria"
+                    placeholder="Nombre de la concesionaria"
                   />
                   <Input
                     type="email"

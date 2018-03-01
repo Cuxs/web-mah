@@ -49,7 +49,7 @@ export default () => (
           </Col>
           <Col md="8">
             <h5>Minisitio</h5>
-            <p>Creá un espacio único para tu consecionaria y gestioná todas tus publicaciones.</p>
+            <p>Creá un espacio único para tu concesionaria y gestioná todas tus publicaciones.</p>
           </Col>
         </Row>
       </Col>

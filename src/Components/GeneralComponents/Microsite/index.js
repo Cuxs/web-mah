@@ -70,7 +70,7 @@ class Microsite extends Component {
       <div>
         <div className="offset-md-3">
           <br />
-          <NumberOfResult results={this.state.totalCount} consecionaria />
+          <NumberOfResult results={this.state.totalCount} concesionaria />
           <CarResultContainer>
             {this.state.data.searchPublication.Publications.map(row => (
               <CarResult

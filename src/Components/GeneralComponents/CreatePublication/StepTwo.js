@@ -55,6 +55,7 @@ class CreatePublicationS2 extends Component {
     });
   }
   handleSubmit() {
+    this.setState({disabled: true})
     myDropzone.processQueue();
   }
 

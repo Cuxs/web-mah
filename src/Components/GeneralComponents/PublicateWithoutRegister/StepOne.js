@@ -27,7 +27,7 @@ class CreatePublicationS1 extends React.Component {
         Additionals: parse(search.Additionals),
       });
     }
-    this.props.client.query({
+    return this.props.client.query({
       query: InfoCarQuery,
       variables: {
         ext_codia: search.Caracteristics ? parse(search.DataCar).codia : search.codia,

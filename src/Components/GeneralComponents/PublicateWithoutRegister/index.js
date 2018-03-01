@@ -8,6 +8,7 @@ import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import moment from 'moment';
 
 import AdminBar from '../../../stories/AdminBar';
 import Input from '../../../stories/Input';
@@ -34,6 +35,7 @@ class CreatePublication extends React.Component {
       Models: [],
       Prices: [],
     };
+    this.generateYearArray = this.generateYearArray.bind(this);
   }
 
 
@@ -62,6 +64,17 @@ class CreatePublication extends React.Component {
       })
         .then(response => this.setState({ Prices: response.data.Price }));
     }
+  }
+
+  generateYearArray() {
+    const yearArray = [];
+    const actualYear = moment().format('YYYY');
+    yearArray.push({ value: actualYear, label: actualYear });
+    for (let i = 0; i < 41; i += 1) {
+      const passYears = moment().subtract(i, 'years').format('YYYY');
+      yearArray.push({ value: passYears, label: passYears });
+    }
+    return yearArray;
   }
 
   onChangeBrand(newBrand) {
@@ -116,7 +129,7 @@ class CreatePublication extends React.Component {
   onChangeYear(newYear) {
     this.setState({
       year: newYear,
-      priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio,
+      priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)] ? `$${this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio}` : 'No encontramos uno para ese año.',
     });
   }
 
@@ -237,7 +250,7 @@ class CreatePublication extends React.Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label for="exampleSelect">¿Cuál es el tipo?</Label>
+                  <Label for="exampleSelect">¿Cuál es la versión?</Label>
                   <Select
                     id="models-select"
                     ref={(ref) => { this.select = ref; }}
@@ -261,7 +274,7 @@ class CreatePublication extends React.Component {
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
-                    options={prepareArraySelect(_.filter(this.state.Prices, o => o.precio !== 0), 'anio', 'anio')}
+                    options={this.generateYearArray()}
                     simpleValue
                     clearable
                     name="selected-state"
@@ -288,7 +301,7 @@ class CreatePublication extends React.Component {
                   validate={isValid => this.setState({ priceValidate: isValid })}
                   placeholder="Ingrese un número sin puntos ni comas"
                 />
-                {this.state.priceSuggested && <p>Precio Sugerido: <b>$ {this.state.priceSuggested}</b></p>}
+                {this.state.priceSuggested && <p>Precio Sugerido: <b>{this.state.priceSuggested}</b></p>}
                 <Input
                   label="Observaciones (Opcional)"
                   type="textarea"

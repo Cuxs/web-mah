@@ -64,7 +64,6 @@ class PledgeCredits extends React.Component {
       phone: this.state.phone,
       messagge: this.state.messagge,
     };
-    console.log(dataRequest);
   }
 
   render() {
@@ -187,13 +186,13 @@ class PledgeCredits extends React.Component {
                 <Input
                   label="Destino del crédito"
                   type="string"
-                  value={this.state.financyAmount}
-                  onChange={event => this.setState({ financyAmount: event.target.value })}
-                  validate={isValid => this.setState({ financyAmountValidate: isValid })}
+                  value={this.state.creditReason}
+                  onChange={event => this.setState({ creditReason: event.target.value })}
+                  validate={isValid => this.setState({ creditReasonValidate: isValid })}
                 />
                 <Input
                   label="Email"
-                  type="string"
+                  type="email"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
                   validate={isValid => this.setState({ emailValidate: isValid })}
