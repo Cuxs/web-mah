@@ -11,8 +11,8 @@ mutation AprovePublication($MAHtoken: String!, $publication_id: Int!){
   }
 `;
 const DisaprovePublicationMutation = gql`
-mutation DisaprovePublication($MAHtoken: String!, $publication_id: Int!){
-    disaprovePublication(MAHtoken: $MAHtoken, publication_id:$publication_id){
+mutation DisaprovePublication($MAHtoken: String!, $publication_id: Int! $reason: String!){
+    disaprovePublication(MAHtoken: $MAHtoken, publication_id:$publication_id, reason:$reason){
       id
       CurrentState{
         stateName

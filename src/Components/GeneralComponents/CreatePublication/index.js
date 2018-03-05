@@ -20,6 +20,8 @@ import style from '../../../Styles/register';
 import LoginComponent from '../../../stories/LoginComponent';
 import { branch, renderComponent } from 'recompose';
 import { isUserLogged } from '../../../Modules/sessionFunctions';
+import { thousands } from '../../../Modules/functions';
+
 
 const renderForUnloggedUser = (component, propName = 'data') =>
   branch(
@@ -138,7 +140,8 @@ class CreatePublication extends React.Component {
   onChangeYear(newYear) {
     this.setState({
       year: newYear,
-      priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)] ? `$${this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio}` : 'No encontramos uno para ese año.',
+      priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)] ? `$${thousands(this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio, 0, ',', '.')}` : 'No encontramos uno para ese año.',
+
     });
   }
   disabled() {

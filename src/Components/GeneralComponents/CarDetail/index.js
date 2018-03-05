@@ -52,9 +52,6 @@ class CarDetail extends Component {
     super(props);
     this.state = {
       modal: false,
-      disabledPublicationClass: '',
-      stateMessage: '',
-      showPublication: true,
     };
 
     this.toggle = this.toggle.bind(this);
@@ -84,6 +81,15 @@ class CarDetail extends Component {
       return data.phone;
     }
     return '';
+  }
+  dontShowEditButton() {
+    if (isUserLogged() &&
+     !this.props.carDetailData.loading &&
+     this.props.carDetailData.Publication.User &&
+     getUserDataFromToken().id === this.props.carDetailData.Publication.User.id) {
+      return false;
+    }
+    return true;
   }
   render() {
     const {
@@ -294,30 +300,27 @@ class CarDetail extends Component {
                           </p>
                         </div>
                       </div>
-                      {(!isUserLogged() &&
-                        getUserDataFromToken().id !== carDetailData.Publication.User.id) &&
-                        !commentThreadData.loading && (
-                          <MessageCarDetail
-                            commentThread_id={
+                      {this.dontShowEditButton() ? (
+                        <MessageCarDetail
+                          commentThread_id={
                               commentThreadData.CommentThread &&
                               !_.isEmpty(commentThreadData.CommentThread)
                                 ? commentThreadData.CommentThread[0].id
                                 : null
                             }
-                            location={location}
-                            history={history}
-                            publicationUserId={
+                          location={location}
+                          history={history}
+                          publicationUserId={
                               carDetailData.Publication.User ? carDetailData.Publication.User.id : undefined
                             }
-                            publicationId={
+                          publicationId={
                               parse(location.search).publication_id
                             }
-                          />
-                        )}
-                      {carDetailData.Publication.User && isUserLogged() && (getUserDataFromToken().id === carDetailData.Publication.User.id && (
+                        />
+                        ) :
                         <Button color="secondary">Editar Publicación</Button>
-                      ))
-                     }
+                        }
+
                     </Col>
                   </Row>
                 </Col>

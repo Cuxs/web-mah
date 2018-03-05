@@ -7086,7 +7086,8 @@ div.filepicker {
   .modal .modal-dialog .modal-content .modal-header .close {
     color: #fff;
     position: absolute;
-    right: 15px; }
+    right: 15px;
+    padding: 10px; }
 .modal .modal-dialog .modal-content .modal-body {
   padding: 40px 0; }
 .modal .modal-dialog .modal-content .modal-footer {

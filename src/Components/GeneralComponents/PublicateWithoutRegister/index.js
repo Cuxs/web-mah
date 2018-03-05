@@ -12,6 +12,7 @@ import moment from 'moment';
 
 import AdminBar from '../../../stories/AdminBar';
 import Input from '../../../stories/Input';
+import { thousands } from '../../../Modules/functions';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
 import { prepareArraySelect } from '../../../Modules/functions';
@@ -129,7 +130,7 @@ class CreatePublication extends React.Component {
   onChangeYear(newYear) {
     this.setState({
       year: newYear,
-      priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)] ? `$${this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio}` : 'No encontramos uno para ese año.',
+      priceSuggested: this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)] ? `$${thousands(this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)].precio, 0, ',', '.')}` : 'No encontramos uno para ese año.',
     });
   }
 
