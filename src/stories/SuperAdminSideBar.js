@@ -1,13 +1,16 @@
 import React from 'react';
-import { Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Label } from 'reactstrap';
+import { Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label } from 'reactstrap';
+import Select from 'react-select';
 /* eslint react/jsx-filename-extension: 0 */
-
+import { graphql, compose } from 'react-apollo';
+import { AllUsersMailsQuery } from '../ApolloQueries/UserQuery';
 
 class SuperAdminSideBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
+      selectedUser: '',
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -19,7 +22,16 @@ class SuperAdminSideBar extends React.Component {
   }
 
   render() {
-    const { history, location } = this.props;
+    const { history, location, userMails: { loading } } = this.props;
+    const data = [];
+    if (!loading) {
+      const { Users } = this.props.userMails.AllUsersMails;
+      Users.map((usr) => {
+        if (!usr.isAdmin) {
+          data.push({ value: usr.id, label: usr.email });
+        }
+      });
+    }
     return (
       <Col md="12" className="sidebar-user" >
         <ul>
@@ -39,12 +51,34 @@ class SuperAdminSideBar extends React.Component {
           <ModalBody>
             <FormGroup>
               <Label for="exampleEmail">Mail de Usuario</Label>
-              <Input type="email" value={this.state.email} onChange={event => this.setState({ email: event.target.value })} />
+              {loading ?
+                <img
+                  className="loading-gif"
+                  style={{ height: '250px' }}
+                  src="/loading.gif"
+                  key={0}
+                  alt="Loading..."
+                /> :
+                <Select
+                  id="carState-select"
+                  ref={(ref) => { this.select = ref; }}
+                  onBlurResetsInput={false}
+                  autoFocus
+                  clearable={false}
+                  onSelectResetsInput={false}
+                  placeholder="Selecciona un usuario"
+                  options={data}
+                  simpleValue
+                  name="selected-state"
+                  value={this.state.selectedUser}
+                  onChange={newValue => this.setState({ selectedUser: newValue })}
+                />
+              }
             </FormGroup>
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={() => this.toggle()}>Salir</Button>
-            <Button color="primary" onClick={() => history.push('/createPublication')}>Ir a Crear</Button>
+            <Button color="primary" onClick={() => history.push(`/createPublication?userId=${this.state.selectedUser}`)}>Ir a Crear</Button>
           </ModalFooter>
         </Modal>
       </Col>
@@ -52,4 +86,5 @@ class SuperAdminSideBar extends React.Component {
   }
 }
 
-export default SuperAdminSideBar;
+const withData = graphql(AllUsersMailsQuery, { name: 'userMails' });
+export default withData(SuperAdminSideBar);

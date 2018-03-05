@@ -73,6 +73,7 @@ class SuperAdminPublications extends React.Component {
       variables: {
         state: qs.parse(location.search).stateName,
         carState: qs.parse(location.search).carState,
+        userType: qs.parse(location.search).userType,
         page,
       },
     })

@@ -199,7 +199,7 @@ class PersonalShopper extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="exampleSelect">¿Cuál es el tipo?</Label>
+                    <Label for="exampleSelect">¿Cuál es la versión?</Label>
                     <Select
                       id="models-select"
                       ref={(ref) => { this.select = ref; }}

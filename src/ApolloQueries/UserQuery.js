@@ -18,5 +18,17 @@ query AllUsers($page: Int) {
     hasNextPage
   }
 }`;
+const AllUsersMailsQuery = gql`
+query AllUsersMails {
+  AllUsersMails {
+    totalCount
+    Users {
+      id
+      email
+      isAdmin
+    }
+  }
+}`;
 
-export default AllUsersQuery;
+
+export { AllUsersQuery, AllUsersMailsQuery };

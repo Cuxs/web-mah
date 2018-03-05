@@ -11,7 +11,7 @@ import AdminBar from '../../../stories/AdminBar';
 import SuperAdminFilterUser from '../../../stories/SuperAdminFilterUser';
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
 import SACardUser from '../../../stories/SACardUser';
-import AllUsersQuery from '../../../ApolloQueries/UserQuery';
+import { AllUsersQuery } from '../../../ApolloQueries/UserQuery';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
 
 class SuperAdminPublications extends React.Component {

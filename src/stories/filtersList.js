@@ -4,15 +4,13 @@ import { split } from 'split-object';
 
 const items = (title, value, search, history) => (
   <ul>
-    {split(value).map((row) => {
-      return (
-        <li>
-          <button className="sidebar-option" disabled={split(value).length === 1} onClick={() => history.push(`${search}&${title}=${row.key}`)}>
-            {row.key} <span className="quantity">({row.value})</span>
-          </button>
-        </li>
-    );
-})}
+    {split(value).map(row => (
+      <li>
+        <button className="sidebar-option" disabled={split(value).length === 1} onClick={() => history.push(`${search}&${title}=${row.key}`)}>
+          {row.key} <span className="quantity">({row.value})</span>
+        </button>
+      </li>
+    ))}
   </ul>
 );
 const parseTitle = (title) => {
@@ -23,6 +21,8 @@ const parseTitle = (title) => {
       return 'Año';
     case 'state':
       return 'Estado de la publicación';
+    case 'userType':
+      return 'Tipo de Usuario';
     default:
       return '';
   }

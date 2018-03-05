@@ -26,12 +26,16 @@ query Publication($id: Int!) {
       carState
       codia
       kms
+      name
+      email
+      phone
       User{
         id
         email
         name
         address
         phone
+        isAgency
         agencyName
         agencyAdress
         agencyEmail

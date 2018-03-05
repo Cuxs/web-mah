@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
 import style from '../Styles/search';
-import { getUserDataFromToken, clearSession, isAdminLogged } from '../Modules/sessionFunctions';
+import { getUserDataFromToken, clearSession, isAdminLogged, isUserLogged } from '../Modules/sessionFunctions';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -24,7 +24,7 @@ export default class AdminBar extends React.Component {
     return (
       <div className="container-fluid header">
         <div className="container">
-        <Row className="justify-content-between">
+          <Row className="justify-content-between">
             <Col md="3">
               <Row>
                 <a className="brand ml-0" onClick={() => this.props.history.push('/')} >
@@ -33,6 +33,7 @@ export default class AdminBar extends React.Component {
               </Row>
             </Col>
             <Col md="3" sm="3" xs="6" className="text-right">
+              {isUserLogged() &&
               <div>
                 <ButtonDropdown
                   isOpen={this.state.dropdownUser}
@@ -51,8 +52,9 @@ export default class AdminBar extends React.Component {
                   </DropdownMenu>
                 </ButtonDropdown>
               </div>
+            }
             </Col>
-        </Row>
+          </Row>
         </div>
       </div>
 

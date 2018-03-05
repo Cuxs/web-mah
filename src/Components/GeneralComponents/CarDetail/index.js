@@ -32,6 +32,7 @@ import photoGaleryParser from '../../../Modules/photoGaleryParser';
 import {
   getUserToken,
   getUserDataFromToken,
+  isUserLogged,
 } from '../../../Modules/sessionFunctions';
 
 const renderForNullPublication = (component, propName = 'data') =>
@@ -74,6 +75,15 @@ class CarDetail extends Component {
       return true;
     }
     return true;
+  }
+  showUserPhone(data) {
+    if (!data.loading) {
+      if (data.User) {
+        return data.User.isAgency ? data.User.agencyPhone : data.User.phone;
+      }
+      return data.phone;
+    }
+    return '';
   }
   render() {
     const {
@@ -246,40 +256,46 @@ class CarDetail extends Component {
                     <Col md="12" sm="6" xs="12">
                       <div className="container-data-input-group">
                         <h5>
-                          {carDetailData.Publication.User.agencyName ||
-                            carDetailData.Publication.User.name}
+                          {carDetailData.Publication.User ?
+                              carDetailData.Publication.User.agencyName ||
+                              carDetailData.Publication.User.name :
+                            carDetailData.Publication.name
+                        }
                         </h5>
-                        {carDetailData.Publication.User.agencyName && (
+                        {carDetailData.Publication.User ?
+                          carDetailData.Publication.User.agencyName && (
                           <Button color="link">Ver todos los autos</Button>
-                        )}
+                        ) : <span />}
                         <div className="data-input-group">
                           <label>DOMICILIO</label>
                           <p>
-                            {carDetailData.Publication.User.agencyAdress ||
-                              carDetailData.Publication.User.address ||
+                            {carDetailData.Publication.User ?
+                              carDetailData.Publication.User.agencyAdress ||
+                              carDetailData.Publication.User.address :
                               'No especificado'}
                           </p>
                         </div>
                         <div className="data-input-group">
                           <label>TELÉFONOS</label>
                           <p>
-                            {carDetailData.Publication.User.agencyPhone &&
-                              ' / '}
-                            {carDetailData.Publication.User.phone ||
-                              'No especificado'}{' '}
+                            {this.showUserPhone(carDetailData.Publication)}
                           </p>
                         </div>
                         <div className="data-input-group">
                           <label>EMAIL</label>
                           <p>
-                            {carDetailData.Publication.User.agencyEmail ||
+                            { carDetailData.Publication.User ?
+                              (carDetailData.Publication.User.agencyEmail ||
                               carDetailData.Publication.User.email ||
-                              'No especificado'}
+                              'No especificado')
+                            :
+                            carDetailData.Publication.email
+                            }
                           </p>
                         </div>
                       </div>
-                      {getUserDataFromToken().id !==
-                        carDetailData.Publication.User.id &&
+                      {(!isUserLogged() &&
+                        getUserDataFromToken().id !== carDetailData.Publication.User.id) &&
                         !commentThreadData.loading && (
                           <MessageCarDetail
                             commentThread_id={
@@ -291,17 +307,17 @@ class CarDetail extends Component {
                             location={location}
                             history={history}
                             publicationUserId={
-                              carDetailData.Publication.User.id
+                              carDetailData.Publication.User ? carDetailData.Publication.User.id : undefined
                             }
                             publicationId={
                               parse(location.search).publication_id
                             }
                           />
                         )}
-                      {getUserDataFromToken().id ===
-                        carDetailData.Publication.User.id && (
+                      {carDetailData.Publication.User && isUserLogged() && (getUserDataFromToken().id === carDetailData.Publication.User.id && (
                         <Button color="secondary">Editar Publicación</Button>
-                      )}
+                      ))
+                     }
                     </Col>
                   </Row>
                 </Col>

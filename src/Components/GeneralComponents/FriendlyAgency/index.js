@@ -85,7 +85,7 @@ class FriendlyAgency extends Component {
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis y empezá a vender ahora!</strong></h5>
                   <FormGroup>
-                    <Input type="text" value={this.state.nameAgency} onChange={e => this.setState({ nameAgency: e.target.value })} name="agencyName" placeholder="Nombre de la Consecionaria" />
+                    <Input type="text" value={this.state.nameAgency} onChange={e => this.setState({ nameAgency: e.target.value })} name="agencyName" placeholder="Nombre de la concesionaria" />
                   </FormGroup>
                   <FormGroup>
                     <Input type="email" value={this.state.email} onChange={e => this.setState({ email: e.target.value })} name="email" placeholder="Email" />
