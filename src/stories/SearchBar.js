@@ -72,6 +72,33 @@ class SearchBar extends Component {
     this.toggleNotification = this.toggleNotification.bind(this);
   }
 
+  componentDidMount() {
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: 146328269397173,
+        xfbml: true,
+        version: 'v2.5',
+      });
+
+      window.FB.Event.suscribe('auth.statusChange', (response) => {
+        console.log(response);
+        if (response.authResponse) {
+          return this.updateLoggedInState(response);
+        }
+        return this.updateLoggedOutState();
+      });
+    }.bind(this);
+
+    (function (d, s, id) {
+      let js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = '//connect.facebook.net/en_US/sdk.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }
+
   onChange(event, { newValue, method }) {
     this.setState({
       value: newValue,
@@ -332,6 +359,7 @@ class SearchBar extends Component {
                   autoLoad
                   callback={() => this.responseFacebook()}
                   icon="fa-facebook"
+                  fields="name,email,picture"
                   textButton="Registrate con facebook"
                   cssClass="btn btn-primary btn-facebook"
                 />
@@ -414,7 +442,7 @@ class SearchBar extends Component {
 export default SearchBar;
 
 
-{/* <script>
+{ /* <script>
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '{your-app-id}',
@@ -422,9 +450,9 @@ export default SearchBar;
       xfbml      : true,
       version    : '{latest-api-version}'
     });
-      
-    FB.AppEvents.logPageView();   
-      
+
+    FB.AppEvents.logPageView();
+
   };
 
   (function(d, s, id){
@@ -434,4 +462,4 @@ export default SearchBar;
      js.src = "https://connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
-</script> */}
+</script> */ }
