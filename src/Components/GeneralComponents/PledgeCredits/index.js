@@ -150,7 +150,7 @@ class PledgeCredits extends React.Component {
                 <h4 className="title-division">Solicitá tu crédito!</h4>
                 <Input
                   label="Nombre y Apellido"
-                  type="string"
+                  type="text"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
                   validate={isValid => this.setState({ nameValidate: isValid })}

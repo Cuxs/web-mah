@@ -139,7 +139,7 @@ class CreatePublication extends React.Component {
                 <h4 className="title-division">Los interesados se comunicarán con vos</h4>
                 <Input
                   label="Nombre y Apellido"
-                  type="string"
+                  type="text"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
                   validate={isValid => this.setState({ nameValidate: isValid })}

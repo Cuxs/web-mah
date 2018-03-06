@@ -42,7 +42,7 @@ class BannerRegister extends React.Component {
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis y empezá a vender ahora!</strong></h5>
                   <Input
-                    type="string"
+                    type="text"
                     value={this.state.nameAgency}
                     onChange={event => this.setState({ nameAgency: event.target.value })}
                     validate={isValid => this.setState({ nameAgencyValidate: isValid })}

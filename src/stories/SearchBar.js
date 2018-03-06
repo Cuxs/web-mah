@@ -17,6 +17,8 @@ import {
   Label,
 } from 'reactstrap';
 import { Notification } from 'react-notification';
+import FacebookLogin from 'react-facebook-login';
+
 import _ from 'lodash';
 import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
@@ -145,6 +147,10 @@ class SearchBar extends Component {
           showErrorModal: true,
         });
       });
+  }
+
+  responseFacebook(response) {
+    console.log(response);
   }
 
   render() {
@@ -321,6 +327,15 @@ class SearchBar extends Component {
             <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
             <ModalBody>
               <div className="col-md-6 offset-md-3">
+                <FacebookLogin
+                  appId="146328269397173"
+                  autoLoad
+                  callback={() => this.responseFacebook()}
+                  icon="fa-facebook"
+                  render={renderProps => (
+                    <Button color="primary" className="btn-facebook"><img src="/assets/images/icon-single-facebook.svg" /> Registrate con facebook</Button>
+                  )}
+                />
                 <Button color="primary" className="btn-facebook"><img src="/assets/images/icon-single-facebook.svg" /> Registrate con facebook</Button>
                 <div className="underline" />
                 <FormGroup>
@@ -399,3 +414,26 @@ class SearchBar extends Component {
   }
 }
 export default SearchBar;
+
+
+{/* <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{your-app-id}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{latest-api-version}'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script> */}

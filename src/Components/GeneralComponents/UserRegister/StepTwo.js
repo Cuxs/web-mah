@@ -25,9 +25,10 @@ class StepTwo extends React.Component {
       passValidate: parse(this.props.location.search).email,
       repeatPass: parse(this.props.location.search).repeatPass ? parse(this.props.location.search).repeatPass : '',
       repeatPassValidate: parse(this.props.location.search).email,
-      modal: '',
+      modal: false,
       modalTitle: '',
       modalText: '',
+      passwordShow: 'password',
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -41,6 +42,11 @@ class StepTwo extends React.Component {
       email: search.email,
     };
     this.props.history.push(`/userRegisterS1?${stringify(dataUser)}`);
+  }
+
+  showPass() {
+    this.setState({ passwordShow: 'text' });
+    setTimeout(() => this.setState({ passwordShow: 'password' }), 4000);
   }
 
   register() {
@@ -94,10 +100,9 @@ class StepTwo extends React.Component {
                     <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previous()} >Modificar datos</Button>
                   </div>
 
-                  <div className={`step ${this.disabled() ? 'done' : ''}`}>
+                  <div className={`step ${!this.disabled() ? 'done' : ''}`}>
                     <h6>PASO 2</h6>
                     <h4>Dejá tus datos de contacto para recibir mensajes de los interesados</h4>
-                    <a className="link">Modificar datos</a>
                   </div>
 
                 </div>
@@ -109,7 +114,7 @@ class StepTwo extends React.Component {
                 <h4 className="title-division">Los interesados se comunicarán con vos</h4>
                 <Input
                   label="Nombre y Apellido"
-                  type="string"
+                  type="text"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
                   validate={isValid => this.setState({ nameValidate: isValid })}
@@ -138,20 +143,15 @@ class StepTwo extends React.Component {
                 <div className="underline" />
                 <Input
                   label="Contraseña"
-                  type="password"
+                  type={this.state.passwordShow}
                   value={this.state.pass}
                   onChange={event => this.setState({ pass: event.target.value })}
                   validate={isValid => this.setState({ passValidate: isValid })}
                   placeholder="Mínimo 6 caracteres"
                 />
-                <Input
-                  label="Repetir contraseña"
-                  type="password"
-                  value={this.state.repeatPass}
-                  onChange={event => this.setState({ repeatPass: event.target.value })}
-                  validate={isValid => this.setState({ repeatPassValidate: isValid })}
-                  placeholder="Mínimo 6 caracteres"
-                />
+                <div style={{ marginBottom: 80 }} >
+                  <Button color="link" className="float-right" onClick={() => this.showPass()}>Mostrar</Button>
+                </div>
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>

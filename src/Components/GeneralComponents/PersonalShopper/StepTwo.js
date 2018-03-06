@@ -112,7 +112,7 @@ class PersonalShopper extends React.Component {
                 <h4 className="title-division">Datos del interesado</h4>
                 <Input
                   label="Nombre y Apellido"
-                  type="string"
+                  type="text"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
                   validate={isValid => this.setState({ nameValidate: isValid })}
@@ -147,14 +147,14 @@ class PersonalShopper extends React.Component {
                 />
                 <Input
                   label="Ocupación"
-                  type="string"
+                  type="text"
                   value={this.state.job}
                   onChange={event => this.setState({ job: event.target.value })}
                   validate={isValid => this.setState({ jobValidate: isValid })}
                 />
                 <Input
                   label="Email"
-                  type="string"
+                  type="text"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
                   validate={isValid => this.setState({ emailValidate: isValid })}

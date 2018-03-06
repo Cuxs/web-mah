@@ -157,7 +157,7 @@ class StepThree extends React.Component {
                 <h4 className="title-division">Información del dueño o responsable del Concesionario </h4>
                 <Input
                   label="Nombre y Apellido"
-                  type="string"
+                  type="text"
                   value={this.state.nameOwner}
                   onChange={event => this.setState({ nameOwner: event.target.value })}
                   validate={isValid => this.setState({ nameOwnerValidate: isValid })}
