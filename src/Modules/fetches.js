@@ -87,7 +87,7 @@ export const registerAgency = (data) => {
         : responseData));
 };
 export const recoverPassword = (email) => {
-  const url = `${server}/recoverPass`;
+  const url = `${server}/recoverPassword`;
   const options = {
     method: 'POST',
     headers: {

@@ -24,4 +24,8 @@ const UserPasswordMutation = gql`
 mutation updatePassword($MAHtoken: String!, $oldPassword: String!, $newPassword: String!){
   updatePassword(MAHtoken:$MAHtoken, oldPassword:$oldPassword, newPassword:$newPassword)
 }`;
-export { UserDetailQuery, UserDataMutation, UserPasswordMutation };
+const ResetPasswordMutation = gql`
+mutation resetPassword($oldPassword: String!, $newPassword: String!){
+  resetPassword(oldPassword:$oldPassword, newPassword:$newPassword)
+}`;
+export { UserDetailQuery, UserDataMutation, UserPasswordMutation, ResetPasswordMutation };

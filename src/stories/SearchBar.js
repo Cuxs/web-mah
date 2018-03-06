@@ -37,7 +37,7 @@ import {
 import Input from './Input';
 import NotificationModal from '../stories/NotificationModal';
 import parseError from '../Modules/errorParser';
-import { login } from '../Modules/fetches';
+import { login, recoverPassword } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -58,20 +58,27 @@ class SearchBar extends Component {
       emailValidate: false,
       password: '',
       passwordValidate: false,
-      showErrorModal: false,
-      errorTitle: '',
-      errorMessage: '',
+      showModal: false,
+      modalTitle: '',
+      modalMessage: '',
       isNotificationActive: false,
       isUserLogged: isUserLogged(),
       carState:
         this.props.carState === undefined ? 'Usado' : this.props.carState,
       value: this.props.text === undefined ? '' : this.props.text,
+      recoverPassEmail: '',
+      forgetPass: false,
+      loading: false,
+      error: '',
+      displayError: false,
     };
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
     this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
     this.onChange = this.onChange.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleNotification = this.toggleNotification.bind(this);
+    this.recoverPass = this.recoverPass.bind(this);
+    this.disabled = this.disabled.bind(this);
   }
 
   componentDidMount() {
@@ -168,11 +175,36 @@ class SearchBar extends Component {
         this.setState({
           email: '',
           password: '',
-          errorTitle: errorParsed.title,
-          errorMessage: errorParsed.message,
-          showErrorModal: true,
+          modalTitle: errorParsed.title,
+          modalMessage: errorParsed.message,
+          showModal: true,
         });
       });
+  }
+  recoverPass() {
+    this.setState({ loading: true });
+    recoverPassword(this.state.recoverPassEmail)
+      .then((res) => {
+        this.setState({
+          loading: false,
+          modalTitle: 'Listo',
+          modalMessage: res.message,
+          showModal: true,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          loading: false,
+          displayError: true,
+          error: error || error.message,
+        });
+      });
+  }
+  disabled() {
+    if (this.state.recoverPassEmail !== '') {
+      return false;
+    }
+    return true;
   }
 
   responseFacebook(response) {
@@ -377,10 +409,31 @@ class SearchBar extends Component {
                   onChange={event => this.setState({ password: event.target.value })}
                   validate={isValid => this.setState({ passwordValidate: isValid })}
                 />
-                <a href="">¿Olvidaste tu contraseña?</a>
-
+                <a onClick={() => {this.setState({ forgetPass: true })}} style={{ cursor: 'pointer' }}>
+                  ¿Olvidaste tu contraseña?
+                </a>
+                {this.state.forgetPass && (
+                  <div style={{ paddingTop: '20px' }}>
+                    <Label>Ingresa tu email para poder recuperarla </Label>
+                    <Input
+                      style={{ display: 'inline' }}
+                      type="email"
+                      value={this.state.recoverPassEmail}
+                      onChange={e =>
+                      this.setState({ recoverPassEmail: e.target.value })
+                    }
+                    />
+                    {this.state.displayError && <small style={{ color: 'red' }}>{this.state.error}</small>}
+                    <Button color="secondary" disabled={this.disabled()} onClick={this.recoverPass} className="alternative" style={{ display: 'inline' }}>Recuperar </Button>
+                    {this.state.loading && <img
+                      style={{ height: '85px', paddingTop: '10px' }}
+                      src="/loading.gif"
+                      key={0}
+                      alt="Loading..."
+                    />}
+                  </div>
+                )}
               </div>
-
             </ModalBody>
             <ModalFooter>
               <div className="row">
@@ -412,11 +465,11 @@ class SearchBar extends Component {
             </ModalFooter>
           </Modal>
           <NotificationModal
-            primaryText={this.state.errorTitle}
-            secondaryText={this.state.errorMessage}
+            primaryText={this.state.modalTitle}
+            secondaryText={this.state.modalMessage}
             buttonName="Aceptar"
-            showNotificationModal={this.state.showErrorModal}
-            handleClose={() => this.setState({ showErrorModal: false })}
+            showNotificationModal={this.state.showModal}
+            handleClose={() => this.setState({ showModal: false })}
           />
           <Notification
             isActive={this.state.isNotificationActive}

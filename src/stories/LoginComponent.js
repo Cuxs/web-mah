@@ -3,7 +3,7 @@ import { Button, Label, Input, FormGroup } from 'reactstrap';
 import decode from 'jwt-decode';
 
 import parseError from '../Modules/errorParser';
-import { login, loginAdmin } from '../Modules/fetches';
+import { login, loginAdmin, recoverPassword } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
 import NotificationModal from '../stories/NotificationModal';
 /* eslint react/jsx-filename-extension: 0 */
@@ -14,7 +14,17 @@ export default class LoginComponent extends Component {
     this.state = {
       email: '',
       password: '',
+      recoverPassEmail: '',
+      forgetPass: false,
+      loading: false,
+      error: '',
+      displayError: false,
+      modalTitle: '',
+      modalMessage: '',
+      showModal: false,
     };
+    this.recoverPass = this.recoverPass.bind(this);
+    this.disabled = this.disabled.bind(this);
   }
   isLoginFormIncomplete() {
     if (this.state.email === '' || this.state.password === '') {
@@ -38,9 +48,9 @@ export default class LoginComponent extends Component {
         this.setState({
           email: '',
           password: '',
-          errorTitle: errorParsed.title,
-          errorMessage: errorParsed.message,
-          showErrorModal: true,
+          modalTitle: errorParsed.title,
+          modalMessage: errorParsed.message,
+          showModal: true,
         });
       });
   }
@@ -55,9 +65,9 @@ export default class LoginComponent extends Component {
           this.setState({
             email: '',
             password: '',
-            errorTitle: 'Denegado',
-            errorMessage: 'Solo usuarios administradores pueden acceder',
-            showErrorModal: true,
+            modalTitle: 'Denegado',
+            modalMessage: 'Solo usuarios administradores pueden acceder',
+            showModal: true,
           });
         }
       })
@@ -66,32 +76,67 @@ export default class LoginComponent extends Component {
         this.setState({
           email: '',
           password: '',
-          errorTitle: errorParsed.title,
-          errorMessage: errorParsed.message,
-          showErrorModal: true,
+          modalTitle: errorParsed.title,
+          modalMessage: errorParsed.message,
+          showModal: true,
         });
       });
   }
+  recoverPass() {
+    this.setState({ loading: true });
+    recoverPassword(this.state.recoverPassEmail)
+      .then((res) => {
+        this.setState({
+          loading: false,
+          modalTitle: 'Listo',
+          modalMessage: res.message,
+          showModal: true,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          loading: false,
+          displayError: true,
+          error: error || error.message,
+        });
+      });
+  }
+  disabled() {
+    if (this.state.recoverPassEmail !== '') {
+      return false;
+    }
+    return true;
+  }
 
   render() {
-    const isAdmin = this.props.location.state && this.props.location.state === 'isAdmin';
+    const isAdmin =
+      this.props.location.state && this.props.location.state === 'isAdmin';
     return (
       <div style={{ top: '20px', position: 'relative' }}>
         <h4
           className="offset-md-3 primary"
           style={{
-          font: '300 20px/35px "Lato",sans-serif',
-        }}
+            font: '300 20px/35px "Lato",sans-serif',
+          }}
         >
-          {isAdmin ?
-        'Solo administradores pueden acceder'
-        :
-        'Necesitas loguearte para continuar...'
-        }
+          {isAdmin
+            ? 'Solo administradores pueden acceder'
+            : 'Necesitas loguearte para continuar...'}
         </h4>
-        <div className="col-md-6 offset-md-3" style={{ border: 'solid lightgray 1px' }}>
+        <div
+          className="col-md-6 offset-md-3"
+          style={{ border: 'solid lightgray 1px' }}
+        >
           <div className="col-md-6 offset-md-3">
-            {!isAdmin && <Button color="primary" className="btn-facebook"><img src="/assets/images/icon-single-facebook.svg" alt="facebook" /> Registrate con facebook</Button>}
+            {!isAdmin && (
+              <Button color="primary" className="btn-facebook">
+                <img
+                  src="/assets/images/icon-single-facebook.svg"
+                  alt="facebook"
+                />{' '}
+                Registrate con facebook
+              </Button>
+            )}
             <div className="underline" />
             <FormGroup>
               <Label for="exampleEmail">Email</Label>
@@ -112,9 +157,37 @@ export default class LoginComponent extends Component {
                 onChange={e => this.setState({ password: e.target.value })}
                 placeholder="******"
               />
-              <a href="">¿Olvidaste tu contraseña?</a>
-            </FormGroup>
 
+              <a
+                onClick={() => {
+                  this.setState({ forgetPass: true });
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                ¿Olvidaste tu contraseña?
+              </a>
+              {this.state.forgetPass && (
+                <div style={{ paddingTop: '20px' }}>
+                  <Label>Ingresa tu email para poder recuperarla </Label>
+                  <Input
+                    style={{ display: 'inline' }}
+                    type="email"
+                    value={this.state.recoverPassEmail}
+                    onChange={e =>
+                      this.setState({ recoverPassEmail: e.target.value })
+                    }
+                  />
+                  {this.state.displayError && <small style={{ color: 'red' }}>{this.state.error}</small>}
+                  <Button color="secondary" disabled={this.disabled()} onClick={this.recoverPass} className="alternative" style={{ display: 'inline' }}>Recuperar </Button>
+                  {this.state.loading && <img
+                    style={{ height: '85px', paddingTop: '10px' }}
+                    src="/loading.gif"
+                    key={0}
+                    alt="Loading..."
+                  />}
+                </div>
+              )}
+            </FormGroup>
           </div>
           <div className="row">
             <div className="col-3 float-left offset-3">
@@ -123,12 +196,14 @@ export default class LoginComponent extends Component {
                 onClick={() => {
                   if (isAdmin) {
                     this.loginAdmin(this.state.email, this.state.password);
-                  } else { this.loginUser(this.state.email, this.state.password); }
+                  } else {
+                    this.loginUser(this.state.email, this.state.password);
+                  }
                 }}
                 color="primary"
                 className="alternative"
               >
-                      Iniciar sesión
+                Iniciar sesión
               </Button>
             </div>
             <div className="col-3 float-right">
@@ -137,23 +212,34 @@ export default class LoginComponent extends Component {
                 color="default"
                 className="alternative"
               >
-                      Salir
+                Salir
               </Button>
             </div>
-            {!isAdmin &&
-            <div className="col-md-6 offset-md-3">
-              <div className="underline" />
-              <p>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
-              <p>No tengo cuenta. Soy una concesionaria. <a href="" className="btn-link">Registrar Agencia</a></p>
-            </div>}
+            {!isAdmin && (
+              <div className="col-md-6 offset-md-3">
+                <div className="underline" />
+                <p>
+                  No tengo cuenta. Soy un particular.{' '}
+                  <a href="" className="btn-link">
+                    Registrarme
+                  </a>
+                </p>
+                <p>
+                  No tengo cuenta. Soy una concesionaria.{' '}
+                  <a href="" className="btn-link">
+                    Registrar Agencia
+                  </a>
+                </p>
+              </div>
+            )}
           </div>
         </div>
         <NotificationModal
-          primaryText={this.state.errorTitle}
-          secondaryText={this.state.errorMessage}
+          primaryText={this.state.modalTitle}
+          secondaryText={this.state.modalMessage}
           buttonName="Aceptar"
-          showNotificationModal={this.state.showErrorModal}
-          handleClose={() => this.setState({ showErrorModal: false })}
+          showNotificationModal={this.state.showModal}
+          handleClose={() => this.setState({ showModal: false })}
         />
       </div>
     );
