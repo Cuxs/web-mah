@@ -121,7 +121,7 @@ class StepTwo extends React.Component {
                 />
                 <Input
                   label="DNI"
-                  type="numeric"
+                  type="number"
                   value={this.state.dni}
                   onChange={event => this.setState({ dni: event.target.value })}
                   validate={isValid => this.setState({ dniValidate: isValid })}
@@ -135,7 +135,7 @@ class StepTwo extends React.Component {
                 />
                 <Input
                   label="Teléfono"
-                  type="numeric"
+                  type="number"
                   value={this.state.phone}
                   onChange={event => this.setState({ phone: event.target.value })}
                   validate={isValid => this.setState({ phoneValidate: isValid })}

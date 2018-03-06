@@ -98,7 +98,7 @@ class FreeDestinationCredits extends React.Component {
                 />
                 <Input
                   label="Documento de Identidad"
-                  type="numeric"
+                  type="number"
                   value={this.state.dni}
                   onChange={event => this.setState({ dni: event.target.value })}
                   validate={isValid => this.setState({ dniValidate: isValid })}
@@ -112,14 +112,14 @@ class FreeDestinationCredits extends React.Component {
                 />
                 <Input
                   label="Ingresos"
-                  type="numeric"
+                  type="number"
                   value={this.state.ganancy}
                   onChange={event => this.setState({ ganancy: event.target.value })}
                   validate={isValid => this.setState({ ganancyValidate: isValid })}
                 />
                 <Input
                   label="Monto a financiar"
-                  type="numeric"
+                  type="number"
                   value={this.state.financyAmount}
                   onChange={event => this.setState({ financyAmount: event.target.value })}
                   validate={isValid => this.setState({ financyAmountValidate: isValid })}
@@ -140,7 +140,7 @@ class FreeDestinationCredits extends React.Component {
                 />
                 <Input
                   label="Teléfono"
-                  type="numeric"
+                  type="number"
                   value={this.state.phone}
                   onChange={event => this.setState({ phone: event.target.value })}
                   validate={isValid => this.setState({ phoneValidate: isValid })}

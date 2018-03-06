@@ -108,7 +108,7 @@ class StepOne extends React.Component {
                 />
                 <Input
                   label="Teléfono del Encargado"
-                  type="numeric"
+                  type="number"
                   value={this.state.phone}
                   onChange={event => this.setState({ phone: event.target.value })}
                   validate={isValid => this.setState({ phoneValidate: isValid })}

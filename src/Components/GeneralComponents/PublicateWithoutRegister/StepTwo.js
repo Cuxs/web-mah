@@ -153,7 +153,7 @@ class CreatePublication extends React.Component {
                 />
                 <Input
                   label="Teléfono"
-                  type="numeric"
+                  type="number"
                   value={this.state.phone}
                   onChange={event => this.setState({ phone: event.target.value })}
                   validate={isValid => this.setState({ phoneValidate: isValid })}

@@ -127,7 +127,7 @@ class StepTwo extends React.Component {
                 />
                 <Input
                   label="Teléfono de la Agencia"
-                  type="numeric"
+                  type="number"
                   value={this.state.phoneAgency}
                   onChange={event => this.setState({ phoneAgency: event.target.value })}
                   validate={isValid => this.setState({ phoneAgencyValidate: isValid })}

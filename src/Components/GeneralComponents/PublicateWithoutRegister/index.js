@@ -275,7 +275,7 @@ class CreatePublication extends React.Component {
                 </FormGroup>
                 <Input
                   label="¿Cuántos kilometros tiene?"
-                  type="numeric"
+                  type="number"
                   value={this.state.kms}
                   onChange={event => this.setState({ kms: event.target.value })}
                   validate={isValid => this.setState({ kmsValidate: isValid })}
@@ -283,7 +283,7 @@ class CreatePublication extends React.Component {
                 />
                 <Input
                   label="¿A qué precio lo querés vender?"
-                  type="numeric"
+                  type="number"
                   value={this.state.price}
                   onChange={event => this.setState({ price: event.target.value })}
                   validate={isValid => this.setState({ priceValidate: isValid })}
