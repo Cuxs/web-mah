@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 export const thousands = (number, decimals, decPoint, thousandsSep) => {
   decimals = decimals || 0;
@@ -33,4 +34,15 @@ export const prepareArraySelect = (array, rowValue, rowLabel) => {
   });
 
   return newArray;
+};
+
+export const generateYearArray = () => {
+  const yearArray = [];
+  const actualYear = moment().format('YYYY');
+  yearArray.push({ value: actualYear, label: actualYear });
+  for (let i = 1; i < 41; i += 1) {
+    const passYears = moment().subtract(i, 'years').format('YYYY');
+    yearArray.push({ value: passYears, label: passYears });
+  }
+  return yearArray;
 };

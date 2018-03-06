@@ -14,13 +14,12 @@ import AdminBar from '../../../stories/AdminBar';
 import Input from '../../../stories/Input';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
-import { prepareArraySelect } from '../../../Modules/functions';
 
 import style from '../../../Styles/register';
 import LoginComponent from '../../../stories/LoginComponent';
 import { branch, renderComponent } from 'recompose';
 import { isUserLogged } from '../../../Modules/sessionFunctions';
-import { thousands } from '../../../Modules/functions';
+import { thousands, generateYearArray, prepareArraySelect } from '../../../Modules/functions';
 
 
 const renderForUnloggedUser = (component, propName = 'data') =>
@@ -48,7 +47,6 @@ class CreatePublication extends React.Component {
       Models: [],
       Prices: [],
     };
-    this.generateYearArray = this.generateYearArray.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -76,16 +74,6 @@ class CreatePublication extends React.Component {
       })
         .then(response => this.setState({ Prices: response.data.Price }));
     }
-  }
-  generateYearArray() {
-    const yearArray = [];
-    const actualYear = moment().format('YYYY');
-    yearArray.push({ value: actualYear, label: actualYear });
-    for (let i = 1; i < 41; i += 1) {
-      const passYears = moment().subtract(i, 'years').format('YYYY');
-      yearArray.push({ value: passYears, label: passYears });
-    }
-    return yearArray;
   }
 
   onChangeBrand(newBrand) {
@@ -298,7 +286,7 @@ class CreatePublication extends React.Component {
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
-                    options={this.generateYearArray()}
+                    options={generateYearArray()}
                     simpleValue
                     clearable
                     name="selected-state"

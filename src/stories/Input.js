@@ -32,7 +32,7 @@ class InputSpecial extends Component {
         errorMessage = 'Por favor, ingrese solo letras';
         break;
 
-      case 'numeric':
+      case 'number':
         re = /^\d+$/;
         errorMessage = 'Por favor, ingrese solo números';
         break;
