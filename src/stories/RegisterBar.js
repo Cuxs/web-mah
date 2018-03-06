@@ -13,7 +13,7 @@ import { Col, Row, Button, ButtonDropdown,
 } from 'reactstrap';
 import { Notification } from 'react-notification';
 import { isUserLogged, getUserDataFromToken, clearSession } from '../Modules/sessionFunctions';
-import { login } from '../Modules/fetches';
+import { login, recoverPassword } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
 import parseError from '../Modules/errorParser';
 import NotificationModal from './NotificationModal';
@@ -25,18 +25,23 @@ export default class RegisterBar extends Component {
     super(props);
     this.state = {
       modal: false,
-      isUserLogged: isUserLogged(),
-      showErrorModal: false,
+      showModal: false,
       dropdownUser: false,
-      errorTitle: '',
-      showErrorModal: false,
-      errorMessage: '',
+      modalTitle: '',
+      modalMessage: '',
       isNotificationActive: false,
+      forgetPass: false,
+      recoverPassEmail: '',
+      loading: false,
+      error: '',
+      displayError: false,
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleUser = this.toggleUser.bind(this);
     this.toggleNotification = this.toggleNotification.bind(this);
     this.isLoginFormIncomplete = this.isLoginFormIncomplete.bind(this);
+    this.recoverPass = this.recoverPass.bind(this);
+    this.disabled = this.disabled.bind(this);
   }
 
   isLoginFormIncomplete() {
@@ -78,11 +83,36 @@ export default class RegisterBar extends Component {
         this.setState({
           email: '',
           password: '',
-          errorTitle: errorParsed.title,
-          errorMessage: errorParsed.message,
-          showErrorModal: true,
+          modalTitle: errorParsed.title,
+          modalMessage: errorParsed.message,
+          showModal: true,
         });
       });
+  }
+  recoverPass() {
+    this.setState({ loading: true });
+    recoverPassword(this.state.recoverPassEmail)
+      .then((res) => {
+        this.setState({
+          loading: false,
+          modalTitle: 'Listo',
+          modalMessage: res.message,
+          showModal: true,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          loading: false,
+          displayError: true,
+          error: error || error.message,
+        });
+      });
+  }
+  disabled() {
+    if (this.state.recoverPassEmail !== '') {
+      return false;
+    }
+    return true;
   }
 
   render() {
@@ -106,7 +136,7 @@ export default class RegisterBar extends Component {
                 <Button color="secondary" className="btn-link" href="#Plans" >PLANES</Button>
                 <Button color="secondary" className="btn-link" href="#Faq" >AYUDA</Button>
 
-                <Button color="primary" onClick={() => this.toggleModal} className="btn-link">INICIAR SESIÓN</Button>
+                <Button color="primary" onClick={() => this.toggleModal()} className="btn-link">INICIAR SESIÓN</Button>
               </div>
               }
 
@@ -180,7 +210,34 @@ export default class RegisterBar extends Component {
                   onChange={e => this.setState({ password: e.target.value })}
                   placeholder="******"
                 />
-                <a href="">¿Olvidaste tu contraseña?</a>
+                <a
+                  onClick={() => {
+                  this.setState({ forgetPass: true });
+                }}
+                  style={{ cursor: 'pointer' }}
+                >¿Olvidaste tu contraseña?
+                </a>
+                {this.state.forgetPass && (
+                <div style={{ paddingTop: '20px' }}>
+                  <Label>Ingresa tu email para poder recuperarla </Label>
+                  <Input
+                    style={{ display: 'inline' }}
+                    type="email"
+                    value={this.state.recoverPassEmail}
+                    onChange={e =>
+                      this.setState({ recoverPassEmail: e.target.value })
+                    }
+                  />
+                  {this.state.displayError && <small style={{ color: 'red' }}>{this.state.error}</small>}
+                  <Button color="secondary" disabled={this.disabled()} onClick={this.recoverPass} className="alternative" style={{ display: 'inline' }}>Recuperar </Button>
+                  {this.state.loading && <img
+                    style={{ height: '85px', paddingTop: '10px' }}
+                    src="/loading.gif"
+                    key={0}
+                    alt="Loading..."
+                  />}
+                </div>
+              )}
               </FormGroup>
 
             </div>
@@ -216,11 +273,11 @@ export default class RegisterBar extends Component {
           </ModalFooter>
         </Modal>
         <NotificationModal
-          primaryText={this.state.errorTitle}
-          secondaryText={this.state.errorMessage}
+          primaryText={this.state.modalTitle}
+          secondaryText={this.state.modalMessage}
           buttonName="Aceptar"
-          showNotificationModal={this.state.showErrorModal}
-          handleClose={() => this.setState({ showErrorModal: false })}
+          showNotificationModal={this.state.showModal}
+          handleClose={() => this.setState({ showModal: false })}
         />
         <Notification
           isActive={this.state.isNotificationActive}

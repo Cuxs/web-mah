@@ -14,6 +14,7 @@ import AgencyRegisterStepOne from './Components/GeneralComponents/AgencyRegister
 import AgencyRegisterStepTwo from './Components/GeneralComponents/AgencyRegister/StepTwo';
 import AgencyRegisterStepThree from './Components/GeneralComponents/AgencyRegister/StepThree';
 import SearchCars from './Components/GeneralComponents/SearchCars';
+import RecoverPassword from './Components/GeneralComponents/RecoverPassword';
 import CarDetail from './Components/GeneralComponents/CarDetail';
 import CreatePublication from './Components/GeneralComponents/CreatePublication';
 import CreatePublicationStepOne from './Components/GeneralComponents/CreatePublication/StepOne';
@@ -101,7 +102,7 @@ class App extends Component {
     script.async = true;
 
     document.body.appendChild(script);
-  }
+  } 
   render() {
     return (
       <Router>
@@ -149,6 +150,7 @@ class App extends Component {
             <Route exact path="/userRegisterS2" component={UserRegisterStepTwo} />
             <Route exact path="/userRegisterS3" component={UserRegisterStepThree} />
             <Route exact path="/withoutRegister" component={WithoutRegister} />
+            <Route exact path="/RecoverPassword" component={RecoverPassword} />
             <Redirect from="/admin" to="/superAdminPublications" />
             <Redirect from="/loginAdmin" to={{ pathname: '/login', state: 'isAdmin' }} />
             <Route exact path="/login" component={LoginComponent} />
