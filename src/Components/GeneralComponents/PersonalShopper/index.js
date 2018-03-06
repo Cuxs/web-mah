@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { stringify, parse } from 'query-string';
 import _ from 'lodash';
@@ -10,9 +10,11 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
 import SearchBar from '../../../stories/SearchBar';
+import Input from '../../../stories/Input';
+
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery } from '../../../ApolloQueries/TautosQuery';
-import { prepareArraySelect } from '../../../Modules/functions';
+import { prepareArraySelect, generateYearArray } from '../../../Modules/functions';
 
 
 class PersonalShopper extends React.Component {
@@ -22,6 +24,7 @@ class PersonalShopper extends React.Component {
       kms: 0,
       year: 2018,
       price: '',
+      priceValidate: false,
       brand: '',
       group: '',
       codia: '',
@@ -73,9 +76,9 @@ class PersonalShopper extends React.Component {
 
   disabled() {
     const {
-      kms, year, price, brand, group, codia,
+      kms, year, priceValidate, brand, group, codia,
     } = this.state;
-    return !(kms !== '' && year !== '' && price !== '' && brand !== '' && group !== '' && codia !== '');
+    return !(kms !== '' && year !== '' && priceValidate && brand !== '' && group !== '' && codia !== '');
   }
 
   next() {
@@ -150,17 +153,21 @@ class PersonalShopper extends React.Component {
                     autoFocus
                     clearable={false}
                     onSelectResetsInput={false}
-                    options={[{ value: '2018', label: '2018' }, { value: '2017', label: '2017' }, { value: '2016', label: '2016' }, { value: '2015', label: '2015' }]}
+                    options={generateYearArray()}
                     simpleValue
                     name="selected-state"
                     value={this.state.year}
                     onChange={newValue => this.setState({ year: newValue })}
                   />
                 </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Precio aproximado</Label>
-                  <Input type="numeric" value={this.state.price} onChange={event => this.setState({ price: event.target.value })} placeholder="Ingrese un número sin puntos ni comas" />
-                </FormGroup>
+                <Input
+                  label="Precio aproximado"
+                  type="number"
+                  placeholder="Ingrese un número sin puntos ni comas"
+                  value={this.state.price}
+                  onChange={event => this.setState({ price: event.target.value })}
+                  validate={isValid => this.setState({ priceValidate: isValid })}
+                />
                 <div className="simulator-container">
                   <FormGroup>
                     <Label for="exampleSelect">¿Cuál es la marca?</Label>
@@ -218,10 +225,14 @@ class PersonalShopper extends React.Component {
                   </FormGroup>
                   <Button color="secondary"> Añadir otro</Button>
                 </div>
-                <FormGroup>
-                  <Label for="exampleText">Descripción</Label>
-                  <Input type="textarea" value={this.state.observation} onChange={event => this.setState({ observation: event.target.value })} />
-                </FormGroup>
+
+                <Input
+                  label="Descripción"
+                  type="textarea"
+                  value={this.state.observation}
+                  onChange={event => this.setState({ observation: event.target.value })}
+                  validate={isValid => this.setState({ observationValidate: isValid })}
+                />
                 <Button color="primary" disabled={this.disabled()} onClick={() => this.next()} className="float-right"> Siguiente</Button>
               </div>
             </Col>

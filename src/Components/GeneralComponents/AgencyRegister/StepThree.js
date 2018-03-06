@@ -164,7 +164,7 @@ class StepThree extends React.Component {
                 />
                 <Input
                   label="DNI"
-                  type="numeric"
+                  type="number"
                   value={this.state.dniOwner}
                   onChange={event => this.setState({ dniOwner: event.target.value })}
                   validate={isValid => this.setState({ dniOwnerValidate: isValid })}
@@ -185,7 +185,7 @@ class StepThree extends React.Component {
                 />
                 <Input
                   label="Teléfono"
-                  type="numeric"
+                  type="number"
                   value={this.state.phoneOwner}
                   onChange={event => this.setState({ phoneOwner: event.target.value })}
                   validate={isValid => this.setState({ phoneOwnerValidate: isValid })}

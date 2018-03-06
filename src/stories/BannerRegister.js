@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, FormGroup, Button } from 'reactstrap';
+import { Row, Button } from 'reactstrap';
 import { stringify } from 'query-string';
 
 import Input from './Input';

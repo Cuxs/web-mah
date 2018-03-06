@@ -12,10 +12,9 @@ import moment from 'moment';
 
 import AdminBar from '../../../stories/AdminBar';
 import Input from '../../../stories/Input';
-import { thousands } from '../../../Modules/functions';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
-import { prepareArraySelect } from '../../../Modules/functions';
+import { prepareArraySelect, thousands, generateYearArray } from '../../../Modules/functions';
 
 
 class CreatePublication extends React.Component {
@@ -36,7 +35,6 @@ class CreatePublication extends React.Component {
       Models: [],
       Prices: [],
     };
-    this.generateYearArray = this.generateYearArray.bind(this);
   }
 
 
@@ -65,17 +63,6 @@ class CreatePublication extends React.Component {
       })
         .then(response => this.setState({ Prices: response.data.Price }));
     }
-  }
-
-  generateYearArray() {
-    const yearArray = [];
-    const actualYear = moment().format('YYYY');
-    yearArray.push({ value: actualYear, label: actualYear });
-    for (let i = 1; i < 41; i += 1) {
-      const passYears = moment().subtract(i, 'years').format('YYYY');
-      yearArray.push({ value: passYears, label: passYears });
-    }
-    return yearArray;
   }
 
   onChangeBrand(newBrand) {
@@ -275,7 +262,7 @@ class CreatePublication extends React.Component {
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
-                    options={this.generateYearArray()}
+                    options={generateYearArray()}
                     simpleValue
                     clearable
                     name="selected-state"
@@ -288,7 +275,7 @@ class CreatePublication extends React.Component {
                 </FormGroup>
                 <Input
                   label="¿Cuántos kilometros tiene?"
-                  type="numeric"
+                  type="number"
                   value={this.state.kms}
                   onChange={event => this.setState({ kms: event.target.value })}
                   validate={isValid => this.setState({ kmsValidate: isValid })}
@@ -296,7 +283,7 @@ class CreatePublication extends React.Component {
                 />
                 <Input
                   label="¿A qué precio lo querés vender?"
-                  type="numeric"
+                  type="number"
                   value={this.state.price}
                   onChange={event => this.setState({ price: event.target.value })}
                   validate={isValid => this.setState({ priceValidate: isValid })}
