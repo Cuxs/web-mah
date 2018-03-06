@@ -332,11 +332,9 @@ class SearchBar extends Component {
                   autoLoad
                   callback={() => this.responseFacebook()}
                   icon="fa-facebook"
-                  render={renderProps => (
-                    <Button color="primary" className="btn-facebook"><img src="/assets/images/icon-single-facebook.svg" /> Registrate con facebook</Button>
-                  )}
+                  textButton="Registrate con facebook"
+                  cssClass="btn btn-primary btn-facebook"
                 />
-                <Button color="primary" className="btn-facebook"><img src="/assets/images/icon-single-facebook.svg" /> Registrate con facebook</Button>
                 <div className="underline" />
                 <FormGroup>
                   <Label for="exampleEmail">Email</Label>
