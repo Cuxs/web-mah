@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, FormGroup, Input, Button, Alert } from 'reactstrap';
+import { Col, Row, Button, Alert } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 
 import TopTopNav from '../../../stories/TopTopNav';
@@ -10,6 +10,7 @@ import SearchBar from '../../../stories/SearchBar';
 import PublicityBanner from '../../../stories/PublicityBanner';
 import CardAgency from '../../../stories/CardAgency';
 import Footer from '../../../stories/Footer';
+import Input from '../../../stories/Input';
 import { GetAllAgencies } from '../../../ApolloQueries/FriendlyAgencyQueries';
 
 class FriendlyAgency extends Component {
@@ -17,31 +18,19 @@ class FriendlyAgency extends Component {
     super(props);
     this.state = {
       nameAgency: '',
+      nameAgencyValidate: false,
       email: '',
-      error: false,
-      errorMessage: '',
+      emailValidate: false,
     };
-    this.validateOrRedirect = this.validateOrRedirect.bind(this);
+    this.redirect = this.redirect.bind(this);
   }
 
-  validateOrRedirect() {
-    if (this.state.nameAgency === '' || this.state.email === '') {
-      this.setState({
-        error: true,
-        errorMessage: 'Por favor, completa los campos',
-      });
-    } else
-    if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm.test(this.state.email) === false) {
-      this.setState({
-        error: true,
-        errorMessage: 'Por favor, ingresa un email válido',
-      });
-    } else {
-      this.setState({
-        error: false,
-      });
-      this.props.history.push(`/agencyRegisterS1?email=${this.state.email}&nameAgency=${this.state.nameAgency}`);
-    }
+  disabled() {
+    return !(this.state.nameAgencyValidate && this.state.emailValidate);
+  }
+
+  redirect() {
+    this.props.history.push(`/agencyRegisterS1?email=${this.state.email}&nameAgency=${this.state.nameAgency}`);
   }
 
   render() {
@@ -84,17 +73,21 @@ class FriendlyAgency extends Component {
                 <p>Publicaciones gratis ilimitadas.</p>
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis y empezá a vender ahora!</strong></h5>
-                  <FormGroup>
-                    <Input type="text" value={this.state.nameAgency} onChange={e => this.setState({ nameAgency: e.target.value })} name="agencyName" placeholder="Nombre de la concesionaria" />
-                  </FormGroup>
-                  <FormGroup>
-                    <Input type="email" value={this.state.email} onChange={e => this.setState({ email: e.target.value })} name="email" placeholder="Email" />
-                  </FormGroup>
-                  {this.state.error &&
-                  <Alert color="danger">
-                    {this.state.errorMessage}
-                  </Alert>}
-                  <Button color="primary" className="btn-block" onClick={() => this.validateOrRedirect()} >Comenzar</Button>
+                  <Input
+                    placeholder="Nombre de la concesionaria"
+                    type="text"
+                    value={this.state.nameAgency}
+                    onChange={event => this.setState({ nameAgency: event.target.value })}
+                    validate={isValid => this.setState({ nameAgencyValidate: isValid })}
+                  />
+                  <Input
+                    placeholder="Email"
+                    type="email"
+                    value={this.state.email}
+                    onChange={event => this.setState({ email: event.target.value })}
+                    validate={isValid => this.setState({ emailValidate: isValid })}
+                  />
+                  <Button color="primary" className="btn-block" disabled={this.disabled()} onClick={() => this.redirect()} >Comenzar</Button>
                 </div>
               </Col>
             </Row>
