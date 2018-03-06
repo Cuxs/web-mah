@@ -13,8 +13,9 @@ import {
 } from 'reactstrap';
 import { parse, stringify } from 'query-string';
 import DropzoneComponent from 'react-dropzone-component';
+import Gallery from 'react-photo-gallery';
 
-
+import { getImages, editPublicationWithoutImages } from '../../../Modules/fetches';
 import AdminBar from '../../../stories/AdminBar';
 import { isAdminLogged, getUserToken } from '../../../Modules/sessionFunctions';
 import { server } from '../../../Modules/params';
@@ -25,7 +26,7 @@ function initCallback(dropzone) {
   myDropzone = dropzone;
 }
 
-class CreatePublicationS2 extends Component {
+class StepTwo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,8 +34,33 @@ class CreatePublicationS2 extends Component {
       responseMsg: '',
       responseTitle: '',
       disabled: true,
+      edit: false,
+      previousImages: [],
+
     };
     this.toggle = this.toggle.bind(this);
+  }
+  componentWillMount() {
+    const search = parse(this.props.location.search);
+    const DataCar = parse(search.DataCar);
+    if (DataCar.publication_id) {
+      getImages(DataCar.publication_id).then(({ data }) => {
+        const arrayImages = [];
+        data.map((image) => {
+          arrayImages.push({
+            src: `${process.env.REACT_APP_API}/images/${image}`,
+            sizes: ['(min-width: 480px) 50vw,(min-width: 1024px) 33.3vw,100vw'],
+            width: 4,
+            height: 3,
+          });
+        });
+        this.setState({
+          disabled: false,
+          edit: true,
+          previousImages: arrayImages,
+        });
+      });
+    }
   }
   disabled() {
     if (myDropzone) {
@@ -54,16 +80,26 @@ class CreatePublicationS2 extends Component {
       modal: !this.state.modal,
     });
   }
-  handleSubmit() {
-    this.setState({disabled: true})
-    myDropzone.processQueue();
+  handleSubmit(dataPublication) {
+    this.setState({ disabled: true });
+    if (myDropzone.files.length === 0) {
+      editPublicationWithoutImages(dataPublication)
+        .then((resp) => {
+          this.setState({
+            modal: true,
+            responseMsg: resp.message,
+            responseTitle: 'Guardado',
+          });
+        });
+    } else { myDropzone.processQueue(); }
   }
 
   render() {
+    const postUrl = this.state.edit ? `${server}/editPublication` : `${server}/createPublication`;
     const componentConfig = {
       iconFiletypes: ['.jpg', '.png', '.gif'],
       showFiletypeIcon: true,
-      postUrl: `${server}/createPublication`,
+      postUrl,
     };
 
     const search = parse(this.props.location.search);
@@ -87,21 +123,24 @@ class CreatePublicationS2 extends Component {
       acceptedFiles: 'image/jpeg,image/png,image/gif',
       autoProcessQueue: false,
       maxFiles: 8,
+      maxFilesize: 10,
       parallelUploads: 100,
       uploadMultiple: true,
+      dictFileTooBig: 'El archivo es muy grande ({{filesize}}). El tamaño máximo es de {{maxFilesize}}.',
       dictInvalidFileType: 'Formato de archivo incorrecto',
       dictRemoveFile: 'Borrar',
-      dictMaxFilesExceeded: 'Solo se pueden subir hasta 8 imágenes',
+      dictMaxFilesExceeded: 'Solo se pueden subir hasta {{maxFiles}} imágenes',
       dictDefaultMessage:
         'Arrastre aquí las imágenes o haga clic para seleccionarlas.',
       dictFallbackMessage: 'Su navegador no soporta arrastrar imágenes',
       dictCancelUpload: 'Cancelar.',
       dictUploadCanceled: 'Subida cancelada.',
-      dictCancelUploadConfirmation: '¿Esta seguro que desea cancelar la creación de la publicación?',
+      dictCancelUploadConfirmation:
+        '¿Esta seguro que desea cancelar la creación de la publicación?',
       params: dataPublication,
       headers: {
         mimeType: 'multipart/form-data',
-        Authorization: getUserToken(),
+        Authorization: `Bearer ${getUserToken()}`,
       },
     };
     const eventHandlers = {
@@ -162,6 +201,17 @@ class CreatePublicationS2 extends Component {
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left">
                 <h4 className="title-division">Cómo luce?</h4>
+                {this.state.edit && (
+                  <div>
+                    <p>
+                      {' '}
+                      Ten en cuenta que las siguientes imágenes se reemplazarán
+                      por las que agregues:
+                    </p>
+                    <Gallery photos={this.state.previousImages} />
+                    <div style={{ height: '100px' }} />
+                  </div>
+                )}
                 <DropzoneComponent
                   config={componentConfig}
                   eventHandlers={eventHandlers}
@@ -183,9 +233,9 @@ class CreatePublicationS2 extends Component {
                   <Button
                     color="primary"
                     disabled={this.state.disabled}
-                    onClick={() => this.handleSubmit()}
+                    onClick={() => this.handleSubmit(dataPublication)}
                   >
-                    Publicar
+                    {this.state.edit ? 'Guardar Cambios' : 'Publicar'}
                   </Button>
                 </div>
               </div>
@@ -219,5 +269,4 @@ class CreatePublicationS2 extends Component {
   }
 }
 
-
-export default CreatePublicationS2;
+export default StepTwo;

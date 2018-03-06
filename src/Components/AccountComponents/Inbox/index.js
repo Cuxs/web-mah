@@ -9,14 +9,30 @@ import { graphql, compose } from 'react-apollo';
 import { ChatFeed, Message } from 'react-chat-ui';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
+import { branch, renderComponent } from 'recompose';
+import LoginComponent from '../../../stories/LoginComponent';
 import AdminBar from '../../../stories/AdminBar';
 
-import { CommentThreadQuery, markThreadAsReaded } from '../../../ApolloQueries/InboxQuery';
-import { MessageQuery, MessageSubscription, addMessageMutation } from '../../../ApolloQueries/MessagesCarDetailQuery';
+import {
+  CommentThreadQuery,
+  markThreadAsReaded,
+} from '../../../ApolloQueries/InboxQuery';
+import {
+  MessageQuery,
+  MessageSubscription,
+  addMessageMutation,
+} from '../../../ApolloQueries/MessagesCarDetailQuery';
 
 import style from '../../../Styles/pledgeCredits';
-import { getUserToken, getUserDataFromToken } from '../../../Modules/sessionFunctions';
+import {
+  getUserToken,
+  getUserDataFromToken,
+  isUserLogged,
+} from '../../../Modules/sessionFunctions';
 import { thousands } from '../../../Modules/functions';
+
+const renderForUnloggedUser = (component, propName = 'data') =>
+  branch(props => !isUserLogged(), renderComponent(component));
 
 class Inbox extends Component {
   constructor(props) {
@@ -46,7 +62,9 @@ class Inbox extends Component {
         messages.push(new Message({
           id: publicationUserId === message.from_id ? 0 : message.from_id,
           message: message.content,
-          senderName: message.User ? `${message.User.name}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')}` : `${anonymName}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')} `,
+          senderName: message.User
+            ? `${message.User.name}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')}`
+            : `${anonymName}--${moment(message.createdAt).format('DD/MM/YYYY HH:mm')} `,
         }));
       });
       return messages;
@@ -81,43 +99,79 @@ class Inbox extends Component {
         <AdminBar history={this.props.history} />
         <Row>
           <Col md="6">
-            <Button type="secondary" onClick={() => history.goBack()} >{'< Volver a Bandeja de Entrada'}</Button>
-            {(ThreadsQuery.loading || messagesData.loading) ?
+            <Button type="secondary" onClick={() => history.goBack()}>
+              {'< Volver a Bandeja de Entrada'}
+            </Button>
+            {ThreadsQuery.loading || messagesData.loading ? (
               <img
                 className="loading-gif"
                 style={{ height: '250px' }}
                 src="/loading.gif"
                 key={0}
                 alt="Loading..."
-              /> :
+              />
+            ) : (
               <div className="d-flex flex-row">
-                <img src={`${process.env.REACT_APP_API}/images/${ThreadsQuery.GetThreadForInbox.Publication.ImageGroup.image1}`} alt="banner" />
+                <img
+                  src={`${process.env.REACT_APP_API}/images/${
+                    ThreadsQuery.GetThreadForInbox.Publication.ImageGroup.image1
+                  }`}
+                  alt="banner"
+                />
                 <div className="d-flex flex-column">
-                  <h6>{ThreadsQuery.GetThreadForInbox.Publication.brand} {ThreadsQuery.GetThreadForInbox.Publication.group}</h6>
-                  <h6>{ThreadsQuery.GetThreadForInbox.Publication.modelName}</h6>
-                  <h6>$ {thousands(ThreadsQuery.GetThreadForInbox.Publication.price, 2, ',', '.')}</h6>
-                  <h6>{ThreadsQuery.GetThreadForInbox.Publication.year} - {thousands(ThreadsQuery.GetThreadForInbox.Publication.kms, 0, ',', '.')}</h6>
+                  <h6>
+                    {ThreadsQuery.GetThreadForInbox.Publication.brand}{' '}
+                    {ThreadsQuery.GetThreadForInbox.Publication.group}
+                  </h6>
+                  <h6>
+                    {ThreadsQuery.GetThreadForInbox.Publication.modelName}
+                  </h6>
+                  <h6>
+                    ${' '}
+                    {thousands(
+                      ThreadsQuery.GetThreadForInbox.Publication.price,
+                      2,
+                      ',',
+                      '.',
+                    )}
+                  </h6>
+                  <h6>
+                    {ThreadsQuery.GetThreadForInbox.Publication.year} -{' '}
+                    {thousands(
+                      ThreadsQuery.GetThreadForInbox.Publication.kms,
+                      0,
+                      ',',
+                      '.',
+                    )}
+                  </h6>
                 </div>
-              </div>}
+              </div>
+            )}
           </Col>
-          <Col md="6" >
+          <Col md="6">
             <ChatFeed
               maxHeight={500}
               messages={this.fillStateWithMessages(
-              ThreadsQuery,
-              messagesData,
-              publicationUserId,
-)
-            } // Boolean: list of message objects
+                ThreadsQuery,
+                messagesData,
+                publicationUserId,
+              )} // Boolean: list of message objects
               hasInputField={false} // Boolean: use our input, or use your own
               showSenderName // show the name of the user who sent the message
               bubblesCentered // Boolean should the bubbles be centered in the feed?
-
             />
             <FormGroup>
-              <Input type="textarea" value={this.state.content} onChange={e => this.setState({ content: e.target.value })} name="text" id="exampleText" />
+              <Input
+                type="textarea"
+                value={this.state.content}
+                onChange={e => this.setState({ content: e.target.value })}
+                name="text"
+                id="exampleText"
+              />
             </FormGroup>
-            <Button color="primary" onClick={() => this.sendMessage()}>Responder</Button>
+            <Button color="primary" onClick={() => this.sendMessage()}>
+              Responder
+            </Button>
           </Col>
         </Row>
         <style jsx>{style}</style>
@@ -133,13 +187,18 @@ const options = ({ location }) => ({
     commentThread_id: parse(location.search).ct_id, // requerida por MessageQuery
   },
 });
-const withThreadData = graphql(CommentThreadQuery, { name: 'ThreadsQuery', options });
+const withThreadData = graphql(CommentThreadQuery, {
+  name: 'ThreadsQuery',
+  options,
+});
 const withMessages = graphql(MessageQuery, {
   name: 'messagesData',
   options,
 });
 const withMessageMutation = graphql(addMessageMutation);
-const withMarkThreadAsReadedMutation = graphql(markThreadAsReaded, { name: 'markAsRead' });
+const withMarkThreadAsReadedMutation = graphql(markThreadAsReaded, {
+  name: 'markAsRead',
+});
 const withMessagesSubscription = graphql(MessageQuery, {
   name: 'messagesSubscriptions',
   options,
@@ -163,7 +222,13 @@ const withMessagesSubscription = graphql(MessageQuery, {
   }),
 });
 
-
-const withData = compose(withThreadData, withMessages, withMarkThreadAsReadedMutation, withMessagesSubscription, withMessageMutation);
+const withData = compose(
+  withThreadData,
+  withMessages,
+  withMarkThreadAsReadedMutation,
+  withMessagesSubscription,
+  withMessageMutation,
+  renderForUnloggedUser(LoginComponent, 'unreadMessages'),
+);
 
 export default withData(Inbox);

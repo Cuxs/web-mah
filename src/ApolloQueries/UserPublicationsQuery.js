@@ -16,8 +16,10 @@ mutation searchPublication($userType:String, $carState: String, $state: String, 
         name
         agencyName
       }
+      codia
       id
       group
+      brand
       modelName
       price
       fuel
@@ -25,6 +27,7 @@ mutation searchPublication($userType:String, $carState: String, $state: String, 
       carState
       kms
       name
+      observation
     }
   }
 }

@@ -33,6 +33,7 @@ class SACardPublication extends Component {
       questionModalTitle: '',
       questionModalText: '',
       verb: '',
+      reason: '',
     };
     this.toggle = this.toggle.bind(this);
     this.toggleQuestionModal = this.toggleQuestionModal.bind(this);
@@ -77,6 +78,7 @@ class SACardPublication extends Component {
       variables: {
         publication_id: this.props.data.id,
         MAHtoken: getUserToken(),
+        reason: this.state.reason,
       },
     })
       .then(({ data: { disaprovePublication: { CurrentState: { stateName } } } }) => {
@@ -172,7 +174,7 @@ class SACardPublication extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.toggle()}>OK</Button>
+            <Button color="primary" onClick={() => { this.toggle(); window.location.reload(); }}>OK</Button>
           </ModalFooter>
         </Modal>
 
@@ -180,11 +182,18 @@ class SACardPublication extends Component {
           <ModalHeader toggle={this.toggleQuestionModal}>{this.state.questionModalTitle}</ModalHeader>
           <ModalBody>
             <div className="col-md-6 offset-md-3">
-              {this.state.questionModalText}
+              <h5>{this.state.questionModalText}</h5>
+              {this.state.verb === 'desaprobar' &&
+              <div>
+                <p> Ingrese el motivo </p><small>Se enviará junto al email</small>
+                <input type="textarea" onChange={(e) => { this.setState({ reason: e.target.value }); }} value={this.state.reason} style={{ width: '250px', height: '70px' }} />
+              </div>
+
+            }
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => (this.state.verb === 'aprobar' ? this.aprove() : this.disaprove())}>Ok</Button>
+            <Button color="primary" disabled={this.state.verb === 'desaprobar' && this.state.reason === ''} onClick={() => (this.state.verb === 'aprobar' ? this.aprove() : this.disaprove())}>Ok</Button>
             <Button color="secondary" onClick={() => this.toggleQuestionModal()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
