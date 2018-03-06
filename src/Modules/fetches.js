@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { server } from './params';
 import { loadState } from './localStorage';
+import { split } from 'split-object';
 
 let token = '';
 
@@ -149,14 +150,12 @@ export const uploadAgencyImages = (profileImage, bannerImage, id) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-export const createPublication = (dataPublication, { imageGroup }) => {
-  const url = `${server}/createPublication`;
+export const editPublicationWithoutImages = (dataPublication) => {
+  const url = `${server}/editPublication`;
   const formData = new FormData();
-  imageGroup.map((img) => {
-    formData.append('imageGroup', img);
+  split(dataPublication).map((item) => {
+    formData.append(item.key, item.value);
   });
-  formData.append('dataPublication', JSON.stringify(dataPublication));
-
   const options = {
     method: 'POST',
     headers: {
@@ -198,6 +197,25 @@ export const getSoldPublications = () => {
     token = `Bearer ${loadState().login.MAHtoken}`;
   }
   const url = `${server}/getSoldPublications`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+export const getImages = (publication_id) => {
+  if (loadState()) {
+    token = `Bearer ${loadState().login.MAHtoken}`;
+  }
+  const url = `${server}/getImages/${publication_id}`;
   const options = {
     method: 'GET',
     headers: {

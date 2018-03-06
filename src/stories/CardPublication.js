@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
-import qs from 'query-string';
+import {stringify } from 'query-string';
 
 import photoGaleryParser from '../Modules/photoGaleryParser';
 import { thousands } from '../Modules/functions';
 import { getUserToken } from '../Modules/sessionFunctions';
-import { markAsSoldMutation, highlightPublication, SearchUserPublicationQuery } from '../ApolloQueries/UserPublicationsQuery';
+import {
+  markAsSoldMutation,
+  highlightPublication,
+} from '../ApolloQueries/UserPublicationsQuery';
 
 /* eslint react/jsx-filename-extension:0 */
 /* eslint class-methods-use-this: 0 */
@@ -19,11 +22,11 @@ class CardPublication extends Component {
       modalMessage: '',
       pubId: '',
       modal: false,
-
     };
     this.toggle = this.toggle.bind(this);
     this.toggleModalState = this.toggleModalState.bind(this);
     this.changeToSoldState = this.changeToSoldState.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
   isPubVisible(stateName) {
     if (
@@ -38,18 +41,25 @@ class CardPublication extends Component {
   }
   pubStateClass(stateName) {
     switch (stateName) {
-      case 'Publicada': return 'published';
-      case 'Vendida': return 'sold';
-      case 'Destacada': return 'highlighted';
-      case 'Pendiente': return 'pending';
-      default: return '';
+      case 'Publicada':
+        return 'published';
+      case 'Vendida':
+        return 'sold';
+      case 'Destacada':
+        return 'highlighted';
+      case 'Pendiente':
+        return 'pending';
+      default:
+        return '';
     }
   }
   isPubEditable(stateName) {
     if (
       stateName === 'Publicada' ||
+      stateName === 'Pendiente' ||
       stateName === 'Destacada' ||
-      stateName === 'Apto para garantía'
+      stateName === 'Apto para garantía' ||
+      stateName === 'Suspendida'
     ) {
       return true;
     }
@@ -67,12 +77,13 @@ class CardPublication extends Component {
     });
   }
   changeToSoldState() {
-    this.props.ChangeToSold({
-      variables: {
-        MAHtoken: getUserToken(),
-        publication_id: this.state.pubId,
-      },
-/*       update: (proxy, { data: { markAsSold } }) => {
+    this.props
+      .ChangeToSold({
+        variables: {
+          MAHtoken: getUserToken(),
+          publication_id: this.state.pubId,
+        },
+        /*       update: (proxy, { data: { markAsSold } }) => {
         proxy.readQuery({
           query: SearchUserPublicationQuery,
           variables: {
@@ -83,12 +94,13 @@ class CardPublication extends Component {
           },
         });
       }, */
-    })
+      })
       .then((data) => {
         this.toggleModalState('');
         this.setState({
           modalTitle: 'Felicitaciones.',
-          modalMessage: 'La publicación ha sida marcada como vendida. Felicitaciones!',
+          modalMessage:
+            'La publicación ha sida marcada como vendida. Felicitaciones!',
           modal: true,
         });
       })
@@ -113,12 +125,13 @@ class CardPublication extends Component {
   }
 
   changeToHighlightState() {
-    this.props.HighLightPub({
-      variables: {
-        MAHtoken: getUserToken(),
-        publication_id: this.state.pubId,
-      },
-    })
+    this.props
+      .HighLightPub({
+        variables: {
+          MAHtoken: getUserToken(),
+          publication_id: this.state.pubId,
+        },
+      })
       .then((data) => {
         this.toggleModalState('');
         this.setState({
@@ -146,6 +159,22 @@ class CardPublication extends Component {
         }
       });
   }
+  handleRedirect() {
+    const { data } = this.props;
+    const dataCar = {
+      brand: data.brand,
+      carState: data.carState,
+      codia: data.codia,
+      group: data.group,
+      kms: data.kms,
+      modelName: data.modelName,
+      observation: data.observation,
+      price: data.price,
+      year: data.year,
+      publication_id: data.id,
+    };
+    this.props.history.push(`/createPublication?${(stringify(dataCar))}`);
+  }
   render() {
     const {
       onHighlight,
@@ -153,8 +182,8 @@ class CardPublication extends Component {
       data: { CurrentState: { stateName } },
     } = this.props;
     return (
-      <div className="box-item" >
-        <div className="row item-car wide" >
+      <div className="box-item">
+        <div className="row item-car wide">
           <div className="col-12 col-lg-4 col-md-4 col-sm-4">
             <div className="row">
               <img
@@ -166,9 +195,17 @@ class CardPublication extends Component {
             </div>
           </div>
           <div className="col-12 col-lg-8 col-md-8 col-sm-8">
-            <div className="item-data" >
-              <p className={`item-state badge badge-secondary ${this.pubStateClass(stateName)}`}>{stateName}</p>
-              <p className="item-name"><strong>{data.brand} {data.group}</strong></p>
+            <div className="item-data">
+              <p
+                className={`item-state badge badge-secondary ${this.pubStateClass(stateName)}`}
+              >
+                {stateName}
+              </p>
+              <p className="item-name">
+                <strong>
+                  {data.brand} {data.group}
+                </strong>
+              </p>
               <p className="item-description">{data.model}</p>
               <p className="item-price">
                 <strong>${thousands(data.price, 2, ',', '.')}</strong>
@@ -178,52 +215,96 @@ class CardPublication extends Component {
               </small>
             </div>
             <div className="d-flex flex-column align-items-end item-visibility">
-              <h6>Publicación {!this.isPubVisible(stateName) && 'no'} visible</h6>
+              <h6>
+                Publicación {!this.isPubVisible(stateName) && 'no'} visible
+              </h6>
             </div>
-            <div className="item-admin" >
-              {stateName !== 'Vendida' && stateName !== 'Pendiente' && <Button onClick={() => { this.toggleModalState(data.id); }} className="btn-default btn-link-primary float-left">Marcar como Vendido</Button>}
-              {this.isPubEditable(stateName) &&
-              <Button className="btn-default btn-link-primary float-right">
-                <img src="/assets/images/icon-edit-red.svg" alt="E" /> Editar
-              </Button>}
-              {this.isPubVisible(stateName) && stateName !== 'Destacada' && stateName !== 'Vendida' &&
-              <Button className="btn-default btn-link-primary float-right" onClick={() => onHighlight()} >
-                <img src="/assets/images/icon-star-red.svg" alt="D" /> Destacar
-              </Button>}
+            <div className="item-admin">
+              {
+                stateName !== 'Vendida' &&
+                stateName !== 'Pendiente' &&
+                stateName !== 'Suspendida' && (
+                <Button
+                  onClick={() => {
+                      this.toggleModalState(data.id);
+                    }}
+                  className="btn-default btn-link-primary float-left"
+                >
+                    Marcar como Vendido
+                </Button>)}
+              {this.isPubEditable(stateName) && (
+                <Button
+                  className="btn-default btn-link-primary float-right"
+                  onClick={this.handleRedirect}
+                >
+                  <img src="/assets/images/icon-edit-red.svg" alt="E" /> Editar
+
+                </Button>
+              )}
+              {this.isPubVisible(stateName) &&
+                stateName !== 'Destacada' &&
+                stateName !== 'Vendida' && (
+                  <Button
+                    className="btn-default btn-link-primary float-right"
+                    onClick={() => onHighlight()}
+                  >
+                    <img src="/assets/images/icon-star-red.svg" alt="D" />{' '}
+                    Destacar
+                  </Button>
+                )}
               <div className="clearfix" />
             </div>
           </div>
         </div>
-        <Modal isOpen={this.state.modalState} toggle={this.toggleModalState} className={this.props.className}>
+        <Modal
+          isOpen={this.state.modalState}
+          toggle={this.toggleModalState}
+          className={this.props.className}
+        >
           <ModalHeader toggle={this.toggleModalState}>Confirme</ModalHeader>
           <ModalBody>
             <div className="col-md-6 offset-md-3">
-                ¿Pudiste vender este vehículo?
+              ¿Pudiste vender este vehículo?
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.changeToSoldState()}>OK</Button>
-            <Button color="secondary" onClick={() => this.toggleModalState()}>Cancelar</Button>
+            <Button color="primary" onClick={() => this.changeToSoldState()}>
+              OK
+            </Button>
+            <Button color="secondary" onClick={() => this.toggleModalState()}>
+              Cancelar
+            </Button>
           </ModalFooter>
         </Modal>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          className={this.props.className}
+        >
+          <ModalHeader toggle={this.toggle}>
+            {this.state.modalTitle}
+          </ModalHeader>
           <ModalBody>
             <div className="col-md-6 offset-md-3">
               {this.state.modalMessage}
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.toggle()}>OK</Button>
+            <Button color="primary" onClick={() => this.toggle()}>
+              OK
+            </Button>
           </ModalFooter>
         </Modal>
       </div>
     );
   }
 }
-const withMarkPublicationAsSold = graphql(markAsSoldMutation, { name: 'ChangeToSold' });
-const withHighlightPublication = graphql(highlightPublication, { name: 'HighlightPub' });
+const withMarkPublicationAsSold = graphql(markAsSoldMutation, {
+  name: 'ChangeToSold',
+});
+const withHighlightPublication = graphql(highlightPublication, {
+  name: 'HighlightPub',
+});
 const withData = compose(withMarkPublicationAsSold, withHighlightPublication);
-
 
 export default withData(CardPublication);

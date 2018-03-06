@@ -71,7 +71,7 @@ class CreatePublication extends React.Component {
     const yearArray = [];
     const actualYear = moment().format('YYYY');
     yearArray.push({ value: actualYear, label: actualYear });
-    for (let i = 0; i < 41; i += 1) {
+    for (let i = 1; i < 41; i += 1) {
       const passYears = moment().subtract(i, 'years').format('YYYY');
       yearArray.push({ value: passYears, label: passYears });
     }

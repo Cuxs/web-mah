@@ -81,7 +81,7 @@ class CreatePublication extends React.Component {
     const yearArray = [];
     const actualYear = moment().format('YYYY');
     yearArray.push({ value: actualYear, label: actualYear });
-    for (let i = 0; i < 41; i += 1) {
+    for (let i = 1; i < 41; i += 1) {
       const passYears = moment().subtract(i, 'years').format('YYYY');
       yearArray.push({ value: passYears, label: passYears });
     }
@@ -146,18 +146,10 @@ class CreatePublication extends React.Component {
   }
   disabled() {
     const {
-      brand, group, codia, year, kms, price,
+      brand, group, codia, year, kms, price, kmsValidate, priceValidate,
     } = this.state;
-    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '');
+    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '' && kmsValidate && priceValidate);
   }
-
-  disabled() {
-    const {
-      brand, group, codia, year, kmsValidate, priceValidate,
-    } = this.state;
-    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kmsValidate && priceValidate);
-  }
-
   next() {
     const dataCar = {
       carState: this.state.carState,
@@ -170,6 +162,7 @@ class CreatePublication extends React.Component {
       price: this.state.price,
       priceSuggested: this.state.priceSuggested,
       observation: this.state.observation,
+      publication_id: parse(this.props.location.search).publication_id,
     };
     if (parse(this.props.location.search).userId) {
       dataCar.userId = parse(this.props.location.search).userId;

@@ -128,7 +128,7 @@ class UserPublications extends React.Component {
       publications, totalCount,
     } = this.state;
     const items = publications.map(pub => (
-      (<CardPublication data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
+      (<CardPublication history={this.props.history} data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
     if (totalCount === 0 && hasNextPage === false) {
       items.push(<p>No se encontraron publicaciones.</p>);
     }
