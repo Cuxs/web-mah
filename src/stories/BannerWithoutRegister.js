@@ -43,8 +43,8 @@ class Banner extends React.Component {
   start() {
     const dataCar = {
       carState: this.state.carState,
-      brand: this.state.brand,
-      group: this.state.group,
+      brandId: this.state.brand,
+      groupId: this.state.group,
     };
     this.props.history.push(`/publicateWithoutRegister?${stringify(dataCar)}`);
   }

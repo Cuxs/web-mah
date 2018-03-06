@@ -206,7 +206,7 @@ class CardPublication extends Component {
                   {data.brand} {data.group}
                 </strong>
               </p>
-              <p className="item-description">{data.model}</p>
+              <small>{data.modelName}</small>
               <p className="item-price">
                 <strong>${thousands(data.price, 2, ',', '.')}</strong>
               </p>

@@ -58,7 +58,7 @@ class AdminFilter extends Component {
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">
           <Row className="align-items-center">
-            <div className="col-4 col-lg-4">
+            <div>
               <p>Filtrar por</p>
             </div>
             <div className="col-8 col-lg-3 col-md-6 col-sm-6 col-xs-6">

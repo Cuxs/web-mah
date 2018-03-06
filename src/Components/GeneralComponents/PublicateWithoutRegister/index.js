@@ -22,9 +22,12 @@ class CreatePublication extends React.Component {
     super(props);
     this.state = {
       carState: this.props.location.search === '' ? 'Nuevo' : parse(this.props.location.search).carState,
-      brand: this.props.location.search === '' ? '' : parse(this.props.location.search).brand,
-      group: this.props.location.search === '' ? '' : parse(this.props.location.search).group,
+      brand: this.props.location.search === '' ? '' : parse(this.props.location.search).brandId,
+      group: this.props.location.search === '' ? '' : parse(this.props.location.search).groupId,
       codia: this.props.location.search === '' ? '' : parse(this.props.location.search).codia,
+      brandName: this.props.location.search === '' ? '' : parse(this.props.location.search).brand,
+      groupName: this.props.location.search === '' ? '' : parse(this.props.location.search).group,
+      modelName: this.props.location.search === '' ? '' : parse(this.props.location.search).modelName,
       year: this.props.location.search === '' ? '' : parse(this.props.location.search).year,
       kms: this.props.location.search === '' ? '' : parse(this.props.location.search).kms,
       kmsValidate: !(this.props.location.search === ''),
@@ -43,15 +46,15 @@ class CreatePublication extends React.Component {
       this.props.client.query({
         query: GroupsQuery,
         variables: {
-          gru_nmarc: parse(this.props.location.search).brand,
+          gru_nmarc: parse(this.props.location.search).brandId,
         },
       })
         .then(response => this.setState({ Groups: response.data.Group }));
       this.props.client.query({
         query: ModelsQuery,
         variables: {
-          ta3_nmarc: parse(this.props.location.search).brand,
-          ta3_cgrup: parse(this.props.location.search).group,
+          ta3_nmarc: parse(this.props.location.search).brandId,
+          ta3_cgrup: parse(this.props.location.search).groupId,
         },
       })
         .then(response => this.setState({ Models: response.data.Models }));
@@ -68,6 +71,7 @@ class CreatePublication extends React.Component {
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
+      brandName: _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', newBrand]).ta3_marca,
       group: '',
       codia: '',
       Models: [],
@@ -88,6 +92,7 @@ class CreatePublication extends React.Component {
   onChangeGroup(newGroup) {
     this.setState({
       group: newGroup,
+      groupName: _.find(this.state.Groups, ['gru_cgrup', newGroup]).gru_ngrup,
       modelName: '',
       Prices: [],
       year: '',
@@ -131,10 +136,12 @@ class CreatePublication extends React.Component {
   next() {
     const dataCar = {
       carState: this.state.carState,
-      brand: this.state.brand,
-      group: this.state.group,
+      brand: this.state.brandName,
+      group: this.state.groupName,
       codia: this.state.codia,
       modelName: this.state.modelName,
+      brandId: this.state.brand,
+      groupId: this.state.group,
       year: this.state.year,
       kms: this.state.kms,
       price: this.state.price,

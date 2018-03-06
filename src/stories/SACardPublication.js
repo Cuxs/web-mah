@@ -37,6 +37,8 @@ class SACardPublication extends Component {
     };
     this.toggle = this.toggle.bind(this);
     this.toggleQuestionModal = this.toggleQuestionModal.bind(this);
+    this.pubStateClass = this.pubStateClass.bind(this);
+
   }
   aprove() {
     this.props.aprove({
@@ -109,6 +111,20 @@ class SACardPublication extends Component {
         }
       });
   }
+  pubStateClass(stateName) {
+    switch (stateName) {
+      case 'Publicada':
+        return 'published';
+      case 'Vendida':
+        return 'sold';
+      case 'Destacada':
+        return 'highlighted';
+      case 'Pendiente':
+        return 'pending';
+      default:
+        return '';
+    }
+  }
   toggle() {
     this.setState({
       modal: !this.state.modal,
@@ -146,7 +162,7 @@ class SACardPublication extends Component {
           </div>
           <div className="col-8 d-flex flex-column justify-content-between">
             <div className="item-data" >
-              <p className="item-state badge badge-secondary highlighted">{stateName}</p>
+              <p className={`item-state badge badge-secondary ${this.pubStateClass(stateName)}`}>{stateName}</p>
               <p className="item-name"><strong>{this.showPublicatorName(data)}</strong></p>
               <p className="item-description">{data.brand} {data.group}</p>
               <small>{data.modelName}</small>
