@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Autosuggest from 'react-autosuggest';
 import {
-  Input,
   Col,
   Row,
   ButtonDropdown,
@@ -35,6 +34,7 @@ import {
   clearSession,
   isAdminLogged,
 } from '../Modules/sessionFunctions';
+import Input from './Input';
 import NotificationModal from '../stories/NotificationModal';
 import parseError from '../Modules/errorParser';
 import { login } from '../Modules/fetches';
@@ -55,7 +55,9 @@ class SearchBar extends Component {
       modal: false,
       sidebar: '',
       email: '',
+      emailValidate: false,
       password: '',
+      passwordValidate: false,
       showErrorModal: false,
       errorTitle: '',
       errorMessage: '',
@@ -115,10 +117,7 @@ class SearchBar extends Component {
     });
   }
   isLoginFormIncomplete() {
-    if (this.state.email === '' || this.state.password === '') {
-      return true;
-    }
-    return false;
+    return !(this.state.emailValidate && this.state.passwordValidate);
   }
   submitSearch() {
     this.setState({ sidebar: '' });
@@ -364,27 +363,21 @@ class SearchBar extends Component {
                   cssClass="btn btn-primary btn-facebook"
                 />
                 <div className="underline" />
-                <FormGroup>
-                  <Label for="exampleEmail">Email</Label>
-                  <Input
-                    type="email"
-                    name="email"
-                    value={this.state.email}
-                    onChange={e => this.setState({ email: e.target.value })}
-                    placeholder="Ej: maria@gmail.com"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="exampleEmail">Contraseña </Label>
-                  <Input
-                    type="password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={e => this.setState({ password: e.target.value })}
-                    placeholder="******"
-                  />
-                  <a href="">¿Olvidaste tu contraseña?</a>
-                </FormGroup>
+                <Input
+                  label="Email"
+                  type="email"
+                  value={this.state.email}
+                  onChange={event => this.setState({ email: event.target.value })}
+                  validate={isValid => this.setState({ emailValidate: isValid })}
+                />
+                <Input
+                  label="Contraseña"
+                  type="password"
+                  value={this.state.password}
+                  onChange={event => this.setState({ password: event.target.value })}
+                  validate={isValid => this.setState({ passwordValidate: isValid })}
+                />
+                <a href="">¿Olvidaste tu contraseña?</a>
 
               </div>
 

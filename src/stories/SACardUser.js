@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Col, Row, Label, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -25,19 +25,22 @@ class CardPublication extends React.Component {
     } = this.props;
     return (
       <Col md="4">
-        <div className="box-item" >
-          <div className="item-data" >
-            <div className="d-flex flex-row align-items-center" >
-              <p className="item-name"><strong>{data.agencyName !== null ? data.agencyName : data.name}</strong></p>
-              <button className="btn btn-social-icon" onClick={this.toggle} >
-                <span className="fa fa-ellipsis-v" />
-              </button>
+        <div className="card p-4 box-item box-user" style={{ height: '327px' }}>
+          <div>
+            <div className="data-input-group">
+              <h4>{data.agencyName !== null ? data.agencyName : data.name}</h4>
             </div>
-            <p className="item-description">EMAIL</p>
-            <p className="item-price">{data.agencyName !== null ? data.agencyEmail : data.email}</p>
-            <p className="item-description">TELÉFONO</p>
-            <p className="item-price">{data.agencyName !== null ? data.agencyEmail : data.email}</p>
+            <div className="data-input-group">
+              <Label>EMAIL</Label>
+              <p>{data.agencyName !== null ? data.agencyEmail : data.email}</p>
+            </div>
+            <div className="data-input-group">
+              <Label>TELEFONO DE CONTACTO</Label>
+              <p>{data.agencyName !== null ? data.agencyPhone : data.phone}</p>
+            </div>
           </div>
+          <div className="underline" />
+          <Button className="btn-link-primary align-self-end" color="primary" onClick={this.toggle} >VER MÁS</Button>
         </div>
         <Modal isOpen={this.state.modal} toggle={this.toggle} >
           <ModalHeader toggle={this.toggle}>Información del usuario</ModalHeader>
@@ -45,46 +48,46 @@ class CardPublication extends React.Component {
             <Col md={12}>
               <Row>
                 <Col md={6}>
-                  <p className="item-description">{data.agencyName !== null ? 'NOMBRE DE LA AGENCIA' : 'NOMBRE'}</p>
-                  <p className="item-price">{data.agencyName !== null ? data.agencyEmail : data.email}</p>
+                  <Label>{data.agencyName !== null ? 'NOMBRE DE LA AGENCIA' : 'NOMBRE'}</Label>
+                  <p>{data.agencyName !== null ? data.agencyEmail : data.email}</p>
                 </Col>
                 {data.agencyName !== null &&
                 <Col md={6}>
-                  <p className="item-description">NOMBRE DEL RESPONSABLE</p>
-                  <p className="item-price">{data.name}</p>
+                  <Label>NOMBRE DEL RESPONSABLE</Label>
+                  <p>{data.name}</p>
                 </Col>}
               </Row>
               <Row>
                 <Col md={6}>
-                  <p className="item-description">{data.agencyName !== null ? 'EMAIL DE LA AGENCIA' : 'EMAIL'}</p>
-                  <p className="item-price">{data.agencyName !== null ? data.agencyEmail : data.email}</p>
+                  <Label>{data.agencyName !== null ? 'EMAIL DE LA AGENCIA' : 'EMAIL'}</Label>
+                  <p>{data.agencyName !== null ? data.agencyEmail : data.email}</p>
                 </Col>
                 {data.agencyName !== null &&
                 <Col md={6}>
-                  <p className="item-description">EMAIL DEL RESPONSABLE</p>
-                  <p className="item-price">{data.email}</p>
+                  <Label>EMAIL DEL RESPONSABLE</Label>
+                  <p>{data.email}</p>
                 </Col>}
               </Row>
               <Row>
                 <Col md={6}>
-                  <p className="item-description">{data.agencyName !== null ? 'TELÉFONO DE LA AGENCIA' : 'TELÉFONO'}</p>
-                  <p className="item-price">{data.agencyName !== null ? data.agencyPhone : data.phone}</p>
+                  <Label>{data.agencyName !== null ? 'TELÉFONO DE LA AGENCIA' : 'TELÉFONO'}</Label>
+                  <p>{data.agencyName !== null ? data.agencyPhone : data.phone}</p>
                 </Col>
                 {data.agencyName !== null &&
                 <Col md={6}>
-                  <p className="item-description">TELÉFONO DEL RESPONSABLE</p>
-                  <p className="item-price">{data.phone}</p>
+                  <Label>TELÉFONO DEL RESPONSABLE</Label>
+                  <p>{data.phone}</p>
                 </Col>}
               </Row>
               <Row>
                 <Col md={6}>
-                  <p className="item-description">{data.agencyName !== null ? 'DIRECCIÓN DE LA AGENCIA' : 'DIRECCIÓN'}</p>
-                  <p className="item-price">{data.agencyName !== null ? data.agencyAdress : data.address}</p>
+                  <Label>{data.agencyName !== null ? 'DIRECCIÓN DE LA AGENCIA' : 'DIRECCIÓN'}</Label>
+                  <p>{data.agencyName !== null ? data.agencyAdress : data.address}</p>
                 </Col>
                 {data.agencyName !== null &&
                 <Col md={6}>
-                  <p className="item-description">DIRECCIÓN DEL RESPONSABLE</p>
-                  <p className="item-price">{data.address}</p>
+                  <Label>DIRECCIÓN DEL RESPONSABLE</Label>
+                  <p>{data.address}</p>
                 </Col>}
               </Row>
             </Col>

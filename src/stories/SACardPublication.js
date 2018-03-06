@@ -144,9 +144,9 @@ class SACardPublication extends Component {
               />
             </div>
           </div>
-          <div className="col-8">
+          <div className="col-8 d-flex flex-column justify-content-between">
             <div className="item-data" >
-              <p className="item-state badge badge-secondary published">{stateName}</p>
+              <p className="item-state badge badge-secondary highlighted">{stateName}</p>
               <p className="item-name"><strong>{this.showPublicatorName(data)}</strong></p>
               <p className="item-description">{data.brand} {data.group}</p>
               <small>{data.modelName}</small>

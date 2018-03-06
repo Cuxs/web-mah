@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { FormGroup, Input, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row } from 'reactstrap';
 import { parse, stringify } from 'query-string';
+import Input from './Input';
+
 /* eslint react/jsx-filename-extension: 0 */
 
 class SuperAdminFilter extends Component {
@@ -41,10 +43,10 @@ class SuperAdminFilter extends Component {
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">
           <Row className="align-items-center">
-            <div className="col-2 text-right">
+            <div>
               <p>Filtrar por</p>
             </div>
-            <div className="col-2">
+            <div className="col-3">
               <Dropdown size="sm" isOpen={this.state.tipoUserDropdown} toggle={this.toggleTipoUserDropdown}>
                 <DropdownToggle caret className="btn-select btn-default">
                   {this.state.dropDownTipoUserValue}
@@ -57,8 +59,14 @@ class SuperAdminFilter extends Component {
               </Dropdown>
             </div>
 
-            <div className="col-6 text-right">
-              <Input type="text" value={this.state.search} onChange={event => this.setState({ search: event.target.value })} placeholder="Buscar ..." />
+            <div className="col-6 text-right" style={{ marginBottom: '-1rem' }} >
+              <Input
+                type="text"
+                value={this.state.search}
+                placeholder="Buscar ..."
+                onChange={event => this.setState({ search: event.target.value })}
+                validate={isValid => this.setState({ emailValidate: isValid })}
+              />
             </div>
           </Row>
         </Col>

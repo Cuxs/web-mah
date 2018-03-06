@@ -66,10 +66,10 @@ class SuperAdminFilter extends Component {
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">
           <Row className="align-items-center">
-            <div className="col-2 text-right">
+            <div>
               <p>Filtrar por</p>
             </div>
-            <div className="col-2">
+            <div className="col-3">
               <Dropdown size="sm" isOpen={this.state.tipoUserDropdown} toggle={this.toggleTipoUserDropdown}>
                 <DropdownToggle caret className="btn-select btn-default">
                   {this.state.dropDownTipoUserValue}
