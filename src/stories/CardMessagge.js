@@ -62,7 +62,7 @@ class CardMessagge extends Component {
   }
   render() {
     const {
-      admin, data, data: { Publication }, data: { Publication: { ImageGroup }, messages },
+      admin, data, history, data: { Publication }, data: { Publication: { ImageGroup }, messages },
     } = this.props;
     let unreadMessages = false;
     messages.map((msg) => {
@@ -77,22 +77,22 @@ class CardMessagge extends Component {
             <img className="loading-gif" src={`${process.env.REACT_APP_API}/images/${ImageGroup.image1}`} style={{ width: '100%' }}alt="banner" />
           </div>
           <div className="col-9">
-            <div className="row align-items-center">
-              <div className="col-9">
-                <p className="context-item" >{moment(_.last(messages).createdAt).format('DD/MM/YYYY hh:mm')}</p>
+            <div className="item-data">
+              <img className="float-right" src={unreadMessages ? '/assets/images/icon-envelop-red.svg' : '/assets/images/icon-envelop2-red.svg'} alt="" />
+              <p>{moment(_.last(messages).createdAt).format('DD/MM/YYYY hh:mm')}</p>
 
-                <h4><b>{Publication.brand} {Publication.modelName}</b></h4>
-                <p> {Publication.year} - {thousands(Publication.kms, 0, ',', '.')}km</p>
-                <small>$ {thousands(Publication.price, 2, ',', '.')}</small>
-                <p>Ultimo mensaje: {_.truncate((_.last(messages).content), { length: 40 })}</p>
-              </div>
-              <div className="col-3 text-center">
-                <a href={admin ? `/superAdminInbox?ct_id=${data.id}` : `/inbox?ct_id=${data.id}`}className="btn btn-link-primary">
-                  <img src={unreadMessages ? '/assets/images/icon-envelop-red.svg' : '/assets/images/icon-envelop2-red.svg'} alt="" />
-                  {admin ? 'Ver' : 'Responder'}
-                </a>
-                <Button onClick={() => this.toggleDeleteModal()}color="danger">Eliminar</Button>
-              </div>
+              <h5><b>{Publication.brand} {Publication.modelName}</b></h5>
+              <p className="item-description" ><small>{Publication.year}  -  {thousands(Publication.kms, 0, ',', '.')}km  -  $ {thousands(Publication.price, 2, ',', '.')}</small></p>
+              <p>Ultimo mensaje: {_.truncate((_.last(messages).content), { length: 40 })}</p>
+            </div>
+            <div className="item-admin">
+              <Button onClick={() => this.toggleDeleteModal()} className="btn-default btn-link-primary float-right">Eliminar</Button>
+              <Button
+                onClick={admin ? () => history.push(`/superAdminInbox?ct_id=${data.id}`) : () => history.push(`/inbox?ct_id=${data.id}`)}
+                className="btn-default btn-link-primary float-right"
+              >
+                {admin ? 'Ver' : 'Responder'}
+              </Button>
             </div>
           </div>
           <Modal isOpen={this.state.deleteModal} toggle={this.toggleDeleteModal}>
@@ -115,28 +115,6 @@ class CardMessagge extends Component {
             handleClose={() => this.setState({ showNotiModal: false })}
           />
         </div>
-        <style jsx>{
-      `
-      .card {
-        margin-bottom: 30px;
-        padding: 15px;
-        background-color: lightgray;
-      }
-      .info-container {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-      }
-      .underline {
-        width: 100%;
-        height: 2px;
-        background-color: lightgray;
-        margin-top: 20px;
-        margin-bottom: 20px;
-      }
-      `
-    }
-        </style>
       </div>
     );
   }

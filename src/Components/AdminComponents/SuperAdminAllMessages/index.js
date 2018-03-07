@@ -71,7 +71,7 @@ class SuperAdminAllMessages extends Component {
                     admin
                   />
                   )}
-                  {sortedThreads.map(thr => <CardMessagge data={thr} admin />)}
+                  {sortedThreads.map(thr => <CardMessagge data={thr} history={history} admin />)}
                 </div>
               )}
             </Col>

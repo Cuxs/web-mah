@@ -69,7 +69,7 @@ class UserInbox extends Component {
                       totalMsg={Threads.length}
                     />
                   )}
-                  {sortedThreads.map(thr => <CardMessagge data={thr} />)}
+                  {sortedThreads.map(thr => <CardMessagge data={thr} history={history} />)}
                 </div>
               )}
             </Col>
