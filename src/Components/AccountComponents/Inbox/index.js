@@ -97,44 +97,49 @@ class Inbox extends Component {
     return (
       <div>
         <AdminBar history={this.props.history} />
-        <Row>
-          <Col md="6">
-            <Button type="secondary" onClick={() => history.goBack()}>
-              {'< Volver a Bandeja de Entrada'}
-            </Button>
-            {ThreadsQuery.loading || messagesData.loading ? (
-              <img
-                className="loading-gif"
-                style={{ height: '250px' }}
-                src="/loading.gif"
-                key={0}
-                alt="Loading..."
-              />
-            ) : (
-              <div className="d-flex flex-row">
+        <div className="container-fluid mt-4">
+          <Button color="link" onClick={() => history.goBack()}>
+            {'< Volver a Bandeja de Entrada'}
+          </Button>
+          <Row className="mt-4">
+            <Col md="6" >
+              {ThreadsQuery.loading || messagesData.loading ? (
                 <img
-                  src={`${process.env.REACT_APP_API}/images/${
-                    ThreadsQuery.GetThreadForInbox.Publication.ImageGroup.image1
-                  }`}
-                  alt="banner"
+                  className="loading-gif"
+                  style={{ height: '250px' }}
+                  src="/loading.gif"
+                  key={0}
+                  alt="Loading..."
                 />
-                <div className="d-flex flex-column">
-                  <h6>
+            ) : (
+              <div className="row" >
+                <Col md="6">
+                  <img
+                    width="100%"
+                    height="100%"
+                    src={`${process.env.REACT_APP_API}/images/${
+                      ThreadsQuery.GetThreadForInbox.Publication.ImageGroup.image1
+                    }`}
+                    alt="banner"
+                  />
+                </Col>
+                <Col md="6" className="d-flex flex-column">
+                  <h6><b>
                     {ThreadsQuery.GetThreadForInbox.Publication.brand}{' '}
-                    {ThreadsQuery.GetThreadForInbox.Publication.group}
+                    {ThreadsQuery.GetThreadForInbox.Publication.group}</b>
                   </h6>
                   <h6>
                     {ThreadsQuery.GetThreadForInbox.Publication.modelName}
                   </h6>
-                  <h6>
+                  <h5><b>
                     ${' '}
                     {thousands(
                       ThreadsQuery.GetThreadForInbox.Publication.price,
                       2,
                       ',',
                       '.',
-                    )}
-                  </h6>
+                    )}</b>
+                  </h5>
                   <h6>
                     {ThreadsQuery.GetThreadForInbox.Publication.year} -{' '}
                     {thousands(
@@ -144,37 +149,37 @@ class Inbox extends Component {
                       '.',
                     )}
                   </h6>
-                </div>
+                </Col>
               </div>
             )}
-          </Col>
-          <Col md="6">
-            <ChatFeed
-              maxHeight={500}
-              messages={this.fillStateWithMessages(
-                ThreadsQuery,
-                messagesData,
-                publicationUserId,
-              )} // Boolean: list of message objects
-              hasInputField={false} // Boolean: use our input, or use your own
-              showSenderName // show the name of the user who sent the message
-              bubblesCentered // Boolean should the bubbles be centered in the feed?
-            />
-            <FormGroup>
-              <Input
-                type="textarea"
-                value={this.state.content}
-                onChange={e => this.setState({ content: e.target.value })}
-                name="text"
-                id="exampleText"
+            </Col>
+            <Col md="6">
+              <ChatFeed
+                maxHeight={500}
+                messages={this.fillStateWithMessages(
+                  ThreadsQuery,
+                  messagesData,
+                  publicationUserId,
+                )} // Boolean: list of message objects
+                hasInputField={false} // Boolean: use our input, or use your own
+                showSenderName // show the name of the user who sent the message
+                bubblesCentered // Boolean should the bubbles be centered in the feed?
               />
-            </FormGroup>
-            <Button color="primary" onClick={() => this.sendMessage()}>
-              Responder
-            </Button>
-          </Col>
-        </Row>
-        <style jsx>{style}</style>
+              <FormGroup>
+                <Input
+                  type="textarea"
+                  value={this.state.content}
+                  onChange={e => this.setState({ content: e.target.value })}
+                  name="text"
+                  id="exampleText"
+                />
+              </FormGroup>
+              <Button color="primary" onClick={() => this.sendMessage()}>
+                Responder
+              </Button>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }
