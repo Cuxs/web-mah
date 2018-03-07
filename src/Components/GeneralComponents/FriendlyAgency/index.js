@@ -47,7 +47,7 @@ class FriendlyAgency extends Component {
             <Row className="mb-4 mt-4">
               <Col md="8" sm="12" xs="12" />
               <Col lg="4" md="12" sm="12" xs="12">
-                <PublicityBanner />
+                <PublicityBanner history={history} />
               </Col>
             </Row>
             <Row>

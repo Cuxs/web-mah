@@ -214,7 +214,7 @@ class SearchCars extends Component {
               <BreadCrum url={window.location.href} />
             </Col>
             <Col md="4" sm="12" xs="12">
-              <PublicityBanner />
+              <PublicityBanner history={history} />
             </Col>
           </Row>
         </div>

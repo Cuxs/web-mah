@@ -2,9 +2,11 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, FormGroup, Label, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Col, Row, Label, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Slider from 'react-rangeslider';
 import _ from 'lodash';
+import { parse } from 'query-string';
+
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
@@ -87,16 +89,30 @@ class PledgeCredits extends React.Component {
 
   simulateFee(time, mount) {
     let tasa = 0;
-    switch (time) {
-      case 12:
-        tasa = 0.0375;
-        break;
-      case 36:
-        tasa = 0.0425;
-        break;
-      default:
-        tasa = 0.04;
-        break;
+    if (this.props.location.search !== '' && parse(this.props.location.search).year < 2008) {
+      switch (time) {
+        case 12:
+          tasa = 0.04;
+          break;
+        case 36:
+          tasa = 0.0455;
+          break;
+        default:
+          tasa = 0.0425;
+          break;
+      }
+    } else {
+      switch (time) {
+        case 12:
+          tasa = 0.0375;
+          break;
+        case 36:
+          tasa = 0.0425;
+          break;
+        default:
+          tasa = 0.04;
+          break;
+      }
     }
     const preresult = 1 + (time * tasa);
     const preresult1 = preresult * parseFloat(mount);
@@ -105,6 +121,7 @@ class PledgeCredits extends React.Component {
   }
 
   render() {
+    const dataPublication = this.props.location.search === '' ? '' : parse(this.props.location.search);
     const labels = {
       12: '12', 18: '18', 24: '24', 36: '36',
     };
@@ -157,7 +174,7 @@ class PledgeCredits extends React.Component {
                   {this.state.mountValidate &&
                     <div className="d-flex flex-column align-items-center price-container">
                       <h2><b>$ {_.ceil(this.state.fee, 2)}</b></h2>
-                      <h6>TU COUTA</h6>
+                      <h6>TU CUOTA</h6>
                     </div>
                   }
                 </div>
@@ -181,16 +198,16 @@ class PledgeCredits extends React.Component {
             </Col>
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left pb-4">
-                {this.props.carDetailData &&
-                  <div className="d-flex flex-row">
-                    <img src="http://placecage.com/c/150/100" alt="banner" />
-                    <div className="d-flex flex-column">
-                      <h6><b>{`${this.props.carDetailData.Publication.brand} ${this.props.carDetailData.Publication.group} `} </b></h6>
-                      <h6>{this.props.carDetailData.Publication.modelName}</h6>
-                      <h6>{`${this.props.carDetailData.Publication.year} - ${thousands(this.props.carDetailData.Publication.kms, 0, ',', '.')} km - $${thousands(this.props.carDetailData.Publication.price, 2, ',', '.')}`}</h6>
-                    </div>
+                {dataPublication !== '' &&
+                  <div className="d-flex flex-column box-detail-car">
+                    <h6><b>{`${dataPublication.brand} ${dataPublication.group} `} </b></h6>
+                    <h6>{dataPublication.modelName}</h6>
+                    <h5><b>{`$ ${thousands(dataPublication.price, 2, ',', '.')}`}</b></h5>
+                    <h6>{`${dataPublication.year} - ${thousands(dataPublication.kms, 0, ',', '.')} km`}</h6>
                   </div>
                 }
+                <div className="underline" />
+
                 <h4 className="title-division">Solicitá tu crédito!</h4>
                 <Input
                   label="Nombre y Apellido"

@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { Col, Row, Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
-import { parse } from 'query-string';
+import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import decode from 'jwt-decode';
 
@@ -121,7 +121,7 @@ class CarDetail extends Component {
               <BreadCrum history={history} />
             </Col>
             <Col md="4" sm="12" xs="12">
-              <PublicityBanner />
+              <PublicityBanner history={history} dataPublication={carDetailData.Publication} />
             </Col>
           </Row>
         </div>
@@ -249,7 +249,7 @@ class CarDetail extends Component {
                           </p>
                         </div>
                       </Row>
-                      <Button color="primary" onClick={() => history.push('/pledgeCredits')} >¡Solicitá tu crédito!</Button>
+                      <Button color="primary" onClick={() => history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`)} >¡Solicitá tu crédito!</Button>
                       <div className="container-social">
                         <button className="btn btn-social-icon">
                           <img src="/assets/images/icon-facebook.svg" />
