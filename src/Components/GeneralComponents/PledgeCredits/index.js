@@ -4,6 +4,7 @@
 import React from 'react';
 import { Col, Row, FormGroup, Label, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Slider from 'react-rangeslider';
+import _ from 'lodash';
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
@@ -13,6 +14,10 @@ class PledgeCredits extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
+      time: 12,
+      mount: '',
+      mountValidate: false,
+      fee: '',
       name: '',
       nameValidate: false,
       dni: '',
@@ -33,10 +38,6 @@ class PledgeCredits extends React.Component {
       modal: false,
     };
     this.toggle = this.toggle.bind(this);
-  }
-
-  handleOnChange(value) {
-    this.setState({ volume: value });
   }
 
   toggle() {
@@ -66,9 +67,46 @@ class PledgeCredits extends React.Component {
     };
   }
 
+  updateTime(time) {
+    this.setState({ time });
+    this.simulateFee(time, parseFloat(this.state.mount));
+  }
+
+  updateMount(mount) {
+    if (mount === 0 || mount === '') {
+      this.setState({ mount, mountValidate: false });
+    }
+    const re = /^\d+$/;
+    if (re.test(mount) === true) {
+      if (mount > 0) {
+        this.setState({ mount, mountValidate: true });
+      }
+    }
+    this.simulateFee(this.state.time, mount);
+  }
+
+  simulateFee(time, mount) {
+    let tasa = 0;
+    switch (time) {
+      case 12:
+        tasa = 0.0375;
+        break;
+      case 36:
+        tasa = 0.0425;
+        break;
+      default:
+        tasa = 0.04;
+        break;
+    }
+    const preresult = 1 + (time * tasa);
+    const preresult1 = preresult * parseFloat(mount);
+    const fee = preresult1 / time;
+    return this.setState({ fee });
+  }
+
   render() {
     const labels = {
-      12: '12', 24: '24', 36: '36', 48: '48', 60: '60',
+      12: '12', 18: '18', 24: '24', 36: '36',
     };
     const fillStyle = { backgroundColor: '#e70404' };
     return (
@@ -97,25 +135,31 @@ class PledgeCredits extends React.Component {
 
                 <h6>SIMULÁ TU CUOTA</h6>
                 <div className="simulator-container" >
-                  <FormGroup>
-                    <Label for="exampleEmail">Monto a financiar *</Label>
-                    <Input type="email" name="email" id="exampleEmail" placeholder="De $10.000 a $150.000" />
-                  </FormGroup>
+                  <Input
+                    label="Monto a financiar *"
+                    type="number"
+                    value={this.state.mount}
+                    onChange={event => this.updateMount(event.target.value)}
+                    validate={isValid => this.setState({ mountValid: isValid })}
+                    placeholder="De $10.000 a $150.000"
+                  />
                   <Label for="exampleEmail">Cantidad de cuotas</Label>
                   <Slider
                     min={12}
-                    max={60}
-                    step={12}
+                    max={36}
+                    step={6}
                     labels={labels}
-                    value={this.state.volume}
+                    value={this.state.time}
                     orientation="horizontal"
                     fillStyle={fillStyle}
-                    onChange={value => this.handleOnChange(value)}
+                    onChange={time => this.updateTime(time)}
                   />
-                  <div className="d-flex flex-column align-items-center price-container">
-                    <h2><b>$ 1500</b></h2>
-                    <h6>TU COUTA</h6>
-                  </div>
+                  {this.state.mountValidate &&
+                    <div className="d-flex flex-column align-items-center price-container">
+                      <h2><b>$ {_.ceil(this.state.fee, 2)}</b></h2>
+                      <h6>TU COUTA</h6>
+                    </div>
+                  }
                 </div>
 
                 <small>

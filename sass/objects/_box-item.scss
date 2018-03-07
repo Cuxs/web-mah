@@ -119,6 +119,13 @@
   }
 }
 
+.rangeslider-horizontal .rangeslider__fill {
+  background-color: #e70404 !important;
+}
+.rangeslider__labels .rangeslider__label-item {
+  transform: translate3d(-150%,0,0) !important;
+}
+
 // HORIZONTAL
 .box-item-horizontal{
   border:solid 1px $gray-200;
