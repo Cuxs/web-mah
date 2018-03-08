@@ -49,7 +49,10 @@ class CreatePublication extends React.Component {
           gru_nmarc: parse(this.props.location.search).brandId,
         },
       })
-        .then(response => this.setState({ Groups: response.data.Group }));
+        .then(response => this.setState({
+          Groups: response.data.Group,
+          brandName: _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', parse(this.props.location.search).brandId]).ta3_marca,
+        }));
       this.props.client.query({
         query: ModelsQuery,
         variables: {
@@ -57,21 +60,27 @@ class CreatePublication extends React.Component {
           ta3_cgrup: parse(this.props.location.search).groupId,
         },
       })
-        .then(response => this.setState({ Models: response.data.Models }));
+        .then(response => this.setState({
+          Models: response.data.Models,
+          groupName: _.find(this.state.Groups, ['gru_cgrup', parse(this.props.location.search).groupId]).gru_ngrup,
+        }));
       this.props.client.query({
         query: YearsQuery,
         variables: {
           ta3_codia: parse(this.props.location.search).codia,
         },
       })
-        .then(response => this.setState({ Prices: response.data.Price }));
+        .then(response => this.setState({
+          Prices: response.data.Price,
+          modelName: _.find(this.state.Models, ['ta3_codia', parse(this.props.location.search).codia]).ta3_model,
+        }));
     }
   }
 
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
-      brandName: _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', newBrand]).ta3_marca,
+      brandName: newBrand !== null ? _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', newBrand]).ta3_marca : '',
       group: '',
       codia: '',
       Models: [],
@@ -92,7 +101,7 @@ class CreatePublication extends React.Component {
   onChangeGroup(newGroup) {
     this.setState({
       group: newGroup,
-      groupName: _.find(this.state.Groups, ['gru_cgrup', newGroup]).gru_ngrup,
+      groupName: newGroup !== null ? _.find(this.state.Groups, ['gru_cgrup', newGroup]).gru_ngrup : '',
       modelName: '',
       Prices: [],
       year: '',
@@ -109,7 +118,7 @@ class CreatePublication extends React.Component {
   }
 
   onChangeModel(newModel) {
-    this.setState({ codia: newModel, modelName: _.find(this.state.Models, ['ta3_codia', newModel]).ta3_model });
+    this.setState({ codia: newModel, modelName: newModel !== null ? _.find(this.state.Models, ['ta3_codia', newModel]).ta3_model : '' });
     this.props.client.query({
       query: YearsQuery,
       variables: {
