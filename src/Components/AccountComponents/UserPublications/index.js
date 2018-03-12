@@ -17,7 +17,7 @@ import UserSideBar from '../../../stories/UserSideBar';
 import AdminFilter from '../../../stories/AdminFilter';
 import CardPublication from '../../../stories/CardPublication';
 import NumberOfResult from '../../../stories/NumberOfResult';
-import { getUserToken, isUserLogged } from '../../../Modules/sessionFunctions';
+import {isUserLogged, getUserDataFromToken } from '../../../Modules/sessionFunctions';
 import { SearchUserPublicationQuery } from '../../../ApolloQueries/UserPublicationsQuery';
 
 import LoginComponent from '../../../stories/LoginComponent';
@@ -78,7 +78,7 @@ class UserPublications extends React.Component {
     }
     this.props.PubsPerPage({
       variables: {
-        MAHtoken: getUserToken(),
+        user_id: getUserDataFromToken().id,
         state: qs.parse(location.search).stateName,
         carState: qs.parse(location.search).carState,
         page,
@@ -187,7 +187,7 @@ class UserPublications extends React.Component {
 }
 const options = ({ location }) => ({
   variables: {
-    MAHtoken: getUserToken(),
+    user_id: getUserDataFromToken().id,
     state: qs.parse(location.search).stateName,
     carState: qs.parse(location.search).carState,
     page: 1,

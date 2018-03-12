@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const AllUsersQuery = gql`
-query AllUsers($page: Int) {
-  AllUsers(page: $page) {
+query AllUsersResume($page: Int) {
+  AllUsersResume(page: $page) {
     Users {
       id
       name
@@ -13,6 +13,10 @@ query AllUsers($page: Int) {
       agencyName
       agencyAdress
       agencyEmail
+      Suspendida
+      Pendiente
+      Destacada
+      Publicada
     }
     totalCount
     hasNextPage
@@ -29,6 +33,10 @@ query AllUsersMails {
     }
   }
 }`;
+const DeleteUserMutation = gql`
+mutation deleteUser($MAHtoken: String! $userId: Int!){
+  deleteUser(MAHtoken: $MAHtoken, userId:$userId)
+}`;
 
 
-export { AllUsersQuery, AllUsersMailsQuery };
+export { AllUsersQuery, AllUsersMailsQuery, DeleteUserMutation };

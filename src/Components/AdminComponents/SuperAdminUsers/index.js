@@ -3,7 +3,6 @@
 
 import React from 'react';
 import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import qs from 'query-string';
 import { withApollo } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -14,7 +13,7 @@ import SACardUser from '../../../stories/SACardUser';
 import { AllUsersQuery } from '../../../ApolloQueries/UserQuery';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
 
-class SuperAdminPublications extends React.Component {
+class SuperAdminUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,9 +38,9 @@ class SuperAdminPublications extends React.Component {
       },
     })
       .then(response => this.setState({
-        users: response.data.AllUsers.Users,
-        totalCount: response.data.AllUsers.totalCount,
-        renderedData: this.state.renderedData + response.data.AllUsers.Users.length,
+        users: response.data.AllUsersResume.Users,
+        totalCount: response.data.AllUsersResume.totalCount,
+        renderedData: this.state.renderedData + response.data.AllUsersResume.Users.length,
       }));
   }
 
@@ -52,7 +51,7 @@ class SuperAdminPublications extends React.Component {
         page,
       },
     })
-      .then(({ data: { AllUsers: { totalCount } }, data: { AllUsers: { Users } } }) => {
+      .then(({ data: { AllUsersResume: { totalCount } }, data: { AllUsersResume: { Users } } }) => {
         const existingUser = this.state.users;
 
         Users.map((user) => {
@@ -120,21 +119,10 @@ class SuperAdminPublications extends React.Component {
               </div>
             </Col>
           </Row>
-          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-            <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
-            <ModalBody>
-              <div className="col-md-6 offset-md-3">
-              El pedido para destacar su publicación ha sido enviado. A la brevedad nos comunicaremos con usted.
-              </div>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={() => this.toggle()}>OK</Button>
-            </ModalFooter>
-          </Modal>
         </div>
       </div>
     );
   }
 }
 
-export default withApollo(SuperAdminPublications);
+export default withApollo(SuperAdminUsers);

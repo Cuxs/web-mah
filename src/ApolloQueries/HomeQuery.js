@@ -22,4 +22,24 @@ query AllPublications($user_id: Int, $stateName: String, $limit:Int, $order:Stri
   }
 }
 `;
-export default HomeQuery;
+const LastPublicationsQuery = gql`
+{LastPublications(limit:4){
+  CurrentState{
+    stateName
+  }
+    ImageGroup{
+      image1
+      image2
+      image3
+    }
+    id
+    group
+    modelName
+    price
+    fuel
+    year
+    carState
+    kms 
+}}
+`;
+export { HomeQuery, LastPublicationsQuery };

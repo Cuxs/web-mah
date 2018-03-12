@@ -6,7 +6,10 @@ import _ from 'lodash';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 
-import HomeQuery from '../../../ApolloQueries/HomeQuery';
+import {
+  HomeQuery,
+  LastPublicationsQuery,
+} from '../../../ApolloQueries/HomeQuery';
 import CarHomeContainer from '../../../stories/CarHomeContainer';
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
@@ -18,7 +21,6 @@ import FriendlyCompanies from '../../../stories/FriendlyCompanies';
 import Footer from '../../../stories/Footer';
 import LoadingComponent from '../../../stories/LoadingComponent';
 
-
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
 const renderWhileLoading = (component, propName = 'data') =>
@@ -26,9 +28,11 @@ const renderWhileLoading = (component, propName = 'data') =>
     props => props[propName] && props[propName].loading,
     renderComponent(component),
   );
-const Home = ({ data, history, location }) => (
+const Home = ({
+  data, history, location, lastPubs,
+}) => (
   <div>
-    {!data.loading &&
+    {!data.loading && (
       <div>
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
@@ -36,13 +40,22 @@ const Home = ({ data, history, location }) => (
         <CreditsBanner history={history} />
         <CarHomeContainer>
           {data.AllPublications.map(row => (
-            <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} />))
-          }
+            <CarResult
+              photoGalery={photoGaleryParser(row.ImageGroup)}
+              data={row}
+            />
+          ))}
         </CarHomeContainer>
-
         <LastPublications>
-          {_.slice(data.AllPublications, 0, 4).map(row => (
-            <CarResult photoGalery={photoGaleryParser(row.ImageGroup)} data={row} />))
+          {!lastPubs.loading ?
+            lastPubs.LastPublications.map(row => (
+              <CarResult
+                photoGalery={photoGaleryParser(row.ImageGroup)}
+                data={row}
+              />
+            ))
+            :
+            []
           }
         </LastPublications>
         <FriendlyCompanies>
@@ -53,7 +66,7 @@ const Home = ({ data, history, location }) => (
         </FriendlyCompanies>
         <Footer history={history} />
       </div>
-      }
+    )}
   </div>
 );
 const options = {
@@ -63,10 +76,13 @@ const options = {
   },
 };
 const withHomeQuery = graphql(HomeQuery, { options });
+const withLastPublicationsQuery = graphql(LastPublicationsQuery, {
+  name: 'lastPubs',
+});
 const withData = compose(
+  withLastPublicationsQuery,
   withHomeQuery,
   renderWhileLoading(LoadingComponent, 'data'),
 );
-
 
 export default withData(Home);
