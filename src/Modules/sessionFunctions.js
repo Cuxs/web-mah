@@ -24,9 +24,12 @@ const getUserDataFromToken = () => {
   }
   return false;
 };
+
 const clearSession = () => {
   localStorage.clear();
 };
+
+
 const getUserToken = () => (loadState() ? loadState().login.MAHtoken : null);
 export { isUserLogged, getUserDataFromToken, clearSession, getUserToken, isAdminLogged };
 

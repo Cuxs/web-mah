@@ -240,8 +240,10 @@ class SearchBar extends Component {
     return true;
   }
 
-  responseFacebook(response) {
-    console.log(response);
+  clearSession() {
+    window.FB.logout(this.checkLoginState());
+    clearSession();
+    this.setState({ isUserLogged: false }); 
   }
 
   render() {
@@ -362,7 +364,7 @@ class SearchBar extends Component {
                           onClick={() => (this.props.history.push('/admin'))}
                         >Administrador
                         </DropdownItem>}
-                        <DropdownItem value="closeSession" onClick={() => { clearSession(); this.setState({ isUserLogged: false }); }}>Cerrar Sesión</DropdownItem>
+                        <DropdownItem value="closeSession" onClick={() => this.clearSession()}>Cerrar Sesión</DropdownItem>
                       </DropdownMenu>
                     </ButtonDropdown>
                   </Row>
@@ -421,7 +423,7 @@ class SearchBar extends Component {
                 <FacebookLogin
                   appId="146328269397173"
                   autoLoad
-                  callback={() => this.responseFacebook()}
+                  callback={() => this.checkLoginState()}
                   icon="fa-facebook"
                   fields="name,email,picture"
                   textButton="Registrate con facebook"
