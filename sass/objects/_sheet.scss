@@ -41,10 +41,12 @@
     @at-root .container-data-input-group{
       h5{
         margin:0;
-        padding: 20px 0 0 0;
-        border-top:solid 1px $gray-200;
         font:700 18px/48px $font-family-sans-serif;
         letter-spacing: 0.52px;
+      }
+      .div-title{
+        padding: 20px 0;
+        border-top:solid 1px $gray-200;
       }
       .data-input-group{
         margin:10px 0;

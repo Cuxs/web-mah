@@ -23,7 +23,7 @@ const WithoutRegister = ({ history, location }) => (
       <FeaturesWithoutRegister />
     </div>
     <div id="Plans">
-      <Plans />
+      <Plans history={history} />
     </div>
     <div id="Faq">
       <Faq />

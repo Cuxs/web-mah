@@ -12,7 +12,9 @@ class CarSpecification extends Component {
       securitySpecs: [],
       extraSpecs: [],
       confortSpecs: [],
-      showMore: false,
+      showMoreSecurity: false,
+      showMoreSecurity: false,
+      showMoreSecurity: false,
     };
   }
   componentWillMount() {
@@ -103,25 +105,38 @@ class CarSpecification extends Component {
     return (
       <Row>
         <Col sm="12" xs="12" className="container-data-input-group">
-          <h5>Detalles</h5>
-          {this.items(this.prepareRow(this.state.detailSpecs))}
-          {!this.state.showMore &&
-            <div className="d-flex justify-content-center align-items-center" >
-              <button onClick={() => this.setState({ showMore: true })} className="btn btn-more" >
-                <img src="/assets/images/icon-arrow-bottom.svg" alt="Ver más" width="15" height="15" />
-              </button>
-            </div>
-          }
-          {this.state.showMore &&
-            <div>
-              <h5>Seguridad</h5>
-              {this.items(this.prepareRow(this.state.securitySpecs))}
-              <h5>Confort</h5>
-              {this.items(this.prepareRow(this.state.confortSpecs))}
-              <h5>Extras</h5>
-              {this.items(this.prepareRow(this.state.extraSpecs))}
-            </div>
-          }
+          <div className="d-flex justify-content-between align-items-center div-title" >
+            <h5>Detalles</h5>
+            <button onClick={() => this.setState({ showMoreDetail: !this.state.showMoreDetail })} className="btn btn-more" >
+              <img src="/assets/images/icon-arrow-bottom.svg" alt="Ver más" width="15" height="15" />
+            </button>
+          </div>
+          {this.state.showMoreDetail && this.items(this.prepareRow(this.state.detailSpecs))}
+
+          <div className="d-flex justify-content-between align-items-center div-title" >
+            <h5>Seguridad</h5>
+            <button onClick={() => this.setState({ showMoreSecurity: !this.state.showMoreSecurity })} className="btn btn-more" >
+              <img src="/assets/images/icon-arrow-bottom.svg" alt="Ver más" width="15" height="15" />
+            </button>
+          </div>
+          {this.state.showMoreSecurity && this.items(this.prepareRow(this.state.securitySpecs))}
+
+          <div className="d-flex justify-content-between align-items-center div-title" >
+            <h5>Confort</h5>
+            <button onClick={() => this.setState({ showMoreConfort: !this.state.showMoreConfort })} className="btn btn-more" >
+              <img src="/assets/images/icon-arrow-bottom.svg" alt="Ver más" width="15" height="15" />
+            </button>
+          </div>
+          {this.state.showMoreConfort && this.items(this.prepareRow(this.state.confortSpecs))}
+
+          <div className="d-flex justify-content-between align-items-center div-title" >
+            <h5>Extras</h5>
+            <button onClick={() => this.setState({ showMoreExtras: !this.state.showMoreExtras })} className="btn btn-more" >
+              <img src="/assets/images/icon-arrow-bottom.svg" alt="Ver más" width="15" height="15" />
+            </button>
+          </div>
+          {this.state.showMoreExtras && this.items(this.prepareRow(this.state.extraSpecs))}
+
         </Col>
       </Row>
     );

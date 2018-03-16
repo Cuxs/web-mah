@@ -18,7 +18,7 @@ const Home = ({ history }) => (
       <FeaturesUser />
     </div>
     <div id="Plans">
-      <Plans />
+      <Plans history={history} />
     </div>
     <div id="Faq">
       <Faq />
