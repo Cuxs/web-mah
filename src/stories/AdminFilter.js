@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Input, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row } from 'reactstrap';
 import { parse, stringify } from 'query-string';
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -53,7 +53,6 @@ class AdminFilter extends Component {
   }
 
   render() {
-    const { history, location: { pathname, search } } = this.props;
     return (
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">

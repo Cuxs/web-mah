@@ -23,7 +23,6 @@ import {
   addMessageMutation,
 } from '../../../ApolloQueries/MessagesCarDetailQuery';
 
-import style from '../../../Styles/pledgeCredits';
 import {
   getUserToken,
   getUserDataFromToken,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from 'reactstrap';
-import _ from 'lodash';
 import { split } from 'split-object';
 import { stringify } from 'query-string';
 /* eslint react/jsx-filename-extension: 0 */
@@ -28,7 +27,7 @@ export default ({ searchData, history }) => split(searchData).map((filter) => {
           }}
       >
         {filter.value}
-        <img src="/assets/images/icon-close.svg" />
+        <img src="/assets/images/icon-close.svg" alt="icon-close" />
       </Button>);
   }
 });

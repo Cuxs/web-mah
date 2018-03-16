@@ -1,13 +1,11 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import React, { Component } from 'react';
+import React from 'react';
 import { Col, Row, Button } from 'reactstrap';
-import { parse, stringify } from 'query-string';
+import { parse } from 'query-string';
 
 import AdminBar from '../../../stories/AdminBar';
-
-import style from '../../../Styles/register';
 
 
 class CreatePublication extends React.Component {
@@ -25,7 +23,7 @@ class CreatePublication extends React.Component {
       DataCar: parse(search.DataCar),
       Image: parse(search.Image),
     };
-    const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar, dataCar.Image);
+    // const dataPublication = Object.assign({}, dataCar.Caracteristics, dataCar.TecnicalData, dataCar.Additionals, dataCar.DataCar, dataCar.Image);
   }
 
   render() {

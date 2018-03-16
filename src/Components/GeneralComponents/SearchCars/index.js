@@ -97,9 +97,7 @@ class SearchCars extends Component {
           });
         } else {
           let existingPubs = this.state.Publications;
-          Publications.map((pub) => {
-            existingPubs.push(pub);
-          });
+          Publications.map(pub => existingPubs.push(pub));
           existingPubs = _.uniqBy(existingPubs, 'id');
           this.setState({
             Publications: _.orderBy(existingPubs, ['createdAt'], ['desc']),
@@ -197,7 +195,7 @@ class SearchCars extends Component {
 
   render() {
     const {
-      text, carState, page,
+      text,
     } = qs.parse(this.props.location.search);
     const { history, location } = this.props;
     return (

@@ -252,10 +252,10 @@ class CarDetail extends Component {
                       <Button color="primary" onClick={() => history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`)} >¡Solicitá tu crédito!</Button>
                       <div className="container-social">
                         <button className="btn btn-social-icon">
-                          <img src="/assets/images/icon-facebook.svg" />
+                          <img src="/assets/images/icon-facebook.svg" alt="icon-fb" />
                         </button>
                         <button className="btn btn-social-icon">
-                          <img src="/assets/images/icon-twitter.svg" />
+                          <img src="/assets/images/icon-twitter.svg" alt="icon-tw" />
                         </button>
                       </div>
                     </Col>

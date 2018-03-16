@@ -3,9 +3,7 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
-import _ from 'lodash';
 import qs from 'query-string';
 import { animateScroll as scroll } from 'react-scroll';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -19,8 +17,6 @@ import SearchBar from '../../../stories/SearchBar';
 import TopTopNav from '../../../stories/TopTopNav';
 import NumberOfResult from '../../../stories/NumberOfResult';
 import HeaderAgency from '../../../stories/HeaderAgency';
-
-import { getFiltersAndTotalResult } from '../../../Modules/fetches';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
@@ -86,8 +82,7 @@ class Microsite extends Component {
   }
 
   render() {
-    const data = this.state.data.searchPublication;
-    const { text, carState, page } = qs.parse(this.props.location.search);
+    const { text } = qs.parse(this.props.location.search);
     const {
       history, location, AgencyData,
     } = this.props;

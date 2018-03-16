@@ -7,7 +7,7 @@ import { stringify, parse } from 'query-string';
 
 import RegisterBar from '../../../stories/RegisterBar';
 import Input from '../../../stories/Input';
-import { regiterAgency, registerAgency } from '../../../Modules/fetches';
+import { registerAgency } from '../../../Modules/fetches';
 
 
 class StepThree extends React.Component {

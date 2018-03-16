@@ -1,12 +1,12 @@
 import React from 'react';
-import { Col, Button, Row } from 'reactstrap';
+import { Button, Row } from 'reactstrap';
 import { getUserDataFromToken } from '../Modules/sessionFunctions';
 /* eslint react/jsx-filename-extension: 0 */
 
 const UserSideBar = ({ history, location }) => (
   <Row className="sidebar-user" >
     <Button color="primary" className="btn-link d-block d-lg-none float-left" >
-      <img src="/assets/images/icon-menu.svg" /> Menu
+      <img src="/assets/images/icon-menu.svg" alt="icon-menu" /> Menu
     </Button>
     <ul>
       <li>

@@ -13,8 +13,9 @@ class CarSpecification extends Component {
       extraSpecs: [],
       confortSpecs: [],
       showMoreSecurity: false,
-      showMoreSecurity: false,
-      showMoreSecurity: false,
+      showMoreDetail: false,
+      showMoreExtras: false,
+      showMoreConfort: false,
     };
   }
   componentWillMount() {

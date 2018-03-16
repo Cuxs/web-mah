@@ -12,7 +12,7 @@ import { Col, Row, Button, ButtonDropdown,
   Input,
 } from 'reactstrap';
 import { Notification } from 'react-notification';
-import { isUserLogged, getUserDataFromToken, clearSession } from '../Modules/sessionFunctions';
+import { getUserDataFromToken } from '../Modules/sessionFunctions';
 import { login, recoverPassword } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
 import parseError from '../Modules/errorParser';
@@ -189,7 +189,7 @@ export default class RegisterBar extends Component {
           <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
           <ModalBody>
             <div className="col-md-6 offset-md-3">
-              <Button color="primary" className="btn-facebook"><img src="/assets/images/icon-single-facebook.svg" /> Registrate con facebook</Button>
+              <Button color="primary" className="btn-facebook"><img src="/assets/images/icon-single-facebook.svg" alt="icon-facebook" /> Registrate con facebook</Button>
               <div className="underline" />
               <FormGroup>
                 <Label for="exampleEmail">Email</Label>

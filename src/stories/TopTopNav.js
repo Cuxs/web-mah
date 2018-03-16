@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Row } from 'reactstrap';
+import { Row } from 'reactstrap';
 
 /* eslint react/jsx-filename-extension: 0 */
 

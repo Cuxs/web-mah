@@ -1,21 +1,6 @@
 import React from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
-
-const style = {
-  container: {
-    padding: '15px',
-    paddingLeft: '45px',
-    paddingRight: '45px',
-  },
-  containerCredit: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  imgCredit: {
-    borderRadius: '40px',
-  },
-};
 
 export default () => (
   <div className="container">

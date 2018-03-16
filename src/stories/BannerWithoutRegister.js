@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, FormGroup, Button, Label } from 'reactstrap';
+import { Row, FormGroup, Button, Label } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { stringify } from 'query-string';
 import Select from 'react-select';

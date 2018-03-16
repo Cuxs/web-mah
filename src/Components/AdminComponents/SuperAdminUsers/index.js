@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { withApollo } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
-import style from '../Styles/search';
+import { Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { getUserDataFromToken, clearSession, isAdminLogged, isUserLogged } from '../Modules/sessionFunctions';
 
 /* eslint react/jsx-filename-extension: 0 */

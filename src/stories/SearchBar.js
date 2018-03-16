@@ -12,7 +12,6 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  FormGroup,
   Label,
 } from 'reactstrap';
 import { Notification } from 'react-notification';

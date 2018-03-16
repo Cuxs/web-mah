@@ -14,7 +14,6 @@ import {
   addMessageMutation,
   createCommentThread,
 } from '../ApolloQueries/MessagesCarDetailQuery';
-import search from '../Styles/search';
 
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint camelcase: 0 */

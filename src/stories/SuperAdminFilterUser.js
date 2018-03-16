@@ -38,7 +38,6 @@ class SuperAdminFilter extends Component {
 
 
   render() {
-    const { history, location: { pathname, search } } = this.props;
     return (
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">

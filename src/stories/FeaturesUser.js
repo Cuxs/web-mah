@@ -2,30 +2,15 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
-const style = {
-  container: {
-    padding: '15px',
-    paddingLeft: '45px',
-    paddingRight: '45px',
-  },
-  containerCredit: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  imgCredit: {
-    borderRadius: '40px',
-  },
-};
-
 export default () => (
   <div className="container">
     <Row className="home-posibilities">
       <Col md="4" sm="12" xs="12">
         <Row className="justify-content-between">
-          <Col sm="4" sm="3" xs="12" className="text-right">
+          <Col md="4" sm="3" xs="12" className="text-right">
             <img src="/assets/images/icon-landing-1.svg"  alt="banner" />
           </Col>
-          <Col sm="8" sm="9" xs="12">
+          <Col md="8" sm="9" xs="12">
             <h5>Gratis e ilimitado</h5>
             <p>Podes crear todas las publicaciones que desees de manera gratuita y sin limitaciones.</p>
           </Col>

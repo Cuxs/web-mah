@@ -153,9 +153,7 @@ export const uploadAgencyImages = (profileImage, bannerImage, id) => {
 export const editPublicationWithoutImages = (dataPublication) => {
   const url = `${server}/editPublication`;
   const formData = new FormData();
-  split(dataPublication).map((item) => {
-    formData.append(item.key, item.value);
-  });
+  split(dataPublication).map(item => formData.append(item.key, item.value));
   const options = {
     method: 'POST',
     headers: {
