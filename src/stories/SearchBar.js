@@ -79,29 +79,26 @@ class SearchBar extends Component {
     this.toggleNotification = this.toggleNotification.bind(this);
     this.recoverPass = this.recoverPass.bind(this);
     this.disabled = this.disabled.bind(this);
+    this.testAPI = this.testAPI.bind(this);
+    this.statusChangeCallback = this.statusChangeCallback.bind(this);
   }
 
   componentDidMount() {
     window.fbAsyncInit = function () {
       window.FB.init({
-        appId: 146328269397173,
+        appId: '146328269397173',
+        cookie: true,
         xfbml: true,
-        version: 'v2.5',
+        version: 'v2.1',
       });
-
-      window.FB.Event.suscribe('auth.statusChange', (response) => {
-        console.log(response);
-        if (response.authResponse) {
-          return this.updateLoggedInState(response);
-        }
-        return this.updateLoggedOutState();
+      window.FB.getLoginStatus((response) => {
+        this.statusChangeCallback(response);
       });
     }.bind(this);
-
     (function (d, s, id) {
       let js,
         fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
+      if (d.getElementById(id)) return;
       js = d.createElement(s); js.id = id;
       js.src = '//connect.facebook.net/en_US/sdk.js';
       fjs.parentNode.insertBefore(js, fjs);
@@ -132,6 +129,42 @@ class SearchBar extends Component {
       this.state.carState
     }`);
   }
+
+  checkLoginState() {
+    window.FB.getLoginStatus((response) => {
+      this.statusChangeCallback(response);
+    });
+  }
+  testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    window.FB.api('/me', (response) => {
+      console.log(response);
+      console.log(`Successful login for: ${response.name}`);
+      this.setState({
+        isNotificationActive: true,
+        nameFB: response.name,
+        isUserLogged: true,
+      });
+    });
+  }
+  statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      this.testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+      'into Facebook.';
+    }
+  }
+
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
@@ -315,7 +348,7 @@ class SearchBar extends Component {
                       toggle={this.toggleUser}
                     >
                       <Button style={{ cursor: 'pointer' }} color="primary" className={this.props.location.pathname === '/createPublication' ? 'active' : ''} onClick={() => this.props.history.push('/createPublication')} >Publica Ya!</Button>
-                      <DropdownToggle caret color="default" className="btn-link btn-block">{_.truncate(getUserDataFromToken().name, { length: 10 })}</DropdownToggle>
+                      <DropdownToggle caret color="default" className="btn-link btn-block">{this.state.nameFB ? this.state.nameFB : _.truncate(getUserDataFromToken().name, { length: 10 })}</DropdownToggle>
                       <DropdownMenu>
                         {!isAdminLogged() &&
                         <DropdownItem
@@ -409,7 +442,7 @@ class SearchBar extends Component {
                   onChange={event => this.setState({ password: event.target.value })}
                   validate={isValid => this.setState({ passwordValidate: isValid })}
                 />
-                <a onClick={() => {this.setState({ forgetPass: true })}} style={{ cursor: 'pointer' }}>
+                <a onClick={() => { this.setState({ forgetPass: true }); }} style={{ cursor: 'pointer' }}>
                   ¿Olvidaste tu contraseña?
                 </a>
                 {this.state.forgetPass && (
@@ -473,7 +506,7 @@ class SearchBar extends Component {
           />
           <Notification
             isActive={this.state.isNotificationActive}
-            message={`Bienvenido ${getUserDataFromToken().name}!`}
+            message={`Bienvenido ${this.state.nameFB ? this.state.nameFB : getUserDataFromToken().name}!`}
             title="Hola!"
             barStyle={{ backgroundColor: '#48D2A0', zIndex: 3000, fontSize: '18px' }}
             dismissAfter={3500}
@@ -487,25 +520,3 @@ class SearchBar extends Component {
 }
 export default SearchBar;
 
-
-{ /* <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '{your-app-id}',
-      cookie     : true,
-      xfbml      : true,
-      version    : '{latest-api-version}'
-    });
-
-    FB.AppEvents.logPageView();
-
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script> */ }
