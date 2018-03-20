@@ -78,7 +78,7 @@ class SearchBar extends Component {
     this.toggleNotification = this.toggleNotification.bind(this);
     this.recoverPass = this.recoverPass.bind(this);
     this.disabled = this.disabled.bind(this);
-    this.testAPI = this.testAPI.bind(this);
+    this.loginFB = this.loginFB.bind(this);
     this.statusChangeCallback = this.statusChangeCallback.bind(this);
   }
 
@@ -90,9 +90,7 @@ class SearchBar extends Component {
         xfbml: true,
         version: 'v2.1',
       });
-      window.FB.getLoginStatus((response) => {
-        this.statusChangeCallback(response);
-      });
+      this.checkLoginState()
     }.bind(this);
     (function (d, s, id) {
       let js,
@@ -131,11 +129,15 @@ class SearchBar extends Component {
 
   checkLoginState() {
     window.FB.getLoginStatus((response) => {
+      console.log(response);
+      // Aca hay q verificar si esta registrado en nuestro sistema
+      // si esta sigue con statusChangeCallback
       this.statusChangeCallback(response);
+      // sino hay q cambiar el status response.status = "not_authorized" y llamar a statusChangeCallback
     });
   }
-  testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
+
+  loginFB() {
     window.FB.api('/me', { fields: ['email', 'name'] }, (response) => {
       console.log(response);
       console.log(`Successful login for: ${response.name}`);
@@ -148,17 +150,16 @@ class SearchBar extends Component {
   }
   statusChangeCallback(response) {
     if (response.status === 'connected') {
-      // Logged into your app and Facebook.
-      this.testAPI();
+      // Logueado en Face, pero no se sabe si esta registrado o no en nuestra db
+      // Si esta this.loginFB();
+      this.loginFB();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
+      // Registrarlo con los datos que hay en response
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-      'into Facebook.';
+      // Se tiene que loguear con face
     }
   }
 
