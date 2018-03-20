@@ -202,7 +202,7 @@ class PledgeCredits extends React.Component {
                   <div className="d-flex flex-column box-detail-car">
                     <h6><b>{`${dataPublication.brand} ${dataPublication.group} `} </b></h6>
                     <h6>{dataPublication.modelName}</h6>
-                    <h5><b>{`$ ${thousands(dataPublication.price, 2, ',', '.')}`}</b></h5>
+                    <h5><b>{dataPublication.price ? `$ ${thousands(dataPublication.price, 2, ',', '.')}` : 'Consultar'}</b></h5>
                     <h6>{`${dataPublication.year} - ${thousands(dataPublication.kms, 0, ',', '.')} km`}</h6>
                   </div>
                 }

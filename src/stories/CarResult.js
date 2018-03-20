@@ -117,7 +117,7 @@ export default class CarResult extends Component {
             </p>
             <p className="item-description">{`${thousands(this.props.data.kms, 0, ',', '.')} kms.`}</p>
             <p className="item-price">
-              <strong>${thousands(this.props.data.price, 2, ',', '.')}</strong>
+              <strong>{this.props.data.price ? `$${thousands(this.props.data.price, 2, ',', '.')}` : 'Consultar'}</strong>
             </p>
             <small className="item-year">{this.props.data.year}</small>
           </div>

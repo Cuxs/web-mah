@@ -21,5 +21,17 @@ mutation DisaprovePublication($MAHtoken: String!, $publication_id: Int! $reason:
   }
 `;
 
-export { AprovePublicationMutation, DisaprovePublicationMutation };
+const HightlightPublication = gql`
+mutation adminhighlightPublication($publication_id: Int, $MAHtoken: String) {
+  adminhighlightPublication(publication_id: $publication_id, MAHtoken: $MAHtoken) {
+    id
+    CurrentState {
+      stateName
+    }
+  }
+}
+`;
+
+
+export { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication };
 

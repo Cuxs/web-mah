@@ -82,7 +82,7 @@ class CardMessagge extends Component {
               <p>{moment(_.last(messages).createdAt).format('DD/MM/YYYY hh:mm')}</p>
 
               <h5><b>{Publication.brand} {Publication.modelName}</b></h5>
-              <p className="item-description" ><small>{Publication.year}  -  {thousands(Publication.kms, 0, ',', '.')}km  -  $ {thousands(Publication.price, 2, ',', '.')}</small></p>
+              <p className="item-description" ><small>{Publication.year}  -  {thousands(Publication.kms, 0, ',', '.')}km  - {Publication.price ? `$${thousands(Publication.price, 2, ',', '.')}` : 'Consultar'}</small></p>
               <p>Ultimo mensaje: {_.truncate((_.last(messages).content), { length: 40 })}</p>
             </div>
             <div className="item-admin">

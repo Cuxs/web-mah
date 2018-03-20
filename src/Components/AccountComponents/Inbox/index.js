@@ -125,19 +125,26 @@ class Inbox extends Component {
                 <Col md="6" className="d-flex flex-column">
                   <h6><b>
                     {ThreadsQuery.GetThreadForInbox.Publication.brand}{' '}
-                    {ThreadsQuery.GetThreadForInbox.Publication.group}</b>
+                    {ThreadsQuery.GetThreadForInbox.Publication.group}
+                  </b>
                   </h6>
                   <h6>
                     {ThreadsQuery.GetThreadForInbox.Publication.modelName}
                   </h6>
                   <h5><b>
-                    ${' '}
-                    {thousands(
+                    {ThreadsQuery.GetThreadForInbox.Publication.price
+                    ?
+                    `$
+                    ${thousands(
                       ThreadsQuery.GetThreadForInbox.Publication.price,
                       2,
                       ',',
                       '.',
-                    )}</b>
+                    )}`
+                    :
+                    'Consultar'
+                  }
+                  </b>
                   </h5>
                   <h6>
                     {ThreadsQuery.GetThreadForInbox.Publication.year} -{' '}
