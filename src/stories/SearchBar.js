@@ -136,7 +136,7 @@ class SearchBar extends Component {
   }
   testAPI() {
     console.log('Welcome!  Fetching your information.... ');
-    window.FB.api('/me', (response) => {
+    window.FB.api('/me', { fields: ['email', 'name'] }, (response) => {
       console.log(response);
       console.log(`Successful login for: ${response.name}`);
       this.setState({
@@ -147,8 +147,6 @@ class SearchBar extends Component {
     });
   }
   statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       this.testAPI();
@@ -240,9 +238,9 @@ class SearchBar extends Component {
   }
 
   clearSession() {
-    window.FB.logout(this.checkLoginState());
+    window.FB.logout();
     clearSession();
-    this.setState({ isUserLogged: false }); 
+    this.setState({ isUserLogged: false });
   }
 
   render() {
