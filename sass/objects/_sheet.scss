@@ -14,12 +14,11 @@
           color:$gray-500;
           text-transform: uppercase;
         }
-
         &.item-description{
           margin-bottom: 10px;
         }
         &.item-name{
-          height: $font-size-lg * 2.5;
+          height: 4em;
         }
       }
       small{
