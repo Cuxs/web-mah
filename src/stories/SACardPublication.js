@@ -4,7 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import photoGaleryParser from '../Modules/photoGaleryParser';
 import { graphql, compose } from 'react-apollo';
 
-import { AprovePublicationMutation, DisaprovePublicationMutation } from '../ApolloQueries/AdminPublicationQueries';
+import { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication } from '../ApolloQueries/AdminPublicationQueries';
 import { getUserToken } from '../Modules/sessionFunctions';
 
 /* eslint react/jsx-filename-extension: 0 */
@@ -38,7 +38,7 @@ class SACardPublication extends Component {
     this.toggle = this.toggle.bind(this);
     this.toggleQuestionModal = this.toggleQuestionModal.bind(this);
     this.pubStateClass = this.pubStateClass.bind(this);
-
+    this.highlightPublication = this.highlightPublication.bind(this);
   }
   aprove() {
     this.props.aprove({
@@ -137,12 +137,46 @@ class SACardPublication extends Component {
       verb,
     });
   }
-
   showPublicatorName(data) {
     if (data.User) {
       return data.User.agencyName === null ? data.User.name : data.User.agencyName;
     }
     return data.name;
+  }
+  highlightPublication(id) {
+    this.props.hightlight({
+      variables: {
+        publication_id: id,
+        MAHtoken: getUserToken(),
+      },
+    })
+      .then(({ data: { adminhighlightPublication: { CurrentState: { stateName } } } }) => {
+        this.setState({
+          modal: true,
+          questionModal: false,
+          modalTitle: 'Felicitaciones',
+          modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
+        });
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors) {
+          graphQLErrors.map(({ message }) =>
+            this.setState({
+              modal: true,
+              questionModal: false,
+              modalTitle: 'Error',
+              modalMsg: message,
+            }));
+        }
+        if (networkError) {
+          this.setState({
+            modal: true,
+            questionModal: false,
+            modalTitle: 'Error',
+            modalMsg: networkError,
+          });
+        }
+      });
   }
 
   render() {
@@ -173,7 +207,7 @@ class SACardPublication extends Component {
             <div className="item-admin" >
               {(stateName !== 'Vendida' && stateName !== 'Pendiente') && <Button className="btn-default btn-link-primary float-left">Marcar como Vendido</Button>}
               {isPubEditable(stateName) && <Button className="btn-default btn-link-primary float-right">Editar</Button>}
-              {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right" onClick={() => {}} >Destacar</Button>}
+              {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right" onClick={() => this.highlightPublication(data.id)} >Destacar</Button>}
               <Button className="btn-default btn-link-primary float-right" onClick={() => history.push(`/carDetail?publication_id=${data.id}&t=${getUserToken()}`)} >Ver Publicación</Button>
               {/* {stateName === 'Vencida' && <Button className="btn-default btn-link-primary float-right" onClick={() => {}} >Editar Vigencia</Button>} */}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right" onClick={() => { this.toggleQuestionModal('desaprobar'); }} >Desaprobar</Button>}
@@ -219,5 +253,6 @@ class SACardPublication extends Component {
 }
 const withAproveMutation = graphql(AprovePublicationMutation, { name: 'aprove' });
 const withDisaproveMutation = graphql(DisaprovePublicationMutation, { name: 'disaprove' });
-const withData = compose(withAproveMutation, withDisaproveMutation);
+const withHightlightPublications = graphql(HightlightPublication, { name: 'hightlight' });
+const withData = compose(withAproveMutation, withDisaproveMutation, withHightlightPublications);
 export default withData(SACardPublication);
