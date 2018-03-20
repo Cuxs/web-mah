@@ -169,7 +169,7 @@ class CardPublication extends Component {
       kms: data.kms,
       modelName: data.modelName,
       observation: data.observation,
-      price: data.price,
+      price: data.price || 'Consultar',
       year: data.year,
       publication_id: data.id,
     };

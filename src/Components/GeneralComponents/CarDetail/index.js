@@ -43,7 +43,8 @@ const renderForNullPublication = (component, propName = 'data') =>
 
 const renderWhileLoading = (component, propName = 'data', propName2 = 'data') =>
   branch(
-    props => props[propName] && props[propName].loading && props[propName2].loading,
+    props =>
+      props[propName] && props[propName].loading && props[propName2].loading,
     renderComponent(component),
   );
 
@@ -83,10 +84,12 @@ class CarDetail extends Component {
     return '';
   }
   dontShowEditButton() {
-    if (isUserLogged() &&
-     !this.props.carDetailData.loading &&
-     this.props.carDetailData.Publication.User &&
-     getUserDataFromToken().id === this.props.carDetailData.Publication.User.id) {
+    if (
+      isUserLogged() &&
+      !this.props.carDetailData.loading &&
+      this.props.carDetailData.Publication.User &&
+      getUserDataFromToken().id === this.props.carDetailData.Publication.User.id
+    ) {
       return false;
     }
     return true;
@@ -106,9 +109,16 @@ class CarDetail extends Component {
       } else {
         hiddenClass = '';
       }
-      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente' && parse(this.props.location.search).t) {
-        const uData = (decode(parse(this.props.location.search).t));
-        if (uData.userType === 'Admin') { hiddenClass = ''; } else { hiddenClass = 'hidden'; }
+      if (
+        carDetailData.Publication.CurrentState.stateName === 'Pendiente' &&
+        parse(this.props.location.search).t
+      ) {
+        const uData = decode(parse(this.props.location.search).t);
+        if (uData.userType === 'Admin') {
+          hiddenClass = '';
+        } else {
+          hiddenClass = 'hidden';
+        }
       }
     }
     return (
@@ -121,7 +131,10 @@ class CarDetail extends Component {
               <BreadCrum history={history} />
             </Col>
             <Col md="4" sm="12" xs="12">
-              <PublicityBanner history={history} dataPublication={carDetailData.Publication} />
+              <PublicityBanner
+                history={history}
+                dataPublication={carDetailData.Publication}
+              />
             </Col>
           </Row>
         </div>
@@ -145,7 +158,7 @@ class CarDetail extends Component {
               <Row>
                 <Col md="8" sm="12" xs="12">
                   <CarCarousel
-                    photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
+                    photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup )}
                   />
                   <div className="container-data-input-group">
                     <h5 className="title">Resumen</h5>
@@ -239,88 +252,100 @@ class CarDetail extends Component {
                           </p>
                           <p className="item-price">
                             <strong>
-                              ${thousands(
-                                carDetailData.Publication.price,
-                                2,
-                                ',',
-                                '.',
-                              )}
+                              {carDetailData.Publication.price
+                                ? `$${thousands(
+                                    carDetailData.Publication.price,
+                                    2,
+                                    ',',
+                                    '.',
+                                  )}`
+                                : 'Consultar'}
                             </strong>
                           </p>
                         </div>
                       </Row>
-                      <Button color="primary" onClick={() => history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`)} >¡Solicitá tu crédito!</Button>
+                      <Button
+                        color="primary"
+                        onClick={() =>
+                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication )}` )
+                        }
+                      >
+                        ¡Solicitá tu crédito!
+                      </Button>
                       <div className="container-social">
                         <button className="btn btn-social-icon">
-                          <img src="/assets/images/icon-facebook.svg" alt="icon-fb" />
+                          <img
+                            src="/assets/images/icon-facebook.svg"
+                            alt="icon-fb"
+                          />
                         </button>
                         <button className="btn btn-social-icon">
-                          <img src="/assets/images/icon-twitter.svg" alt="icon-tw" />
+                          <img
+                            src="/assets/images/icon-twitter.svg"
+                            alt="icon-tw"
+                          />
                         </button>
                       </div>
                     </Col>
                     <Col md="12" sm="6" xs="12">
                       <div className="container-data-input-group">
                         <h5>
-                          {carDetailData.Publication.User ?
-                              carDetailData.Publication.User.agencyName ||
-                              carDetailData.Publication.User.name :
-                            carDetailData.Publication.name
-                        }
+                          {carDetailData.Publication.User
+                            ? carDetailData.Publication.User.agencyName ||
+                              carDetailData.Publication.User.name
+                            : carDetailData.Publication.name}
                         </h5>
-                        {carDetailData.Publication.User ?
+                        {carDetailData.Publication.User ? (
                           carDetailData.Publication.User.agencyName && (
-                          <Button color="link">Ver todos los autos</Button>
-                        ) : <span />}
+                            <Button color="link">Ver todos los autos</Button>
+                          )
+                        ) : (
+                          <span />
+                        )}
                         <div className="data-input-group">
                           <label>DOMICILIO</label>
                           <p>
-                            {carDetailData.Publication.User ?
-                              carDetailData.Publication.User.agencyAdress ||
-                              carDetailData.Publication.User.address :
-                              'No especificado'}
+                            {carDetailData.Publication.User
+                              ? carDetailData.Publication.User.agencyAdress ||
+                                carDetailData.Publication.User.address
+                              : 'No especificado'}
                           </p>
                         </div>
                         <div className="data-input-group">
                           <label>TELÉFONOS</label>
-                          <p>
-                            {this.showUserPhone(carDetailData.Publication)}
-                          </p>
+                          <p>{this.showUserPhone(carDetailData.Publication)}</p>
                         </div>
                         <div className="data-input-group">
                           <label>EMAIL</label>
                           <p>
-                            { carDetailData.Publication.User ?
-                              (carDetailData.Publication.User.agencyEmail ||
-                              carDetailData.Publication.User.email ||
-                              'No especificado')
-                            :
-                            carDetailData.Publication.email
-                            }
+                            {carDetailData.Publication.User
+                              ? carDetailData.Publication.User.agencyEmail ||
+                                carDetailData.Publication.User.email ||
+                                'No especificado'
+                              : carDetailData.Publication.email}
                           </p>
                         </div>
                       </div>
                       {this.dontShowEditButton() ? (
                         <MessageCarDetail
                           commentThread_id={
-                              commentThreadData.CommentThread &&
-                              !_.isEmpty(commentThreadData.CommentThread)
-                                ? commentThreadData.CommentThread[0].id
-                                : null
-                            }
+                            commentThreadData.CommentThread &&
+                            !_.isEmpty(commentThreadData.CommentThread)
+                              ? commentThreadData.CommentThread[0].id
+                              : null
+                          }
                           location={location}
                           history={history}
                           publicationUserId={
-                              carDetailData.Publication.User ? carDetailData.Publication.User.id : undefined
-                            }
-                          publicationId={
-                              parse(location.search).publication_id
-                            }
+                            carDetailData.Publication.User
+                              ? carDetailData.Publication.User.id
+                              : undefined
+                          }
+                          publicationId={parse(location.search).publication_id}
                         />
-                        ) :
+                      ) : (
                         <Button color="secondary">Editar Publicación</Button>
-                        }
-
+                      )}
                     </Col>
                   </Row>
                 </Col>

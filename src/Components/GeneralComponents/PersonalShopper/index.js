@@ -85,7 +85,7 @@ class PersonalShopper extends React.Component {
     const dataCredit = {
       kms: this.state.kms,
       year: this.state.year,
-      price: this.state.price,
+      price: this.state.price || 'No especificado',
       brand: this.state.brand,
       group: this.state.group,
       codia: this.state.codia,

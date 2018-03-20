@@ -134,7 +134,7 @@ class SuperAdminInbox extends Component {
             {'< Volver a Bandeja de Entrada'}
           </Button>
           <Row className="mt-4">
-            <Col md="6" >
+            <Col md="6">
               {ThreadsQuery.loading || messagesData.loading ? (
                 <img
                   className="loading-gif"
@@ -144,33 +144,40 @@ class SuperAdminInbox extends Component {
                   alt="Loading..."
                 />
               ) : (
-                <div className="row" >
+                <div className="row">
                   <Col md="6">
                     <img
                       width="100%"
                       height="100%"
                       src={`${process.env.REACT_APP_API}/images/${
-                        ThreadsQuery.GetThreadForInbox.Publication.ImageGroup.image1
+                        ThreadsQuery.GetThreadForInbox.Publication.ImageGroup
+                          .image1
                       }`}
                       alt="banner"
                     />
                   </Col>
                   <Col md="6" className="d-flex flex-column">
-                    <h6><b>
-                      {ThreadsQuery.GetThreadForInbox.Publication.brand}{' '}
-                      {ThreadsQuery.GetThreadForInbox.Publication.group}</b>
+                    <h6>
+                      <b>
+                        {ThreadsQuery.GetThreadForInbox.Publication.brand}
+                        {ThreadsQuery.GetThreadForInbox.Publication.group}
+                      </b>
                     </h6>
                     <h6>
                       {ThreadsQuery.GetThreadForInbox.Publication.modelName}
                     </h6>
-                    <h5><b>
-                      ${' '}
-                      {thousands(
-                        ThreadsQuery.GetThreadForInbox.Publication.price,
-                        2,
-                        ',',
-                        '.',
-                      )}</b>
+                    <h5>
+                      <b>
+                        {ThreadsQuery.GetThreadForInbox.Publication.price
+                          ? `$
+                    ${thousands(
+                      ThreadsQuery.GetThreadForInbox.Publication.price,
+                      2,
+                      ',',
+                      '.',
+                    )}`
+                          : 'Consultar'}
+                      </b>
                     </h5>
                     <h6>
                       {ThreadsQuery.GetThreadForInbox.Publication.year} -{' '}
@@ -198,7 +205,11 @@ class SuperAdminInbox extends Component {
                 bubblesCentered // Boolean should the bubbles be centered in the feed?
               />
               <div className="underline" />
-              <Button color="primary" className="float-right" onClick={() => this.toggleDeleteModal()}>
+              <Button
+                color="primary"
+                className="float-right"
+                onClick={() => this.toggleDeleteModal()}
+              >
                 Eliminar Conversación
               </Button>
             </Col>
