@@ -17,6 +17,7 @@ import {
 import { Notification } from 'react-notification';
 import FacebookLogin from 'react-facebook-login';
 
+
 import _ from 'lodash';
 import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
@@ -36,7 +37,7 @@ import {
 import Input from './Input';
 import NotificationModal from '../stories/NotificationModal';
 import parseError from '../Modules/errorParser';
-import { login, recoverPassword } from '../Modules/fetches';
+import { login, recoverPassword, checkFacebookLogin, loginOrRegisterFacebook } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -90,7 +91,7 @@ class SearchBar extends Component {
         xfbml: true,
         version: 'v2.1',
       });
-      this.checkLoginState()
+      this.checkLoginState();
     }.bind(this);
     (function (d, s, id) {
       let js,
@@ -129,37 +130,45 @@ class SearchBar extends Component {
 
   checkLoginState() {
     window.FB.getLoginStatus((response) => {
-      console.log(response);
-      // Aca hay q verificar si esta registrado en nuestro sistema
-      // si esta sigue con statusChangeCallback
       this.statusChangeCallback(response);
-      // sino hay q cambiar el status response.status = "not_authorized" y llamar a statusChangeCallback
     });
   }
-
   loginFB() {
-    window.FB.api('/me', { fields: ['email', 'name'] }, (response) => {
-      console.log(response);
-      console.log(`Successful login for: ${response.name}`);
-      this.setState({
-        isNotificationActive: true,
-        nameFB: response.name,
-        isUserLogged: true,
+    window.FB.getLoginStatus((response) => {
+      window.FB.api('/me', { fields: ['email', 'name'] }, (res) => {
+        loginOrRegisterFacebook(res)
+          .then((resp) => {
+            const MAHtoken = resp.message;
+            saveState({ login: { MAHtoken } });
+            this.toggleModal();
+            this.setState({
+              isNotificationActive: true,
+              email: '',
+              password: '',
+              isUserLogged: true,
+            });
+          })
+          .catch(error => console.log(error));
       });
     });
   }
+
   statusChangeCallback(response) {
     if (response.status === 'connected') {
-      // Logueado en Face, pero no se sabe si esta registrado o no en nuestra db
-      // Si esta this.loginFB();
-      this.loginFB();
-    } else if (response.status === 'not_authorized') {
-      // The person is logged into Facebook, but not your app.
-      // Registrarlo con los datos que hay en response
-    } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      // Se tiene que loguear con face
+      window.FB.api('/me', { fields: ['email', 'name'] }, (res) => {
+        checkFacebookLogin(res.email)
+          .then((resp) => {
+            const MAHtoken = resp.message;
+            saveState({ login: { MAHtoken } });
+            this.setState({
+              isNotificationActive: true,
+              email: '',
+              password: '',
+              isUserLogged: true,
+            });
+          })
+          .catch(error => console.log(error));
+      });
     }
   }
 
@@ -421,7 +430,7 @@ class SearchBar extends Component {
                 <FacebookLogin
                   appId="146328269397173"
                   autoLoad
-                  callback={() => this.checkLoginState()}
+                  callback={() => this.loginFB()}
                   icon="fa-facebook"
                   fields="name,email,picture"
                   textButton="Registrate con facebook"

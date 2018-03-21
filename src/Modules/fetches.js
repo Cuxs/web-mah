@@ -50,6 +50,40 @@ export const loginAdmin = (email, password) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+export const checkFacebookLogin = (email) => {
+  const url = `${server}/checkFacebookLogin/${email}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (_.isUndefined(responseData.status) || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+export const loginOrRegisterFacebook = (data) => {
+  const url = `${server}/loginOrRegisterFacebook`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      data,
+    }),
+  };
+
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (_.isUndefined(responseData.status) || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
 export const registerUser = (data) => {
   const url = `${server}/registerUser`;
   const options = {
