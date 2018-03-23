@@ -42,7 +42,6 @@ class SearchCars extends Component {
       Publications: [],
       totalResults: '',
       loading: true,
-      renderedData: 0,
       filterClass: '',
       dropDownOrderValue: 'Publicación Reciente',
     };
@@ -57,7 +56,6 @@ class SearchCars extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {
-      this.setState({ renderedData: 0 });
       this.doSearch(1, true, nextProps);
       this.doFilterTotalResultSearch(nextProps.location.search);
     }
@@ -87,11 +85,11 @@ class SearchCars extends Component {
           userType: qs.parse(url).userType,
         },
       })
-      .then(({ data, data: { searchPublication: { Publications } } }) => {
+      .then(({ data: { searchPublication }, data: { searchPublication: { Publications } } }) => {
         if (newSearch) {
           this.setState({
-            hasNextPage: data.hasNextPage,
-            totalResults: data.totalCount,
+            hasNextPage: searchPublication.hasNextPage,
+            totalResults: searchPublication.totalCount,
             Publications,
             loading: false,
 
@@ -103,6 +101,8 @@ class SearchCars extends Component {
           this.setState({
             Publications: _.orderBy(existingPubs, ['createdAt'], ['desc']),
             loading: false,
+            hasNextPage: searchPublication.hasNextPage,
+            totalResults: searchPublication.totalCount,
 
           });
         }
@@ -209,7 +209,7 @@ class SearchCars extends Component {
         <div className="container mb-4 mt-4">
           <Row>
             <Col md="8" sm="12" xs="12">
-              <BreadCrum url={window.location.href} />
+              <BreadCrum url={window.location.href} history={history} />
             </Col>
             <Col md="4" sm="12" xs="12">
               <PublicityBanner history={history} />

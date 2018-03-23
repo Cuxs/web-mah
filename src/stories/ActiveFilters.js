@@ -14,6 +14,7 @@ Modificar la mutacion tanto en la api(dentro de PublicationTypes) como en Apollo
 export default ({ searchData, history }) => split(searchData).map((filter) => {
   if (filter.key === 'fuel' ||
       filter.key === 'year' ||
+      filter.key === 'userType' ||
       filter.key === 'state') {
     return (
       <Button
