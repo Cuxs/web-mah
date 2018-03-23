@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Button, Label, Input, FormGroup } from 'reactstrap';
 import decode from 'jwt-decode';
+import FacebookLogin from 'react-facebook-login';
 
 import parseError from '../Modules/errorParser';
-import { login, loginAdmin, recoverPassword } from '../Modules/fetches';
+import { login, loginAdmin, recoverPassword, checkFacebookLogin, loginOrRegisterFacebook } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
 import NotificationModal from '../stories/NotificationModal';
 /* eslint react/jsx-filename-extension: 0 */
@@ -25,6 +26,27 @@ export default class LoginComponent extends Component {
     };
     this.recoverPass = this.recoverPass.bind(this);
     this.disabled = this.disabled.bind(this);
+    this.loginFB = this.loginFB.bind(this);
+    this.statusChangeCallback = this.statusChangeCallback.bind(this);
+  }
+  componentDidMount() {
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: '146328269397173',
+        cookie: true,
+        xfbml: true,
+        version: 'v2.1',
+      });
+      this.checkLoginState();
+    }.bind(this);
+    (function (d, s, id) {
+      let js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = '//connect.facebook.net/en_US/sdk.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
   }
   isLoginFormIncomplete() {
     if (this.state.email === '' || this.state.password === '') {
@@ -107,6 +129,49 @@ export default class LoginComponent extends Component {
     }
     return true;
   }
+  checkLoginState() {
+    window.FB.getLoginStatus((response) => {
+      this.statusChangeCallback(response);
+    });
+  }
+  loginFB() {
+    window.FB.getLoginStatus((response) => {
+      window.FB.api('/me', { fields: ['email', 'name'] }, (res) => {
+        loginOrRegisterFacebook(res)
+          .then((resp) => {
+            const MAHtoken = resp.message;
+            saveState({ login: { MAHtoken } });
+            this.toggleModal();
+            this.setState({
+              isNotificationActive: true,
+              email: '',
+              password: '',
+              isUserLogged: true,
+            });
+          })
+          .catch(error => console.log(error));
+      });
+    });
+  }
+
+  statusChangeCallback(response) {
+    if (response.status === 'connected') {
+      window.FB.api('/me', { fields: ['email', 'name'] }, (res) => {
+        checkFacebookLogin(res.email)
+          .then((resp) => {
+            const MAHtoken = resp.message;
+            saveState({ login: { MAHtoken } });
+            this.setState({
+              isNotificationActive: true,
+              email: '',
+              password: '',
+              isUserLogged: true,
+            });
+          })
+          .catch(error => console.log(error));
+      });
+    }
+  }
 
   render() {
     const isAdmin =
@@ -129,13 +194,15 @@ export default class LoginComponent extends Component {
         >
           <div className="col-md-6 offset-md-3">
             {!isAdmin && (
-              <Button color="primary" className="btn-facebook">
-                <img
-                  src="/assets/images/icon-single-facebook.svg"
-                  alt="facebook"
-                />{' '}
-                Registrate con facebook
-              </Button>
+            <FacebookLogin
+              appId="146328269397173"
+              autoLoad
+              callback={() => this.loginFB()}
+              icon="fa-facebook"
+              fields="name,email,picture"
+              textButton="Registrate con facebook"
+              cssClass="btn btn-primary btn-facebook"
+            />
             )}
             <div className="underline" />
             <FormGroup>

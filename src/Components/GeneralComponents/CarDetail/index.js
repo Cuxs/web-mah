@@ -231,13 +231,13 @@ class CarDetail extends Component {
                       <Row>
                         <div className="item-data">
                           <small className="item-year">
-                            {carDetailData.Publication.year} -{' '}
+                            {carDetailData.Publication.year} -
                             {thousands(
                               carDetailData.Publication.kms,
                               0,
                               ',',
                               '.',
-                            )}{' '}
+                            )}
                             km
                           </small>
                           <p className="item-name">
