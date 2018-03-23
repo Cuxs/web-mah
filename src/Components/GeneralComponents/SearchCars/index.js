@@ -87,12 +87,13 @@ class SearchCars extends Component {
           userType: qs.parse(url).userType,
         },
       })
-      .then(({ data: { searchPublication: { Publications } } }) => {
+      .then(({ data, data: { searchPublication: { Publications } } }) => {
         if (newSearch) {
           this.setState({
+            hasNextPage: data.hasNextPage,
+            totalResults: data.totalCount,
             Publications,
             loading: false,
-            renderedData: this.state.renderedData + Publications.length,
 
           });
         } else {
@@ -102,7 +103,6 @@ class SearchCars extends Component {
           this.setState({
             Publications: _.orderBy(existingPubs, ['createdAt'], ['desc']),
             loading: false,
-            renderedData: this.state.renderedData + Publications.length,
 
           });
         }
@@ -262,7 +262,7 @@ class SearchCars extends Component {
               <InfiniteScroll
                 pageStart={0}
                 loadMore={this.doSearch}
-                hasMore={this.state.renderedData < this.state.totalResults}
+                hasMore={this.state.hasNextPage}
                 loader={<img className="loading-gif" src="/loading.gif" key={0} alt="Loading..." />}
               >
                 {this.renderData()}
