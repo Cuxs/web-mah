@@ -345,7 +345,7 @@ class SearchBar extends Component {
               <div className="w-100 d-block d-lg-none" />
               <Col lg="auto">
                 <Row>
-                  <Button color="secondary" className="btn-link" style={{ boxShadow: 'none' }} href="/friendlyAgency" >Consecionarias</Button>
+                  <Button color="secondary" className="btn-link" style={{ boxShadow: 'none' }} href="/friendlyAgency" >Concesionarias</Button>
                 </Row>
               </Col>
               <div className="w-100 d-block d-lg-none" />

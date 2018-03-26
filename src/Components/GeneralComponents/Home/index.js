@@ -59,10 +59,10 @@ const Home = ({
           }
         </LastPublications>
         <FriendlyCompanies>
-          <img src="http://placecage.com/c/250/130" alt="banner" />
-          <img src="http://placecage.com/c/250/130" alt="banner" />
-          <img src="http://placecage.com/c/250/130" alt="banner" />
-          <img src="http://placecage.com/c/250/130" alt="banner" />
+          <a href="http://www.mendoza.gov.ar/prevencionvial/"><img src="/assets/images/EA1.jpg" alt="prevencion" /></a>
+          <a href="http://www.pueblobenegas.com/"><img src="/assets/images/EA2.jpg" alt="benegas" /></a>
+          <a href="http://miautohoy.com/concesionaria/lm-automotores/"><img src="/assets/images/EA3.jpg" alt="lm-automotores" /></a>
+          <a href="http://www.mktinversiones.com.ar/"><img src="/assets/images/EA4.jpg" alt="mkt" /></a>
         </FriendlyCompanies>
         <Footer history={history} />
       </div>
