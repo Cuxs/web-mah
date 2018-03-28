@@ -55,7 +55,9 @@
             margin-bottom: 10px;
           }
           &.item-name{
-            height: $font-size-lg * 2.5;
+            height: $font-size-lg * 1.5;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
         small{
@@ -96,6 +98,8 @@
           }
           &.item-name strong, &.item-price strong{
             font-size: $h3-font-size;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
         .item-visibility{

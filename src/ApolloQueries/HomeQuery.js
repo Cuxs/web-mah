@@ -12,13 +12,21 @@ query AllPublications($user_id: Int, $stateName: String, $limit:Int, $order:Stri
       image3
     }
     id
+    brand
     group
     modelName
     price
     fuel
     year
     carState
-    kms  
+    kms
+    User{
+      isAgency
+      agencyName
+      email
+      name
+      agencyEmail
+    }
   }
 }
 `;
@@ -31,6 +39,10 @@ const LastPublicationsQuery = gql`
       image1
       image2
       image3
+    }
+    User{
+      isAgency
+      agencyName
     }
     id
     group

@@ -23,8 +23,11 @@ mutation searchPublication($userType:String, $user_id:Int, $carState: String, $t
       carState
       kms
       User{
-        id
+        isAgency
         agencyName
+        email
+        name
+        agencyEmail
       }
     }
   }

@@ -62,6 +62,16 @@ export default class CarResult extends Component {
     return true;
   }
 
+  renderName() {
+    if (this.props.data.User === null) {
+      return 'PARTICULAR';
+    }
+    if (this.props.data.User.isAgency) {
+      return this.props.data.User.agencyName;
+    }
+    return this.props.data.User.name;
+  }
+
   render() {
     const { activeIndex } = this.state;
     const slides = this.props.photoGalery.map(item => (
@@ -110,16 +120,16 @@ export default class CarResult extends Component {
           </div>
           <div className="item-data">
             <p className="item-category">
-              <span>{this.props.data.group}</span>
+              <span>{this.renderName()}</span>
             </p>
             <p className="item-name">
-              <strong>{this.props.data.modelName}</strong>
+              <strong>{this.props.data.group}</strong>
             </p>
-            <p className="item-description">{`${thousands(this.props.data.kms, 0, ',', '.')} kms.`}</p>
+            <p className="item-description">{this.props.data.modelName}</p>
             <p className="item-price">
               <strong>{this.props.data.price ? `$${thousands(this.props.data.price, 2, ',', '.')}` : 'Consultar'}</strong>
             </p>
-            <small className="item-year">{this.props.data.year}</small>
+            <small className="item-year">{this.props.data.year} - {`${thousands(this.props.data.kms, 0, ',', '.')} kms.`}</small>
           </div>
         </a>
       </div>

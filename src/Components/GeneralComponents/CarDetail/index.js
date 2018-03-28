@@ -229,7 +229,7 @@ class CarDetail extends Component {
                   <Row>
                     <Col md="12" sm="6" xs="12">
                       <Row>
-                        <div className="item-data">
+                        <div className="col-12 item-data">
                           <small className="item-year">
                             {carDetailData.Publication.year} -
                             {thousands(

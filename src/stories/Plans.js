@@ -51,7 +51,7 @@ export default ({ history }) => (
               <li>Posibilidad de compra garantizada si transcurridos los 60 días no vendió su auto.</li>
               <li>Panel de Control de autos publicados.</li><li>Chat con los interesados</li>
               <li>Anuncios destacados ilimitados</li>
-              <li>Minisitio Consecionario</li>
+              <li>Minisitio Concesionario</li>
               <li>Publicaciones en redes sociales y fan page de miautohoy.com</li>
             </ul>
             <Button color="secondary" className="btn-lg align-self-start justify-content-end" onClick={() => history.push('/agencyRegisterS1')}>Comenzar</Button>
