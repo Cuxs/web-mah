@@ -5,7 +5,7 @@ import { Row, Col } from 'reactstrap';
 export default ({ data }) => (
   <div className="col-md-12 microsite-header" >
     <Row className="microsite-portrait">
-      <img src={`${process.env.REACT_APP_API}/images/${data.bannerImage}`} alt="banner" width="100%" />
+      <img onError={(e) => { e.target.onerror = null; e.target.src = '/assets/images/banner-empty-mah.png'; }} src={`${process.env.REACT_APP_API}/images/${data.bannerImage}`} alt="banner" width="100%" />
     </Row>
     <div className="container">
       <Row className="microsite-data">
