@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
-import photoGaleryParser from '../Modules/photoGaleryParser';
+import { stringify } from 'query-string';
 import { graphql, compose } from 'react-apollo';
 
-import { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication } from '../ApolloQueries/AdminPublicationQueries';
+import photoGaleryParser from '../Modules/photoGaleryParser';
+
+import { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication, markAsSoldMutation } from '../ApolloQueries/AdminPublicationQueries';
 import { getUserToken } from '../Modules/sessionFunctions';
 
 /* eslint react/jsx-filename-extension: 0 */
@@ -39,6 +40,8 @@ class SACardPublication extends Component {
     this.toggleQuestionModal = this.toggleQuestionModal.bind(this);
     this.pubStateClass = this.pubStateClass.bind(this);
     this.highlightPublication = this.highlightPublication.bind(this);
+    this.changeToSoldState = this.changeToSoldState.bind(this);
+    this.handleRedirect = this.handleRedirect.bind(this);
   }
   aprove() {
     this.props.aprove({
@@ -179,6 +182,67 @@ class SACardPublication extends Component {
       });
   }
 
+  toggleModalState(pubId) {
+    this.setState({
+      modalState: !this.state.modalState,
+      pubId,
+    });
+  }
+  changeToSoldState() {
+    this.props
+      .ChangeToSold({
+        variables: {
+          MAHtoken: getUserToken(),
+          publication_id: this.state.pubId,
+        },
+      })
+      .then((data) => {
+        this.toggleModalState('');
+        this.setState({
+          modalTitle: 'Felicitaciones.',
+          modalMsg: 'La publicación ha sida marcada como vendida. Felicitaciones!',
+          modal: true,
+        });
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors) {
+          this.toggleModalState('');
+          graphQLErrors.map(({ message }) =>
+            this.setState({
+              modalTitle: 'Error',
+              modalMsg: message,
+              modal: true,
+            }));
+        }
+        if (networkError) {
+          console.log(networkError)
+          this.setState({
+            modalTitle: 'Error',
+            modalMsg: networkError,
+            modal: true,
+          });
+        }
+      });
+  }
+
+  handleRedirect() {
+    console.log(this.props.data);
+    const { data } = this.props;
+    const dataCar = {
+      brand: data.brand,
+      carState: data.carState,
+      codia: data.codia,
+      group: data.group,
+      kms: data.kms,
+      modelName: data.modelName,
+      observation: data.observation,
+      price: data.price || 'Consultar',
+      year: data.year,
+      publication_id: data.id,
+    };
+    this.props.history.push(`/createPublication?${(stringify(dataCar))}`);
+  }
+
   render() {
     const { data, history, data: { CurrentState: { stateName } } } = this.props;
     return (
@@ -205,8 +269,8 @@ class SACardPublication extends Component {
               <h6>Publicación {!isPubVisible(stateName) && 'no'} visible</h6>
             </div>
             <div className="item-admin" >
-              {(stateName !== 'Vendida' && stateName !== 'Pendiente') && <Button className="btn-default btn-link-primary float-left">Marcar como Vendido</Button>}
-              {isPubEditable(stateName) && <Button className="btn-default btn-link-primary float-right">Editar</Button>}
+              {(stateName !== 'Vendida' && stateName !== 'Pendiente') && <Button className="btn-default btn-link-primary float-left" onClick={() => this.toggleModalState(data.id)}>Marcar como Vendido</Button>}
+              {isPubEditable(stateName) && <Button className="btn-default btn-link-primary float-right" onClick={this.handleRedirect}>Editar</Button>}
               {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right" onClick={() => this.highlightPublication(data.id)} >Destacar</Button>}
               <Button className="btn-default btn-link-primary float-right" onClick={() => history.push(`/carDetail?publication_id=${data.id}&t=${getUserToken()}`)} >Ver Publicación</Button>
               {/* {stateName === 'Vencida' && <Button className="btn-default btn-link-primary float-right" onClick={() => {}} >Editar Vigencia</Button>} */}
@@ -225,6 +289,27 @@ class SACardPublication extends Component {
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={() => { this.toggle(); window.location.reload(); }}>OK</Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal
+          isOpen={this.state.modalState}
+          toggle={this.toggleModalState}
+          className={this.props.className}
+        >
+          <ModalHeader toggle={this.toggleModalState}>Confirme</ModalHeader>
+          <ModalBody>
+            <div className="col-md-6 offset-md-3">
+              ¿Pudiste vender este vehículo?
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => this.changeToSoldState()}>
+              OK
+            </Button>
+            <Button color="secondary" onClick={() => this.toggleModalState()}>
+              Cancelar
+            </Button>
           </ModalFooter>
         </Modal>
 
@@ -251,8 +336,9 @@ class SACardPublication extends Component {
     );
   }
 }
+const withMarkPublicationAsSold = graphql(markAsSoldMutation, { name: 'ChangeToSold' });
 const withAproveMutation = graphql(AprovePublicationMutation, { name: 'aprove' });
 const withDisaproveMutation = graphql(DisaprovePublicationMutation, { name: 'disaprove' });
 const withHightlightPublications = graphql(HightlightPublication, { name: 'hightlight' });
-const withData = compose(withAproveMutation, withDisaproveMutation, withHightlightPublications);
+const withData = compose(withAproveMutation, withDisaproveMutation, withHightlightPublications, withMarkPublicationAsSold);
 export default withData(SACardPublication);

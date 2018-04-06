@@ -32,6 +32,14 @@ mutation adminhighlightPublication($publication_id: Int, $MAHtoken: String) {
 }
 `;
 
+const markAsSoldMutation = gql`
+mutation adminMarkAsSold($publication_id: Int, $MAHtoken:String){
+  adminMarkAsSold(publication_id:,$publication_id, MAHtoken: $MAHtoken) {
+    id
+  }
+}
+`;
 
-export { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication };
+
+export { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication, markAsSoldMutation };
 
