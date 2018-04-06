@@ -47,7 +47,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "REACT_APP_API=https://api.miautohoy.com REACT_APP_SOCKET=wss://api.miautohoy.com/subscriptions react-scripts build",
+    "build": "REACT_APP_API=https://api.miautohoy.com REACT_APP_SOCKET=wss://api.miautohoy.com/subscriptions react-scripts build -p",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
@@ -60,7 +60,8 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.5.1"
+    "eslint-plugin-react": "^7.5.1",
+    "uglify-js-brunch": "^2.10.0"
   },
   "reactSnapshot": {
     "include": [
