@@ -297,7 +297,7 @@ class CarDetail extends Component {
                         </h5>
                         {carDetailData.Publication.User ? (
                           carDetailData.Publication.User.agencyName && (
-                            <Button color="link">Ver todos los autos</Button>
+                            <Button onClick={()=>this.props.history.push(`/microsite?concesionaria=${carDetailData.Publication.User.agencyName}&c_id=${carDetailData.Publication.User.id}`)} color="link">Ver todos los autos</Button>
                           )
                         ) : (
                           <span />

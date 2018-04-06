@@ -19,7 +19,7 @@ class SuperAdminUsers extends React.Component {
     this.state = {
       modal: false,
       totalCount: 0,
-      hasNextPage: false,
+      hasNextPage: true,
       renderedData: 0,
     };
 
@@ -51,14 +51,13 @@ class SuperAdminUsers extends React.Component {
         page,
       },
     })
-      .then(({ data: { AllUsersResume: { totalCount } }, data: { AllUsersResume: { Users } } }) => {
-        const existingUser = this.state.users;
-
-        Users.map((user) => {
-          existingUser.push(user);
-        });
+      .then(({ data: { AllUsersResume: { totalCount } }, data: { AllUsersResume: { Users } }, data: { AllUsersResume: { hasNextPage } } }) => {
+        let existingUser = [];
+        existingUser = JSON.parse(JSON.stringify(this.state.users));
+        Users.map(user => existingUser.push(user));
         this.setState({
-          users: Users,
+          users: existingUser,
+          hasNextPage,
           totalCount,
           loading: false,
           renderedData: this.state.renderedData + Users.length,
@@ -73,10 +72,6 @@ class SuperAdminUsers extends React.Component {
   }
 
   renderData() {
-    const {
-      hasNextPage,
-    } = this.state;
-
     if (this.state.loading) {
       return <p>Cargando...</p>;
     }
@@ -108,7 +103,7 @@ class SuperAdminUsers extends React.Component {
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={this.doSearch}
-                    hasMore={this.state.renderedData < this.state.totalCount}
+                    hasMore={this.state.hasNextPage}
                     loader={<img src="/loading.gif" className="loading-gif" key={0} alt="Loading..." />}
                   >
                     <Row>
