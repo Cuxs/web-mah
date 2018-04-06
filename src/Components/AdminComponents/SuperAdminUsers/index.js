@@ -5,6 +5,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { withApollo } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
+import _ from 'lodash';
 
 import AdminBar from '../../../stories/AdminBar';
 import SuperAdminFilterUser from '../../../stories/SuperAdminFilterUser';
@@ -54,6 +55,7 @@ class SuperAdminUsers extends React.Component {
       .then(({ data: { AllUsersResume: { totalCount } }, data: { AllUsersResume: { Users } }, data: { AllUsersResume: { hasNextPage } } }) => {
         let existingUser = [];
         existingUser = JSON.parse(JSON.stringify(this.state.users));
+        existingUser = _.uniqBy(existingUser, 'id');
         Users.map(user => existingUser.push(user));
         this.setState({
           users: existingUser,
