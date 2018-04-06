@@ -17,6 +17,7 @@ query AllUsersResume($page: Int) {
       Pendiente
       Destacada
       Publicada
+      isAgency
     }
     totalCount
     hasNextPage

@@ -15,7 +15,7 @@ import { getUserToken } from '../Modules/sessionFunctions';
 import NotificationModal from './NotificationModal';
 /* eslint react/jsx-filename-extension: 0 */
 
-class CardPublication extends React.Component {
+class CardUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -258,4 +258,4 @@ class CardPublication extends React.Component {
 const withDeleteMutation = graphql(DeleteUserMutation, { name: 'deleteUser' });
 const withData = compose(withDeleteMutation);
 
-export default withData(CardPublication);
+export default withData(CardUser);
