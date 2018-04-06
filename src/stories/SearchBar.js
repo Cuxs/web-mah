@@ -385,7 +385,7 @@ class SearchBar extends Component {
                           isOpen={this.state.dropdownOpenPublicate}
                           toggle={this.togglePublicate}
                         >
-                          <DropdownToggle caret className="btn-link-active" style={{ width: '170px', boxShadow: 'none' }}>Publicá Gratis</DropdownToggle>
+                          <DropdownToggle caret className="btn-link-active" style={{ width: '160px', boxShadow: 'none' }}>Publicá Gratis</DropdownToggle>
                           <DropdownMenu className="custom-dropdown">
                             <DropdownItem value="publicateFree" href="/withoutRegister">
                               <h4>¡Publica ya!</h4>
