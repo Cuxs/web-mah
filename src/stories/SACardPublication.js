@@ -42,6 +42,7 @@ class SACardPublication extends Component {
     this.highlightPublication = this.highlightPublication.bind(this);
     this.changeToSoldState = this.changeToSoldState.bind(this);
     this.handleRedirect = this.handleRedirect.bind(this);
+    this.deletePub = this.deletePub.bind(this);
   }
   aprove() {
     this.props.aprove({
@@ -215,7 +216,7 @@ class SACardPublication extends Component {
             }));
         }
         if (networkError) {
-          console.log(networkError)
+          console.log(networkError);
           this.setState({
             modalTitle: 'Error',
             modalMsg: networkError,
@@ -223,6 +224,10 @@ class SACardPublication extends Component {
           });
         }
       });
+  }
+
+  deletePub() {
+    console.log('borrar publicacion');
   }
 
   handleRedirect() {
@@ -270,9 +275,10 @@ class SACardPublication extends Component {
             </div>
             <div className="item-admin" >
               {(stateName !== 'Vendida' && stateName !== 'Pendiente') && <Button className="btn-default btn-link-primary float-left" onClick={() => this.toggleModalState(data.id)}>Marcar como Vendido</Button>}
+              <Button className="btn-default btn-link-primary float-right" onClick={() => this.deletePub}>Eliminar</Button>
               {isPubEditable(stateName) && <Button className="btn-default btn-link-primary float-right" onClick={this.handleRedirect}>Editar</Button>}
               {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right" onClick={() => this.highlightPublication(data.id)} >Destacar</Button>}
-              <Button className="btn-default btn-link-primary float-right" onClick={() => history.push(`/carDetail?publication_id=${data.id}&t=${getUserToken()}`)} >Ver Publicación</Button>
+              <Button className="btn-default btn-link-primary float-right" onClick={() => history.push(`/carDetail?publication_id=${data.id}&t=${getUserToken()}`)} >Ver</Button>
               {/* {stateName === 'Vencida' && <Button className="btn-default btn-link-primary float-right" onClick={() => {}} >Editar Vigencia</Button>} */}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right" onClick={() => { this.toggleQuestionModal('desaprobar'); }} >Desaprobar</Button>}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right" onClick={() => { this.toggleQuestionModal('aprobar'); }} >Aprobar</Button>}

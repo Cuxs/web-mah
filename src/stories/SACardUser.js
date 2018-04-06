@@ -97,14 +97,6 @@ class CardUser extends React.Component {
           <div className="underline" />
           <div className="row">
             <Button
-              className="btn-link-primary float-left"
-              style={{ position: 'relative', display: 'inline' }}
-              color="primary"
-              onClick={() => this.toggle(true)}
-            >
-              ELIMINAR
-            </Button>
-            <Button
               className="btn-link-primary float-right"
               color="primary"
               onClick={() => {
@@ -112,6 +104,14 @@ class CardUser extends React.Component {
               }}
             >
               VER MÁS
+            </Button>
+            <Button
+              className="btn-link-primary float-left"
+              style={{ position: 'relative', display: 'inline' }}
+              color="primary"
+              onClick={() => this.toggle(true)}
+            >
+              ELIMINAR
             </Button>
           </div>
         </div>
