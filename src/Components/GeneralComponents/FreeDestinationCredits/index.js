@@ -6,6 +6,7 @@ import { Col, Row, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 're
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
+import InputOrText from '../../../stories/InputOrText';
 
 class FreeDestinationCredits extends React.Component {
   constructor(props) {
@@ -28,6 +29,10 @@ class FreeDestinationCredits extends React.Component {
       phone: '',
       phoneValidate: false,
       messagge: '',
+
+      isAdmin: true,
+      title: 'No hace falta que vendas tu auto!',
+      text: 'Usalo de garantía, solicitá un préstamo y usa el dinero para lo que vos quieras.',
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -68,17 +73,24 @@ class FreeDestinationCredits extends React.Component {
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-8 float-right">
-                <div className="text-block">
-                  <h4 className="title-division-primary">No hace falta que vendas tu auto!</h4>
-                  <p>Usalo de garantía, solicitá un préstamo y usa el dinero para lo que vos quieras.</p>
-                </div>
-    
+                {this.state.isAdmin ?
+                  <div>
+                    <InputOrText type="p" text={this.state.title} style="title-division-primary" onChange={title => this.setState({ title })} />
+                    <InputOrText text={this.state.text} onChange={text => this.setState({ text })} />
+                  </div>
+                :
+                  <div className="text-block">
+                    <h4 className="title-division-primary">{this.state.title}</h4>
+                    <p>{this.state.text}</p>
+                  </div>
+                }
+
                 <div className="steps">
                   <div className="step">
                     <h6>¿Como?</h6>
                     <h4>Completa los datos a continuación y un asesor se pondrá en contacto con vos a la brevedad.</h4>
                   </div>
-    
+
                   <div className="step">
                     <h6>¿Qué necesitamos?</h6>
                     <h4>Sólo con tu DNI.</h4>

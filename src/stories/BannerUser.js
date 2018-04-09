@@ -3,6 +3,7 @@ import { Row, Button } from 'reactstrap';
 import { stringify } from 'query-string';
 
 import Input from './Input';
+import InputOrText from './InputOrText';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -12,6 +13,7 @@ class BannerUser extends React.Component {
     this.state = {
       email: '',
       emailValidate: true,
+      text: 'Publicá gratis, crea tu cuenta y comenzá a ganar dinero vendiendo autos!',
     };
   }
 
@@ -29,7 +31,11 @@ class BannerUser extends React.Component {
           <div className="container">
             <Row className="align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
-                <h3>Publicá gratis, crea tu cuenta y comenzá a ganar dinero vendiendo autos!</h3>
+                {this.state.isAdmin ?
+                  <InputOrText type="h3" text={this.state.text} onChange={text => this.setState({ text })} />
+                :
+                  <h3>{this.state.text}</h3>
+                }
               </div>
               <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 float-right" >
                 <div className="cont-form">
@@ -46,7 +52,7 @@ class BannerUser extends React.Component {
               </div>
             </Row>
           </div>
-    
+
         </Row>
       </div>
     );

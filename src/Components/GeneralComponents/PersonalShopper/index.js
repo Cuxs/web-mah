@@ -11,7 +11,7 @@ import 'react-select/dist/react-select.css';
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
-
+import InputOrText from '../../../stories/InputOrText';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery } from '../../../ApolloQueries/TautosQuery';
 import { prepareArraySelect, generateYearArray } from '../../../Modules/functions';
@@ -31,6 +31,10 @@ class PersonalShopper extends React.Component {
       Groups: [],
       Models: [],
       observation: '',
+
+      isAdmin: true,
+      title: '¿Cansado de buscar?',
+      text: 'En simples pasos contanos lo que buscás y nosotros lo buscamos por vos.',
     };
   }
 
@@ -105,10 +109,17 @@ class PersonalShopper extends React.Component {
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-8 float-right">
-                <div className="text-block">
-                  <h4 className="title-division-primary">¿Cansado de buscar?</h4>
-                  <p>En simples pasos contanos lo que buscás y nosotros lo buscamos por vos.</p>
-                </div>
+                {this.state.isAdmin ?
+                  <div>
+                    <InputOrText type="p" text={this.state.title} style="title-division-primary" onChange={title => this.setState({ title })} />
+                    <InputOrText text={this.state.text} onChange={text => this.setState({ text })} />
+                  </div>
+                :
+                  <div className="text-block">
+                    <h4 className="title-division-primary">{this.state.title}</h4>
+                    <p>{this.state.text}</p>
+                  </div>
+                }
 
                 <div className="steps">
                   <div className="step">
