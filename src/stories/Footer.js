@@ -41,7 +41,7 @@ export default ({ history }) => (
         </div>
         <div className="col-md-12 text-center">
           <hr />
-           <p>© Copyright 2015/2016 - Todos los derechos reservados.</p>
+           <p>© Copyright 2017/2018 - Todos los derechos reservados.</p>
         </div>
       </Row>
     </div>
