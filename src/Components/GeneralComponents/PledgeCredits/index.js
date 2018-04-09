@@ -11,6 +11,7 @@ import { parse } from 'query-string';
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
 import { thousands } from '../../../Modules/functions';
+import InputOrText from '../../../stories/InputOrText';
 
 class PledgeCredits extends React.Component {
   constructor(props, context) {
@@ -38,6 +39,21 @@ class PledgeCredits extends React.Component {
       phoneValidate: false,
       messagge: '',
       modal: false,
+
+      isAdmin: true,
+      title: 'Llegó el momento de cambiar tu auto!',
+      text: 'Con nuestros planes de financiación lo harás de manera más fácil y rápida.',
+      title1: '¿Como?',
+      text1: 'Comprando tu auto en miautohoy.com financiamos tu usado o 0km hasta en un 60% de su valor.',
+      title2: '¿Qué necesitamos?',
+      text2: 'Sólo con tu DNI.',
+      title3: 'Elegí el monto que desees que te financien (*), la cantidad de cuotas (*2), y enterate de cuanto pagarías por mes. (*3,4,5 y 6)',
+      text31: '(*) Monto mínimo de $10.000 y máximo de $500.000.',
+      text32: '(*2) Cuotas mínimas de 6 meses y máximas de 60 meses.',
+      text33: '(*3) Información valor cuota promedio.',
+      text34: '(*4) Incluye cuota pura, gastos administrativos e IVA.',
+      text35: '(*5) No incluye seguro del vehículo.',
+      text36: '(*6) Corresponde a simulación financiera. El presente cálculo es meramente indicativo, pudiendo variar en función del monto y plazo solicitado. El mismo no implica oferta de crédito ni aceptación de la solicitud de crédito. El efectivo otorgamiento está sujeto está sujeto al análisis que realice la institución de la aptitud crediticia del solicitante. CFTNA máximo: 66%',
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -132,23 +148,44 @@ class PledgeCredits extends React.Component {
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">
-              <div className="col-md-8 float-right">
-                <div className="text-block">
-                  <h4 className="title-division-primary">Llegó el momento de cambiar tu auto!</h4>
-                  <p>Con nuestros planes de financiación lo harás de manera más fácil y rápida.</p>
-                </div>
+              <div className="col-md-8 col-sm-12 float-right">
+                {this.state.isAdmin ?
+                  <div>
+                    <InputOrText type="p" text={this.state.title} style="title-division-primary" onChange={title => this.setState({ title })} />
+                    <InputOrText text={this.state.text} onChange={text => this.setState({ text })} />
+                    <div className="steps">
+                      <div className="step">
+                        <InputOrText type="h6" text={this.state.title1} onChange={title1 => this.setState({ title1 })} />
+                        <InputOrText type="h4" text={this.state.text1} onChange={text1 => this.setState({ text1 })} />
+                      </div>
 
-                <div className="steps">
-                  <div className="step">
-                    <h6>¿Como?</h6>
-                    <h4>Comprando tu auto en miautohoy.com <b>financiamos tu usado o 0km</b> hasta en un 60% de su valor.</h4>
+                      <div className="step">
+                        <InputOrText type="h6" text={this.state.title2} onChange={title2 => this.setState({ title2 })} />
+                        <InputOrText type="h4" text={this.state.text2} onChange={text2 => this.setState({ text2 })} />
+                      </div>
+                    </div>
                   </div>
+                :
+                  <div>
+                    <div className="text-block">
+                      <h4 className="title-division-primary">{this.state.title}</h4>
+                    </div>
+                    <div className="text-block">
+                      <p>{this.state.text}</p>
+                    </div>
+                    <div className="steps">
+                      <div className="step">
+                        <h6>{this.state.title1}</h6>
+                        <h4>{this.state.text1}</h4>
+                      </div>
 
-                  <div className="step">
-                    <h6>¿Qué necesitamos?</h6>
-                    <h4>Sólo con tu DNI.</h4>
+                      <div className="step">
+                        <h6>{this.state.title2}</h6>
+                        <h4>{this.state.text2}</h4>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                }
 
                 <h6>SIMULÁ TU CUOTA</h6>
                 <div className="simulator-container" >
@@ -179,21 +216,28 @@ class PledgeCredits extends React.Component {
                   }
                 </div>
 
-                <small>
-                  <h6>Elegí el monto que desees que te financien (*), la cantidad de cuotas (*2), y enterate de cuanto
-                    pagarías por mes. (*3,4,5 y 6)
-                  </h6>
-                  <p className="small-letter">(*) Monto mínimo de $10.000 y máximo de $500.000.</p>
-                  <p className="small-letter">(*2) Cuotas mínimas de 6 meses y máximas de 60 meses.</p>
-                  <p className="small-letter">(*3) Información valor cuota promedio.</p>
-                  <p className="small-letter">(*4) Incluye cuota pura, gastos administrativos e IVA.</p>
-                  <p className="small-letter">(*5) No incluye seguro del vehículo.</p>
-                  <p className="small-letter">(*6) Corresponde a simulación financiera. El presente cálculo es meramente indicativo, pudiendo
-                    variar en función del monto y plazo solicitado. El mismo no implica oferta de crédito ni
-                    aceptación de la solicitud de crédito. El efectivo otorgamiento está sujeto está sujeto al análisis
-                    que realice la institución de la aptitud crediticia del solicitante. CFTNA máximo: 66%
-                  </p>
-                </small>
+                {this.state.isAdmin ?
+                  <small>
+                    <InputOrText type="h6" text={this.state.title3} onChange={title3 => this.setState({ title3 })} />
+                    <InputOrText text={this.state.text31} style="small-letter" onChange={text31 => this.setState({ text31 })} />
+                    <InputOrText text={this.state.text32} style="small-letter" onChange={text32 => this.setState({ text32 })} />
+                    <InputOrText text={this.state.text33} style="small-letter" onChange={text33 => this.setState({ text33 })} />
+                    <InputOrText text={this.state.text34} style="small-letter" onChange={text34 => this.setState({ text34 })} />
+                    <InputOrText text={this.state.text35} style="small-letter" onChange={text35 => this.setState({ text35 })} />
+                    <InputOrText text={this.state.text36} style="small-letter" onChange={text36 => this.setState({ text36 })} />
+                  </small>
+                :
+                  <small>
+                    <h6>{this.state.title3}</h6>
+                    <p className="small-letter">{this.state.text31}</p>
+                    <p className="small-letter">{this.state.text32}</p>
+                    <p className="small-letter">{this.state.text33}</p>
+                    <p className="small-letter">{this.state.text34}</p>
+                    <p className="small-letter">{this.state.text35}</p>
+                    <p className="small-letter">{this.state.text36}</p>
+                  </small>
+                }
+
               </div>
             </Col>
             <Col md="6" sm="12" xs="12">

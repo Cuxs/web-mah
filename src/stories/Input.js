@@ -32,6 +32,11 @@ class InputSpecial extends Component {
         errorMessage = 'Por favor, ingrese solo letras';
         break;
 
+      case 'string':
+        re = /./;
+        errorMessage = 'Por favor, ingrese solo letras';
+        break;
+
       case 'number':
         re = /^\d+$/;
         errorMessage = 'Por favor, ingrese solo números';
