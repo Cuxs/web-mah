@@ -28,8 +28,12 @@ class InputOrText extends Component {
 
   renderText() {
     switch (this.props.type) {
+      case 'h3':
+        return <h3 className={this.props.style}>{this.props.text}</h3>;
       case 'h4':
         return <h4 className={this.props.style}>{this.props.text}</h4>;
+      case 'h5':
+        return <h5 className={this.props.style}>{this.props.text}</h5>;
       case 'h6':
         return <h6 className={this.props.style}>{this.props.text}</h6>;
       default:

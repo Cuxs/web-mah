@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 import { AllBrandsQuery, GroupsQuery } from '../ApolloQueries/TautosQuery';
 import { prepareArraySelect } from '../Modules/functions';
-
+import InputOrText from './InputOrText';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -17,6 +17,7 @@ class Banner extends React.Component {
       carState: 'Nuevo',
       brand: '',
       group: '',
+      text: 'Publicá gratis, sin registro. Vendé ya en Mi Auto Hoy!',
     };
   }
 
@@ -59,6 +60,11 @@ class Banner extends React.Component {
           <div className="container">
             <Row className="align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
+                {this.state.isAdmin ?
+                  <InputOrText type="h3" text={this.state.text} onChange={text => this.setState({ text })} />
+                :
+                  <h3>{this.state.text}</h3>
+                }
                 <h3>Publicá gratis, sin registro. Vendé ya en Mi Auto Hoy!</h3>
               </div>
               <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 align-self-end" >

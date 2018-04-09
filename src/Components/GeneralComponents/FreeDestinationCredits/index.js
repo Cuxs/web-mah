@@ -6,6 +6,7 @@ import { Col, Row, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 're
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
+import InputOrText from '../../../stories/InputOrText';
 
 class FreeDestinationCredits extends React.Component {
   constructor(props) {
