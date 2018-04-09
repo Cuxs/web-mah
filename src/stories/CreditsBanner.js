@@ -16,15 +16,16 @@ const style = {
     borderRadius: '40px',
   },
 };
-
-export default ({ history }) => (
+// const texts = prepareTextForSection(PageTexts, ['title2, text2, title3, text3, title4, text4']);
+const CreditsBanner = ({ history, PageTexts }) => (
   <div className="container-fluid">
     <Row className="home-posibilities">
       <Col md="4" sm="12" xs="12">
-        <Row className="justify-content-between" style={{height:'100%'}}>
+        <Row className="justify-content-between" style={{ height: '100%' }}>
           <Col md="4" sm="3" xs="12" className="text-right">
-            <img src="/assets/images/icon-home-1.png" srcSet="/assets/images/icon-home-1@2x.svg"  alt="banner" />
+            <img src="/assets/images/icon-home-1.png" srcSet="/assets/images/icon-home-1@2x.svg" alt="banner" />
           </Col>
+
           <Col md="8" sm="9" xs="12" className="helper-align-flexs">
             <h5>Créditos Prendarios </h5>
             <p>Créditos a tu medida, a las tazas más bajas y hasta con 60 meses de plazo.</p>
@@ -33,7 +34,7 @@ export default ({ history }) => (
         </Row>
       </Col>
       <Col md="4" sm="12" xs="12">
-        <Row className="justify-content-between" style={{height:'100%'}}>
+        <Row className="justify-content-between" style={{ height: '100%' }}>
           <Col md="4" sm="3" xs="12" className="text-right">
             <img src="/assets/images/icon-home-2.png" srcSet="/assets/images/icon-home-2@2x.svg" alt="banner" />
           </Col>
@@ -45,7 +46,7 @@ export default ({ history }) => (
         </Row>
       </Col>
       <Col md="4" sm="12" xs="12">
-        <Row className="justify-content-between" style={{height:'100%'}}>
+        <Row className="justify-content-between" style={{ height: '100%' }}>
           <Col md="4" sm="3" xs="12" className="text-right">
             <img src="/assets/images/icon-home-3.png" srcSet="/assets/images/icon-home-3@2x.svg" alt="banner" />
           </Col>
@@ -59,4 +60,4 @@ export default ({ history }) => (
     </Row>
   </div>
 );
-
+export default CreditsBanner;
