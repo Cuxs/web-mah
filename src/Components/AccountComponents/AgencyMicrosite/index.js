@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { Col, Row, Button, Label, Input, ModalHeader, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
+import _ from 'lodash';
 
 import AdminBar from '../../../stories/AdminBar';
 
@@ -55,8 +56,8 @@ class AgencyMicrosite extends Component {
         agencyEmail,
         agencyName,
         agencyPhone,
-        previewProfileImage: profileImage,
-        previewBannerImage: bannerImage,
+        previewProfileImage: _.isNull(profileImage) ? 'default.jpg' : profileImage,
+        previewBannerImage: _.isNull(bannerImage) ? 'default.jpg' : bannerImage,
       });
     }
   }

@@ -32,7 +32,7 @@ class StepOne extends React.Component {
   render() {
     return (
       <div>
-        <RegisterBar onlyLogin />
+        <RegisterBar onlyLogin history={this.props.history} />
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">
