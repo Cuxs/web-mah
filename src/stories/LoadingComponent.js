@@ -1,20 +1,27 @@
 import React from 'react';
-import Anime from 'react-anime';
 /* eslint react/jsx-filename-extension: 0 */
 
 const LoadingComponent = () => (
   <div>
-    <Anime
-      easing="easeOutElastic"
-      duration={1600}
-      direction="alternate"
-      loop
-      scale={[1.15, 0.9]}
-    >
-      <div style={{ height: '100vh' }} className="d-flex justify-content-center align-items-center">
-        <img src="/logo.png" alt="Cargando..." />
-      </div>
-    </Anime>
+    <div style={{ height: '100vh' }} className="d-flex justify-content-center align-items-center">
+      <img src="/logo.png" alt="Cargando..." />
+    </div>
+    <img
+      src="/loader.gif"
+      alt="..."
+      style={{
+        position:'absolute',
+        zIndex: '2',
+        top: '200px',
+        bottom: '0px',
+        left: '0px',
+        right: '0px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+      }}
+    />
   </div>
 
 );

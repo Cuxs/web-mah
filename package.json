@@ -20,7 +20,6 @@
     "moment": "^2.20.1",
     "query-string": "^5.0.1",
     "react": "^16.2.0",
-    "react-anime": "^2.1.0",
     "react-apollo": "^2.0.4",
     "react-autosuggest": "^9.3.2",
     "react-chat-ui": "^0.3.0",
