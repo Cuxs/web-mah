@@ -13,8 +13,12 @@ import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
 import InputOrText from '../../../stories/InputOrText';
 
+import {
+  GetTextsQuery,
+} from '../../../ApolloQueries/TextsQueries';
 import { AllBrandsQuery, GroupsQuery, ModelsQuery } from '../../../ApolloQueries/TautosQuery';
 import { prepareArraySelect, generateYearArray } from '../../../Modules/functions';
+import { isAdminLogged } from '../../../Modules/sessionFunctions';
 
 
 class PersonalShopper extends React.Component {
@@ -31,11 +35,17 @@ class PersonalShopper extends React.Component {
       Groups: [],
       Models: [],
       observation: '',
-
-      isAdmin: true,
-      title: '¿Cansado de buscar?',
-      text: 'En simples pasos contanos lo que buscás y nosotros lo buscamos por vos.',
+      title1: '',
+      text1: '',
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.Texts.loading) {
+      const texts = {};
+      texts.fetched = true;
+      nextProps.Texts.PageTexts.map(row => texts[row.section] = row.text);
+      this.setState({ ...texts });
+    }
   }
 
   onChangeBrand(newBrand) {
@@ -109,16 +119,17 @@ class PersonalShopper extends React.Component {
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-8 float-right">
-                {this.state.isAdmin ?
-                  <div>
-                    <InputOrText type="p" text={this.state.title} style="title-division-primary" onChange={title => this.setState({ title })} />
-                    <InputOrText text={this.state.text} onChange={text => this.setState({ text })} />
-                  </div>
+                {isAdminLogged() ?
+                 this.state.fetched &&
+                 <div>
+                   <InputOrText type="p" text={this.state.title1} style="title-division-primary" onChange={title1 => this.setState({ title1 })} />
+                   <InputOrText text={this.state.text1} onChange={text1 => this.setState({ text1 })} />
+                 </div>
                 :
-                  <div className="text-block">
-                    <h4 className="title-division-primary">{this.state.title}</h4>
-                    <p>{this.state.text}</p>
-                  </div>
+                 <div className="text-block">
+                   <h4 className="title-division-primary">{this.state.title1}</h4>
+                   <p>{this.state.text1}</p>
+                 </div>
                 }
 
                 <div className="steps">
@@ -257,9 +268,10 @@ class PersonalShopper extends React.Component {
 const WithAllBrands = graphql(AllBrandsQuery, {
   name: 'ta3AllBrands',
 });
+const withTextsQuery = graphql(GetTextsQuery, { options: { variables: { route: 'personalShopperS1' } }, name: 'Texts' });
 
 
-const withData = compose(WithAllBrands);
+const withData = compose(WithAllBrands, withTextsQuery);
 
 export default withApollo(withData(PersonalShopper));
 

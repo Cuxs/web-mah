@@ -10,6 +10,9 @@ import {
   HomeQuery,
   LastPublicationsQuery,
 } from '../../../ApolloQueries/HomeQuery';
+import {
+  GetTextsQuery,
+} from '../../../ApolloQueries/TextsQueries';
 import CarHomeContainer from '../../../stories/CarHomeContainer';
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
@@ -23,27 +26,27 @@ import LoadingComponent from '../../../stories/LoadingComponent';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
-const script = document.createElement('script');
+/* const script = document.createElement('script');
 
 script.src = '//code.tidio.co/2adtbpujxsburoaa4sm7umttnp1j1wjr.js';
 script.async = true;
 
-document.body.appendChild(script);
+document.body.appendChild(script); */
 const renderWhileLoading = (component, propName = 'data') =>
   branch(
     props => props[propName] && props[propName].loading,
     renderComponent(component),
   );
 const Home = ({
-  data, history, location, lastPubs,
+  data, history, location, lastPubs, Texts,
 }) => (
   <div>
     {!data.loading && (
       <div>
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
-        <Banner />
-        <CreditsBanner history={history} />
+        {!Texts.loading && <Banner Texts={Texts} />}
+        <CreditsBanner history={history} Texts={Texts} />
         <CarHomeContainer>
           {data.AllPublications.map(row => (
             <CarResult
@@ -81,6 +84,7 @@ const options = {
     stateName: 'Activas',
   },
 };
+const withTextsQuery = graphql(GetTextsQuery, { options: { variables: { route: 'home' } }, name: 'Texts' });
 const withHomeQuery = graphql(HomeQuery, { options });
 const withLastPublicationsQuery = graphql(LastPublicationsQuery, {
   name: 'lastPubs',
@@ -89,6 +93,7 @@ const withData = compose(
   withLastPublicationsQuery,
   withHomeQuery,
   renderWhileLoading(LoadingComponent, 'data'),
+  withTextsQuery,
 );
 
 export default withData(Home);

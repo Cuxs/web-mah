@@ -17,6 +17,7 @@ import {
   GetTextsQuery,
 } from '../../../ApolloQueries/TextsQueries';
 import { P } from 'glamorous';
+import { isAdminLogged } from '../../../Modules/sessionFunctions';
 
 class PledgeCredits extends React.Component {
   constructor(props, context) {
@@ -45,7 +46,6 @@ class PledgeCredits extends React.Component {
       messagge: '',
       modal: false,
       fetched: false,
-      isAdmin: true,
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -149,7 +149,7 @@ class PledgeCredits extends React.Component {
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-8 col-sm-12 float-right">
-                {this.state.isAdmin ?
+                {isAdminLogged() ?
                   this.state.fetched &&
                   <div>
                     <InputOrText type="p" text={this.state.title1} style="title-division-primary" onChange={title1 => this.setState({ title1 })} />
@@ -217,7 +217,7 @@ class PledgeCredits extends React.Component {
                   }
                 </div>
 
-                {this.state.isAdmin ?
+                {isAdminLogged() ?
                   this.state.fetched &&                
                   <small>
                     <InputOrText type="h6" text={this.state.text4} onChange={text4 => this.setState({ text4 })} />

@@ -2,11 +2,22 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
+import {
+  Col,
+  Row,
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+} from 'reactstrap';
+import { graphql, compose, withApollo } from 'react-apollo';
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
 import InputOrText from '../../../stories/InputOrText';
+import { GetTextsQuery } from '../../../ApolloQueries/TextsQueries';
+import { isAdminLogged } from '../../../Modules/sessionFunctions';
 
 class FreeDestinationCredits extends React.Component {
   constructor(props) {
@@ -29,10 +40,8 @@ class FreeDestinationCredits extends React.Component {
       phone: '',
       phoneValidate: false,
       messagge: '',
-
-      isAdmin: true,
-      title: 'No hace falta que vendas tu auto!',
-      text: 'Usalo de garantía, solicitá un préstamo y usa el dinero para lo que vos quieras.',
+      title1: '',
+      text1: '',
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -45,9 +54,25 @@ class FreeDestinationCredits extends React.Component {
 
   disabled() {
     const {
-      nameValidate, dniValidate, addressValidate, ganancyValidate, financyAmountValidate, creditReasonValidate, emailValidate, phoneValidate,
+      nameValidate,
+      dniValidate,
+      addressValidate,
+      ganancyValidate,
+      financyAmountValidate,
+      creditReasonValidate,
+      emailValidate,
+      phoneValidate,
     } = this.state;
-    return !(nameValidate && dniValidate && addressValidate && ganancyValidate && financyAmountValidate && creditReasonValidate && emailValidate && phoneValidate);
+    return !(
+      nameValidate &&
+      dniValidate &&
+      addressValidate &&
+      ganancyValidate &&
+      financyAmountValidate &&
+      creditReasonValidate &&
+      emailValidate &&
+      phoneValidate
+    );
   }
 
   requestCredit() {
@@ -65,36 +90,91 @@ class FreeDestinationCredits extends React.Component {
     console.log(dataRequest);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.Texts.loading) {
+      const texts = {};
+      texts.fetched = true;
+      nextProps.Texts.PageTexts.map(row => (texts[row.section] = row.text));
+      this.setState({ ...texts });
+    }
+  }
   render() {
     return (
       <div>
-        <SearchBar history={this.props.history} location={this.props.location} />
+        <SearchBar
+          history={this.props.history}
+          location={this.props.location}
+        />
         <div className="container-fluid register-steps">
           <Row>
             <Col md="6" sm="12" xs="12" className="bg">
               <div className="col-md-8 float-right">
-                {this.state.isAdmin ?
-                  <div>
-                    <InputOrText type="p" text={this.state.title} style="title-division-primary" onChange={title => this.setState({ title })} />
-                    <InputOrText text={this.state.text} onChange={text => this.setState({ text })} />
-                  </div>
-                :
+                {isAdminLogged() ? (
+                  this.state.fetched && (
+                    <div>
+                      <InputOrText
+                        type="p"
+                        text={this.state.title1}
+                        style="title-division-primary"
+                        onChange={title1 => this.setState({ title1 })}
+                      />
+                      <InputOrText
+                        text={this.state.text1}
+                        onChange={text1 => this.setState({ text1 })}
+                      />
+                    </div>
+                  )
+                ) : (
                   <div className="text-block">
-                    <h4 className="title-division-primary">{this.state.title}</h4>
-                    <p>{this.state.text}</p>
+                    <h4 className="title-division-primary">
+                      {this.state.title1}
+                    </h4>
+                    <p>{this.state.text1}</p>
                   </div>
-                }
-
+                )}
                 <div className="steps">
-                  <div className="step">
-                    <h6>¿Como?</h6>
-                    <h4>Completa los datos a continuación y un asesor se pondrá en contacto con vos a la brevedad.</h4>
-                  </div>
-
-                  <div className="step">
-                    <h6>¿Qué necesitamos?</h6>
-                    <h4>Sólo con tu DNI.</h4>
-                  </div>
+                  {isAdminLogged() ? (
+                    this.state.fetched && (
+                      <div className="step">
+                        <InputOrText
+                          type="h6"
+                          text={this.state.title2}
+                          onChange={title2 => this.setState({ title2 })}
+                        />
+                        <InputOrText
+                          type="h4"
+                          text={this.state.text2}
+                          onChange={text2 => this.setState({ text2 })}
+                        />
+                      </div>
+                    )
+                  ) : (
+                    <div className="step">
+                      <h6>{this.state.title2}</h6>
+                      <h4>{this.state.text2}</h4>
+                    </div>
+                  )}
+                  {isAdminLogged() ? (
+                    this.state.fetched && (
+                      <div className="step">
+                        <InputOrText
+                          type="h6"
+                          text={this.state.title3}
+                          onChange={title3 => this.setState({ title3 })}
+                        />
+                        <InputOrText
+                          type="h4"
+                          text={this.state.text2}
+                          onChange={text2 => this.setState({ text2 })}
+                        />
+                      </div>
+                    )
+                  ) : (
+                    <div className="step">
+                      <h6>{this.state.title3}</h6>
+                      <h4>{this.state.text3}</h4>
+                    </div>
+                  )}
                 </div>
               </div>
             </Col>
@@ -105,7 +185,9 @@ class FreeDestinationCredits extends React.Component {
                   label="Nombre y Apellido"
                   type="text"
                   value={this.state.name}
-                  onChange={event => this.setState({ name: event.target.value })}
+                  onChange={event =>
+                    this.setState({ name: event.target.value })
+                  }
                   validate={isValid => this.setState({ nameValidate: isValid })}
                 />
                 <Input
@@ -119,69 +201,113 @@ class FreeDestinationCredits extends React.Component {
                   label="Domicilio"
                   type="alphanumeric"
                   value={this.state.address}
-                  onChange={event => this.setState({ address: event.target.value })}
-                  validate={isValid => this.setState({ addressValidate: isValid })}
+                  onChange={event =>
+                    this.setState({ address: event.target.value })
+                  }
+                  validate={isValid =>
+                    this.setState({ addressValidate: isValid })
+                  }
                 />
                 <Input
                   label="Ingresos"
                   type="number"
                   value={this.state.ganancy}
-                  onChange={event => this.setState({ ganancy: event.target.value })}
-                  validate={isValid => this.setState({ ganancyValidate: isValid })}
+                  onChange={event =>
+                    this.setState({ ganancy: event.target.value })
+                  }
+                  validate={isValid =>
+                    this.setState({ ganancyValidate: isValid })
+                  }
                 />
                 <Input
                   label="Monto a financiar"
                   type="number"
                   value={this.state.financyAmount}
-                  onChange={event => this.setState({ financyAmount: event.target.value })}
-                  validate={isValid => this.setState({ financyAmountValidate: isValid })}
+                  onChange={event =>
+                    this.setState({ financyAmount: event.target.value })
+                  }
+                  validate={isValid =>
+                    this.setState({ financyAmountValidate: isValid })
+                  }
                 />
                 <Input
                   label="Destino del crédito"
                   type="text"
                   value={this.state.creditReason}
-                  onChange={event => this.setState({ creditReason: event.target.value })}
-                  validate={isValid => this.setState({ creditReasonValidate: isValid })}
+                  onChange={event =>
+                    this.setState({ creditReason: event.target.value })
+                  }
+                  validate={isValid =>
+                    this.setState({ creditReasonValidate: isValid })
+                  }
                 />
                 <Input
                   label="Email"
                   type="text"
                   value={this.state.email}
-                  onChange={event => this.setState({ email: event.target.value })}
-                  validate={isValid => this.setState({ emailValidate: isValid })}
+                  onChange={event =>
+                    this.setState({ email: event.target.value })
+                  }
+                  validate={isValid =>
+                    this.setState({ emailValidate: isValid })
+                  }
                 />
                 <Input
                   label="Teléfono"
                   type="number"
                   value={this.state.phone}
-                  onChange={event => this.setState({ phone: event.target.value })}
-                  validate={isValid => this.setState({ phoneValidate: isValid })}
+                  onChange={event =>
+                    this.setState({ phone: event.target.value })
+                  }
+                  validate={isValid =>
+                    this.setState({ phoneValidate: isValid })
+                  }
                 />
                 <Input
                   label="Mensaje"
                   type="textarea"
                   value={this.state.messagge}
-                  onChange={event => this.setState({ messagge: event.target.value })}
-                  validate={isValid => this.setState({ messaggeValidate: isValid })}
+                  onChange={event =>
+                    this.setState({ messagge: event.target.value })
+                  }
+                  validate={isValid =>
+                    this.setState({ messaggeValidate: isValid })
+                  }
                 />
-                <Button color="primary" className="float-right" >Solicitar</Button>
+                <Button color="primary" className="float-right">
+                  Solicitar
+                </Button>
               </div>
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggleModal}>¡Felicitaciones!</ModalHeader>
+            <ModalHeader toggle={this.toggleModal}>
+              ¡Felicitaciones!
+            </ModalHeader>
             <ModalBody>
-              <div className="col-md-6 offset-md-3">Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.</div>
+              <div className="col-md-6 offset-md-3">
+                Tu consulta ha sido enviado correctamente. Nos contactaremos a
+                la brevedad para brindarte toda la información necesaria.
+              </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={() => this.props.history.push('/')} >OK</Button>
+              <Button
+                color="primary"
+                onClick={() => this.props.history.push('/')}
+              >
+                OK
+              </Button>
             </ModalFooter>
           </Modal>
         </div>
       </div>
-
     );
   }
 }
+const withTextsQuery = graphql(GetTextsQuery, {
+  options: { variables: { route: 'freeDestinationCredits' } },
+  name: 'Texts',
+});
+const withData = compose(withTextsQuery);
 
-export default FreeDestinationCredits;
+export default withApollo(withData(FreeDestinationCredits));
