@@ -2,16 +2,23 @@ import React from 'react';
 import { Row } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 import InputOrText from './InputOrText';
+import { isAdminLogged } from '../Modules/sessionFunctions';
 
 
 class Banner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAdmin: true,
-      text: 'Cambia la forma de comprar o vender tu auto',
+      title1: '',
     };
   }
+  componentWillMount() {
+    const texts = {};
+    texts.fetched = true;
+    this.props.Texts.PageTexts.map(row => texts[row.section] = row.text);
+    this.setState({ ...texts });
+  }
+
 
   render() {
     return (
@@ -20,10 +27,10 @@ class Banner extends React.Component {
           <div className="container">
             <Row className="align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
-                {this.state.isAdmin ?
-                  <InputOrText type="h3" text={this.state.text} onChange={text => this.setState({ text })} />
+                {isAdminLogged() ?
+                  <InputOrText type="h3" text={this.state.title1} onChange={title1 => this.setState({ title1 })} />
                 :
-                  <h3>{this.state.text}</h3>
+                  <h3>{this.state.title1}</h3>
                 }
               </div>
             </Row>

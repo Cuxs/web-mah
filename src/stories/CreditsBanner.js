@@ -2,19 +2,27 @@ import React from 'react';
 import { Col, Row, Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 import InputOrText from './InputOrText';
+import { isAdminLogged } from '../Modules/sessionFunctions';
 
 class CreditsBanner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAdmin: true,
-      title: 'Créditos Prendarios ',
-      text: 'Créditos a tu medida, a las tazas más bajas y hasta con 60 meses de plazo.',
-      title2: 'Personal Shopper ',
-      text2: '¿Cansado de buscar? Te ayudamos a buscar un auto a tu medida asesorándote en cada proceso.',
-      title3: 'Créditos de libre destino ',
-      text3: 'Hacé con tu préstamo lo que desees y lo que siempre soñaste.',
+      title2: 'Créditos Prendarios ',
+      text2: 'Créditos a tu medida, a las tazas más bajas y hasta con 60 meses de plazo.',
+      title3: 'Personal Shopper ',
+      text3: '¿Cansado de buscar? Te ayudamos a buscar un auto a tu medida asesorándote en cada proceso.',
+      title4: 'Créditos de libre destino ',
+      text4: 'Hacé con tu préstamo lo que desees y lo que siempre soñaste.',
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.Texts.loading) {
+      const texts = {};
+      texts.fetched = true;
+      nextProps.Texts.PageTexts.map(row => texts[row.section] = row.text);
+      this.setState({ ...texts });
+    }
   }
 
   render() {
@@ -27,15 +35,15 @@ class CreditsBanner extends React.Component {
                 <img src="/assets/images/icon-home-1.png" srcSet="/assets/images/icon-home-1@2x.svg" alt="banner" />
               </Col>
               <Col md="8" sm="9" xs="12" className="helper-align-flexs">
-                {this.state.isAdmin ?
+                {isAdminLogged() ?
                   <div>
-                    <InputOrText type="h5" text={this.state.title} onChange={title => this.setState({ title })} />
-                    <InputOrText type="p" text={this.state.text} onChange={text => this.setState({ text })} />
+                    <InputOrText type="h5" text={this.state.title2} onChange={title2 => this.setState({ title2 })} />
+                    <InputOrText type="p" text={this.state.text2} onChange={text2 => this.setState({ text2 })} />
                   </div>
                 :
                   <div>
-                    <h5>{this.state.title}</h5>
-                    <p>{this.state.text}</p>
+                    <h5>{this.state.title2}</h5>
+                    <p>{this.state.text2}</p>
                   </div>
                 }
                 <Button color="primary" onClick={() => this.props.history.push('/pledgeCredits')} className="align-self-end"> Consultá</Button>
@@ -48,15 +56,15 @@ class CreditsBanner extends React.Component {
                 <img src="/assets/images/icon-home-2.png" srcSet="/assets/images/icon-home-2@2x.svg" alt="banner" />
               </Col>
               <Col md="8" sm="9" xs="12" className="helper-align-flexs">
-                {this.state.isAdmin ?
+                {isAdminLogged() ?
                   <div>
-                    <InputOrText type="h5" text={this.state.title2} onChange={title2 => this.setState({ title2 })} />
-                    <InputOrText type="p" text={this.state.text2} onChange={text2 => this.setState({ text2 })} />
+                    <InputOrText type="h5" text={this.state.title3} onChange={title3 => this.setState({ title3 })} />
+                    <InputOrText type="p" text={this.state.text3} onChange={text3 => this.setState({ text3 })} />
                   </div>
                 :
                   <div>
-                    <h5>{this.state.title2}</h5>
-                    <p>{this.state.text2}</p>
+                    <h5>{this.state.title3}</h5>
+                    <p>{this.state.text3}</p>
                   </div>
                 }
                 <Button color="primary" onClick={() => this.props.history.push('/personalShopperS1')} className="align-self-end"> Consultá</Button>
@@ -69,15 +77,15 @@ class CreditsBanner extends React.Component {
                 <img src="/assets/images/icon-home-3.png" srcSet="/assets/images/icon-home-3@2x.svg" alt="banner" />
               </Col>
               <Col md="8" sm="9" xs="12" className="helper-align-flexs">
-                {this.state.isAdmin ?
+                {isAdminLogged() ?
                   <div>
-                    <InputOrText type="h5" text={this.state.title3} onChange={title3 => this.setState({ title3 })} />
-                    <InputOrText type="p" text={this.state.text3} onChange={text3 => this.setState({ text3 })} />
+                    <InputOrText type="h5" text={this.state.title4} onChange={title4 => this.setState({ title4 })} />
+                    <InputOrText type="p" text={this.state.text4} onChange={text4 => this.setState({ text4 })} />
                   </div>
                 :
                   <div>
-                    <h5>{this.state.title3}</h5>
-                    <p>{this.state.text3}</p>
+                    <h5>{this.state.title4}</h5>
+                    <p>{this.state.text4}</p>
                   </div>
                 }
                 <Button color="primary" onClick={() => this.props.history.push('/freeDestinationCredits')} className="align-self-end"> Consultá</Button>
