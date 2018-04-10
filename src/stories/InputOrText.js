@@ -45,10 +45,11 @@ class InputOrText extends Component {
     const container = {
       marginTop: this.state.inputShow ? 30 : 0,
       alignItems: this.state.inputShow ? 'flex-start' : 'center',
+      justifyContent: 'space-between',
     };
     return (
       <Row style={container} >
-        <Col sm="10">
+        <Col sm="9">
           { this.state.inputShow ?
             <Input
               type="string"
@@ -62,7 +63,7 @@ class InputOrText extends Component {
             </div>
           }
         </Col>
-        <Col sm="2">
+        <Col sm="3">
           { this.state.inputShow ?
             <div className="d-flex flex-row" >
               <Button type="primary" className="btn-link-primary" style={{ marginRight: 5, padding: 2 }} onClick={() => this.save()} >
