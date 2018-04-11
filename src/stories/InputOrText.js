@@ -22,7 +22,7 @@ class InputOrText extends Component {
   }
 
   componentWillMount() {
-    this.setState({ originalText: this.props.text, text: this.props.text, height: this.props.height});
+    this.setState({ originalText: this.props.text, text: this.props.text, height: this.props.height });
   }
 
   cancel() {
@@ -73,6 +73,10 @@ class InputOrText extends Component {
       case 'h6':
         return <h6 className={this.props.style}>{this.props.text}</h6>;
       default:
+        if (this.props.multiple) {
+          const multipleLines = this.props.text.split(/\n/);
+          return multipleLines.map(row => <p className={this.props.style}>{row}</p>);
+        }
         return <p className={this.props.style}>{this.props.text}</p>;
     }
   }

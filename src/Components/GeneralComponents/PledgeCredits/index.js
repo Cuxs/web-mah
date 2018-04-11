@@ -142,6 +142,10 @@ class PledgeCredits extends React.Component {
       12: '12', 18: '18', 24: '24', 36: '36',
     };
     const fillStyle = { backgroundColor: '#e70404' };
+    let multipleLines = ['...'];
+    if (this.state.fetched) {
+      multipleLines = this.state.text5.split(/\n/);
+    }
     return (
       <div>
         <SearchBar history={this.props.history} location={this.props.location} />
@@ -221,12 +225,12 @@ class PledgeCredits extends React.Component {
                   this.state.fetched &&
                   <small>
                     <InputOrText section="text4" height="80px" route={this.props.location.pathname.slice(1)} type="h6" text={this.state.text4} onChange={text4 => this.setState({ text4 })} />
-                    <InputOrText section="text5" height="430px" route={this.props.location.pathname.slice(1)} text={this.state.text5} style="small-letter" onChange={text5 => this.setState({ text5 })} />
+                    <InputOrText section="text5" height="430px" multiple route={this.props.location.pathname.slice(1)} text={this.state.text5} style="small-letter" onChange={text5 => this.setState({ text5 })} />
                   </small>
                 :
                   <small>
                     <h6>{this.state.text4}</h6>
-                    <p className="small-letter">{this.state.text5}</p>
+                    {multipleLines.map(row => <p className="small-letter">{row}</p>)}
                   </small>
                 }
 
