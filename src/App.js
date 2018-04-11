@@ -35,6 +35,7 @@ import PublicateWithoutRegisterStepFour from './Components/GeneralComponents/Pub
 import SuperAdminPublications from './Components/AdminComponents/SuperAdminPublications';
 import SuperAdminInbox from './Components/AdminComponents/SuperAdminInbox';
 import SuperAdminUsers from './Components/AdminComponents/SuperAdminUsers';
+import SuperAdminRates from './Components/AdminComponents/SuperAdminRates';
 import TermsAndConditions from './Components/GeneralComponents/TermsAndConditions';
 import UserAdmin from './Components/AccountComponents/UserAdmin';
 import UserProfile from './Components/AccountComponents/UserProfile';
@@ -134,6 +135,7 @@ class App extends Component {
             <Route exact path="/superAdminInbox" component={SuperAdminInbox} />
             <Route exact path="/superAdminAllMessages" component={SuperAdminAllMessages} />
             <Route exact path="/superAdminUsers" component={SuperAdminUsers} />
+            <Route exact path="/superAdminRates" component={SuperAdminRates} />
             <Route exact path="/termsAndConditions" component={TermsAndConditions} />
             <Route exact path="/userAdmin" component={UserAdmin} />
             <Route exact path="/userPublications" component={UserPublications} />
