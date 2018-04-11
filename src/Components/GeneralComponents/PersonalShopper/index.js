@@ -122,8 +122,8 @@ class PersonalShopper extends React.Component {
                 {isAdminLogged() ?
                  this.state.fetched &&
                  <div>
-                   <InputOrText type="p" text={this.state.title1} style="title-division-primary" onChange={title1 => this.setState({ title1 })} />
-                   <InputOrText text={this.state.text1} onChange={text1 => this.setState({ text1 })} />
+                   <InputOrText section="title1" height="50px" route={this.props.location.pathname.slice(1)} type="p" text={this.state.title1} style="title-division-primary" onChange={title1 => this.setState({ title1 })} />
+                   <InputOrText section="text1" height="80px" route={this.props.location.pathname.slice(1)}  text={this.state.text1} onChange={text1 => this.setState({ text1 })} />
                  </div>
                 :
                  <div className="text-block">

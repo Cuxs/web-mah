@@ -113,12 +113,16 @@ class FreeDestinationCredits extends React.Component {
                   this.state.fetched && (
                     <div>
                       <InputOrText
+                        section="title1"
+                        height="70px"
+                        route={this.props.location.pathname.slice(1)}
                         type="p"
                         text={this.state.title1}
                         style="title-division-primary"
                         onChange={title1 => this.setState({ title1 })}
                       />
                       <InputOrText
+                        section="text1" route={this.props.location.pathname.slice(1)} 
                         text={this.state.text1}
                         onChange={text1 => this.setState({ text1 })}
                       />
@@ -139,9 +143,11 @@ class FreeDestinationCredits extends React.Component {
                         <InputOrText
                           type="h6"
                           text={this.state.title2}
+                          section="title2" height="40px" route={this.props.location.pathname.slice(1)} 
                           onChange={title2 => this.setState({ title2 })}
                         />
                         <InputOrText
+                        section="text2" height="120px" route={this.props.location.pathname.slice(1)} 
                           type="h4"
                           text={this.state.text2}
                           onChange={text2 => this.setState({ text2 })}
@@ -158,12 +164,15 @@ class FreeDestinationCredits extends React.Component {
                     this.state.fetched && (
                       <div className="step">
                         <InputOrText
+                        section="title3" height="40px" route={this.props.location.pathname.slice(1)} 
                           type="h6"
                           text={this.state.title3}
                           onChange={title3 => this.setState({ title3 })}
                         />
                         <InputOrText
                           type="h4"
+                        section="text2" height="120px" route={this.props.location.pathname.slice(1)} 
+                          
                           text={this.state.text2}
                           onChange={text2 => this.setState({ text2 })}
                         />

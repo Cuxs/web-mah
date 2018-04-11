@@ -37,8 +37,8 @@ class CreditsBanner extends React.Component {
               <Col md="8" sm="9" xs="12" className="helper-align-flexs">
                 {isAdminLogged() ?
                   <div>
-                    <InputOrText type="h5" text={this.state.title2} onChange={title2 => this.setState({ title2 })} />
-                    <InputOrText type="p" text={this.state.text2} onChange={text2 => this.setState({ text2 })} />
+                    <InputOrText type="h5" section="title2" route="home" text={this.state.title2} onChange={title2 => this.setState({ title2 })} />
+                    <InputOrText type="p" section="text2" height="120px" route="home" text={this.state.text2} onChange={text2 => this.setState({ text2 })} />
                   </div>
                 :
                   <div>
@@ -58,8 +58,8 @@ class CreditsBanner extends React.Component {
               <Col md="8" sm="9" xs="12" className="helper-align-flexs">
                 {isAdminLogged() ?
                   <div>
-                    <InputOrText type="h5" text={this.state.title3} onChange={title3 => this.setState({ title3 })} />
-                    <InputOrText type="p" text={this.state.text3} onChange={text3 => this.setState({ text3 })} />
+                    <InputOrText type="h5" section="title3" route="home" text={this.state.title3} onChange={title3 => this.setState({ title3 })} />
+                    <InputOrText type="p" section="text3" height="120px" route="home" text={this.state.text3} onChange={text3 => this.setState({ text3 })} />
                   </div>
                 :
                   <div>
@@ -79,8 +79,8 @@ class CreditsBanner extends React.Component {
               <Col md="8" sm="9" xs="12" className="helper-align-flexs">
                 {isAdminLogged() ?
                   <div>
-                    <InputOrText type="h5" text={this.state.title4} onChange={title4 => this.setState({ title4 })} />
-                    <InputOrText type="p" text={this.state.text4} onChange={text4 => this.setState({ text4 })} />
+                    <InputOrText type="h5" section="title4" route="home" text={this.state.title4} onChange={title4 => this.setState({ title4 })} />
+                    <InputOrText type="p" section="text4" height="120px" route="home" text={this.state.text4} onChange={text4 => this.setState({ text4 })} />
                   </div>
                 :
                   <div>

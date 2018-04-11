@@ -101,6 +101,7 @@ class InputSpecial extends Component {
       <FormGroup className={this.state.fieldValidation ? '' : 'has-danger'}>
         {this.props.label && <Label>{this.props.label}</Label>}
         <Input
+          style={this.props.style}
           placeholder={this.props.placeholder}
           type={this.props.type}
           value={this.props.value}

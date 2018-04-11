@@ -152,17 +152,17 @@ class PledgeCredits extends React.Component {
                 {isAdminLogged() ?
                   this.state.fetched &&
                   <div>
-                    <InputOrText type="p" text={this.state.title1} style="title-division-primary" onChange={title1 => this.setState({ title1 })} />
-                    <InputOrText text={this.state.text1} onChange={text1 => this.setState({ text1 })} />
+                    <InputOrText type="p" section="title1" route={this.props.location.pathname.slice(1)} text={this.state.title1} style="title-division-primary" onChange={title1 => this.setState({ title1 })} />
+                    <InputOrText text={this.state.text1} section="text1" route={this.props.location.pathname.slice(1)} onChange={text1 => this.setState({ text1 })} />
                     <div className="steps">
                       <div className="step">
-                        <InputOrText type="h6" text={this.state.title2} onChange={title2 => this.setState({ title2 })} />
-                        <InputOrText type="h4" text={this.state.text2} onChange={text2 => this.setState({ text2 })} />
+                        <InputOrText type="h6" section="title2" height="35px" route={this.props.location.pathname.slice(1)} text={this.state.title2} onChange={title2 => this.setState({ title2 })} />
+                        <InputOrText type="h4" section="text2" height="120px" route={this.props.location.pathname.slice(1)} text={this.state.text2} onChange={text2 => this.setState({ text2 })} />
                       </div>
 
                       <div className="step">
-                        <InputOrText type="h6" text={this.state.title3} onChange={title3 => this.setState({ title3 })} />
-                        <InputOrText type="h4" text={this.state.text3} onChange={text3 => this.setState({ text3 })} />
+                        <InputOrText type="h6" section="title3" height="35px" route={this.props.location.pathname.slice(1)} text={this.state.title3} onChange={title3 => this.setState({ title3 })} />
+                        <InputOrText type="h4" section="text3" route={this.props.location.pathname.slice(1)} text={this.state.text3} onChange={text3 => this.setState({ text3 })} />
                       </div>
                     </div>
                   </div>
@@ -218,10 +218,10 @@ class PledgeCredits extends React.Component {
                 </div>
 
                 {isAdminLogged() ?
-                  this.state.fetched &&                
+                  this.state.fetched &&
                   <small>
-                    <InputOrText type="h6" text={this.state.text4} onChange={text4 => this.setState({ text4 })} />
-                    <InputOrText text={this.state.text5} style="small-letter" onChange={text5 => this.setState({ text5 })} />
+                    <InputOrText section="text4" height="80px" route={this.props.location.pathname.slice(1)} type="h6" text={this.state.text4} onChange={text4 => this.setState({ text4 })} />
+                    <InputOrText section="text5" height="430px" route={this.props.location.pathname.slice(1)} text={this.state.text5} style="small-letter" onChange={text5 => this.setState({ text5 })} />
                   </small>
                 :
                   <small>

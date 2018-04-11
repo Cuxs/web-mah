@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'reactstrap';
+import { updateTextMutation } from '../ApolloQueries/TextsQueries';
+import { graphql, compose } from 'react-apollo';
+import { branch, renderComponent } from 'recompose';
+import { Alert, Input } from 'reactstrap';
 
-import Input from './Input';
+import { getUserToken } from '../Modules/sessionFunctions';
 /* eslint react/jsx-filename-extension: 0 */
 
 class InputOrText extends Component {
@@ -9,21 +13,53 @@ class InputOrText extends Component {
     super(props);
     this.state = {
       inputShow: false,
+      originalText: props.text || '',
+      text: props.text || '',
+      notiMessage: '',
+      showNoti: false,
+      height: '50px',
     };
   }
 
   componentWillMount() {
-    this.setState({ originalText: this.props.text });
+    this.setState({ originalText: this.props.text, text: this.props.text, height: this.props.height});
   }
 
   cancel() {
-    this.props.onChange(this.state.originalText);
-    this.setState({ inputShow: false });
+    this.setState({ text: this.state.originalText, inputShow: false });
   }
 
   save() {
-    this.setState({ originalText: this.props.text });
-    this.setState({ inputShow: false });
+    const { section, route } = this.props;
+    const { text } = this.state;
+    this.props.updateText({
+      variables: {
+        section,
+        route,
+        text,
+        MAHtoken: getUserToken(),
+      },
+      refetchQueries: ['GetTextsQuery'],
+    })
+      .then(() => {
+        this.props.onChange(this.state.text);
+        this.setState({ inputShow: false, notiMessage: 'Cambios guardados.', showNoti: true });
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors) {
+          graphQLErrors.map(({ message }) =>
+            this.setState({
+              notiMessage: message,
+              showNoti: true,
+            }));
+        }
+        if (networkError) {
+          this.setState({
+            notiMessage: networkError,
+            showNoti: true,
+          });
+        }
+      });
   }
 
   renderText() {
@@ -48,41 +84,52 @@ class InputOrText extends Component {
       justifyContent: 'space-between',
     };
     return (
-      <Row style={container} >
-        <Col sm="9">
-          { this.state.inputShow ?
-            <Input
-              type="string"
-              value={this.props.text}
-              onChange={event => this.props.onChange(event.target.value)}
-              validate={isValid => this.setState({ mountValid: isValid })}
-            />
+      <div>
+        <Row style={container} >
+          <Col sm="9">
+            { this.state.inputShow ?
+              <Input
+                formGroup={false}
+                type="textarea"
+                style={{ height: this.state.height }}
+                value={this.state.text}
+                onChange={event => this.setState({ text: event.target.value })}
+              />
           :
-            <div className="text-block">
-              {this.renderText()}
-            </div>
+              <div className="text-block">
+                {this.renderText()}
+              </div>
           }
-        </Col>
-        <Col sm="3">
-          { this.state.inputShow ?
-            <div className="d-flex flex-row" >
-              <Button type="primary" className="btn-link-primary" style={{ marginRight: 5, padding: 2 }} onClick={() => this.save()} >
+          </Col>
+          <Col sm="3">
+            { this.state.inputShow ?
+              <div className="d-flex flex-row" >
+                <Button type="primary" className="btn-link-primary" style={{ marginRight: 5, padding: 2 }} onClick={() => this.save()} >
                 OK
-              </Button>
-              <Button type="primary" className="btn-link-primary" style={{ margin: 0, padding: 2 }} onClick={() => this.cancel()} >
-                <img src="/assets/images/icon-close.svg" alt="" style={{ width: 10, height: 10 }} />
-              </Button>
-            </div>
+                </Button>
+                <Button type="primary" className="btn-link-primary" style={{ margin: 0, padding: 2 }} onClick={() => this.cancel()} >
+                  <img src="/assets/images/icon-close.svg" alt="" style={{ width: 10, height: 10 }} />
+                </Button>
+              </div>
           :
-            <Button type="primary" className="btn-link-primary" onClick={() => this.setState({ inputShow: true })} >
-              <img src="/assets/images/icon-edit-red.svg" alt="" />
-            </Button>
+              <Button type="primary" className="btn-link-primary" onClick={() => this.setState({ inputShow: true })} >
+                <img src="/assets/images/icon-edit-red.svg" alt="" />
+              </Button>
           }
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+        <Alert color="secondary" isOpen={this.state.showNoti} toggle={() => { this.setState({ showNoti: false }); }}>
+          {this.state.notiMessage}
+        </Alert>
+      </div>
     );
   }
 }
 
-export default InputOrText;
+const withUpdateTextMutation = graphql(updateTextMutation, {
+  name: 'updateText',
+});
+const withData = compose(withUpdateTextMutation);
+
+export default withData(InputOrText);
 

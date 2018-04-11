@@ -4,7 +4,6 @@ import { Row } from 'reactstrap';
 import InputOrText from './InputOrText';
 import { isAdminLogged } from '../Modules/sessionFunctions';
 
-
 class Banner extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +18,6 @@ class Banner extends React.Component {
     this.setState({ ...texts });
   }
 
-
   render() {
     return (
       <div className="container-fluid">
@@ -28,7 +26,7 @@ class Banner extends React.Component {
             <Row className="align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
                 {isAdminLogged() ?
-                  <InputOrText type="h3" text={this.state.title1} onChange={title1 => this.setState({ title1 })} />
+                  <InputOrText type="h3" text={this.state.title1} height="60px" section="title1" route="home" onChange={title1 => this.setState({ title1 })} />
                 :
                   <h3>{this.state.title1}</h3>
                 }
