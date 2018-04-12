@@ -8,6 +8,7 @@ mutation searchPublication($user_id:Int, $userType:String, $carState: String, $s
     Publications {
       CurrentState {
         stateName
+        createdAt
       }
       ImageGroup {
         image1

@@ -101,7 +101,7 @@ class StepOne extends React.Component {
                 />
                 <Input
                   label="Domicilio del Encargado"
-                  type="alphanumeric"
+                  type="string"
                   value={this.state.address}
                   onChange={event => this.setState({ address: event.target.value })}
                   validate={isValid => this.setState({ addressValidate: isValid })}

@@ -43,7 +43,6 @@ class BannerRegister extends React.Component {
                 :
                   <h3>{this.state.text}</h3>
                 }
-                <h3>Publicá gratis, todos tus datos y creá tu concesionaria online</h3>
               </div>
               <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 float-right" >
                 <div className="cont-form">

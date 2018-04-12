@@ -17,7 +17,7 @@ import UserSideBar from '../../../stories/UserSideBar';
 import AdminFilter from '../../../stories/AdminFilter';
 import CardPublication from '../../../stories/CardPublication';
 import NumberOfResult from '../../../stories/NumberOfResult';
-import {isUserLogged, getUserDataFromToken } from '../../../Modules/sessionFunctions';
+import { isUserLogged, getUserDataFromToken } from '../../../Modules/sessionFunctions';
 import { SearchUserPublicationQuery } from '../../../ApolloQueries/UserPublicationsQuery';
 
 import LoginComponent from '../../../stories/LoginComponent';
@@ -150,23 +150,28 @@ class UserPublications extends React.Component {
               <UserSideBar history={history} location={location} />
             </Col>
             <Col lg="9" md="12" sm="12" xs="12" className="mt-4">
-              <NumberOfResult results={this.state.totalCount} />
-              <AdminFilter history={history} location={location} />
-              <div className="container-box-item">
-                <div className="col-12">
-                  <FlipMove duration={1000} appearAnimation="fade">
-                    <InfiniteScroll
-                      initialLoad
-                      pageStart={0}
-                      loadMore={this.doSearch}
-                      hasMore={this.state.hasNextPage}
-                      loader={<img src="/loading.gif" key={0} alt="Loading..." />}
-                    >
-                      {this.renderData()}
-                    </InfiniteScroll>
-                  </FlipMove>
+              {this.state.totalCount === 0
+                ? <p>No se encontraron publicaciones.</p>
+                : <div>
+                  <NumberOfResult results={this.state.totalCount} />
+                  <AdminFilter history={history} location={location} />
+                  <div className="container-box-item">
+                    <div className="col-12">
+                      <FlipMove duration={1000} appearAnimation="fade">
+                        <InfiniteScroll
+                          initialLoad
+                          pageStart={0}
+                          loadMore={this.doSearch}
+                          hasMore={this.state.hasNextPage}
+                          loader={<img src="/loading.gif" key={0} alt="Loading..." />}
+                        >
+                          {this.renderData()}
+                        </InfiniteScroll>
+                      </FlipMove>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              }
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>

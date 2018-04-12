@@ -60,9 +60,10 @@ class InputSpecial extends Component {
         re = /^(\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*$/g;
         errorMessage = 'Por favor ingrese un número de teléfono válido';
         break;
-
+        
       case 'password':
         re = /^.{6,}$/;
+        errorMessage = 'Por favor ingrese un contraseña mayor a 6 caracteres';
         break;
 
       case 'latitude':

@@ -118,9 +118,6 @@ class SearchBar extends Component {
       suggestions: [],
     });
   }
-  isLoginFormIncomplete() {
-    return !(this.state.emailValidate && this.state.passwordValidate);
-  }
   submitSearch() {
     this.setState({ sidebar: '' });
     this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${
@@ -198,6 +195,11 @@ class SearchBar extends Component {
     });
   }
   loginUser(email, password) {
+    if (!(this.state.emailValidate && this.state.passwordValidate)) {
+      this._inputEmail.validate('email');
+      this._inputPassword.validate('password');
+      return false;
+    }
     login(email, password)
       .then((response) => {
         const MAHtoken = response.message;
@@ -422,11 +424,11 @@ class SearchBar extends Component {
             isOpen={this.state.modal}
             toggle={this.toggleModal}
             className={this.props.className}
-            size="lg"
+            size="md"
           >
             <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
             <ModalBody>
-              <div className="col-md-6 offset-md-3">
+              <div className="col-md-10 offset-md-1">
                 <FacebookLogin
                   appId="146328269397173"
                   autoLoad
@@ -438,6 +440,7 @@ class SearchBar extends Component {
                 />
                 <div className="underline" />
                 <Input
+                  ref={inputEmail => (this._inputEmail = inputEmail)}
                   label="Email"
                   type="email"
                   value={this.state.email}
@@ -445,13 +448,14 @@ class SearchBar extends Component {
                   validate={isValid => this.setState({ emailValidate: isValid })}
                 />
                 <Input
+                  ref={inputPassword => (this._inputPassword = inputPassword)}
                   label="Contraseña"
                   type="password"
                   value={this.state.password}
                   onChange={event => this.setState({ password: event.target.value })}
                   validate={isValid => this.setState({ passwordValidate: isValid })}
                 />
-                <a onClick={() => { this.setState({ forgetPass: true }); }} style={{ cursor: 'pointer' }}>
+                <a onClick={() => { this.setState({ forgetPass: true }); }} style={{ cursor: 'pointer', color: '#E40019' }}>
                   ¿Olvidaste tu contraseña?
                 </a>
                 {this.state.forgetPass && (
@@ -479,7 +483,7 @@ class SearchBar extends Component {
             </ModalBody>
             <ModalFooter>
               <div className="row">
-                <div className="col-3 float-left offset-3">
+                <div className="col-3 float-left offset-md-2">
                   <Button
                     onClick={() => this.toggleModal()}
                     color="default"
@@ -488,9 +492,8 @@ class SearchBar extends Component {
                       Salir
                   </Button>
                 </div>
-                <div className="col-3 float-right">
+                <div className="col-6 float-right">
                   <Button
-                    disabled={this.isLoginFormIncomplete()}
                     onClick={() => this.loginUser(this.state.email, this.state.password)}
                     color="primary"
                     className="alternative"
@@ -498,9 +501,9 @@ class SearchBar extends Component {
                     Iniciar sesión
                   </Button>
                 </div>
-                <div className="col-md-6 offset-md-3">
-                  <div className="underline" />
-                  <p>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
+                <div className="underline" />
+                <div className="col-md-10 offset-md-1">
+                  <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
                   <p>No tengo cuenta. Soy una concesionaria. <a href="" className="btn-link">Registrar Agencia</a></p>
                 </div>
               </div>

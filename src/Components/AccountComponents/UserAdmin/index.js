@@ -98,6 +98,14 @@ class UserAdmin extends React.Component {
     const { CountUnreadMessages } = unreadMessages;
     const { CountActivePublications } = activePub;
     const { CountHighLighPublications } = highLightPub;
+    const data = [
+      { date: 'Ene 1', ventas: 5 },
+      { date: 'Ene 15', ventas: 7 },
+      { date: 'Feb 1', ventas: 6 },
+      { date: 'Feb 15', ventas: 4 },
+      { date: 'Marzo 1', ventas: 8 },
+      { date: 'Marzo 15', ventas: 5 },
+    ];
     return (
       <div>
         <AdminBar history={history} />
@@ -115,16 +123,21 @@ class UserAdmin extends React.Component {
                 </Col>
                 <Col lg="8" md="6" sm="12" xs="12">
                   <Label for="exampleEmail">Reporte de autos vendidos</Label>
-                  <LineChart
+                  { this.state.graphData.length === 0
+                  ? <img
+                    src="/assets/images/ES-publications.png"
+                    alt="No hay publicaciones"
+                  />
+                  : <LineChart
                     width={600}
                     height={300}
                     data={this.state.graphData}
                     margin={{
-                      top: 5,
-                      right: 20,
-                      bottom: 5,
-                      left: 0,
-                    }}
+                        top: 5,
+                        right: 20,
+                        bottom: 5,
+                        left: 0,
+                      }}
                   >
                     <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                     <XAxis dataKey="date" />
@@ -132,7 +145,7 @@ class UserAdmin extends React.Component {
                     <Tooltip />
                     <Legend />
                     <Line type="monotone" dataKey="ventas" stroke="blue" />
-                  </LineChart>
+                  </LineChart>}
                 </Col>
                 <Col lg="4" md="6" sm="12" xs="12">
                   <div className="data-graph col-sm-12 col-xs-12">

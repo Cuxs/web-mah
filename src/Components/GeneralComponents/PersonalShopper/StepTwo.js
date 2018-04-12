@@ -154,7 +154,7 @@ class PersonalShopper extends React.Component {
                 />
                 <Input
                   label="Email"
-                  type="text"
+                  type="email"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
                   validate={isValid => this.setState({ emailValidate: isValid })}

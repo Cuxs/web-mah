@@ -103,6 +103,7 @@ class StepThree extends React.Component {
         });
       })
       .catch((err) => {
+        console.log(err);
         this.setState({
           modalTitle: 'Error',
           modalText: err,

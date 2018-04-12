@@ -218,7 +218,7 @@ class AgencyMicrosite extends Component {
                       <Label>MARCA DE LA AGENCIA O FOTO DE PERFIL</Label> <small>(Recomendado 265 x 175)</small>
                       <div className="col-12">
                         <ImageCrop
-                          aspectRatio={16 / 10}
+                          aspectRatio={85 / 53}
                           cropImage={img => this.getProfileImage(img)}
                           previewImage={this.state.previewProfileImage}
                         />

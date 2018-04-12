@@ -7,10 +7,12 @@
       margin-bottom: 20px;
     }
     .microsite-data-avatar{
-      margin-top: -150px;
+      margin-top: -120px;
       img{
         border:solid 1px $gray-200;
+        padding-left: 1px;
         @include border-radius(3px);
+        background-color: #FFF
       }
     }
     .container-data-input-group{
