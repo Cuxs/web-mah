@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { stringify } from 'query-string';
 import { graphql, compose } from 'react-apollo';
+import moment from 'moment';
 
 import photoGaleryParser from '../Modules/photoGaleryParser';
 
@@ -271,7 +272,12 @@ class SACardPublication extends Component {
               <small>{data.modelName}</small>
             </div>
             <div className="d-flex flex-column align-items-end item-visibility" >
-              <h6>Publicación {!isPubVisible(stateName) && 'no'} visible</h6>
+              <h6>
+                {!isPubVisible(stateName)
+                  ? 'Publicación no visible'
+                  : `Visible hasta ${moment(data.CurrentState.createdAt).add(60, 'days').format('DD/MM/YYYY')}`
+                }
+              </h6>
             </div>
             <div className="item-admin" >
               {(stateName !== 'Vendida' && stateName !== 'Pendiente') && <Button className="btn-default btn-link-primary float-left" onClick={() => this.toggleModalState(data.id)}>Marcar como Vendido</Button>}
