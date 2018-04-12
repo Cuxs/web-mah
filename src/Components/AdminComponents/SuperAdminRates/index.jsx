@@ -4,6 +4,7 @@ import { Col, Row } from 'reactstrap';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
 import AdminBar from '../../../stories/AdminBar';
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
+import {RatesMutation, RatesQuery} from '../../../ApolloQueries/RatesQuery';
 
 class SuperAdminRates extends Component {
   componentWillMount() {
