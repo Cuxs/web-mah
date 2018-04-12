@@ -1,13 +1,13 @@
 .microsite-header{
   .microsite-portrait{
-
+    height: 330px;
   }
   .microsite-data{
     h3{
       margin-bottom: 20px;
     }
     .microsite-data-avatar{
-      margin-top: -150px;
+      margin-top: -150px; 
       img{
         border:solid 1px $gray-200;
         @include border-radius(3px);
