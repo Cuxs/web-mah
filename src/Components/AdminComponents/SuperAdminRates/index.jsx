@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Col, Row, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 
-import { isAdminLogged, getUserToken } from '../../../Modules/sessionFunctions';
+import { getUserToken } from '../../../Modules/sessionFunctions';
 import AdminBar from '../../../stories/AdminBar';
+import InputRate from '../../../stories/InputRate';
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
-import { RatesMutation, RatesQuery } from '../../../ApolloQueries/RatesQuery';
+import { RatesQuery } from '../../../ApolloQueries/RatesQuery';
 
 class SuperAdminRates extends Component {
   constructor(props) {
@@ -71,37 +72,31 @@ class SuperAdminRates extends Component {
                   <div className="card p-4" style={{ height: '100%' }}>
                     <h6 className="title-division"><b>Tasas 2008 - 0km</b></h6>
                     <div className="data-input-group">
-                      <label>Plazo 12</label>
-                      {this.state.modifyActive
-                      ? <Input type="numeric" value={this.state.rate0} onChange={event => this.setState({ rate0: event.target.value })} />
-                      : <p>{this.state.rate0}</p>}
+                      <InputRate
+                        element={rates.AllRates[0]}
+                        label="Plazo 12"
+                        text={this.state.rate0}
+                        onChange={rate0 => this.setState({ rate0 })}
+                      />
+                      <InputRate
+                        element={rates.AllRates[1]}
+                        label="Plazo 18"
+                        text={this.state.rate1}
+                        onChange={rate1 => this.setState({ rate1 })}
+                      />
+                      <InputRate
+                        element={rates.AllRates[2]}
+                        label="Plazo 24"
+                        text={this.state.rate2}
+                        onChange={rate2 => this.setState({ rate2 })}
+                      />
+                      <InputRate
+                        element={rates.AllRates[3]}
+                        label="Plazo 36"
+                        text={this.state.rate3}
+                        onChange={rate3 => this.setState({ rate3 })}
+                      />
                     </div>
-                    <div className="data-input-group">
-                      <label>Plazo 18</label>
-                      {this.state.modifyActive
-                      ? <Input type="numeric" value={this.state.rate1} onChange={event => this.setState({ rate1: event.target.value })} />
-                      : <p>{this.state.rate1}</p>}
-                    </div>
-                    <div className="data-input-group">
-                      <label>Plazo 24</label>
-                      {this.state.modifyActive
-                      ? <Input type="numeric" value={this.state.rate2} onChange={event => this.setState({ rate2: event.target.value })} />
-                      : <p>{this.state.rate2}</p>}
-                    </div>
-                    <div className="data-input-group">
-                      <label>Plazo 36</label>
-                      {this.state.modifyActive
-                      ? <Input type="numeric" value={this.state.rate3} onChange={event => this.setState({ rate3: event.target.value })} />
-                      : <p>{this.state.rate3}</p>}
-                    </div>
-
-                    <div className="underline" />
-                    {this.state.modifyActive ?
-                      <span>
-                        <Button color="primary" className="btn-link-primary align-self-end" onClick={() => this.update()}>  <img src="/assets/images/icon-check-red.svg" alt="" />Guardar</Button>
-                        <Button color="warning" className="btn-link-warning align-self-end" >Cancelar</Button>
-                      </span>
-                  : <Button className="btn-link-primary align-self-end" color="primary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
                   </div>
                 </Col>}
                 {!rates.loading &&
@@ -109,37 +104,31 @@ class SuperAdminRates extends Component {
                   <div className="card p-4" style={{ height: '100%' }}>
                     <h6 className="title-division"><b>Tasas 2003 - 2007</b></h6>
                     <div className="data-input-group">
-                      <label>Plazo 12</label>
-                      {this.state.modifyActive
-                      ? <Input type="numeric" value={this.state.rate4} onChange={event => this.setState({ rate4: event.target.value })} />
-                      : <p>{this.state.rate4}</p>}
+                      <InputRate
+                        element={rates.AllRates[4]}
+                        label="Plazo 12"
+                        text={this.state.rate4}
+                        onChange={rate4 => this.setState({ rate4 })}
+                      />
+                      <InputRate
+                        element={rates.AllRates[5]}
+                        label="Plazo 18"
+                        text={this.state.rate5}
+                        onChange={rate5 => this.setState({ rate5 })}
+                      />
+                      <InputRate
+                        element={rates.AllRates[6]}
+                        label="Plazo 24"
+                        text={this.state.rate6}
+                        onChange={rate6 => this.setState({ rate6 })}
+                      />
+                      <InputRate
+                        element={rates.AllRates[7]}
+                        label="Plazo 36"
+                        text={this.state.rate7}
+                        onChange={rate7 => this.setState({ rate7 })}
+                      />
                     </div>
-                    <div className="data-input-group">
-                      <label>Plazo 18</label>
-                      {this.state.modifyActive
-                      ? <Input type="numeric" value={this.state.rate5} onChange={event => this.setState({ rate5: event.target.value })} />
-                      : <p>{this.state.rate5}</p>}
-                    </div>
-                    <div className="data-input-group">
-                      <label>Plazo 24</label>
-                      {this.state.modifyActive
-                      ? <Input type="numeric" value={this.state.rate6} onChange={event => this.setState({ rate6: event.target.value })} />
-                      : <p>{this.state.rate6}</p>}
-                    </div>
-                    <div className="data-input-group">
-                      <label>Plazo 36</label>
-                      {this.state.modifyActive
-                      ? <Input type="numeric" value={this.state.rate7} onChange={event => this.setState({ rate7: event.target.value })} />
-                      : <p>{this.state.rate7}</p>}
-                    </div>
-
-                    <div className="underline" />
-                    {this.state.modifyActive ?
-                      <span>
-                        <Button color="primary" className="btn-link-primary align-self-end" onClick={() => this.update()}>  <img src="/assets/images/icon-check-red.svg" alt="" />Guardar</Button>
-                        <Button color="warning" className="btn-link-warning align-self-end" >Cancelar</Button>
-                      </span>
-                  : <Button className="btn-link-primary align-self-end" color="primary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
                   </div>
                 </Col>}
               </Row>
@@ -155,10 +144,6 @@ class SuperAdminRates extends Component {
 
 
 const withRatesQuery = graphql(RatesQuery, { name: 'rates' });
-const withRatesMutation = graphql(RatesMutation, { name: 'ratesUpdate' });
-const withData = compose(
-  withRatesQuery,
-  withRatesMutation,
-);
+const withData = compose(withRatesQuery);
 
 export default withData(SuperAdminRates);

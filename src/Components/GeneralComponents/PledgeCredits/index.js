@@ -16,8 +16,9 @@ import InputOrText from '../../../stories/InputOrText';
 import {
   GetTextsQuery,
 } from '../../../ApolloQueries/TextsQueries';
-import { P } from 'glamorous';
+import { RatesQuery } from '../../../ApolloQueries/RatesQuery';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
+import { P } from 'glamorous';
 
 class PledgeCredits extends React.Component {
   constructor(props, context) {
@@ -56,6 +57,18 @@ class PledgeCredits extends React.Component {
       texts.fetched = true;
       nextProps.Texts.PageTexts.map(row => texts[row.section] = row.text);
       this.setState({ ...texts });
+    }
+    if (!nextProps.rates.loading) {
+      this.setState({
+        rate0: nextProps.rates.AllRates[0].rate,
+        rate1: nextProps.rates.AllRates[1].rate,
+        rate2: nextProps.rates.AllRates[2].rate,
+        rate3: nextProps.rates.AllRates[3].rate,
+        rate4: nextProps.rates.AllRates[4].rate,
+        rate5: nextProps.rates.AllRates[5].rate,
+        rate6: nextProps.rates.AllRates[6].rate,
+        rate7: nextProps.rates.AllRates[7].rate,
+      });
     }
   }
   toggle() {
@@ -108,25 +121,31 @@ class PledgeCredits extends React.Component {
     if (this.props.location.search !== '' && parse(this.props.location.search).year < 2008) {
       switch (time) {
         case 12:
-          tasa = 0.04;
+          tasa = this.state.rate0;
           break;
-        case 36:
-          tasa = 0.0455;
+        case 18:
+          tasa = this.state.rate1;
+          break;
+        case 24:
+          tasa = this.state.rate2;
           break;
         default:
-          tasa = 0.0425;
+          tasa = this.state.rate3;
           break;
       }
     } else {
       switch (time) {
         case 12:
-          tasa = 0.0375;
+          tasa = this.state.rate4;
           break;
-        case 36:
-          tasa = 0.0425;
+        case 18:
+          tasa = this.state.rate5;
+          break;
+        case 24:
+          tasa = this.state.rate6;
           break;
         default:
-          tasa = 0.04;
+          tasa = this.state.rate7;
           break;
       }
     }
@@ -331,6 +350,7 @@ class PledgeCredits extends React.Component {
   }
 }
 const withTextsQuery = graphql(GetTextsQuery, { options: { variables: { route: 'pledgeCredits' } }, name: 'Texts' });
-const withData = compose(withTextsQuery);
+const withRatesQuery = graphql(RatesQuery, { name: 'rates' });
+const withData = compose(withTextsQuery, withRatesQuery);
 
 export default withData(PledgeCredits);
