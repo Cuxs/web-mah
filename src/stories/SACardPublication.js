@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import photoGaleryParser from '../Modules/photoGaleryParser';
 
-import { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication, markAsSoldMutation } from '../ApolloQueries/AdminPublicationQueries';
+import { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication, changeStateMutation } from '../ApolloQueries/AdminPublicationQueries';
 import { getUserToken } from '../Modules/sessionFunctions';
 
 /* eslint react/jsx-filename-extension: 0 */
@@ -32,6 +32,7 @@ class SACardPublication extends Component {
       modalMsg: '',
       modalTitle: '',
       questionModal: false,
+      deleteModal: false,
       questionModalTitle: '',
       questionModalText: '',
       verb: '',
@@ -39,9 +40,10 @@ class SACardPublication extends Component {
     };
     this.toggle = this.toggle.bind(this);
     this.toggleQuestionModal = this.toggleQuestionModal.bind(this);
+    this.toggleDeleteModal = this.toggleDeleteModal.bind(this);
     this.pubStateClass = this.pubStateClass.bind(this);
     this.highlightPublication = this.highlightPublication.bind(this);
-    this.changeToSoldState = this.changeToSoldState.bind(this);
+    this.changePublicationState = this.changePublicationState.bind(this);
     this.handleRedirect = this.handleRedirect.bind(this);
     this.deletePub = this.deletePub.bind(this);
   }
@@ -56,7 +58,7 @@ class SACardPublication extends Component {
         this.setState({
           modal: true,
           questionModal: false,
-          modalTitle: 'Felicitaciones',
+          modalTitle: 'Listo',
           modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
         });
       })
@@ -142,6 +144,11 @@ class SACardPublication extends Component {
       verb,
     });
   }
+  toggleDeleteModal() {
+    this.setState({
+      deleteModal: !this.state.deleteModal,
+    });
+  }
   showPublicatorName(data) {
     if (data.User) {
       return data.User.agencyName === null ? data.User.name : data.User.agencyName;
@@ -159,7 +166,7 @@ class SACardPublication extends Component {
         this.setState({
           modal: true,
           questionModal: false,
-          modalTitle: 'Felicitaciones',
+          modalTitle: 'Listo',
           modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
         });
       })
@@ -190,25 +197,33 @@ class SACardPublication extends Component {
       pubId,
     });
   }
-  changeToSoldState() {
+  changePublicationState(stateName) {
     this.props
-      .ChangeToSold({
+      .changeStateTo({
         variables: {
           MAHtoken: getUserToken(),
           publication_id: this.state.pubId,
+          stateName,
         },
       })
       .then((data) => {
-        this.toggleModalState('');
         this.setState({
-          modalTitle: 'Felicitaciones.',
-          modalMsg: 'La publicación ha sida marcada como vendida. Felicitaciones!',
+          questionModal: false,
+          deleteModal: false,
+        });
+        this.setState({
+          modalTitle: 'Listo.',
+          modalMsg: 'Cambios aplicados.',
           modal: true,
         });
       })
-      .catch(({ graphQLErrors, networkError }) => {
+      .catch((error, { graphQLErrors, networkError }) => {
+        console.log(error);
         if (graphQLErrors) {
-          this.toggleModalState('');
+          this.setState({
+            questionModal: false,
+            deleteModal: false,
+          });
           graphQLErrors.map(({ message }) =>
             this.setState({
               modalTitle: 'Error',
@@ -226,11 +241,12 @@ class SACardPublication extends Component {
         }
       });
   }
-
-  deletePub() {
-    console.log('borrar publicacion');
+  deletePub(pubId) {
+    this.setState({
+      pubId,
+    });
+    this.toggleDeleteModal();
   }
-
   handleRedirect() {
     console.log(this.props.data);
     const { data } = this.props;
@@ -281,7 +297,7 @@ class SACardPublication extends Component {
             </div>
             <div className="item-admin" >
               {(stateName !== 'Vendida' && stateName !== 'Pendiente') && <Button className="btn-default btn-link-primary float-left" onClick={() => this.toggleModalState(data.id)}>Marcar como Vendido</Button>}
-              <Button className="btn-default btn-link-primary float-right" onClick={() => this.deletePub}>Eliminar</Button>
+              <Button className="btn-default btn-link-primary float-right" onClick={() => this.deletePub(data.id)}>Eliminar</Button>
               {isPubEditable(stateName) && <Button className="btn-default btn-link-primary float-right" onClick={this.handleRedirect}>Editar</Button>}
               {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right" onClick={() => this.highlightPublication(data.id)} >Destacar</Button>}
               <Button className="btn-default btn-link-primary float-right" onClick={() => history.push(`/carDetail?publication_id=${data.id}&t=${getUserToken()}`)} >Ver</Button>
@@ -316,7 +332,7 @@ class SACardPublication extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.changeToSoldState()}>
+            <Button color="primary" onClick={() => this.changePublicationState('Vendida')}>
               OK
             </Button>
             <Button color="secondary" onClick={() => this.toggleModalState()}>
@@ -344,11 +360,24 @@ class SACardPublication extends Component {
             <Button color="secondary" onClick={() => this.toggleQuestionModal()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
+
+        <Modal isOpen={this.state.deleteModal} toggle={this.toggleDeleteModal}>
+          <ModalHeader toggle={this.toggleDeleteModal}>¿Eliminar Publicación?</ModalHeader>
+          <ModalBody>
+            <div className="col-md-6 offset-md-3">
+              <h5>¿Esta seguro que desea eliminar esta publicación?</h5>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={() => this.changePublicationState('Eliminada')}>Ok</Button>
+            <Button color="secondary" onClick={() => this.toggleDeleteModal()}>Cancelar</Button>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }
 }
-const withMarkPublicationAsSold = graphql(markAsSoldMutation, { name: 'ChangeToSold' });
+const withMarkPublicationAsSold = graphql(changeStateMutation, { name: 'changeStateTo' });
 const withAproveMutation = graphql(AprovePublicationMutation, { name: 'aprove' });
 const withDisaproveMutation = graphql(DisaprovePublicationMutation, { name: 'disaprove' });
 const withHightlightPublications = graphql(HightlightPublication, { name: 'hightlight' });

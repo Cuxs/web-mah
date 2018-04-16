@@ -250,7 +250,11 @@ class SearchBar extends Component {
   }
 
   clearSession() {
-    window.FB.logout();
+    try {
+      window.FB.logout();
+    } catch (e) {
+      console.log(e);
+    }
     clearSession();
     this.setState({ isUserLogged: false });
   }
