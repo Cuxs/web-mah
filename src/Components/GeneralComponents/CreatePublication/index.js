@@ -300,6 +300,7 @@ class CreatePublication extends React.Component {
                 <FormGroup>
                   <Label for="exampleSelect">¿Cuál es el año?</Label>
                   <Select
+                    disabled = {this.state.codia === ''}
                     id="year-select"
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
