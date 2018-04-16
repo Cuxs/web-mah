@@ -142,6 +142,15 @@ class CreatePublication extends React.Component {
   }
 
   next() {
+    const {
+      brand, group, codia, year, kmsValidate, priceValidate,
+    } = this.state;
+    if (!(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kmsValidate && priceValidate)) {
+      this._inputPrice.validate('money');
+      this._inputKms.validate('number');
+      return false;
+    }
+
     const dataCar = {
       carState: this.state.carState,
       brand: this.state.brandName,
@@ -289,6 +298,7 @@ class CreatePublication extends React.Component {
                   />
                 </FormGroup>
                 <Input
+                  ref={inputKms => (this._inputKms = inputKms)}
                   label="¿Cuántos kilometros tiene?"
                   type="number"
                   value={this.state.kms}
@@ -297,8 +307,9 @@ class CreatePublication extends React.Component {
                   placeholder="Ingrese un número sin puntos ni comas"
                 />
                 <Input
+                  ref={inputPrice => (this._inputPrice = inputPrice)}
                   label="¿A qué precio lo querés vender?"
-                  type="number"
+                  type="money"
                   value={this.state.price}
                   onChange={event => this.setState({ price: event.target.value })}
                   validate={isValid => this.setState({ priceValidate: isValid })}
@@ -314,7 +325,7 @@ class CreatePublication extends React.Component {
                 />
                 <div className="underline" />
                 <p>* Todos los campos son obligatorios</p>
-                <Button color="primary" className="float-right" disabled={this.disabled()} onClick={() => this.next()} >Siguiente</Button>
+                <Button color="primary" className="float-right" onClick={() => this.next()} >Siguiente</Button>
               </div>
             </Col>
           </Row>

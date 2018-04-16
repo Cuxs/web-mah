@@ -43,6 +43,14 @@ class StepTwo extends React.Component {
   }
 
   next() {
+    if (!(this.state.nameAgencyValidate && this.state.addressAgencyValidate && this.state.phoneAgencyValidate && this.state.emailAgencyValidate)) {
+      this._inputName.validate('string');
+      this._inputEmail.validate('email');
+      this._inputAddress.validate('string');
+      this._inputPhone.validate('number');
+      return false;
+    }
+
     const search = parse(this.props.location.search);
 
     const dataAgency = {
@@ -57,7 +65,7 @@ class StepTwo extends React.Component {
       nameAgency: this.state.nameAgency,
       addressAgency: this.state.addressAgency,
     };
-    this.props.history.push(`/agencyRegisterS3?${stringify(dataAgency)}`);
+    return this.props.history.push(`/agencyRegisterS3?${stringify(dataAgency)}`);
   }
 
   render() {
@@ -105,6 +113,7 @@ class StepTwo extends React.Component {
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Información de la agencia </h4>
                 <Input
+                  ref={inputName => (this._inputName = inputName)}
                   label="Nombre de la Agencia"
                   type="text"
                   value={this.state.nameAgency}
@@ -112,6 +121,7 @@ class StepTwo extends React.Component {
                   validate={isValid => this.setState({ nameAgencyValidate: isValid })}
                 />
                 <Input
+                  ref={inputAddress => (this._inputAddress = inputAddress)}
                   label="Dirección de la Agencia"
                   type="alphanumeric"
                   value={this.state.addressAgency}
@@ -119,6 +129,7 @@ class StepTwo extends React.Component {
                   validate={isValid => this.setState({ addressAgencyValidate: isValid })}
                 />
                 <Input
+                  ref={inputEmail => (this._inputEmail = inputEmail)}
                   label="Email de la Agencia"
                   type="email"
                   value={this.state.emailAgency}
@@ -126,6 +137,7 @@ class StepTwo extends React.Component {
                   validate={isValid => this.setState({ emailAgencyValidate: isValid })}
                 />
                 <Input
+                  ref={inputPhone => (this._inputPhone = inputPhone)}
                   label="Teléfono de la Agencia"
                   type="number"
                   value={this.state.phoneAgency}
@@ -135,7 +147,7 @@ class StepTwo extends React.Component {
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.next()}>Siguiente</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.next()}>Siguiente</Button>
                 </div>
               </div>
             </Col>

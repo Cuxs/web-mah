@@ -26,6 +26,14 @@ class StepOne extends React.Component {
   }
 
   next() {
+    if (!(this.state.emailValidate && this.state.addressValidate && this.state.phoneValidate && this.state.nameValidate)) {
+      this._inputName.validate('string');
+      this._inputEmail.validate('email');
+      this._inputAddress.validate('string');
+      this._inputPhone.validate('number');
+      return false;
+    }
+
     const dataAgency = {
       email: this.state.email,
       repeatPass: this.state.repeatPass,
@@ -34,13 +42,8 @@ class StepOne extends React.Component {
       phone: this.state.phone,
       nameAgency: parse(this.props.location.search).nameAgency ? parse(this.props.location.search).nameAgency : '',
     };
-    this.props.history.push(`/agencyRegisterS2?${stringify(dataAgency)}`);
+    return this.props.history.push(`/agencyRegisterS2?${stringify(dataAgency)}`);
   }
-
-  disabled() {
-    return !(this.state.emailValidate && this.state.addressValidate && this.state.phoneValidate && this.state.nameValidate);
-  }
-
 
   render() {
     return (
@@ -86,6 +89,7 @@ class StepOne extends React.Component {
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Registrarme</h4>
                 <Input
+                  ref={inputEmail => (this._inputEmail = inputEmail)}
                   label="Email (Email para iniciar sesión)"
                   type="email"
                   value={this.state.email}
@@ -93,6 +97,7 @@ class StepOne extends React.Component {
                   validate={isValid => this.setState({ emailValidate: isValid })}
                 />
                 <Input
+                  ref={inputName => (this._inputName = inputName)}
                   label="Nombre del Encargado"
                   type="text"
                   value={this.state.name}
@@ -100,6 +105,7 @@ class StepOne extends React.Component {
                   validate={isValid => this.setState({ nameValidate: isValid })}
                 />
                 <Input
+                  ref={inputAddress => (this._inputAddress = inputAddress)}
                   label="Domicilio del Encargado"
                   type="string"
                   value={this.state.address}
@@ -107,6 +113,7 @@ class StepOne extends React.Component {
                   validate={isValid => this.setState({ addressValidate: isValid })}
                 />
                 <Input
+                  ref={inputPhone => (this._inputPhone = inputPhone)}
                   label="Teléfono del Encargado"
                   type="number"
                   value={this.state.phone}
@@ -116,7 +123,7 @@ class StepOne extends React.Component {
 
                 <div>
                   <div className="underline" />
-                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.next()} >Siguiente</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.next()} >Siguiente</Button>
                 </div>
               </div>
             </Col>

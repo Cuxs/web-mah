@@ -50,6 +50,15 @@ class StepTwo extends React.Component {
   }
 
   register() {
+    if (!(this.state.nameValidate && this.state.phoneValidate && this.state.addressValidate && this.state.dniValidate && this.state.passValidate && this.state.repeatPassValidate)) {
+      this._inputName.validate('string');
+      this._inputAddress.validate('string');
+      this._inputPhone.validate('number');
+      this._inputDni.validate('number');
+      this._inputPass.validate('password');
+      return false;
+    }
+
     const search = parse(this.props.location.search);
 
     const dataUser = {
@@ -113,6 +122,7 @@ class StepTwo extends React.Component {
               <div className="col-md-9 float-left">
                 <h4 className="title-division">Los interesados se comunicarán con vos</h4>
                 <Input
+                  ref={inputName => (this._inputName = inputName)}
                   label="Nombre y Apellido"
                   type="text"
                   value={this.state.name}
@@ -120,6 +130,7 @@ class StepTwo extends React.Component {
                   validate={isValid => this.setState({ nameValidate: isValid })}
                 />
                 <Input
+                  ref={inputDni => (this._inputDni = inputDni)}
                   label="DNI"
                   type="number"
                   value={this.state.dni}
@@ -127,6 +138,7 @@ class StepTwo extends React.Component {
                   validate={isValid => this.setState({ dniValidate: isValid })}
                 />
                 <Input
+                  ref={inputAddress => (this._inputAddress = inputAddress)}
                   label="Dirección"
                   type="alphanumeric"
                   value={this.state.address}
@@ -134,6 +146,7 @@ class StepTwo extends React.Component {
                   validate={isValid => this.setState({ addressValidate: isValid })}
                 />
                 <Input
+                  ref={inputPhone => (this._inputPhone = inputPhone)}
                   label="Teléfono"
                   type="number"
                   value={this.state.phone}
@@ -142,6 +155,7 @@ class StepTwo extends React.Component {
                 />
                 <div className="underline" />
                 <Input
+                  ref={inputPass => (this._inputPass = inputPass)}
                   label="Contraseña"
                   type={this.state.passwordShow}
                   value={this.state.pass}

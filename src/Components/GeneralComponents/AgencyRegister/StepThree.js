@@ -33,10 +33,6 @@ class StepThree extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
 
-  disabled() {
-    return !(this.state.nameOwnerValidate && this.state.passValidate && this.state.repeatPassValidate && this.state.addressOwnerValidate && this.state.dniOwnerValidate && this.state.emailOwnerValidate && this.state.phoneOwnerValidate);
-  }
-
   toggle() {
     this.setState({ modal: !this.state.modal });
   }
@@ -58,6 +54,11 @@ class StepThree extends React.Component {
     this.props.history.push(`/agencyRegisterS2?${stringify(dataAgency)}}`);
   }
 
+  disabled() {
+    return (this.state.nameOwnerValidate && this.state.passValidate && this.state.repeatPassValidate && this.state.addressOwnerValidate && this.state.dniOwnerValidate && this.state.emailOwnerValidate && this.state.phoneOwnerValidate);
+  }
+
+
   previousS1() {
     const search = parse(this.props.location.search);
 
@@ -76,6 +77,17 @@ class StepThree extends React.Component {
   }
 
   submit() {
+    if (!(this.state.nameOwnerValidate && this.state.passValidate && this.state.repeatPassValidate && this.state.addressOwnerValidate && this.state.dniOwnerValidate && this.state.emailOwnerValidate && this.state.phoneOwnerValidate)) {
+      this._inputName.validate('string');
+      this._inputEmail.validate('email');
+      this._inputAddress.validate('string');
+      this._inputPhone.validate('number');
+      this._inputDni.validate('number');
+      this._inputPass.validate('password');
+      this._inputRepeatPass.validate('passoword');
+      return false;
+    }
+
     const search = parse(this.props.location.search);
 
     const dataAgency = {
@@ -141,7 +153,6 @@ class StepThree extends React.Component {
                   <div className={`step ${this.disabled() ? 'done' : ''}`}>
                     <h6>PASO 3</h6>
                     <h4>Información del responsable de la Concesionario</h4>
-                    <a className="link">Modificar datos</a>
                   </div>
 
                 </div>
@@ -157,6 +168,7 @@ class StepThree extends React.Component {
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Información del dueño o responsable del Concesionario </h4>
                 <Input
+                  ref={inputName => (this._inputName = inputName)}
                   label="Nombre y Apellido"
                   type="text"
                   value={this.state.nameOwner}
@@ -164,6 +176,7 @@ class StepThree extends React.Component {
                   validate={isValid => this.setState({ nameOwnerValidate: isValid })}
                 />
                 <Input
+                  ref={inputDni => (this._inputDni = inputDni)}
                   label="DNI"
                   type="number"
                   value={this.state.dniOwner}
@@ -171,6 +184,7 @@ class StepThree extends React.Component {
                   validate={isValid => this.setState({ dniOwnerValidate: isValid })}
                 />
                 <Input
+                  ref={inputAddress => (this._inputAddress = inputAddress)}
                   label="Dirección"
                   type="alphanumeric"
                   value={this.state.addressOwner}
@@ -178,6 +192,7 @@ class StepThree extends React.Component {
                   validate={isValid => this.setState({ addressOwnerValidate: isValid })}
                 />
                 <Input
+                  ref={inputEmail => (this._inputEmail = inputEmail)}
                   label="Email"
                   type="email"
                   value={this.state.emailOwner}
@@ -185,6 +200,7 @@ class StepThree extends React.Component {
                   validate={isValid => this.setState({ emailOwnerValidate: isValid })}
                 />
                 <Input
+                  ref={inputPhone => (this._inputPhone = inputPhone)}
                   label="Teléfono"
                   type="number"
                   value={this.state.phoneOwner}
@@ -194,6 +210,7 @@ class StepThree extends React.Component {
                 <div>
                   <div className="underline" />
                   <Input
+                    ref={inputPass => (this._inputPass = inputPass)}
                     label="Contraseña"
                     type="password"
                     value={this.state.pass}
@@ -202,9 +219,12 @@ class StepThree extends React.Component {
                     placeholder="Mínimo 6 caracteres"
                   />
                   <Input
+                    ref={inputRepeatPass => (this._inputRepeatPass = inputRepeatPass)}
                     label="Repetir contraseña"
                     type="password"
+                    repeatPass
                     value={this.state.repeatPass}
+                    currentPass={this.state.pass}
                     onChange={event => this.setState({ repeatPass: event.target.value })}
                     validate={isValid => this.setState({ repeatPassValidate: isValid })}
                     placeholder="Mínimo 6 caracteres"
@@ -212,7 +232,7 @@ class StepThree extends React.Component {
                   <div className="underline" />
 
                   <Button color="default" onClick={() => this.previous()} className="float-left" >Volver</Button>
-                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => { this.submit(); }}>Registrarme</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.submit()}>Registrarme</Button>
                 </div>
               </div>
             </Col>

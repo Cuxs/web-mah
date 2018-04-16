@@ -45,6 +45,13 @@ class CreatePublication extends React.Component {
   }
 
   next() {
+    if (!(this.state.emailValidate && this.state.nameValidate && this.state.phoneValidate)) {
+      this._inputName.validate('string');
+      this._inputEmail.validate('email');
+      this._inputPhone.validate('number');
+      return false;
+    }
+
     const search = parse(this.props.location.search);
     const dataCar = {
       DataCar: stringify(parse(search.DataCar)),
@@ -61,11 +68,7 @@ class CreatePublication extends React.Component {
         email: this.state.email,
       }),
     };
-    this.props.history.push(`/publicateWithoutRegisterS3?${stringify(dataCar)}&${stringify(dataPerson)}&${stringify(dataExtras)}`);
-  }
-
-  disabled() {
-    return !(this.state.emailValidate && this.state.nameValidate && this.state.phoneValidate);
+    return this.props.history.push(`/publicateWithoutRegisterS3?${stringify(dataCar)}&${stringify(dataPerson)}&${stringify(dataExtras)}`);
   }
 
   render() {
@@ -138,13 +141,15 @@ class CreatePublication extends React.Component {
               <div className="col-md-9 float-left">
                 <h4 className="title-division">Los interesados se comunicarán con vos</h4>
                 <Input
+                  ref={inputName => (this._inputName = inputName)}
                   label="Nombre y Apellido"
-                  type="text"
+                  type="string"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
                   validate={isValid => this.setState({ nameValidate: isValid })}
                 />
                 <Input
+                  ref={inputEmail => (this._inputEmail = inputEmail)}
                   label="Email"
                   type="email"
                   value={this.state.email}
@@ -152,6 +157,7 @@ class CreatePublication extends React.Component {
                   validate={isValid => this.setState({ emailValidate: isValid })}
                 />
                 <Input
+                  ref={inputPhone => (this._inputPhone = inputPhone)}
                   label="Teléfono"
                   type="number"
                   value={this.state.phone}
@@ -161,7 +167,7 @@ class CreatePublication extends React.Component {
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()} >Volver</Button>
-                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.next()} >Siguiente</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.next()} >Siguiente</Button>
                 </div>
               </div>
             </Col>

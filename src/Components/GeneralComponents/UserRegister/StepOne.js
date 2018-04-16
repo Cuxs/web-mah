@@ -18,14 +18,14 @@ class StepOne extends React.Component {
   }
 
   next() {
+    if (!this.state.emailValidate) {
+      this._inputEmail.validate('email');
+      return false;
+    }
     const dataUser = {
       email: this.state.email,
     };
-    this.props.history.push(`/userRegisterS2?${stringify(dataUser)}`);
-  }
-
-  disabled() {
-    return !(this.state.emailValidate);
+    return this.props.history.push(`/userRegisterS2?${stringify(dataUser)}`);
   }
 
 
@@ -75,6 +75,7 @@ class StepOne extends React.Component {
                 <h6>O con tu Email</h6>
                 <br />
                 <Input
+                  ref={inputEmail => (this._inputEmail = inputEmail)}
                   label="Email"
                   type="email"
                   value={this.state.email}
@@ -83,7 +84,7 @@ class StepOne extends React.Component {
                 />
                 <div>
                   <div className="underline" />
-                  <Button color="primary" disabled={this.disabled()} className="col-6 float-right" onClick={() => this.next()} >Siguiente</Button>
+                  <Button color="primary" className="col-6 float-right" onClick={() => this.next()} >Siguiente</Button>
                 </div>
               </div>
             </Col>

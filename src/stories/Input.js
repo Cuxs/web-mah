@@ -87,19 +87,31 @@ class InputSpecial extends Component {
       default:
         break;
     }
+    if (this.props.repeatPass) {
+      if (this.props.value === this.props.currentPass) {
+        this.props.validate(true);
+        return this.setState({
+          fieldValidation: true,
+        });
+      }
+      this.props.validate(false);
+      return this.setState({
+        fieldValidation: false,
+        errorMessage: 'Las contraseñas no coinciden.',
+      });
+    }
 
     if (re.test(this.props.value) === true) {
       this.props.validate(true);
-      this.setState({
+      return this.setState({
         fieldValidation: true,
       });
-    } else {
-      this.props.validate(false);
-      this.setState({
-        fieldValidation: false,
-        errorMessage,
-      });
     }
+    this.props.validate(false);
+    return this.setState({
+      fieldValidation: false,
+      errorMessage,
+    });
   }
 
   render() {
@@ -118,7 +130,7 @@ class InputSpecial extends Component {
             <div className="row">
               {this.props.type === 'money' && <div className="col-1" style={iconDiv}>
                 <img src="/assets/images/icon-money.svg" alt="" style={{ width: 20, height: 20 }} />
-              </div>}
+                                              </div>}
               <div className={this.props.type === 'money' ? 'col-11' : 'col-12'} style={{ paddingLeft: this.props.type === 'money' ? 0 : 15 }} >
                 <Input
                   style={this.props.style}

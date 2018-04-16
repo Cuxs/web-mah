@@ -146,13 +146,15 @@ class CreatePublication extends React.Component {
 
     });
   }
-  disabled() {
+  next() {
     const {
       brand, group, codia, year, kms, price, kmsValidate, priceValidate,
     } = this.state;
-    return !(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '' && kmsValidate && priceValidate);
-  }
-  next() {
+    if (!(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '' && kmsValidate && priceValidate)) {
+      return false;
+    }
+
+
     const dataCar = {
       carState: this.state.carState,
       brand: this.state.brandName,
@@ -171,7 +173,7 @@ class CreatePublication extends React.Component {
     if (parse(this.props.location.search).userId) {
       dataCar.userId = parse(this.props.location.search).userId;
     }
-    this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`);
+    return this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`);
   }
   carStateChange(newValue) {
     if (newValue === 'Nuevo') {
@@ -324,7 +326,7 @@ class CreatePublication extends React.Component {
                 />
                 <Input
                   label="¿A qué precio lo querés vender?"
-                  type="number"
+                  type="money"
                   value={this.state.price}
                   onChange={event => this.setState({ price: event.target.value })}
                   validate={isValid => this.setState({ priceValidate: isValid })}
@@ -340,7 +342,7 @@ class CreatePublication extends React.Component {
                 />
 
                 <div className="underline" />
-                <Button color="primary" className="float-right" disabled={this.disabled()} onClick={() => this.next()} >Siguiente</Button>
+                <Button color="primary" className="float-right" onClick={() => this.next()} >Siguiente</Button>
               </div>
             </Col>
           </Row>
