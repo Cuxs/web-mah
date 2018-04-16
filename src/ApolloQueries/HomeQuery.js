@@ -1,8 +1,7 @@
 import gql from 'graphql-tag';
 
 const HomeQuery = gql`
-query AllPublications($user_id: Int, $stateName: String, $limit:Int, $order:String){
-  AllPublications(user_id: $user_id, stateName:$stateName, limit:$limit, order:$order){
+{HighlightedPublications(limit:12){
      CurrentState{
     stateName
   }

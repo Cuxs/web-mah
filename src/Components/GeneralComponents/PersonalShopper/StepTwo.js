@@ -175,7 +175,7 @@ class PersonalShopper extends React.Component {
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" className="float-right" onClick={() => this.register()}>Registrarme</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.register()}>Consultar</Button>
                 </div>
               </div>
             </Col>

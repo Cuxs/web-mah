@@ -126,14 +126,6 @@ export default class ImageCrop extends Component {
               <ModalFooter>
                 <div className="col-3 float-left">
                   <Button
-                    color="primary"
-                    onClick={() => this.cropImage()}
-                  >
-                    Recortar
-                  </Button>
-                </div>
-                <div className="col-3 float-right">
-                  <Button
                     color="default"
                     onClick={() =>
                       this.setState({
@@ -144,6 +136,14 @@ export default class ImageCrop extends Component {
                     }
                   >
                     Cancelar
+                  </Button>
+                </div>
+                <div className="col-3 float-right">
+                  <Button
+                    color="primary"
+                    onClick={() => this.cropImage()}
+                  >
+                    Recortar
                   </Button>
                 </div>
               </ModalFooter>

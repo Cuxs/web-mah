@@ -219,7 +219,7 @@ class FreeDestinationCredits extends React.Component {
                 />
                 <Input
                   label="Ingresos"
-                  type="number"
+                  type="money"
                   value={this.state.ganancy}
                   onChange={event =>
                     this.setState({ ganancy: event.target.value })
@@ -230,7 +230,7 @@ class FreeDestinationCredits extends React.Component {
                 />
                 <Input
                   label="Monto a financiar"
-                  type="number"
+                  type="money"
                   value={this.state.financyAmount}
                   onChange={event =>
                     this.setState({ financyAmount: event.target.value })

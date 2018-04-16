@@ -25,7 +25,7 @@ class PersonalShopper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      kms: 0,
+      kms: '0km',
       year: 2018,
       price: '',
       priceValidate: false,

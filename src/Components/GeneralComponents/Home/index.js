@@ -48,7 +48,7 @@ const Home = ({
         {!Texts.loading && <Banner Texts={Texts} />}
         <CreditsBanner history={history} Texts={Texts} />
         <CarHomeContainer>
-          {data.AllPublications.map(row => (
+          {data.HighlightedPublications.map(row => (
             <CarResult
               photoGalery={photoGaleryParser(row.ImageGroup)}
               data={row}
