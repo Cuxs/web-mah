@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { Col, Row, Button, Alert } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
+import _ from 'lodash';
 
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
@@ -65,8 +66,8 @@ class FriendlyAgency extends Component {
                     key={0}
                     alt="Loading..."
                   /> :
-              Agencies.GetAllAgencies.map(agencyData => <CardAgency data={agencyData} history={history} />)
-          }
+                  _.orderBy(Agencies.GetAllAgencies, ['agencyName', 'asc']).map(agencyData => <CardAgency data={agencyData} history={history} />)
+                }
               </Col>
               <Col lg="3" md="12" sm="12" xs="12">
                 <h5 className="title-division-primary">Adherí tu compañía, <br /> es muy fácil.</h5>
