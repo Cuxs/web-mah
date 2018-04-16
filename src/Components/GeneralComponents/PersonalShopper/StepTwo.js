@@ -50,6 +50,13 @@ class PersonalShopper extends React.Component {
   }
 
   register() {
+    const {
+      nameValidate, dniValidate, addressValidate, ganancyValidate, financyAmountValidate, jobValidate, emailValidate, phoneValidate,
+    } = this.state;
+    if (!(nameValidate && dniValidate && addressValidate && ganancyValidate && financyAmountValidate && jobValidate && emailValidate && phoneValidate)) {
+      return false;
+    }
+
     const search = parse(this.props.location.search);
 
     const dataUser = {
@@ -69,14 +76,6 @@ class PersonalShopper extends React.Component {
       email: this.state.email,
       phone: this.state.phone,
     };
-    console.log(dataUser)
-  }
-
-  disabled() {
-    const {
-      nameValidate, dniValidate, addressValidate, ganancyValidate, financyAmountValidate, jobValidate, emailValidate, phoneValidate,
-    } = this.state;
-    return !(nameValidate && dniValidate && addressValidate && ganancyValidate && financyAmountValidate && jobValidate && emailValidate && phoneValidate);
   }
 
   render() {
@@ -126,21 +125,21 @@ class PersonalShopper extends React.Component {
                 />
                 <Input
                   label="Domicilio"
-                  type="alphanumeric"
+                  type="string"
                   value={this.state.address}
                   onChange={event => this.setState({ address: event.target.value })}
                   validate={isValid => this.setState({ addressValidate: isValid })}
                 />
                 <Input
                   label="Ingresos"
-                  type="number"
+                  type="money"
                   value={this.state.ganancy}
                   onChange={event => this.setState({ ganancy: event.target.value })}
                   validate={isValid => this.setState({ ganancyValidate: isValid })}
                 />
                 <Input
                   label="Monto a financiar"
-                  type="number"
+                  type="money"
                   value={this.state.financyAmount}
                   onChange={event => this.setState({ financyAmount: event.target.value })}
                   validate={isValid => this.setState({ financyAmountValidate: isValid })}
@@ -176,7 +175,7 @@ class PersonalShopper extends React.Component {
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" disabled={this.disabled()} className="float-right" onClick={() => this.register()}>Registrarme</Button>
+                  <Button color="primary" className="float-right" onClick={() => this.register()}>Registrarme</Button>
                 </div>
               </div>
             </Col>

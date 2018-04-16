@@ -88,14 +88,14 @@ class PersonalShopper extends React.Component {
     });
   }
 
-  disabled() {
-    const {
-      kms, year, priceValidate, brand, group, codia,
-    } = this.state;
-    return !(kms !== '' && year !== '' && priceValidate && brand !== '' && group !== '' && codia !== '');
-  }
-
   next() {
+    const {
+      priceValidate, brand, group, codia,
+    } = this.state;
+    if (!priceValidate || brand === '' || group === '' || codia === '') {
+      return false;
+    }
+
     const dataCredit = {
       kms: this.state.kms,
       year: this.state.year,
@@ -105,7 +105,68 @@ class PersonalShopper extends React.Component {
       codia: this.state.codia,
       observation: this.state.observation,
     };
-    this.props.history.push(`/personalShopperS2?${stringify(dataCredit)}`);
+    return this.props.history.push(`/personalShopperS2?${stringify(dataCredit)}`);
+  }
+
+  renderCar(AllBrands) {
+    return (
+      <div>
+        <FormGroup>
+          <Label for="exampleSelect">¿Cuál es la marca?</Label>
+          <Select
+            id="brand-select"
+            ref={(ref) => { this.select = ref; }}
+            onBlurResetsInput={false}
+            onSelectResetsInput={false}
+            options={prepareArraySelect(AllBrands, 'ta3_nmarc', 'ta3_marca')}
+            simpleValue
+            clearable
+            name="selected-state"
+            value={this.state.brand}
+            placeholder="Selecciona una marca"
+            onChange={newValue => this.onChangeBrand(newValue)}
+            searchable
+            noResultsText="No se encontraron resultados"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="exampleSelect">¿Cuál es el modelo?</Label>
+          <Select
+            id="groups-select"
+            ref={(ref) => { this.select = ref; }}
+            onBlurResetsInput={false}
+            onSelectResetsInput={false}
+            options={prepareArraySelect(this.state.Groups, 'gru_cgrup', 'gru_ngrup')}
+            simpleValue
+            clearable
+            name="selected-state"
+            value={this.state.group}
+            placeholder="Selecciona un modelo"
+            onChange={newValue => this.onChangeGroup(newValue)}
+            searchable
+            noResultsText="No se encontraron resultados"
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="exampleSelect">¿Cuál es la versión?</Label>
+          <Select
+            id="models-select"
+            ref={(ref) => { this.select = ref; }}
+            onBlurResetsInput={false}
+            onSelectResetsInput={false}
+            options={prepareArraySelect(this.state.Models, 'ta3_codia', 'ta3_model')}
+            simpleValue
+            clearable
+            name="selected-state"
+            value={this.state.codia}
+            placeholder="Selecciona un tipo"
+            onChange={newValue => this.onChangeModel(newValue)}
+            searchable
+            noResultsText="No se encontraron resultados"
+          />
+        </FormGroup>
+      </div>
+    );
   }
 
   render() {
@@ -123,7 +184,7 @@ class PersonalShopper extends React.Component {
                  this.state.fetched &&
                  <div>
                    <InputOrText section="title1" height="50px" route={this.props.location.pathname.slice(1)} type="p" text={this.state.title1} style="title-division-primary" onChange={title1 => this.setState({ title1 })} />
-                   <InputOrText section="text1" height="80px" route={this.props.location.pathname.slice(1)}  text={this.state.text1} onChange={text1 => this.setState({ text1 })} />
+                   <InputOrText section="text1" height="80px" route={this.props.location.pathname.slice(1)} text={this.state.text1} onChange={text1 => this.setState({ text1 })} />
                  </div>
                 :
                  <div className="text-block">
@@ -159,7 +220,7 @@ class PersonalShopper extends React.Component {
                     autoFocus
                     clearable={false}
                     onSelectResetsInput={false}
-                    options={[{ value: '0', label: '0km - 50.000kms' }, { value: '1', label: '50.000kms - 100.000kms' }, { value: '2', label: '100.000kms - 300.000kms' }]}
+                    options={[{ value: '0km', label: '0km' }, { value: '1km - 25.000km', label: '1km - 25.000km' }, { value: '25.000km - 50.000km', label: '25.000km - 50.000km' }, { value: '50.000km - 100.000km', label: '50.000km - 100.000km' }, { value: 'Más de 100.000km', label: 'Más de 100.000km' }]}
                     simpleValue
                     name="selected-state"
                     value={this.state.kms}
@@ -184,68 +245,15 @@ class PersonalShopper extends React.Component {
                 </FormGroup>
                 <Input
                   label="Precio aproximado"
-                  type="number"
+                  type="money"
                   placeholder="Ingrese un número sin puntos ni comas"
                   value={this.state.price}
                   onChange={event => this.setState({ price: event.target.value })}
                   validate={isValid => this.setState({ priceValidate: isValid })}
                 />
                 <div className="simulator-container">
-                  <FormGroup>
-                    <Label for="exampleSelect">¿Cuál es la marca?</Label>
-                    <Select
-                      id="brand-select"
-                      ref={(ref) => { this.select = ref; }}
-                      onBlurResetsInput={false}
-                      onSelectResetsInput={false}
-                      options={prepareArraySelect(AllBrands, 'ta3_nmarc', 'ta3_marca')}
-                      simpleValue
-                      clearable
-                      name="selected-state"
-                      value={this.state.brand}
-                      placeholder="Selecciona una marca"
-                      onChange={newValue => this.onChangeBrand(newValue)}
-                      searchable
-                      noResultsText="No se encontraron resultados"
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleSelect">¿Cuál es el modelo?</Label>
-                    <Select
-                      id="groups-select"
-                      ref={(ref) => { this.select = ref; }}
-                      onBlurResetsInput={false}
-                      onSelectResetsInput={false}
-                      options={prepareArraySelect(this.state.Groups, 'gru_cgrup', 'gru_ngrup')}
-                      simpleValue
-                      clearable
-                      name="selected-state"
-                      value={this.state.group}
-                      placeholder="Selecciona un modelo"
-                      onChange={newValue => this.onChangeGroup(newValue)}
-                      searchable
-                      noResultsText="No se encontraron resultados"
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleSelect">¿Cuál es la versión?</Label>
-                    <Select
-                      id="models-select"
-                      ref={(ref) => { this.select = ref; }}
-                      onBlurResetsInput={false}
-                      onSelectResetsInput={false}
-                      options={prepareArraySelect(this.state.Models, 'ta3_codia', 'ta3_model')}
-                      simpleValue
-                      clearable
-                      name="selected-state"
-                      value={this.state.codia}
-                      placeholder="Selecciona un tipo"
-                      onChange={newValue => this.onChangeModel(newValue)}
-                      searchable
-                      noResultsText="No se encontraron resultados"
-                    />
-                  </FormGroup>
-                  <Button color="secondary"> Añadir otro</Button>
+                  {this.renderCar(AllBrands)}
+                  {/* <Button color="secondary"> Añadir otro</Button> */}
                 </div>
 
                 <Input
@@ -255,7 +263,7 @@ class PersonalShopper extends React.Component {
                   onChange={event => this.setState({ observation: event.target.value })}
                   validate={isValid => this.setState({ observationValidate: isValid })}
                 />
-                <Button color="primary" disabled={this.disabled()} onClick={() => this.next()} className="float-right"> Siguiente</Button>
+                <Button color="primary" onClick={() => this.next()} className="float-right"> Siguiente</Button>
               </div>
             </Col>
           </Row>

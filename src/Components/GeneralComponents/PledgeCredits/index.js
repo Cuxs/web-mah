@@ -85,6 +85,21 @@ class PledgeCredits extends React.Component {
   }
 
   requestCredit() {
+    const {
+      nameValidate, dniValidate, addressValidate, ganancyValidate, financyAmountValidate, creditReasonValidate, emailValidate, phoneValidate,
+    } = this.state;
+    if (!(nameValidate && dniValidate && addressValidate && ganancyValidate && financyAmountValidate && creditReasonValidate && emailValidate && phoneValidate)) {
+      this._inputName.validate('string');
+      this._inputDni.validate('number');
+      this._inputAddress.validate('string');
+      this._inputFinancyAmount.validate('money');
+      this._inputGanancy.validate('money');
+      this._inputCreditReason.validate('string');
+      this._inputEmail.validate('email');
+      this._inputPhone.validate('number');
+      return false;
+    }
+
     const dataRequest = {
       name: this.state.name,
       dni: this.state.dni,
@@ -215,7 +230,7 @@ class PledgeCredits extends React.Component {
                 <div className="simulator-container" >
                   <Input
                     label="Monto a financiar *"
-                    type="number"
+                    type="money"
                     value={this.state.mount}
                     onChange={event => this.updateMount(event.target.value)}
                     validate={isValid => this.setState({ mountValid: isValid })}
@@ -269,6 +284,7 @@ class PledgeCredits extends React.Component {
 
                 <h4 className="title-division">Solicitá tu crédito!</h4>
                 <Input
+                  ref={inputName => (this._inputName = inputName)}
                   label="Nombre y Apellido"
                   type="text"
                   value={this.state.name}
@@ -276,6 +292,7 @@ class PledgeCredits extends React.Component {
                   validate={isValid => this.setState({ nameValidate: isValid })}
                 />
                 <Input
+                  ref={inputDni => (this._inputDni = inputDni)}
                   label="Documento de Identidad"
                   type="number"
                   value={this.state.dni}
@@ -283,6 +300,7 @@ class PledgeCredits extends React.Component {
                   validate={isValid => this.setState({ dniValidate: isValid })}
                 />
                 <Input
+                  ref={inputAddress => (this._inputAddress = inputAddress)}
                   label="Domicilio"
                   type="alphanumeric"
                   value={this.state.address}
@@ -290,20 +308,23 @@ class PledgeCredits extends React.Component {
                   validate={isValid => this.setState({ addressValidate: isValid })}
                 />
                 <Input
+                  ref={inputGanancy => (this._inputGanancy = inputGanancy)}
                   label="Ingresos"
-                  type="number"
+                  type="money"
                   value={this.state.ganancy}
                   onChange={event => this.setState({ ganancy: event.target.value })}
                   validate={isValid => this.setState({ ganancyValidate: isValid })}
                 />
                 <Input
+                  ref={inputFinancyAmount => (this._inputFinancyAmount = inputFinancyAmount)}
                   label="Monto a financiar"
-                  type="number"
+                  type="money"
                   value={this.state.financyAmount}
                   onChange={event => this.setState({ financyAmount: event.target.value })}
                   validate={isValid => this.setState({ financyAmountValidate: isValid })}
                 />
                 <Input
+                  ref={inputCreditReason => (this._inputCreditReason = inputCreditReason)}
                   label="Destino del crédito"
                   type="string"
                   value={this.state.creditReason}
@@ -311,6 +332,7 @@ class PledgeCredits extends React.Component {
                   validate={isValid => this.setState({ creditReasonValidate: isValid })}
                 />
                 <Input
+                  ref={inputEmail => (this._inputEmail = inputEmail)}
                   label="Email"
                   type="email"
                   value={this.state.email}
@@ -318,6 +340,7 @@ class PledgeCredits extends React.Component {
                   validate={isValid => this.setState({ emailValidate: isValid })}
                 />
                 <Input
+                  ref={inputPhone => (this._inputPhone = inputPhone)}
                   label="Teléfono"
                   type="number"
                   value={this.state.phone}
@@ -331,7 +354,7 @@ class PledgeCredits extends React.Component {
                   onChange={event => this.setState({ messagge: event.target.value })}
                   validate={isValid => this.setState({ messaggeValidate: isValid })}
                 />
-                <Button color="primary" className="float-right" disabled={this.disabled()} onClick={() => this.requestCredit()} > Solicitar</Button>
+                <Button color="primary" className="float-right" onClick={() => this.requestCredit()} > Solicitar</Button>
               </div>
             </Col>
           </Row>
