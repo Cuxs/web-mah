@@ -17,17 +17,25 @@ class SuperAdminRates extends Component {
     this.update = this.update.bind(this);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (!newProps.rates.loading) {
+  componentWillMount() {
+    this.getRates(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.getRates(nextProps);
+  }
+
+  getRates(props) {
+    if (!props.rates.loading) {
       this.setState({
-        rate0: newProps.rates.AllRates[0].rate,
-        rate1: newProps.rates.AllRates[1].rate,
-        rate2: newProps.rates.AllRates[2].rate,
-        rate3: newProps.rates.AllRates[3].rate,
-        rate4: newProps.rates.AllRates[4].rate,
-        rate5: newProps.rates.AllRates[5].rate,
-        rate6: newProps.rates.AllRates[6].rate,
-        rate7: newProps.rates.AllRates[7].rate,
+        rate0: props.rates.AllRates[0].rate,
+        rate1: props.rates.AllRates[1].rate,
+        rate2: props.rates.AllRates[2].rate,
+        rate3: props.rates.AllRates[3].rate,
+        rate4: props.rates.AllRates[4].rate,
+        rate5: props.rates.AllRates[5].rate,
+        rate6: props.rates.AllRates[6].rate,
+        rate7: props.rates.AllRates[7].rate,
       });
     }
   }
@@ -56,7 +64,6 @@ class SuperAdminRates extends Component {
 
   render() {
     const { location, history, rates } = this.props;
-    console.log(this.props.rates);
     return (
       <div>
         <AdminBar history={history} />
