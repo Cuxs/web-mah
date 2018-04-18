@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row, Button } from 'reactstrap';
 import { parse, stringify } from 'query-string';
 import Input from './Input';
+
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -58,14 +59,26 @@ class SuperAdminFilter extends Component {
               </Dropdown>
             </div>
 
-            <div className="col-6 text-right" style={{ marginBottom: '-1rem' }} >
-              <Input
-                type="text"
-                value={this.state.search}
-                placeholder="Buscar ..."
-                onChange={event => this.setState({ search: event.target.value })}
-                validate={isValid => this.setState({ emailValidate: isValid })}
-              />
+            <div className="col-8 text-right" style={{ marginBottom: '-1rem' }} >
+              <div className="row" >
+                <Input
+                  type="text"
+                  value={this.state.search}
+                  placeholder="Buscar ..."
+                  onChange={event => this.setState({ search: event.target.value })}
+                  validate={isValid => this.setState({ emailValidate: isValid })}
+                />
+                <Button
+                  color="primary"
+                  style={{ cursor: 'pointer' }}
+                  className="icon is-small btn-icon"
+                  onClick={() => {
+                    this.submitSearch();
+                  }}
+                >
+                  <img src="/assets/images/icon-search.svg" alt="" />
+                </Button>
+              </div>
             </div>
           </Row>
         </Col>

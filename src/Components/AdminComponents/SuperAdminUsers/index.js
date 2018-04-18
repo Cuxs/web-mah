@@ -6,6 +6,7 @@ import { Col, Row } from 'reactstrap';
 import { withApollo } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
+import Fuse from 'fuse.js';
 
 import AdminBar from '../../../stories/AdminBar';
 import SuperAdminFilterUser from '../../../stories/SuperAdminFilterUser';
@@ -73,6 +74,31 @@ class SuperAdminUsers extends React.Component {
     });
   }
 
+  onChangeSearch(value) {
+    if (value === '') {
+      return this.setState({ budgetsSearched: this.state.budgets, inputSearch: value });
+    }
+    const options = {
+      threshold: 0.1,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: [
+        'PreTomadorNombre',
+        'PreFormaPago',
+        'PrePremio',
+        'PreNumero',
+        'SegCertificado',
+        'PreEstado',
+        'SegEstado',
+      ],
+    };
+    const fuse = new Fuse(this.state.budgets, options);
+    const resultFuzzy = fuse.search(value);
+    return this.setState({ budgetsSearched: resultFuzzy, inputSearch: value });
+  }
+
   renderData() {
     if (this.state.loading) {
       return <p>Cargando...</p>;
@@ -90,6 +116,7 @@ class SuperAdminUsers extends React.Component {
   }
 
   render() {
+    console.log(this.state.users)
     return (
       <div>
         <AdminBar history={this.props.history} />
