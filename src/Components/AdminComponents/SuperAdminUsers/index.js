@@ -5,8 +5,8 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { withApollo } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
+import {parse} from 'query-string';
 import _ from 'lodash';
-import Fuse from 'fuse.js';
 
 import AdminBar from '../../../stories/AdminBar';
 import SuperAdminFilterUser from '../../../stories/SuperAdminFilterUser';
@@ -23,10 +23,12 @@ class SuperAdminUsers extends React.Component {
       totalCount: 0,
       hasNextPage: true,
       renderedData: 0,
+      searchDone: false,
     };
 
     this.doSearch = this.doSearch.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.searchHasBeenMade = this.searchHasBeenMade.bind(this);
   }
 
   componentWillMount() {
@@ -46,11 +48,21 @@ class SuperAdminUsers extends React.Component {
       }));
   }
 
-  doSearch(page, newSearch) {
+  componentWillReceiveProps(nextProps){
+    if(this.props.location.search !== nextProps.location.search){
+      const userType = parse(nextProps.location.search).userType;
+      this.doSearch(1, userType)
+    }
+  }
+
+  doSearch(page, userType) {
+    const variableList= {};
+    variableList.page = page;
+    if(userType){ variableList.userType = userType}
     this.props.client.query({
       query: AllUsersQuery,
       variables: {
-        page,
+        variableList
       },
     })
       .then(({ data: { AllUsersResume: { totalCount } }, data: { AllUsersResume: { Users } }, data: { AllUsersResume: { hasNextPage } } }) => {
@@ -74,31 +86,20 @@ class SuperAdminUsers extends React.Component {
     });
   }
 
-  onChangeSearch(value) {
-    if (value === '') {
-      return this.setState({ budgetsSearched: this.state.budgets, inputSearch: value });
-    }
-    const options = {
-      threshold: 0.1,
-      location: 0,
-      distance: 100,
-      maxPatternLength: 32,
-      minMatchCharLength: 1,
-      keys: [
-        'PreTomadorNombre',
-        'PreFormaPago',
-        'PrePremio',
-        'PreNumero',
-        'SegCertificado',
-        'PreEstado',
-        'SegEstado',
-      ],
-    };
-    const fuse = new Fuse(this.state.budgets, options);
-    const resultFuzzy = fuse.search(value);
-    return this.setState({ budgetsSearched: resultFuzzy, inputSearch: value });
+  searchHasBeenMade(searchResult){
+    this.setState({searchDone: true, searchUsers: searchResult})
   }
-
+  renderSearchResults(){
+    const items = [];
+    if ( this.state.searchUsers.totalCount === 0) {
+      return 'No hay resultados, pruebe con otros filtros';
+    }
+    this.state.searchUsers.Users.map(user => (
+      items.push(
+        <SACardUser data={user} key={user.id} onHighlight={() => this.toggle()} />
+        )));     
+    return items;
+  }
   renderData() {
     if (this.state.loading) {
       return <p>Cargando...</p>;
@@ -116,7 +117,6 @@ class SuperAdminUsers extends React.Component {
   }
 
   render() {
-    console.log(this.state.users)
     return (
       <div>
         <AdminBar history={this.props.history} />
@@ -126,9 +126,14 @@ class SuperAdminUsers extends React.Component {
               <SuperAdminSideBar history={this.props.history} location={this.props.location} />
             </Col>
             <Col md="9">
-              <SuperAdminFilterUser history={this.props.history} location={this.props.location} />
+              <SuperAdminFilterUser history={this.props.history} location={this.props.location} searchResults={this.searchHasBeenMade} />
               <div className="container-box-item">
                 <div className="col-12">
+                {this.state.searchDone ? 
+                <Row>
+                {this.renderSearchResults()}
+                </Row>
+                 :
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={this.doSearch}
@@ -136,9 +141,10 @@ class SuperAdminUsers extends React.Component {
                     loader={<img src="/loading.gif" className="loading-gif" key={0} alt="Loading..." />}
                   >
                     <Row>
-                      {this.renderData()}
+                     {this.renderData()}
                     </Row>
                   </InfiniteScroll>
+                  }
                 </div>
               </div>
             </Col>

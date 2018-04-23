@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row, Button } from 'reactstrap';
 import { parse, stringify } from 'query-string';
+import { graphql, compose } from 'react-apollo';
+import { branch, renderComponent } from 'recompose';
 import Input from './Input';
-
+import { searchUserMutation } from '../ApolloQueries/SuperAdminUsersQuery';
 
 /* eslint react/jsx-filename-extension: 0 */
 
-class SuperAdminFilter extends Component {
+class SuperAdminFilterUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,7 +17,6 @@ class SuperAdminFilter extends Component {
       dropDownTipoUserValue: 'Tipo de Cliente',
     };
     this.toggleTipoUserDropdown = this.toggleTipoUserDropdown.bind(this);
-
     this.changeTipoUserValue = this.changeTipoUserValue.bind(this);
   }
 
@@ -33,10 +34,20 @@ class SuperAdminFilter extends Component {
     });
   }
   changeTipoUserValue(e) {
-    this.searchWithParam('carState', e.currentTarget.textContent);
+    this.searchWithParam('userType', e.currentTarget.textContent);
     this.setState({ dropDownTipoUserValue: e.currentTarget.textContent });
   }
 
+  submitSearch(){
+    this.props.searchUser({
+      variables: {
+        text: this.state.search,
+      }
+    })
+    .then(({data:{searchUser}})=>{
+      this.props.searchResults(searchUser)
+    })
+  }
 
   render() {
     return (
@@ -64,7 +75,7 @@ class SuperAdminFilter extends Component {
                 <Input
                   type="text"
                   value={this.state.search}
-                  placeholder="Buscar ..."
+                  placeholder="Buscar..."
                   onChange={event => this.setState({ search: event.target.value })}
                   validate={isValid => this.setState({ emailValidate: isValid })}
                 />
@@ -86,5 +97,8 @@ class SuperAdminFilter extends Component {
     );
   }
 }
+const withSearhMutation = graphql(searchUserMutation, { name: 'searchUser' });
 
-export default SuperAdminFilter;
+
+const withData = compose(withSearhMutation)
+export default withData(SuperAdminFilterUser);
