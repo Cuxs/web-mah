@@ -19,6 +19,7 @@ import {
 import { RatesQuery } from '../../../ApolloQueries/RatesQuery';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
 import { P } from 'glamorous';
+import {requestCredit} from '../../../Modules/fetches';
 
 class PledgeCredits extends React.Component {
   constructor(props, context) {
@@ -46,6 +47,7 @@ class PledgeCredits extends React.Component {
       phoneValidate: false,
       messagge: '',
       modal: false,
+      modalMessage:'',
       fetched: false,
     };
     this.toggle = this.toggle.bind(this);
@@ -109,8 +111,25 @@ class PledgeCredits extends React.Component {
       creditReason: this.state.creditReason,
       email: this.state.email,
       phone: this.state.phone,
-      messagge: this.state.messagge,
+      message: this.state.messagge,
     };
+
+    requestCredit(dataRequest)
+      .then(()=>{
+        this.setState({
+          modalTitle: 'Listo!',
+          modalMessage:'Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.',
+          modal:true,
+        })
+      })
+      .catch((e)=>{
+        console.log(e)
+        this.setState({
+          modalTitle: 'Error',
+          modalMessage: 'Tu consulta no se pudo realizar, intenta mas tarde. Discula las molestias',
+          modal:true,
+        })
+      })
   }
 
   updateTime(time) {
@@ -271,6 +290,7 @@ class PledgeCredits extends React.Component {
               </div>
             </Col>
             <Col md="6" sm="12" xs="12">
+            <form>
               <div className="col-md-9 float-left pb-4">
                 {dataPublication !== '' &&
                   <div className="d-flex flex-column box-detail-car">
@@ -356,15 +376,16 @@ class PledgeCredits extends React.Component {
                 />
                 <Button color="primary" className="float-right" onClick={() => this.requestCredit()} > Solicitar</Button>
               </div>
+              </form>
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggleModal}>¡Felicitaciones!</ModalHeader>
+            <ModalHeader toggle={this.toggleModal}>{this.state.modalTitle}</ModalHeader>
             <ModalBody>
-              <div className="col-md-6 offset-md-3">Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.</div>
+              <div className="col-md-6 offset-md-3">{this.state.modalMessage}</div>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={() => this.props.history.push('/')} >OK</Button>
+              <Button color="primary" onClick={this.toggle} >OK</Button>
             </ModalFooter>
           </Modal>
         </div>

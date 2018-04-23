@@ -162,6 +162,24 @@ export const updatePassword = (data) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+export const requestCredit= (data)=>{
+  const url = `${server}/requestCredit`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(
+      data
+    ),
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+}
 export const uploadAgencyImages = (profileImage, bannerImage, id) => {
   const url = `${server}/uploadAgencyImages/${id}`;
   const formData = new FormData();
