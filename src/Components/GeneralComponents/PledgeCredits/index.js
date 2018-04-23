@@ -49,6 +49,7 @@ class PledgeCredits extends React.Component {
       modal: false,
       modalMessage:'',
       fetched: false,
+      success:false
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -120,6 +121,7 @@ class PledgeCredits extends React.Component {
           modalTitle: 'Listo!',
           modalMessage:'Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.',
           modal:true,
+          success:true,
         })
       })
       .catch((e)=>{
@@ -385,7 +387,7 @@ class PledgeCredits extends React.Component {
               <div className="col-md-6 offset-md-3">{this.state.modalMessage}</div>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={this.toggle} >OK</Button>
+              <Button color="primary" onClick={()=>{this.state.success? this.props.history.push('/') : this.toggle()}} >OK</Button>
             </ModalFooter>
           </Modal>
         </div>
