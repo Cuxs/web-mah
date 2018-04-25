@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 const searchUserMutation = gql `mutation searchUser($text: String!) {
   searchUser(text:$text){
     Users {
+      id
 		  name
       email
       address
@@ -16,6 +17,10 @@ const searchUserMutation = gql `mutation searchUser($text: String!) {
       agencyPhone
       isAgency
       isAdmin
+      Suspendida
+      Pendiente
+      Destacada
+      Publicada
 		}
     totalCount
     hasNextPage

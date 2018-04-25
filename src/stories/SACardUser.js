@@ -15,7 +15,7 @@ import { getUserToken } from '../Modules/sessionFunctions';
 import NotificationModal from './NotificationModal';
 /* eslint react/jsx-filename-extension: 0 */
 
-class CardUser extends React.Component {
+class SACardUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -115,7 +115,7 @@ class CardUser extends React.Component {
             </Button>
           </div>
         </div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={this.state.modal} size="lg" toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>
             {this.state.deleteUser
               ? '¿Desea eliminar este usuario?'
@@ -258,4 +258,4 @@ class CardUser extends React.Component {
 const withDeleteMutation = graphql(DeleteUserMutation, { name: 'deleteUser' });
 const withData = compose(withDeleteMutation);
 
-export default withData(CardUser);
+export default withData(SACardUser);

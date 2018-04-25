@@ -18,6 +18,7 @@ import Input from '../../../stories/Input';
 import InputOrText from '../../../stories/InputOrText';
 import { GetTextsQuery } from '../../../ApolloQueries/TextsQueries';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
+import {requestCredit} from '../../../Modules/fetches';
 
 class FreeDestinationCredits extends React.Component {
   constructor(props) {
@@ -40,6 +41,9 @@ class FreeDestinationCredits extends React.Component {
       phone: '',
       phoneValidate: false,
       messagge: '',
+      modalTitle:'',
+      modalMessage: '',
+      success:false,      
       title1: '',
       text1: '',
     };
@@ -87,7 +91,23 @@ class FreeDestinationCredits extends React.Component {
       phone: this.state.phone,
       messagge: this.state.messagge,
     };
-    console.log(dataRequest);
+    requestCredit(dataRequest)
+    .then(()=>{
+      this.setState({
+        modalTitle: 'Listo!',
+        modalMessage:'Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.',
+        modal:true,
+        success:true,
+      })
+    })
+    .catch((e)=>{
+      console.log(e)
+      this.setState({
+        modalTitle: 'Error',
+        modalMessage: 'Tu consulta no se pudo realizar, intenta mas tarde. Discula las molestias',
+        modal:true,
+      })
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -290,19 +310,18 @@ class FreeDestinationCredits extends React.Component {
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggleModal}>
-              ¡Felicitaciones!
+            <ModalHeader toggle={this.toggle}>
+            {this.state.modalTitle}
             </ModalHeader>
             <ModalBody>
               <div className="col-md-6 offset-md-3">
-                Tu consulta ha sido enviado correctamente. Nos contactaremos a
-                la brevedad para brindarte toda la información necesaria.
+              {this.state.modalMessage}
               </div>
             </ModalBody>
             <ModalFooter>
               <Button
                 color="primary"
-                onClick={() => this.props.history.push('/')}
+                onClick={()=>{this.state.success? this.props.history.push('/') : this.toggle()}}
               >
                 OK
               </Button>
