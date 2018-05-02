@@ -11,13 +11,14 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
+import {Helmet} from "react-helmet";
 import { graphql } from 'react-apollo';
 import qs from 'query-string';
 import _ from 'lodash';
 import { animateScroll as scroll } from 'react-scroll';
 import InfiniteScroll from 'react-infinite-scroller';
 import SearchMutation from '../../../ApolloQueries/SearchMutation';
-
+import ScrollToTop from "react-scroll-up";
 import Footer from '../../../stories/Footer';
 import BreadCrum from '../../../stories/BreadCrum';
 import PublicityBanner from '../../../stories/PublicityBanner';
@@ -200,6 +201,10 @@ class SearchCars extends Component {
     const { history, location } = this.props;
     return (
       <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{`Resultado de la búsqueda para: ${text}`}</title>
+        </Helmet>
         <TopTopNav history={history} />
         <SearchBar
           text={text}
@@ -274,6 +279,9 @@ class SearchCars extends Component {
 
         </div>
         <Footer history={history} />
+        <ScrollToTop showUnder={320}>
+          <img style={{width:'50px'}} scr="/logo.png" alt="Inicio" />
+        </ScrollToTop>
       </div>
     );
   }

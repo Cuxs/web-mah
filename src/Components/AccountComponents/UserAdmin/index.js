@@ -24,6 +24,7 @@ import {
 import { graphql, compose } from 'react-apollo';
 import { split } from 'split-object';
 import { branch, renderComponent } from 'recompose';
+import {Helmet} from 'react-helmet';
 
 import AdminBar from '../../../stories/AdminBar';
 import UserSideBar from '../../../stories/UserSideBar';
@@ -108,6 +109,10 @@ class UserAdmin extends React.Component {
     ];
     return (
       <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Tu Perfil</title>
+        </Helmet>
         <AdminBar history={history} />
         <div className="container">
           <Row>

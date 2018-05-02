@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { Col, Row, Button, Alert } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
+import {Helmet} from "react-helmet";
 
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
@@ -38,6 +39,10 @@ class FriendlyAgency extends Component {
     const { history, location, Agencies } = this.props;
     return (
       <div>
+         <Helmet>
+          <meta charSet="utf-8" />
+          <title>Concesionarios Adheridos</title>
+        </Helmet>
         <div>
           <TopTopNav history={history} />
           <SearchBar
