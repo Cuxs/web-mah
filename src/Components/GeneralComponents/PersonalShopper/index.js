@@ -38,6 +38,7 @@ class PersonalShopper extends React.Component {
       title1: '',
       text1: '',
     };
+    this.next = this.next.bind(this)
   }
   componentWillReceiveProps(nextProps) {
     if (!nextProps.Texts.loading) {
@@ -263,7 +264,7 @@ class PersonalShopper extends React.Component {
                   onChange={event => this.setState({ observation: event.target.value })}
                   validate={isValid => this.setState({ observationValidate: isValid })}
                 />
-                <Button color="primary" onClick={() => this.next()} className="float-right"> Siguiente</Button>
+                <Button color="primary" onClick={this.next} className="float-right"> Siguiente</Button>
               </div>
             </Col>
           </Row>

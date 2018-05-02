@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Button, Row } from 'reactstrap';
 import { getUserDataFromToken } from '../Modules/sessionFunctions';
 /* eslint react/jsx-filename-extension: 0 */
 
-const UserSideBar = ({ history, location }) => (
+class UserSideBar extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+     sidebar: ''
+    }
+    this.toggle = this.toggle.bind(this)
+  }
+  toggle(){
+    this.setState({sidebar: this.state.sidebar === '' ? 'active' : ''})
+  }
+render(){
+  const { history, location } = this.props
+return(
   <Row className="sidebar-user" >
-    <Button color="primary" className="btn-link d-block d-lg-none float-left" >
+    <Button color="primary" onClick={this.toggle} className={`btn-link d-block d-lg-none float-left ${this.state.sidebar}`} >
       <img src="/assets/images/icon-menu.svg" alt="icon-menu" /> Menu
     </Button>
-    <ul>
+    <ul className={`sidebar-mobile d-none d-xl-block ${this.state.sidebar}`}>
       <li>
         <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/userAdmin' ? 'active' : ''} onClick={() => history.push('/userAdmin')} >Inicio</Button>
       </li>
@@ -28,5 +41,7 @@ const UserSideBar = ({ history, location }) => (
     <Button style={{ cursor: 'pointer' }} color="primary" className={location.pathname === '/createPublication' ? 'active' : ''} onClick={() => history.push('/createPublication')} >Crear publicación</Button>
   </Row>
 );
+}
+}
 
 export default UserSideBar;

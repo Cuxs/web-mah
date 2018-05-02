@@ -7,10 +7,11 @@ import { stringify, parse } from 'query-string';
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
+import {requestCredit} from '../../../Modules/fetches';
 
 import style from '../../../Styles/pledgeCredits';
 
-class PersonalShopper extends React.Component {
+class PersonalShopperS2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +32,9 @@ class PersonalShopper extends React.Component {
       phone: '',
       phoneValidate: false,
       messagge: '',
+      modalTitle:'',
+      modalMessage: '',
+      success:false,    
     };
   }
 
@@ -75,9 +79,31 @@ class PersonalShopper extends React.Component {
       job: this.state.job,
       email: this.state.email,
       phone: this.state.phone,
+      personalShopper: true,
     };
+    requestCredit(dataUser)
+    .then(()=>{
+      this.setState({
+        modalTitle: 'Listo!',
+        modalMessage:'Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.',
+        modal:true,
+        success:true,
+      })
+    })
+    .catch((e)=>{
+      console.log(e)
+      this.setState({
+        modalTitle: 'Error',
+        modalMessage: 'Tu consulta no se pudo realizar, intenta mas tarde. Discula las molestias',
+        modal:true,
+      })
+    })
   }
-
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
   render() {
     return (
       <div>
@@ -181,12 +207,12 @@ class PersonalShopper extends React.Component {
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggleModal}>¡Felicitaciones!</ModalHeader>
+            <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>
             <ModalBody>
-              <div className="col-md-6 offset-md-3">Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.</div>
+              <div className="col-md-6 offset-md-3">{this.state.modalMessage}</div>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={() => this.props.history.push('/')} >OK</Button>
+              <Button color="primary" onClick={()=>{this.state.success? this.props.history.push('/') : this.toggle()}} >OK</Button>
             </ModalFooter>
           </Modal>
         </div>
@@ -196,4 +222,4 @@ class PersonalShopper extends React.Component {
   }
 }
 
-export default PersonalShopper;
+export default PersonalShopperS2;

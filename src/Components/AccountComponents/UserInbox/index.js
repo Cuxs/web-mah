@@ -50,7 +50,7 @@ class UserInbox extends Component {
         <AdminBar history={history} />
         <div className="container">
           <Row>
-            <Col md="3" className="d-none d-md-block">
+            <Col lg="3" md="12" sm="12" xs="12">
               <UserSideBar history={history} location={location} />
             </Col>
             <Col md="9" sm="12" xs="12" className="mt-4">
