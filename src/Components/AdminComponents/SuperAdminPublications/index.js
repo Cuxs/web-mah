@@ -8,6 +8,7 @@ import { graphql, compose } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
 import { animateScroll as scroll } from 'react-scroll';
+import {Helmet} from 'react-helmet';
 
 
 import AdminBar from '../../../stories/AdminBar';
@@ -135,6 +136,10 @@ class SuperAdminPublications extends React.Component {
   render() {
     return (
       <div style={{ height: '1000px' }}>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Administrador de Mi Auto Hoy</title>
+      </Helmet>
         <AdminBar history={this.props.history} />
         <div className="container-fluid">
           <Row>

@@ -20,14 +20,16 @@ class FilterList extends Component {
   items(title, value, search, history) {
     return (
       <ul>
-        {title === 'year' ? _.orderBy(split(value), ['key'], ['desc']).map((row, index) => (
+        {(title === 'year' || title ==='modelName') ? 
+        _.orderBy(split(value), ['key'], ['desc']).map((row, index) => (
           <li>
             {row.key !== 'null' && <button className={(index > 4) ? 'sidebar-option hide' : 'sidebar-option'} disabled={split(value).length === 1} onClick={() => history.push(`${search}&${title}=${row.key}`)}>
               {row.key} <span className="quantity">({row.value})</span>
             </button>}
           </li>
         ))
-        : split(value).map(row => (
+        : 
+        split(value).map(row => (
           <li>
             {row.key !== 'null' && <button className="sidebar-option" disabled={split(value).length === 1} onClick={() => history.push(`${search}&${title}=${row.key}`)}>
               {row.key} <span className="quantity">({row.value})</span>
@@ -35,21 +37,26 @@ class FilterList extends Component {
           </li>
         ))}
         {title === 'year' && <li>
-          <button className="sidebar-option" onClick={() => this.toggle()}>
-            Ver más
+          <button className="sidebar-option" onClick={() => this.toggle('year')}>
+          <strong>Ver más</strong>
+          </button>
+        </li>}
+        {title === 'modelName' && <li>
+          <button className="sidebar-option" onClick={() => this.toggle('modelName')}>
+            <strong>Ver más</strong>
           </button>
         </li>}
       </ul>
     );
   }
 
-  renderYear(title, value, search, history) {
+  renderModal(modalData ,title, value, search, history) {
     return (
       <Col md={12}>
         <Row>
-          {title === 'year' && _.orderBy(split(value), ['key'], ['desc']).map((row, index) => (
+          {title === modalData && _.orderBy(split(value), ['key'], ['desc']).map((row, index) => (
           row.key !== 'null' && <Col md={6} sm={12} xs={12} >
-            <button className="modal-option" disabled={split(value).length === 1} onClick={() => { this.toggle(); history.push(`${search}&${title}=${row.key}`); }}>
+            <button className="modal-option" disabled={split(value).length === 1} onClick={() => { this.toggle('year'); history.push(`${search}&${title}=${row.key}`); }}>
               {row.key} <span className="quantity">({row.value})</span>
             </button>
           </Col>
@@ -69,14 +76,17 @@ class FilterList extends Component {
         return 'Estado de la publicación';
       case 'userType':
         return 'Tipo de Usuario';
+      case 'modelName':
+        return 'Modelo';
       default:
         return '';
     }
   }
 
-  toggle() {
+  toggle(data) {
     this.setState({
       modal: !this.state.modal,
+      modalData: data
     });
   }
 
@@ -91,10 +101,10 @@ class FilterList extends Component {
           </ul>
         ))}
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Elegir año</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Elige uno</ModalHeader>
           <ModalBody>
             {split(this.props.filters).map(row => (
-              this.renderYear(row.key, row.value, this.props.search, this.props.history)
+              this.renderModal(this.state.modalData ,row.key, row.value, this.props.search, this.props.history)
             ))}
           </ModalBody>
         </Modal>

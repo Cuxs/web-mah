@@ -8,6 +8,7 @@ import { branch, renderComponent } from 'recompose';
 import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import decode from 'jwt-decode';
+import {Helmet} from "react-helmet";
 
 import {
   CarDetailQuery,
@@ -54,7 +55,6 @@ class CarDetail extends Component {
     this.state = {
       modal: false,
     };
-
     this.toggle = this.toggle.bind(this);
     this.isPublicationVisible = this.isPublicationVisible.bind(this);
   }
@@ -123,6 +123,12 @@ class CarDetail extends Component {
     }
     return (
       <div>
+       {!carDetailData.loading &&
+         <Helmet>
+                <meta charSet="utf-8" />
+                <title>{`${carDetailData.Publication.brand} - ${carDetailData.Publication.group}` }</title>
+         </Helmet>
+       }
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
         <div className="container mb-4 mt-4">

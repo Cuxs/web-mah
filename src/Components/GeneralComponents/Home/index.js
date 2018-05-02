@@ -5,6 +5,7 @@ import React from 'react';
 import _ from 'lodash';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
+import {Helmet} from "react-helmet";
 
 import {
   HomeQuery,
@@ -43,6 +44,10 @@ const Home = ({
   <div>
     {!data.loading && (
       <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Bienvenido a Mi Auto Hoy</title>
+        </Helmet>
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
         {!Texts.loading && <Banner Texts={Texts} />}
