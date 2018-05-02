@@ -7,14 +7,12 @@ SERVER=beta.miautohoy.com
 APP_PATH=/var/www/beta.miautohoy.com/current
 
 echo "Deploying, please wait..."
-npm run build
+
 ssh $USER@$SERVER "mkdir -p $APP_PATH"
 rsync -az --delete --exclude .git --exclude .gitignore \
   --exclude deploy --exclude node_modules \
   -e ssh . $USER@$SERVER:$APP_PATH
-#ssh $USER@$SERVER "cd $APP_PATH && npm install && npm run build"
-rsync -az -e ssh build/ $USER@$SERVER:$APP_PATH/build
-rsync -az -e ssh pages/ $USER@$SERVER:$APP_PATH/build
-ssh root@$SERVER "systemctl restart nginx.service"
+ssh $USER@$SERVER "cd $APP_PATH && npm install && npm run build"
+ssh root@$SERVER "systemctl restart miautohoy"
 
 echo "Deploy finished"
