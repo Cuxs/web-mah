@@ -13,7 +13,7 @@ app.get("/carDetail", function(request, response) {
   fetch(
     `${
       process.env.REACT_APP_API
-    }/graphql?query={Publication(id%3A23){ImageGroup{image1}modelName%2Cbrand%2Cobservation}}`
+    }/graphql?query={Publication(id%3A${request.query.publication_id}){ImageGroup{image1}modelName%2Cbrand%2Cobservation}}`
   )
     .then(res => res.json())
     .then(({ data }) => {
@@ -31,7 +31,7 @@ app.get("/carDetail", function(request, response) {
         );
         htmlData = htmlData.replace(
           /\$OG_DESCRIPTION/g,
-          Publication.observation === null ? "" : Publication.observation
+          Publication.observation === null ? "Mi auto hoy. Cambia la forma de comprar o vender tu auto" : Publication.observation
         );
         result = htmlData.replace(
           /\$OG_IMAGE/g,
