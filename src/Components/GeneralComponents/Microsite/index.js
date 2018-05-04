@@ -43,6 +43,7 @@ class Microsite extends Component {
       .mutate({
         variables: {
           user_id: qs.parse(url).c_id,
+          state: 'Activas'
         },
       })
       .then(({ data }) => {
