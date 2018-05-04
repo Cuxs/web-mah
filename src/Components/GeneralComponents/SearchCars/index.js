@@ -280,7 +280,7 @@ class SearchCars extends Component {
         </div>
         <Footer history={history} />
         <ScrollToTop showUnder={320}>
-          <img style={{ width: '50px' }} scr="/logo.png" alt="Inicio" />
+          <img style={{ width: '30px' }} src="/assets/images/icon-arrow-top.svg" alt="Inicio" />
         </ScrollToTop>
       </div>
     );
