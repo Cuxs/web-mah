@@ -9,6 +9,38 @@ const bodyParser = require("body-parser");
 const fetch = require("isomorphic-fetch");
 
 app.use(bodyParser.json());
+app.get('/microsite', function (request, response) {
+  fetch(
+    `${
+      process.env.REACT_APP_API
+    }/graphql?query={GetAgencyDetail(id:${request.query.c_id}){profileImage,agencyName}}`
+  ).then(res => res.json())
+  .then(({ data }) => {
+    const filePath = path.resolve(__dirname, "./build", "index.html");
+      fs.readFile(filePath, "utf8", function(err, htmlData) {
+        if (err) {
+          return console.log(err);
+        }
+        const { GetAgencyDetail } = data;
+        const { profileImage, agencyName} = GetAgencyDetail;
+
+        htmlData = htmlData.replace(
+          /\$OG_TITLE/g,
+          `Visitar concesionaria ${agencyName}`
+        );
+        htmlData = htmlData.replace(
+          /\$OG_DESCRIPTION/g,
+           `Descubre los autos de concesionaria ${agencyName} en Mi auto hoy y cambia la forma de comprar o vender tu auto`
+        );
+        result = htmlData.replace(
+          /\$OG_IMAGE/g,
+          `${process.env.REACT_APP_API}/images/${profileImage}`
+        );
+        response.send(result);
+      });
+    })
+    .catch(err => console.log("error", err));
+})
 app.get("/carDetail", function(request, response) {
   fetch(
     `${

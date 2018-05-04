@@ -70,7 +70,7 @@ class SuperAdminPublications extends React.Component {
     if (nextProps) { location = nextProps.location; } else {
       location = this.props.location;
     }
-    this.props.PubsPerPage({
+      this.props.PubsPerPage({
       variables: {
         state: qs.parse(location.search).stateName,
         carState: qs.parse(location.search).carState,

@@ -7,6 +7,7 @@ import { graphql, compose } from 'react-apollo';
 import qs from 'query-string';
 import { animateScroll as scroll } from 'react-scroll';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Helmet } from 'react-helmet';
 
 import SearchMutation from '../../../ApolloQueries/SearchMutation';
 import { GetAgencyDetail } from '../../../ApolloQueries/FriendlyAgencyQueries';
@@ -89,6 +90,10 @@ class Microsite extends Component {
     } = this.props;
     return (
       <div>
+         <Helmet>
+          <meta charSet="utf-8" />
+          <title>{`Concesionaria ${qs.parse(this.props.location.search).concesionaria} - Mi auto Hoy`}</title>
+        </Helmet>
         <TopTopNav history={history} />
         <SearchBar
           text={text}
