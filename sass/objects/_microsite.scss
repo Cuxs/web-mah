@@ -2,6 +2,9 @@
   .microsite-portrait{
     height: 330px;
   }
+  .div-portrait{
+    background-size: 100%;
+  }
   .microsite-data{
     h3{
       margin-bottom: 20px;
@@ -12,7 +15,8 @@
         border:solid 1px $gray-200;
         padding-left: 1px;
         @include border-radius(3px);
-        background-color: #FFF
+        background-color: #FFF;
+        width: 100%;
       }
     }
     .container-data-input-group{
@@ -23,8 +27,8 @@
 
 @media screen and (max-width: 960px) {
   .microsite-header{
-    .microsite-portrait{
-
+    .div-portrait{
+      background-size: auto;
     }
     .microsite-data{
       .microsite-data-avatar{

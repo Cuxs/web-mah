@@ -5,6 +5,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { withApollo } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
+import ScrollToTop from 'react-scroll-up';
 import { parse } from 'query-string';
 import _ from 'lodash';
 
@@ -145,6 +146,9 @@ class SuperAdminUsers extends React.Component {
                   }
                 </div>
               </div>
+              <ScrollToTop showUnder={320} >
+                <img style={{ width: '30px' }} src="/assets/images/icon-arrow-top.svg" alt="Inicio" />
+              </ScrollToTop>
             </Col>
           </Row>
         </div>

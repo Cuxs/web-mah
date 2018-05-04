@@ -1,8 +1,8 @@
 
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
-
 import React, { Component } from 'react';
+import { Col } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import qs from 'query-string';
 import { animateScroll as scroll } from 'react-scroll';
@@ -59,14 +59,14 @@ class Microsite extends Component {
   }
   renderData() {
     if (this.state.totalCount === 0) {
-      return <p>Esta agencia no posee publiciones activas. </p>;
+      return <p className="m-15">Esta agencia no posee publiciones activas. </p>;
     }
     if (this.state.data.searchPublication === '') {
-      return <p>Cargando...</p>;
+      return <p className="m-15">Cargando...</p>;
     }
     return (
       <div>
-        <div className="offset-md-3">
+        <div className="offset-lg-3">
           <br />
           <NumberOfResult results={this.state.totalCount} concesionaria />
           <CarResultContainer>
@@ -110,14 +110,16 @@ class Microsite extends Component {
           /> :
           <HeaderAgency data={AgencyData.GetAgencyDetail} />
         }
-        <InfiniteScroll
-          pageStart={0}
-          loadMore={this.doSearch}
-          hasMore={this.state.renderedData < this.state.totalCount}
-          loader={<img className="loading-gif" src="/loading.gif" key={0} alt="Loading..." />}
-        >
-          {this.renderData()}
-        </InfiniteScroll>
+        <Col md={12}>
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={this.doSearch}
+            hasMore={this.state.renderedData < this.state.totalCount}
+            loader={<img className="loading-gif" src="/loading.gif" key={0} alt="Loading..." />}
+          >
+            {this.renderData()}
+          </InfiniteScroll>
+        </Col>
       </div>
     );
   }

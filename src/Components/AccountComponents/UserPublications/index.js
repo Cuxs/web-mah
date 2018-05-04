@@ -7,6 +7,7 @@ import qs from 'query-string';
 import { graphql, compose } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
 import FlipMove from 'react-flip-move';
+import ScrollToTop from 'react-scroll-up';
 import { branch, renderComponent } from 'recompose';
 import { animateScroll as scroll } from 'react-scroll';
 import _ from 'lodash';
@@ -122,7 +123,7 @@ class UserPublications extends React.Component {
     } = this.state;
 
     if (this.state.loading) {
-      return <p>Cargando...</p>;
+      return <p className="m-15">Cargando...</p>;
     }
     const {
       publications, totalCount,
@@ -130,10 +131,10 @@ class UserPublications extends React.Component {
     const items = publications.map(pub => (
       (<CardPublication history={this.props.history} data={pub} key={pub.id} onHighlight={() => this.toggle()} />)));
     if (totalCount === 0 && hasNextPage === false) {
-      items.push(<p>No se encontraron publicaciones.</p>);
+      items.push(<p className="m-15">No se encontraron publicaciones.</p>);
     }
     if (hasNextPage === false && totalCount !== 0) {
-      items.push(<p>No hay más publicaciones que mostrar</p>);
+      items.push(<p className="m-15">No hay más publicaciones que mostrar</p>);
     }
     return items;
   }
@@ -151,7 +152,7 @@ class UserPublications extends React.Component {
             </Col>
             <Col lg="9" md="12" sm="12" xs="12" className="mt-4">
               {this.state.totalCount === 0
-                ? <p>No se encontraron publicaciones.</p>
+                ? <p className="m-15" >No se encontraron publicaciones.</p>
                 : <div>
                   <NumberOfResult results={this.state.totalCount} />
                   <AdminFilter history={history} location={location} />
@@ -173,6 +174,9 @@ class UserPublications extends React.Component {
                 </div>
               }
             </Col>
+            <ScrollToTop showUnder={320} >
+              <img style={{ width: '30px' }} src="/assets/images/icon-arrow-top.svg" alt="Inicio" />
+            </ScrollToTop>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
             <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>

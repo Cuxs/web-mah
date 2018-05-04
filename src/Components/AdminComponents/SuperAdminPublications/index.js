@@ -9,7 +9,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import _ from 'lodash';
 import { animateScroll as scroll } from 'react-scroll';
 import { Helmet } from 'react-helmet';
-
+import ScrollToTop from 'react-scroll-up';
 
 import AdminBar from '../../../stories/AdminBar';
 import SuperAdminFilter from '../../../stories/SuperAdminFilter';
@@ -162,6 +162,9 @@ class SuperAdminPublications extends React.Component {
                 </div>
               </div>
             </Col>
+            <ScrollToTop showUnder={320} >
+              <img style={{ width: '30px' }} src="/assets/images/icon-arrow-top.svg" alt="Inicio" />
+            </ScrollToTop>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
             <ModalHeader toggle={this.toggle}>Felicitaciones</ModalHeader>
