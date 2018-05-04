@@ -75,7 +75,7 @@ class SACardUser extends React.Component {
   render() {
     const { data } = this.props;
     return (
-      <Col md="4">
+      <Col lg="4" md="6" sm="12">
         <div className="card p-4 box-item box-user" style={{ height: '327px' }}>
           <div>
             <div className="data-input-group">
@@ -83,7 +83,7 @@ class SACardUser extends React.Component {
             </div>
             <div className="data-input-group">
               <Label>EMAIL</Label>
-              <p>{data.agencyName !== null ? data.agencyEmail : data.email}</p>
+              <p className="truncate" >{data.agencyName !== null ? data.agencyEmail : data.email}</p>
             </div>
             <div className="data-input-group">
               <Label>TELEFONO DE CONTACTO</Label>

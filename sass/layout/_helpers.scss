@@ -44,3 +44,9 @@
     outline: none;
     box-shadow:none !important;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

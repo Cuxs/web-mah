@@ -65,55 +65,59 @@ class SuperAdminFilter extends Component {
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">
           <Row className="align-items-center">
-            <div>
-              <p>Filtrar por</p>
-            </div>
-            <div className="col-3">
-              <Dropdown size="sm" isOpen={this.state.tipoUserDropdown} toggle={this.toggleTipoUserDropdown}>
-                <DropdownToggle caret className="btn-select btn-default">
-                  {this.state.dropDownTipoUserValue}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Elije una</DropdownItem>
-                  <DropdownItem onClick={e => this.changeTipoUserValue(e)}>Usuario</DropdownItem>
-                  <DropdownItem onClick={e => this.changeTipoUserValue(e)}>Agencia</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
+            <div className="col-md-7 col-sm-12 d-flex flex-row align-items-center justify-content-start" >
+              <div>
+                <p>Filtrar por</p>
+              </div>
+              <div className="mv-15 size-user">
+                <Dropdown size="sm" isOpen={this.state.tipoUserDropdown} toggle={this.toggleTipoUserDropdown}>
+                  <DropdownToggle caret className="btn-select btn-default">
+                    {this.state.dropDownTipoUserValue}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem header>Elije una</DropdownItem>
+                    <DropdownItem onClick={e => this.changeTipoUserValue(e)}>Usuario</DropdownItem>
+                    <DropdownItem onClick={e => this.changeTipoUserValue(e)}>Agencia</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
 
-            <div className="col-2">
-              <Dropdown size="sm" isOpen={this.state.tipoDropdown} toggle={this.toggleTipoDropdown}>
-                <DropdownToggle caret className="btn-select btn-default">
-                  {this.state.dropDownTipoValue}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Elije una</DropdownItem>
-                  <DropdownItem onClick={e => this.changeTipoValue(e)}>Usado</DropdownItem>
-                  <DropdownItem onClick={e => this.changeTipoValue(e)}>Nuevo</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
+              <div className="mv-15 size-car" >
+                <Dropdown size="sm" isOpen={this.state.tipoDropdown} toggle={this.toggleTipoDropdown}>
+                  <DropdownToggle caret className="btn-select btn-default">
+                    {this.state.dropDownTipoValue}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem header>Elije una</DropdownItem>
+                    <DropdownItem onClick={e => this.changeTipoValue(e)}>Usado</DropdownItem>
+                    <DropdownItem onClick={e => this.changeTipoValue(e)}>Nuevo</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
             </div>
-            <div className="col-2 text-right">
-              <p>Ordenar por</p>
-            </div>
-            <div className="col-4">
-              <Dropdown size="sm" isOpen={this.state.stateDropdown} toggle={this.toggleStateDropdown}>
-                <DropdownToggle caret className="btn-select btn-default">
-                  {this.state.dropDownPublicationStateValue}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Elije una</DropdownItem>
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }}>Pendiente</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Publicada</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Destacada</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Suspendida</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Vendida</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Archivada</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Eliminada</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Vencida</DropdownItem >
-                  <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Apto para garantía</DropdownItem >
-                </DropdownMenu>
-              </Dropdown>
+            <div className="col-md-5 col-sm-12 mv-15 d-flex flex-row align-items-center justify-content-lg-end justify-content-sm-start">
+              <div className="mv-15">
+                <p>Ordenar por</p>
+              </div>
+              <div className="mv-15 size-publication" >
+                <Dropdown size="md" isOpen={this.state.stateDropdown} toggle={this.toggleStateDropdown}>
+                  <DropdownToggle caret className="btn-select btn-default">
+                    {this.state.dropDownPublicationStateValue}
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <DropdownItem header>Elije una</DropdownItem>
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }}>Pendiente</DropdownItem >
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Publicada</DropdownItem >
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Destacada</DropdownItem >
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Suspendida</DropdownItem >
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Vendida</DropdownItem >
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Archivada</DropdownItem >
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Eliminada</DropdownItem >
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Vencida</DropdownItem >
+                    <DropdownItem onClick={(e) => { this.changeStateValue(e); }} >Apto para garantía</DropdownItem >
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
             </div>
           </Row>
         </Col>

@@ -47,8 +47,8 @@ class SuperAdminSideBar extends React.Component {
           <li>
             <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/superAdminRates' ? 'active' : ''} onClick={() => history.push('/superAdminRates')} >Tasas</Button>
           </li>
+          <Button style={{ cursor: 'pointer' }} color="primary" className={location.pathname === '/createPublication' ? 'active' : ''} onClick={this.toggle} >Crear publicación</Button>
         </ul>
-        <Button style={{ cursor: 'pointer' }} color="primary" className={location.pathname === '/createPublication' ? 'active' : ''} onClick={this.toggle} >Crear publicación</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Crear una publicación para</ModalHeader>
           <ModalBody>

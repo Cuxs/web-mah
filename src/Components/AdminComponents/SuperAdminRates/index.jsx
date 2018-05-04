@@ -69,13 +69,13 @@ class SuperAdminRates extends Component {
         <AdminBar history={history} />
         <div className="container-fluid">
           <Row>
-            <Col md="3">
+            <Col lg="3" md="12" >
               <SuperAdminSideBar history={history} location={location} />
             </Col>
-            <Col md="9" className="mt-4">
-              <Row>
-                {!rates.loading &&
-                <Col md="6" className="container-data-input-group">
+            <Col lg="9" md="12" sm="12">
+              {!rates.loading &&
+              <div className="d-flex flex-md-row flex-sm-column" >
+                <Col lg="6" md="6" sm="12" className="container-data-input-group mt-4">
                   <div className="card p-4" style={{ height: '100%' }}>
                     <h6 className="title-division"><b>Tasas 2008 - 0km</b></h6>
                     <div className="data-input-group">
@@ -105,9 +105,8 @@ class SuperAdminRates extends Component {
                       />
                     </div>
                   </div>
-                </Col>}
-                {!rates.loading &&
-                <Col md="6" className="container-data-input-group">
+                </Col>
+                <Col lg="6" md="6" sm="12" className="container-data-input-group mt-4">
                   <div className="card p-4" style={{ height: '100%' }}>
                     <h6 className="title-division"><b>Tasas 2003 - 2007</b></h6>
                     <div className="data-input-group">
@@ -137,10 +136,8 @@ class SuperAdminRates extends Component {
                       />
                     </div>
                   </div>
-                </Col>}
-              </Row>
-
-
+                </Col>
+              </div>}
             </Col>
           </Row>
 

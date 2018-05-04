@@ -18,23 +18,19 @@
 
 @media screen and (max-width: 990px) {
   .sidebar-user{
-    margin:20px 0;
-    padding-bottom: 20px;
-    border-bottom: solid 1px $gray-200;
-    display: inline-block;
+    margin-top: -45px;
+    padding: -15px;
     width: 100%;
     ul{
-      display: none;
-      position:absolute;
-      top:0;
-      left: 0;
       background-color: $white;
-      border:solid 1px $gray-200;
-      padding: 20px;
-      z-index: 200;
+      padding: 10px 0px;
       &.active{
         display: block;
         text-align: left;
+      }
+      li .btn{
+        background-color: $white;
+        padding: 0px;
       }
     }
     & > .btn{

@@ -51,10 +51,10 @@ class SuperAdminAllMessages extends Component {
         <AdminBar history={history} />
         <div className="container-fluid">
           <Row>
-            <Col md="3">
+            <Col lg="3" md="12" >
               <SuperAdminSideBar history={history} location={location} />
             </Col>
-            <Col md="9" className="mt-4">
+            <Col lg="9" md="12" className="mt-4">
               {loadingComments ? (
                 <img
                   className="loading-gif"
@@ -64,7 +64,7 @@ class SuperAdminAllMessages extends Component {
                   alt="Loading..."
                 />
               ) : (
-                <div className="cont-list-messages">
+                <div className="cont-list-messages m-15">
                   {!loadingComments && (
                   <NumberOfUnreads
                     totalMsg={Threads.length}

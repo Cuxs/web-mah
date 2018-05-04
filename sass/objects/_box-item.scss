@@ -166,7 +166,6 @@
           p{
             &.item-state{
               right: -5px;
-              top: -25px;
             }
           }
           .item-admin{
@@ -184,4 +183,31 @@
     }
   }
 }
+@media screen and (max-width: 425px) {
+  .container-box-item{
+    .box-item{
+      .item-car{
+        // ADMIN
+        &.wide{
+          p{
+            &.item-state{
+              &.published{
+                background-color: rgba(72, 210, 160, 0.7);
+              }
+              &.pending{
+                background-color: rgba(53, 142, 215, 0.7);
+              }
+              &.sold{
+                background-color: rgba(42, 59, 89, 0.5);
+              }
+              &.highlighted{
+                background-color: rgba(190, 0, 21, 0.5);
+              }
+            }
+          }
+        }
+      }
 
+    }
+  }
+}

@@ -38,15 +38,15 @@ class SuperAdminFilterUser extends Component {
     this.setState({ dropDownTipoUserValue: e.currentTarget.textContent });
   }
 
-  submitSearch(){
+  submitSearch() {
     this.props.searchUser({
       variables: {
         text: this.state.search,
-      }
+      },
     })
-    .then(({data:{searchUser}})=>{
-      this.props.searchResults(searchUser)
-    })
+      .then(({ data: { searchUser } }) => {
+        this.props.searchResults(searchUser);
+      });
   }
 
   render() {
@@ -54,10 +54,10 @@ class SuperAdminFilterUser extends Component {
       <Row className="header-filters align-items-center">
         <Col md="12" sm="12">
           <Row className="align-items-center">
-            <div>
+            <div className="m-15" >
               <p>Filtrar por</p>
             </div>
-            <div className="col-3">
+            <div className="col-md-3 col-sm-6 mv-15">
               <Dropdown size="sm" isOpen={this.state.tipoUserDropdown} toggle={this.toggleTipoUserDropdown}>
                 <DropdownToggle caret className="btn-select btn-default">
                   {this.state.dropDownTipoUserValue}
@@ -70,7 +70,7 @@ class SuperAdminFilterUser extends Component {
               </Dropdown>
             </div>
 
-            <div className="col-8 text-right" style={{ marginBottom: '-1rem' }} >
+            <div className="col-lg-6 col-md-6 col-sm-12 text-right m-15" style={{ marginBottom: '-1rem' }} >
               <div className="row" >
                 <Input
                   type="text"
@@ -100,5 +100,5 @@ class SuperAdminFilterUser extends Component {
 const withSearhMutation = graphql(searchUserMutation, { name: 'searchUser' });
 
 
-const withData = compose(withSearhMutation)
+const withData = compose(withSearhMutation);
 export default withData(SuperAdminFilterUser);

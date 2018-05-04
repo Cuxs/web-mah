@@ -5,7 +5,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { withApollo } from 'react-apollo';
 import InfiniteScroll from 'react-infinite-scroller';
-import {parse} from 'query-string';
+import { parse } from 'query-string';
 import _ from 'lodash';
 
 import AdminBar from '../../../stories/AdminBar';
@@ -48,21 +48,21 @@ class SuperAdminUsers extends React.Component {
       }));
   }
 
-  componentWillReceiveProps(nextProps){
-    if(this.props.location.search !== nextProps.location.search){
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.search !== nextProps.location.search) {
       const userType = parse(nextProps.location.search).userType;
-      this.doSearch(1, userType)
+      this.doSearch(1, userType);
     }
   }
 
   doSearch(page, userType) {
-    const variableList= {};
+    const variableList = {};
     variableList.page = page;
-    if(userType){ variableList.userType = userType}
+    if (userType) { variableList.userType = userType; }
     this.props.client.query({
       query: AllUsersQuery,
       variables: {
-        variableList
+        variableList,
       },
     })
       .then(({ data: { AllUsersResume: { totalCount } }, data: { AllUsersResume: { Users } }, data: { AllUsersResume: { hasNextPage } } }) => {
@@ -86,29 +86,27 @@ class SuperAdminUsers extends React.Component {
     });
   }
 
-  searchHasBeenMade(searchResult){
-    this.setState({searchDone: true, searchUsers: searchResult})
+  searchHasBeenMade(searchResult) {
+    this.setState({ searchDone: true, searchUsers: searchResult });
   }
-  renderSearchResults(){
+  renderSearchResults() {
     const items = [];
-    if ( this.state.searchUsers.totalCount === 0) {
+    if (this.state.searchUsers.totalCount === 0) {
       return 'No hay resultados, pruebe con otros filtros';
     }
     this.state.searchUsers.Users.map(user => (
-      items.push(
-        <SACardUser data={user} key={user.id} onHighlight={() => this.toggle()} />
-        )));     
+      items.push(<SACardUser data={user} key={user.id} onHighlight={() => this.toggle()} />)));
     return items;
   }
   renderData() {
     if (this.state.loading) {
-      return <p>Cargando...</p>;
+      return <p className="m-15">Cargando...</p>;
     }
     const {
       users, totalCount,
     } = this.state;
     if (totalCount === 0) {
-      return 'No hay resultados, pruebe con otros filtros';
+      return <p className="m-15">No hay resultados, pruebe con otros filtros.</p>;
     }
     const items = [];
     users.map(user => (
@@ -122,28 +120,28 @@ class SuperAdminUsers extends React.Component {
         <AdminBar history={this.props.history} />
         <div className="container-fluid">
           <Row>
-            <Col md="3">
+            <Col lg="3" md="12" >
               <SuperAdminSideBar history={this.props.history} location={this.props.location} />
             </Col>
-            <Col md="9">
+            <Col lg="9" md="12" >
               <SuperAdminFilterUser history={this.props.history} location={this.props.location} searchResults={this.searchHasBeenMade} />
               <div className="container-box-item">
                 <div className="col-12">
-                {this.state.searchDone ? 
-                <Row>
-                {this.renderSearchResults()}
-                </Row>
-                 :
-                  <InfiniteScroll
-                    pageStart={0}
-                    loadMore={this.doSearch}
-                    hasMore={this.state.hasNextPage}
-                    loader={<img src="/loading.gif" className="loading-gif" key={0} alt="Loading..." />}
-                  >
+                  {this.state.searchDone ?
                     <Row>
-                     {this.renderData()}
+                      {this.renderSearchResults()}
                     </Row>
-                  </InfiniteScroll>
+                 :
+                    <InfiniteScroll
+                      pageStart={0}
+                      loadMore={this.doSearch}
+                      hasMore={this.state.hasNextPage}
+                      loader={<img src="/loading.gif" className="loading-gif" key={0} alt="Loading..." />}
+                    >
+                      <Row>
+                        {this.renderData()}
+                      </Row>
+                    </InfiniteScroll>
                   }
                 </div>
               </div>

@@ -127,3 +127,10 @@
 .btn-secondary:not([disabled]):not(.disabled):active, .btn-secondary:not([disabled]):not(.disabled).active, .show>.btn-secondary.dropdown-toggle{
   background-color: transparent;
 }
+
+@media screen and (max-width: 960px) {
+  .btn-admin{
+    display: inline !important;
+  }
+}
+
