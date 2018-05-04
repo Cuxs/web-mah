@@ -92,6 +92,9 @@
             &.sold{
               background-color: rgba(42, 59, 89, 0.8);
             }
+            &.deleted{
+              background-color: rgba(42, 59, 89, 0.8);
+            }
             &.highlighted{
               background-color: rgba(190, 0, 21, 0.8);
             }
@@ -191,6 +194,7 @@
         &.wide{
           p{
             &.item-state{
+              top: 30px;
               &.published{
                 background-color: rgba(72, 210, 160, 0.7);
               }
@@ -198,6 +202,9 @@
                 background-color: rgba(53, 142, 215, 0.7);
               }
               &.sold{
+                background-color: rgba(42, 59, 89, 0.5);
+              }
+              &.deleted{
                 background-color: rgba(42, 59, 89, 0.5);
               }
               &.highlighted{

@@ -50,6 +50,8 @@ class CardPublication extends Component {
         return 'highlighted';
       case 'Pendiente':
         return 'pending';
+      case 'Eliminada':
+        return 'deleted';
       default:
         return '';
     }
@@ -200,7 +202,7 @@ class CardPublication extends Component {
             <div className="col-12 col-lg-8 col-md-8 col-sm-8">
               <div className="item-data">
                 <p
-                  className={`item-state badge badge-secondary ${this.pubStateClass(stateName)}`}
+                  className={`item-state item-state-user badge badge-secondary ${this.pubStateClass(stateName)}`}
                 >
                   {stateName}
                 </p>

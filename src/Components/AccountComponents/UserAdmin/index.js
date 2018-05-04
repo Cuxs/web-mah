@@ -126,7 +126,7 @@ class UserAdmin extends React.Component {
                     ¡Hola {getUserDataFromToken().name}!
                   </h1>
                 </Col>
-                <Col lg="8" md="6" sm="12" xs="12">
+                <Col lg="8" md="12" sm="12" xs="12">
                   <Label for="exampleEmail">Reporte de autos vendidos</Label>
                   { this.state.graphData.length === 0
                   ? <img
@@ -152,7 +152,7 @@ class UserAdmin extends React.Component {
                     <Line type="monotone" dataKey="ventas" stroke="blue" />
                   </LineChart>}
                 </Col>
-                <Col lg="4" md="6" sm="12" xs="12">
+                <Col lg="4" md="12" sm="12" xs="12">
                   <div className="data-graph col-sm-12 col-xs-12">
                     <a
                       onClick={() => history.push('/userInbox')}

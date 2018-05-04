@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { Col, Row, Button, Label, Input, ModalHeader, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
+import ScrollToTop from 'react-scroll-up';
 
 import AdminBar from '../../../stories/AdminBar';
 
@@ -239,6 +240,9 @@ class AgencyMicrosite extends Component {
               </Row>
             </Col>
           </Row>
+          <ScrollToTop showUnder={320} >
+            <img style={{ width: '30px' }} src="/assets/images/icon-arrow-top.svg" alt="Inicio" />
+          </ScrollToTop>
         </div>
         <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>{this.state.responseTitle}</ModalHeader>

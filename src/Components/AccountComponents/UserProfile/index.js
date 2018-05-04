@@ -5,6 +5,7 @@ import React from 'react';
 import { Col, Row, Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
+import ScrollToTop from 'react-scroll-up';
 
 import AdminBar from '../../../stories/AdminBar';
 import UserSideBar from '../../../stories/UserSideBar';
@@ -129,13 +130,13 @@ class UserProfile extends React.Component {
         <AdminBar history={history} />
         <div className="container">
           <Row>
-            <Col md="3">
+            <Col lg="3" md="12" sm="12" xs="12">
               <UserSideBar history={history} location={location} />
             </Col>
-            <Col md="9" className="mt-4">
+            <Col lg="9" md="12" sm="12" className="mt-4">
               <Row>
                 {!userProfile.loading &&
-                <Col md="6" className="container-data-input-group">
+                <Col lg="6" md="8" sm="12" className="container-data-input-group">
                   <div className="card p-4" style={{ height: '100%' }}>
                     <div className="data-input-group">
                       <label>NOMBRE Y APELLIDO</label>
@@ -163,13 +164,13 @@ class UserProfile extends React.Component {
                     <div className="underline" />
                     {this.state.modifyActive ?
                       <span>
+                        <Button color="secondary" className="btn-link-warning align-self-end" onClick={() => this.toggle()} >Cancelar</Button>
                         <Button color="primary" className="btn-link-primary align-self-end" onClick={() => this.update()}>  <img src="/assets/images/icon-check-red.svg" alt="" />Guardar</Button>
-                        <Button color="warning" className="btn-link-warning align-self-end" onClick={() => this.toggle()} >Cancelar</Button>
                       </span>
                   : <Button className="btn-link-primary align-self-end" color="primary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
                   </div>
                 </Col>}
-                <Col md="6" className="container-data-input-group">
+                <Col lg="6" md="8" sm="12" className="container-data-input-group">
                   <div className="card p-4" style={{ height: '100%' }}>
                     <h6 className="title-division"><b>¿Quieres cambiar la contraseña?</b></h6>
                     <FormGroup>
@@ -190,6 +191,9 @@ class UserProfile extends React.Component {
               </Row>
             </Col>
           </Row>
+          <ScrollToTop showUnder={320} >
+            <img style={{ width: '30px' }} src="/assets/images/icon-arrow-top.svg" alt="Inicio" />
+          </ScrollToTop>
         </div>
         <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>{this.state.responseTitle}</ModalHeader>
