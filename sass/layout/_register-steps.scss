@@ -79,3 +79,20 @@
     }
   }
 }
+@media screen and (max-width: 420px) {
+  .register-steps{
+    .steps{
+      .step{
+        &.disable{
+          display: none;
+        }
+        &.done{
+          display: none;
+        }
+        &.disable-mobile{
+          display: none;
+        }
+      }
+    }
+  }
+}

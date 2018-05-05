@@ -124,6 +124,8 @@ class SACardPublication extends Component {
         return 'published';
       case 'Vendida':
         return 'sold';
+      case 'Eliminada':
+        return 'sold';
       case 'Destacada':
         return 'highlighted';
       case 'Pendiente':

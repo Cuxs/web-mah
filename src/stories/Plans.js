@@ -44,7 +44,7 @@ export default ({ history }) => (
         </Col>
         <Col lg="4" md="12" sm="12" xs="12" className="mb-4">
           <div className="card card-plans">
-            <h4>Premium Concesioanria</h4>
+            <h4>Premium Concesionaria</h4>
             <ul>
               <li>Publicaciones gratis ilimitadas</li>
               <li>Tiempo de publicación: 60 días.</li>
