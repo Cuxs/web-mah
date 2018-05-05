@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import photoGaleryParser from '../Modules/photoGaleryParser';
 
-import { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication, changeStateMutation } from '../ApolloQueries/AdminPublicationQueries';
+import { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication, UnHightlightPublication, changeStateMutation } from '../ApolloQueries/AdminPublicationQueries';
 import { getUserToken } from '../Modules/sessionFunctions';
 
 /* eslint react/jsx-filename-extension: 0 */
@@ -157,7 +157,43 @@ class SACardPublication extends Component {
     }
     return data.name;
   }
-  highlightPublication(id) {
+  highlightPublication(id, revertHighlight) {
+    revertHighlight ? 
+    this.props.unhightlight({
+      variables: {
+        publication_id: id,
+        MAHtoken: getUserToken(),
+      },
+    })
+      .then(({ data: { adminUnHighlightPublication: { CurrentState: { stateName } } } }) => {
+        this.setState({
+          modal: true,
+          questionModal: false,
+          modalTitle: 'Listo',
+          modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
+        });
+      })
+      .catch(({ graphQLErrors, networkError }) => {
+        if (graphQLErrors) {
+          graphQLErrors.map(({ message }) =>
+            this.setState({
+              modal: true,
+              questionModal: false,
+              modalTitle: 'Error',
+              modalMsg: message,
+            }));
+        }
+        if (networkError) {
+          console.log(networkError)
+          this.setState({
+            modal: true,
+            questionModal: false,
+            modalTitle: 'Error',
+            modalMsg: networkError,
+          });
+        }
+      })
+    :
     this.props.hightlight({
       variables: {
         publication_id: id,
@@ -308,6 +344,7 @@ class SACardPublication extends Component {
               {/* {stateName === 'Vencida' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => {}} >Editar Vigencia</Button>} */}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.toggleQuestionModal('desaprobar'); }} >Desaprobar</Button>}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.toggleQuestionModal('aprobar'); }} >Aprobar</Button>}
+              {stateName === 'Destacada' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.highlightPublication(data.id, true) }} >Dejar de Destacar</Button>}
               <div className="clearfix" />
             </div>
           </div>
@@ -385,5 +422,6 @@ const withMarkPublicationAsSold = graphql(changeStateMutation, { name: 'changeSt
 const withAproveMutation = graphql(AprovePublicationMutation, { name: 'aprove' });
 const withDisaproveMutation = graphql(DisaprovePublicationMutation, { name: 'disaprove' });
 const withHightlightPublications = graphql(HightlightPublication, { name: 'hightlight' });
-const withData = compose(withAproveMutation, withDisaproveMutation, withHightlightPublications, withMarkPublicationAsSold);
+const withunHightlightPublications = graphql(UnHightlightPublication, { name: 'unhightlight' });
+const withData = compose(withAproveMutation, withDisaproveMutation, withHightlightPublications, withMarkPublicationAsSold, withunHightlightPublications);
 export default withData(SACardPublication);

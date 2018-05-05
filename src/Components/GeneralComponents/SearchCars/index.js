@@ -22,7 +22,7 @@ import ScrollToTop from 'react-scroll-up';
 import Footer from '../../../stories/Footer';
 import BreadCrum from '../../../stories/BreadCrum';
 import PublicityBanner from '../../../stories/PublicityBanner';
-import FiltersList from '../../../stories/FiltersList';
+import FiltersList from '../../../stories/filtersList';
 import CarResultContainer from '../../../stories/CarResultContainer';
 import CarResult from '../../../stories/CarResult';
 import SearchBar from '../../../stories/SearchBar';
