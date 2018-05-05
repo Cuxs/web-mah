@@ -170,7 +170,7 @@ class UserProfile extends React.Component {
                   : <Button className="btn-link-primary align-self-end" color="primary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
                   </div>
                 </Col>}
-                <Col lg="6" md="8" sm="12" className="container-data-input-group">
+                <Col lg="6" md="8" sm="12" className="container-data-input-group mv-15">
                   <div className="card p-4" style={{ height: '100%' }}>
                     <h6 className="title-division"><b>¿Quieres cambiar la contraseña?</b></h6>
                     <FormGroup>

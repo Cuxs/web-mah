@@ -182,7 +182,7 @@ class AgencyMicrosite extends Component {
                           <img src="/assets/images/icon-check-red.svg" alt="" />Guardar
                         </Button>
                         <Button
-                          color="warning"
+                          color="default"
                           className="btn-link-danger align-self-end"
                           onClick={() => this.toggle()}
                         >
