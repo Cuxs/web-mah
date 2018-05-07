@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { Col, Row, Button, Modal, ModalFooter, ModalHeader, ModalBody } from 'reactstrap';
 import { parse, stringify } from 'query-string';
 import DropzoneComponent from 'react-dropzone-component';
+import { Notification } from 'react-notification';
 
 
 import AdminBar from '../../../stories/AdminBar';
@@ -17,7 +18,7 @@ function initCallback(dropzone) {
 }
 
 
-class CreatePublication extends Component {
+class StepThree extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,9 +27,14 @@ class CreatePublication extends Component {
       modal: false,
       responseMsg: '',
       responseTitle: '',
+      isNotificationActive: false,
+      notificationMessage:'',
+      notificationTitle:''
     };
     this.toggle = this.toggle.bind(this);
     this.toggleBack = this.toggleBack.bind(this);
+    this.toggleNotification = this.toggleNotification.bind(this);
+    
   }
 
   disabled() {
@@ -59,6 +65,13 @@ class CreatePublication extends Component {
   handleSubmit() {
     this.setState({disabled: true})
     myDropzone.processQueue();
+/*     setTimeout(()=>{
+      this.setState({
+        isNotificationActive: true,
+        notificationTitle:'Muy lento',
+        notificationMessage:'La subida está tardando demasiado, quieres probar con imágenes mas pequeñas?'
+      })
+    },60000) */
   }
 
   previous() {
@@ -92,6 +105,11 @@ class CreatePublication extends Component {
     };
     this.props.history.push(`/publicateWithoutRegisterS1?${stringify(dataCar)}&${stringify(dataExtras)}&${stringify(dataPerson)}`);
   }
+  toggleNotification() {
+    this.setState({
+      isNotificationActive: !this.state.isNotificationActive,
+    });
+  }
 
   render() {
     const componentConfig = {
@@ -117,6 +135,7 @@ class CreatePublication extends Component {
       autoProcessQueue: false,
       maxFiles: 8,
       parallelUploads: 100,
+      timeout: 15000,
       uploadMultiple: true,
       dictInvalidFileType: 'Formato de archivo incorrecto',
       dictRemoveFile: 'Borrar',
@@ -226,9 +245,19 @@ class CreatePublication extends Component {
             </Col>
           </Row>
         </div>
+        <Notification
+            isActive={this.state.isNotificationActive}
+            message={this.state.notificationMessage}
+            title={this.state.notificationTitle}
+            barStyle={{ backgroundColor: '#FFD740', zIndex: 3000, fontSize: '18px',color:'grey' }}
+            dismissAfter={false}
+            action="Cerrar"
+            onDismiss={this.toggleNotification}
+            onClick={() => this.setState({ isNotificationActive: false })}
+          />
       </div>
     );
   }
 }
 
-export default CreatePublication;
+export default StepThree;

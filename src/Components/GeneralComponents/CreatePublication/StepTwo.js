@@ -14,6 +14,7 @@ import {
 import { parse, stringify } from 'query-string';
 import DropzoneComponent from 'react-dropzone-component';
 import Gallery from 'react-photo-gallery';
+import { Notification } from 'react-notification';
 
 import { getImages, editPublicationWithoutImages } from '../../../Modules/fetches';
 import AdminBar from '../../../stories/AdminBar';
@@ -36,9 +37,13 @@ class StepTwo extends Component {
       disabled: true,
       edit: false,
       previousImages: [],
-
+      isNotificationActive: false,
+      notificationMessage:'',
+      notificationTitle:''
     };
     this.toggle = this.toggle.bind(this);
+    this.toggleNotification = this.toggleNotification.bind(this);
+    
   }
   componentWillMount() {
     const search = parse(this.props.location.search);
@@ -91,7 +96,14 @@ class StepTwo extends Component {
             responseTitle: 'Guardado',
           });
         });
-    } else { myDropzone.processQueue(); }
+    } else { 
+      myDropzone.processQueue();
+    }
+  }
+  toggleNotification() {
+    this.setState({
+      isNotificationActive: !this.state.isNotificationActive,
+    });
   }
 
   render() {
@@ -125,6 +137,7 @@ class StepTwo extends Component {
       maxFiles: 8,
       maxFilesize: 10,
       parallelUploads: 100,
+      timeout: 15000,
       uploadMultiple: true,
       dictFileTooBig: 'El archivo es muy grande ({{filesize}}). El tamaño máximo es de {{maxFilesize}}.',
       dictInvalidFileType: 'Formato de archivo incorrecto',
@@ -264,6 +277,16 @@ class StepTwo extends Component {
             </Col>
           </Row>
         </div>
+        <Notification
+            isActive={this.state.isNotificationActive}
+            message={this.state.notificationMessage}
+            title={this.state.notificationTitle}
+            barStyle={{ backgroundColor: '#FFD740', zIndex: 3000, fontSize: '18px', color:'grey' }}
+            dismissAfter={false}
+            action="Cerrar"            
+            onDismiss={this.toggleNotification}
+            onClick={() => this.setState({ isNotificationActive: false })}
+          />
       </div>
     );
   }
