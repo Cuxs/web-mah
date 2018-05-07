@@ -65,6 +65,10 @@ app.get("/carDetail", function(request, response) {
           /\$OG_DESCRIPTION/g,
           Publication.observation === null ? "Mi auto hoy. Cambia la forma de comprar o vender tu auto" : Publication.observation
         );
+        htmlData = htmlData.replace(
+          /\$OG_URL/g,
+          `${process.env.HOMEPAGE}/carDetail?publication_id:${request.query.publication_id}`
+        );
         result = htmlData.replace(
           /\$OG_IMAGE/g,
           `${process.env.REACT_APP_API}/images/${ImageGroup.image1}`
