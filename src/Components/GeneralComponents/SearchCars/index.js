@@ -84,6 +84,7 @@ class SearchCars extends Component {
           state: qs.parse(url).state,
           fuel: qs.parse(url).fuel,
           userType: qs.parse(url).userType,
+          modelName: qs.parse(url).modelName,
         },
       })
       .then(({ data: { searchPublication }, data: { searchPublication: { Publications } } }) => {
