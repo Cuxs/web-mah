@@ -154,16 +154,19 @@ export default class RegisterBar extends Component {
                   <div>
                     <DropdownItem
                       value="Beneficios"
+                      href="#Features"
                     >
                     Beneficios
                     </DropdownItem>
                     <DropdownItem
                       value="Planes"
+                      href="#Plans"
                     >
                     Planes
                     </DropdownItem>
                     <DropdownItem
                       value="Ayuda"
+                      href="#Faq"
                     >
                     Ayuda
                     </DropdownItem>
@@ -172,6 +175,7 @@ export default class RegisterBar extends Component {
                 }
                   <DropdownItem
                     value="iniciar sesion"
+                    onClick={() => this.toggleModal()}
                   >
                 Iniciar Sesión
                   </DropdownItem>
@@ -245,7 +249,7 @@ export default class RegisterBar extends Component {
           </ModalBody>
           <ModalFooter>
             <div className="row">
-              <div className="col-3 float-left offset-3">
+              <div className="col-md-4 col-sm-12 float-left offset-md-3 align-item">
                 <Button
                   disabled={this.isLoginFormIncomplete()}
                   onClick={() => this.loginUser(this.state.email, this.state.password)}
@@ -255,7 +259,7 @@ export default class RegisterBar extends Component {
                     Iniciar sesión
                 </Button>
               </div>
-              <div className="col-3 float-right">
+              <div className="col-md-4 col-sm-12 float-right">
                 <Button
                   onClick={() => this.toggleModal}
                   color="default"

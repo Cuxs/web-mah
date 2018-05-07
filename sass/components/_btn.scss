@@ -21,6 +21,9 @@
       border:none;
     }
   }
+  &.btn-default{
+    background-color: transparent;
+  }
   //SECONDARY
   &.btn-secondary{
     @include border-radius(3px);
@@ -42,6 +45,7 @@
   &.btn-more {
     border: none;
     padding: 20px 30px;
+    background-color: transparent; 
   }
 
   // FOOTER

@@ -104,7 +104,7 @@ class CreatePublication extends React.Component {
                   </div>
                 </div>
 
-                <div className="text-block">
+                <div className="text-block disable-mobile">
                   <ul>
                     <li>Publicaciones gratis ilimitadas</li>
                     <li>Tiempo de publicación: 60 días</li>
@@ -115,7 +115,7 @@ class CreatePublication extends React.Component {
                     <li>Publicaciones en redes sociales</li>
                   </ul>
                 </div>
-                <div className="text-block">
+                <div className="text-block disable-mobile">
                   <h4 className="title-division-primary">Para obtener más beneficios, Registrate!</h4>
                   <Button color="primary btn-facebook">Registrate con facebook</Button>
                   <div className="underline" />

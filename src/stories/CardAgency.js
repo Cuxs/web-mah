@@ -14,7 +14,7 @@ const CardAgency = ({ data, history }) => (
         }}
       />
       <div className="col-md-8 col-sm-12">
-        <h4>{data.agencyName}</h4>
+        <h4 className="truncate" >{data.agencyName}</h4>
         <div className="data-input-group">
           <label>DOMICILIO</label>
           <p>{data.agencyAdress}</p>
@@ -25,7 +25,7 @@ const CardAgency = ({ data, history }) => (
         </div>
         <div className="data-input-group">
           <label>EMAIL</label>
-          <p>{data.agencyEmail}</p>
+          <p className="truncate">{data.agencyEmail}</p>
         </div>
       </div>
     </div>

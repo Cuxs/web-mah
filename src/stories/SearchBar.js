@@ -385,7 +385,7 @@ class SearchBar extends Component {
               ) : (
                 <Col lg="auto">
                   <Row>
-                    <Col lg="auto">
+                    <Col lg="auto" sm="12" >
                       <Row>
                         <ButtonDropdown
                           isOpen={this.state.dropdownOpenPublicate}
@@ -412,7 +412,7 @@ class SearchBar extends Component {
                         </ButtonDropdown>
                       </Row>
                     </Col>
-                    <Col lg="auto">
+                    <Col lg="auto" sm="12">
                       <Row>
                         <Button color="default" className="btn-link" onClick={() => this.toggleModal()}>
                           Iniciá Sesión

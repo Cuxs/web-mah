@@ -6,7 +6,7 @@ export default ({ history }) => (
   <footer className="footer">
     <div className="container">
       <Row className="justify-content-center">
-        <div className="col-lg-3 col-md-12" >
+        <div className="col-lg-3 col-md-12 m-12" >
           <h4>MI AUTO HOY</h4>
           <p>Mendoza, Argentina</p>
           <Button className="btn btn-footerTerms" color="link" onClick={() => history.push('/termsAndConditions')}>Términos y Condiciones</Button>
@@ -32,7 +32,7 @@ export default ({ history }) => (
             <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/userRegisterS1')}>Registrate y publicá</Button></li>
           </ul>
         </div>
-        <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12" >
+        <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 m-12" >
           <ul>
             <li><a className="btn a-footer" href="mailto:contacto@miautohoy.com">contacto@miautohoy.com</a></li>
             <li><a className="btn a-footer" href="tel:02604420183">Tel. (0260) – 4420183</a></li>

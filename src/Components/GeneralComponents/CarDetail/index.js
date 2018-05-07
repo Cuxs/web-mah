@@ -8,7 +8,7 @@ import { branch, renderComponent } from 'recompose';
 import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import decode from 'jwt-decode';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 import {
   CarDetailQuery,
@@ -123,11 +123,15 @@ class CarDetail extends Component {
     }
     return (
       <div>
-       {!carDetailData.loading &&
-         <Helmet>
-                <meta charSet="utf-8" />
-                <title>{`${carDetailData.Publication.brand} - ${carDetailData.Publication.group}` }</title>
-         </Helmet>
+        {!carDetailData.loading &&
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{`${carDetailData.Publication.brand} - ${carDetailData.Publication.group}` }</title>
+          <meta property="fb:app_id" content={146328269397173} />
+          <meta property="og:url" content={`https://beta.miautohoy.com/carDetail${location.search}`} />
+          <meta property="og:type" content="website" />
+          <meta property="og:image" content={`https://beta.miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`} />
+        </Helmet>
        }
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
@@ -164,7 +168,7 @@ class CarDetail extends Component {
               <Row>
                 <Col md="8" sm="12" xs="12">
                   <CarCarousel
-                    photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup )}
+                    photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
                   />
                   <div className="container-data-input-group">
                     <h5 className="title">Resumen</h5>
@@ -273,24 +277,31 @@ class CarDetail extends Component {
                       <Button
                         color="primary"
                         onClick={() =>
-                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication )}` )
+                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`)
                         }
                       >
                         ¡Solicitá tu crédito!
                       </Button>
                       <div className="container-social">
-                        <button className="btn btn-social-icon">
+                        <a
+                          // href={`https://www.facebook.com/sharer.php?s=100&p[title]=${carDetailData.Publication.brand - carDetailData.Publication.group}&p[url]=https://beta.miautohoy.com/carDetail${location.search}&p[summary]="Mi auto hoy, cambia la forma de comprar o vender tu auto."&p[images][0]=https://beta.miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`}
+                          href={`https://www.facebook.com/sharer.php?s=100&p[title]=${carDetailData.Publication.brand}-${carDetailData.Publication.group}&p[url]=https://beta.miautohoy.com/carDetail?publication_id=15&p[summary]="Mi auto hoy, cambia la forma de comprar o vender tu auto."&p[images][0]=http://lvh.me:3000/images/${carDetailData.Publication.ImageGroup.image1}`}
+                          className="btn btn-social-icon"
+                        >
                           <img
                             src="/assets/images/icon-facebook.svg"
                             alt="icon-fb"
                           />
-                        </button>
-                        <button className="btn btn-social-icon">
+                        </a>
+                        <a
+                          href="https://twitter.com/intent/tweet?text=Hello%20world"
+                          className="btn btn-social-icon"
+                        >
                           <img
                             src="/assets/images/icon-twitter.svg"
                             alt="icon-tw"
                           />
-                        </button>
+                        </a>
                       </div>
                     </Col>
                     <Col md="12" sm="6" xs="12">
@@ -303,7 +314,7 @@ class CarDetail extends Component {
                         </h5>
                         {carDetailData.Publication.User ? (
                           carDetailData.Publication.User.agencyName && (
-                            <Button onClick={()=>this.props.history.push(`/microsite?concesionaria=${carDetailData.Publication.User.agencyName}&c_id=${carDetailData.Publication.User.id}`)} color="link">Ver todos los autos</Button>
+                            <Button onClick={() => this.props.history.push(`/microsite?concesionaria=${carDetailData.Publication.User.agencyName}&c_id=${carDetailData.Publication.User.id}`)} color="link">Ver todos los autos</Button>
                           )
                         ) : (
                           <span />
@@ -358,7 +369,6 @@ class CarDetail extends Component {
               </Row>
             )}
         </div>
-        }
         <Footer history={history} />
       </div>
     );
