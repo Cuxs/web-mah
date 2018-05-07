@@ -5,7 +5,8 @@ import React from 'react';
 import _ from 'lodash';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
 
 import {
   HomeQuery,
@@ -27,6 +28,8 @@ import LoadingComponent from '../../../stories/LoadingComponent';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 /* const script = document.createElement('script');
 
 script.src = '//code.tidio.co/2adtbpujxsburoaa4sm7umttnp1j1wjr.js';
@@ -44,6 +47,7 @@ const Home = ({
   <div>
     {!data.loading && (
       <div>
+        {ReactGA.pageview('/HOME')}
         <Helmet>
           <meta charSet="utf-8" />
           <title>Bienvenido a Mi Auto Hoy</title>

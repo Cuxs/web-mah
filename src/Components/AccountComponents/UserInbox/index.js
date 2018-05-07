@@ -6,6 +6,7 @@ import { Col, Row } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
 import { branch, renderComponent } from 'recompose';
+import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
 import UserSideBar from '../../../stories/UserSideBar';
@@ -20,17 +21,20 @@ import {
 import { getUserToken, isUserLogged } from '../../../Modules/sessionFunctions';
 import LoginComponent from '../../../stories/LoginComponent';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 const renderForUnloggedUser = (component, propName = 'data') =>
-  branch(
-    props => !isUserLogged(),
-    renderComponent(component),
-  );
+branch(
+  props => !isUserLogged(),
+  renderComponent(component),
+);
 
 class UserInbox extends Component {
   componentWillMount() {
     this.props.subscribeToNewThreads({
       MAHtoken: getUserToken(),
     });
+    ReactGA.pageview('/USUARIO-INBOX');
   }
   render() {
     const {

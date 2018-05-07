@@ -1,6 +1,10 @@
 import React from 'react';
 import { Row, Button } from 'reactstrap';
+import ReactGA from 'react-ga';
+
 /* eslint react/jsx-filename-extension: 0 */
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 export default ({ history }) => (
   <footer className="footer">
@@ -9,27 +13,27 @@ export default ({ history }) => (
         <div className="col-lg-3 col-md-12 m-12" >
           <h4>MI AUTO HOY</h4>
           <p>Mendoza, Argentina</p>
-          <Button className="btn btn-footerTerms" color="link" onClick={() => history.push('/termsAndConditions')}>Términos y Condiciones</Button>
+          <Button className="btn btn-footerTerms" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Términos y condiciones' }); history.push('/termsAndConditions'); }}>Términos y Condiciones</Button>
         </div>
         <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12" >
           <ul>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/SearchCars?text=&carState=Nuevo')}>Nuevos</Button></li>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/SearchCars?text=&carState=Usado')}>Usados</Button></li>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/friendlyAgency')}>Concesionarias</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Buscar nuevos' }); history.push('/SearchCars?text=&carState=Nuevo'); }}>Nuevos</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Buscar usados' }); history.push('/SearchCars?text=&carState=Usado'); }}>Usados</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Concesionarias' }); history.push('/friendlyAgency'); }}>Concesionarias</Button></li>
           </ul>
         </div>
         <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12" >
           <ul>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/pledgeCredits')}>Créditos prendarios</Button></li>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/personalShopperS1')}>Personal Shopper</Button></li>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/freeDestinationCredits')}>Créditos libre destino</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Créditos Prendarios' }); history.push('/pledgeCredits'); }}>Créditos prendarios</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Personal Shopper' }); history.push('/personalShopperS1'); }}>Personal Shopper</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Créditos libre destino' }); history.push('/freeDestinationCredits'); }}>Créditos libre destino</Button></li>
           </ul>
         </div>
         <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12" >
           <ul>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/agencyRegisterS1')}>Adherí tu Concesionario</Button></li>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/publicateWithoutRegister')}>Publicá gratis ya</Button></li>
-            <li><Button className="btn btn-footer" color="link" onClick={() => history.push('/userRegisterS1')}>Registrate y publicá</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Registro Agencia' }); history.push('/agencyRegisterS1'); }}>Adherí tu Concesionario</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Publicá ya' }); history.push('/publicateWithoutRegister'); }}>Publicá gratis ya</Button></li>
+            <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Registro Usuario' }); history.push('/userRegisterS1'); }}>Registrate y publicá</Button></li>
           </ul>
         </div>
         <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 m-12" >
@@ -41,7 +45,7 @@ export default ({ history }) => (
         </div>
         <div className="col-md-12 text-center">
           <hr />
-           <p>© Copyright 2017/2018 - Todos los derechos reservados.</p>
+          <p>© Copyright 2017/2018 - Todos los derechos reservados.</p>
         </div>
       </Row>
     </div>

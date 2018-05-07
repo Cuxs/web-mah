@@ -7,6 +7,8 @@ import Slider from 'react-rangeslider';
 import _ from 'lodash';
 import { parse } from 'query-string';
 import { graphql, compose } from 'react-apollo';
+import { P } from 'glamorous';
+import ReactGA from 'react-ga';
 
 
 import SearchBar from '../../../stories/SearchBar';
@@ -18,8 +20,10 @@ import {
 } from '../../../ApolloQueries/TextsQueries';
 import { RatesQuery } from '../../../ApolloQueries/RatesQuery';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
-import { P } from 'glamorous';
-import {requestCredit} from '../../../Modules/fetches';
+import { requestCredit } from '../../../Modules/fetches';
+
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class PledgeCredits extends React.Component {
   constructor(props, context) {
@@ -47,14 +51,15 @@ class PledgeCredits extends React.Component {
       phoneValidate: false,
       messagge: '',
       modal: false,
-      modalMessage:'',
+      modalMessage: '',
       fetched: false,
-      success:false
+      success: false,
     };
     this.toggle = this.toggle.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
+    ReactGA.pageview('/CREDITOS-PRENDARIOS');
     if (!nextProps.Texts.loading) {
       const texts = {};
       texts.fetched = true;
@@ -116,22 +121,22 @@ class PledgeCredits extends React.Component {
     };
 
     requestCredit(dataRequest)
-      .then(()=>{
+      .then(() => {
         this.setState({
           modalTitle: 'Listo!',
-          modalMessage:'Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.',
-          modal:true,
-          success:true,
-        })
+          modalMessage: 'Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.',
+          modal: true,
+          success: true,
+        });
       })
-      .catch((e)=>{
-        console.log(e)
+      .catch((e) => {
+        console.log(e);
         this.setState({
           modalTitle: 'Error',
           modalMessage: 'Tu consulta no se pudo realizar, intenta mas tarde. Discula las molestias',
-          modal:true,
-        })
-      })
+          modal: true,
+        });
+      });
   }
 
   updateTime(time) {
@@ -292,7 +297,7 @@ class PledgeCredits extends React.Component {
               </div>
             </Col>
             <Col md="6" sm="12" xs="12">
-            <form>
+              <form>
               <div className="col-md-9 float-left pb-4">
                 {dataPublication !== '' &&
                   <div className="d-flex flex-column box-detail-car">
@@ -378,7 +383,7 @@ class PledgeCredits extends React.Component {
                 />
                 <Button color="primary" className="float-right" onClick={() => this.requestCredit()} > Solicitar</Button>
               </div>
-              </form>
+            </form>
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
@@ -387,7 +392,7 @@ class PledgeCredits extends React.Component {
               <div className="col-md-6 offset-md-3">{this.state.modalMessage}</div>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={()=>{this.state.success? this.props.history.push('/') : this.toggle()}} >OK</Button>
+              <Button color="primary" onClick={() => { this.state.success ? this.props.history.push('/') : this.toggle(); }} >OK</Button>
             </ModalFooter>
           </Modal>
         </div>

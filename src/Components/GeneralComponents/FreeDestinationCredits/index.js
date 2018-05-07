@@ -12,13 +12,16 @@ import {
   ModalFooter,
 } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
+import ReactGA from 'react-ga';
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
 import InputOrText from '../../../stories/InputOrText';
 import { GetTextsQuery } from '../../../ApolloQueries/TextsQueries';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
-import {requestCredit} from '../../../Modules/fetches';
+import { requestCredit } from '../../../Modules/fetches';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class FreeDestinationCredits extends React.Component {
   constructor(props) {
@@ -41,13 +44,14 @@ class FreeDestinationCredits extends React.Component {
       phone: '',
       phoneValidate: false,
       messagge: '',
-      modalTitle:'',
+      modalTitle: '',
       modalMessage: '',
-      success:false,      
+      success: false,
       title1: '',
       text1: '',
     };
     this.toggle = this.toggle.bind(this);
+    ReactGA.pageview('/CREDITOS-LIBRE-DESTINO');
   }
 
   toggle() {
@@ -92,22 +96,22 @@ class FreeDestinationCredits extends React.Component {
       messagge: this.state.messagge,
     };
     requestCredit(dataRequest)
-    .then(()=>{
-      this.setState({
-        modalTitle: 'Listo!',
-        modalMessage:'Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.',
-        modal:true,
-        success:true,
+      .then(() => {
+        this.setState({
+          modalTitle: 'Listo!',
+          modalMessage: 'Tu consulta ha sido enviado correctamente. Nos contactaremos a la brevedad para brindarte toda la información necesaria.',
+          modal: true,
+          success: true,
+        });
       })
-    })
-    .catch((e)=>{
-      console.log(e)
-      this.setState({
-        modalTitle: 'Error',
-        modalMessage: 'Tu consulta no se pudo realizar, intenta mas tarde. Discula las molestias',
-        modal:true,
-      })
-    })
+      .catch((e) => {
+        console.log(e);
+        this.setState({
+          modalTitle: 'Error',
+          modalMessage: 'Tu consulta no se pudo realizar, intenta mas tarde. Discula las molestias',
+          modal: true,
+        });
+      });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -142,7 +146,8 @@ class FreeDestinationCredits extends React.Component {
                         onChange={title1 => this.setState({ title1 })}
                       />
                       <InputOrText
-                        section="text1" route={this.props.location.pathname.slice(1)} 
+                        section="text1"
+route={this.props.location.pathname.slice(1)}
                         text={this.state.text1}
                         onChange={text1 => this.setState({ text1 })}
                       />
@@ -163,11 +168,15 @@ class FreeDestinationCredits extends React.Component {
                         <InputOrText
                           type="h6"
                           text={this.state.title2}
-                          section="title2" height="40px" route={this.props.location.pathname.slice(1)} 
+                          section="title2"
+height="40px"
+route={this.props.location.pathname.slice(1)}
                           onChange={title2 => this.setState({ title2 })}
                         />
                         <InputOrText
-                        section="text2" height="120px" route={this.props.location.pathname.slice(1)} 
+                          section="text2"
+height="120px"
+route={this.props.location.pathname.slice(1)}
                           type="h4"
                           text={this.state.text2}
                           onChange={text2 => this.setState({ text2 })}
@@ -184,15 +193,19 @@ class FreeDestinationCredits extends React.Component {
                     this.state.fetched && (
                       <div className="step">
                         <InputOrText
-                        section="title3" height="40px" route={this.props.location.pathname.slice(1)} 
+                          section="title3"
+height="40px"
+route={this.props.location.pathname.slice(1)}
                           type="h6"
                           text={this.state.title3}
                           onChange={title3 => this.setState({ title3 })}
                         />
                         <InputOrText
                           type="h4"
-                        section="text2" height="120px" route={this.props.location.pathname.slice(1)} 
-                          
+                          section="text2"
+height="120px"
+route={this.props.location.pathname.slice(1)}
+
                           text={this.state.text2}
                           onChange={text2 => this.setState({ text2 })}
                         />
@@ -311,17 +324,17 @@ class FreeDestinationCredits extends React.Component {
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
             <ModalHeader toggle={this.toggle}>
-            {this.state.modalTitle}
+              {this.state.modalTitle}
             </ModalHeader>
             <ModalBody>
               <div className="col-md-6 offset-md-3">
-              {this.state.modalMessage}
+                {this.state.modalMessage}
               </div>
             </ModalBody>
             <ModalFooter>
               <Button
                 color="primary"
-                onClick={()=>{this.state.success? this.props.history.push('/') : this.toggle()}}
+                onClick={() => { this.state.success ? this.props.history.push('/') : this.toggle(); }}
               >
                 OK
               </Button>

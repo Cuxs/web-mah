@@ -8,6 +8,7 @@ import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import ReactGA from 'react-ga';
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
@@ -20,6 +21,7 @@ import { AllBrandsQuery, GroupsQuery, ModelsQuery } from '../../../ApolloQueries
 import { prepareArraySelect, generateYearArray } from '../../../Modules/functions';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class PersonalShopper extends React.Component {
   constructor(props) {
@@ -38,7 +40,8 @@ class PersonalShopper extends React.Component {
       title1: '',
       text1: '',
     };
-    this.next = this.next.bind(this)
+    this.next = this.next.bind(this);
+    ReactGA.pageview('/PERSONAL-SHOPPER');
   }
   componentWillReceiveProps(nextProps) {
     if (!nextProps.Texts.loading) {

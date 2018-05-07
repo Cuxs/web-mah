@@ -4,9 +4,12 @@
 import React from 'react';
 import { Col, Row, Button } from 'reactstrap';
 import { stringify, parse } from 'query-string';
+import ReactGA from 'react-ga';
 
 import RegisterBar from '../../../stories/RegisterBar';
 import Input from '../../../stories/Input';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class StepOne extends React.Component {
   constructor(props) {
@@ -15,6 +18,7 @@ class StepOne extends React.Component {
       email: parse(this.props.location.search).email ? parse(this.props.location.search).email : '',
       emailValidate: parse(this.props.location.search).email,
     };
+    ReactGA.pageview('/REGISTRO-USUARIO');
   }
 
   next() {

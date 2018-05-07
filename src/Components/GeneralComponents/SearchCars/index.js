@@ -17,8 +17,9 @@ import qs from 'query-string';
 import _ from 'lodash';
 import { animateScroll as scroll } from 'react-scroll';
 import InfiniteScroll from 'react-infinite-scroller';
-import SearchMutation from '../../../ApolloQueries/SearchMutation';
+import ReactGA from 'react-ga';
 import ScrollToTop from 'react-scroll-up';
+import SearchMutation from '../../../ApolloQueries/SearchMutation';
 import Footer from '../../../stories/Footer';
 import BreadCrum from '../../../stories/BreadCrum';
 import PublicityBanner from '../../../stories/PublicityBanner';
@@ -34,6 +35,8 @@ import ActiveFilters from '../../../stories/ActiveFilters';
 import { getFiltersAndTotalResult } from '../../../Modules/fetches';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class SearchCars extends Component {
   constructor(props) {
@@ -54,6 +57,7 @@ class SearchCars extends Component {
     const url = this.props.location.search;
     this.doFilterTotalResultSearch(url);
     this.doSearch(1, true, this.props);
+    ReactGA.pageview('/BUSCAR-AUTO');
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {

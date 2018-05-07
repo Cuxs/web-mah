@@ -6,6 +6,7 @@ import { Col, Row, Button, Label, Input, ModalHeader, Modal, ModalBody, ModalFoo
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
 import ScrollToTop from 'react-scroll-up';
+import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
 
@@ -17,6 +18,8 @@ import parseError from '../../../Modules/errorParser';
 import { AgencyDetailQuery } from '../../../ApolloQueries/AgencyProfileQuery';
 
 import { getUserToken, getUserDataFromToken } from '../../../Modules/sessionFunctions';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class AgencyMicrosite extends Component {
   constructor(props) {
@@ -36,8 +39,9 @@ class AgencyMicrosite extends Component {
       modal: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    ReactGA.pageview('/USUARIO-MICROSITE');
   }
-
+  
   componentWillReceiveProps({
     agencyData,
     agencyData: {

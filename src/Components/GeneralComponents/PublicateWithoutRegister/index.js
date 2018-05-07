@@ -8,6 +8,7 @@ import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
 import Input from '../../../stories/Input';
@@ -15,6 +16,7 @@ import Input from '../../../stories/Input';
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
 import { prepareArraySelect, thousands, generateYearArray } from '../../../Modules/functions';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class CreatePublication extends React.Component {
   constructor(props) {
@@ -37,6 +39,7 @@ class CreatePublication extends React.Component {
       Models: [],
       Prices: [],
     };
+    ReactGA.pageview('/PUBLICACION SIN REGISTRO');
   }
 
 

@@ -2,6 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
+import ReactGA from 'react-ga';
 import RegisterBar from '../../../stories/RegisterBar';
 import BannerUser from '../../../stories/BannerUser';
 import FeaturesUser from '../../../stories/FeaturesUser';
@@ -10,8 +11,11 @@ import Footer from '../../../stories/Footer';
 import Plans from '../../../stories/Plans';
 
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 const Home = ({ history }) => (
   <div>
+    {ReactGA.pageview('/PLANES-USUARIO')}
     <RegisterBar history={history} />
     <BannerUser history={history} />
     <div id="Features">

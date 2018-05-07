@@ -8,6 +8,8 @@ import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import { branch, renderComponent } from 'recompose';
+import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
 import Input from '../../../stories/Input';
@@ -16,10 +18,10 @@ import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../A
 
 import style from '../../../Styles/register';
 import LoginComponent from '../../../stories/LoginComponent';
-import { branch, renderComponent } from 'recompose';
 import { isUserLogged } from '../../../Modules/sessionFunctions';
 import { thousands, generateYearArray, prepareArraySelect } from '../../../Modules/functions';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 const renderForUnloggedUser = (component, propName = 'data') =>
   branch(
@@ -49,6 +51,7 @@ class CreatePublication extends React.Component {
       Models: [],
       Prices: [],
     };
+    ReactGA.pageview('/CREAR-PUBLICACION');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -153,8 +156,6 @@ class CreatePublication extends React.Component {
     if (!(brand !== 0 && group !== 0 && codia !== 0 && year !== 0 && kms !== '' && price !== '' && kmsValidate && priceValidate)) {
       return false;
     }
-
-
     const dataCar = {
       carState: this.state.carState,
       brand: this.state.brandName,

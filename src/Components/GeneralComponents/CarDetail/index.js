@@ -15,6 +15,7 @@ import {
   CarSpecs,
   CommentThreadQuery,
 } from '../../../ApolloQueries/CarDetailQuery';
+import ReactGA from 'react-ga';
 
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
@@ -35,6 +36,8 @@ import {
   getUserDataFromToken,
   isUserLogged,
 } from '../../../Modules/sessionFunctions';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 const renderForNullPublication = (component, propName = 'data') =>
   branch(
@@ -57,6 +60,7 @@ class CarDetail extends Component {
     };
     this.toggle = this.toggle.bind(this);
     this.isPublicationVisible = this.isPublicationVisible.bind(this);
+    ReactGA.pageview('/DETALLE-AUTO');
   }
 
   toggle() {
