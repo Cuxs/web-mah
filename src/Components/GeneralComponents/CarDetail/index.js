@@ -285,7 +285,6 @@ class CarDetail extends Component {
                       <div className="container-social">
                         <a
                           href={`https://www.facebook.com/sharer.php?s=100&p[title]=${carDetailData.Publication.brand} - ${carDetailData.Publication.group}&p[url]=https://beta.miautohoy.com/carDetail${location.search}&p[summary]="Mi auto hoy, cambia la forma de comprar o vender tu auto."&p[images][0]=https://beta.miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`}
-                         // href={`https://www.facebook.com/sharer.php?s=100&p[title]=${carDetailData.Publication.brand}-${carDetailData.Publication.group}&p[url]=https://beta.miautohoy.com/carDetail?publication_id=15&p[summary]="Mi auto hoy, cambia la forma de comprar o vender tu auto."&p[images][0]=http://lvh.me:3000/images/${carDetailData.Publication.ImageGroup.image1}`}
                           className="btn btn-social-icon"
                         >
                           <img
@@ -310,7 +309,7 @@ class CarDetail extends Component {
                           {carDetailData.Publication.User
                             ? carDetailData.Publication.User.agencyName ||
                               carDetailData.Publication.User.name
-                            : carDetailData.Publication.name}
+                            : 'Particular'}
                         </h5>
                         {carDetailData.Publication.User ? (
                           carDetailData.Publication.User.agencyName && (

@@ -16,6 +16,7 @@ const ActiveFilters = ({ searchData, history }) => split(searchData).map((filter
       filter.key === 'year' ||
       filter.key === 'userType' ||
       filter.key === 'modelName' ||
+      filter.key === 'brand' ||
       filter.key === 'state') {
     return (
       <Button
