@@ -2,12 +2,6 @@ import React from 'react';
 import { Col, Row, Button } from 'reactstrap';
 /* eslint react/jsx-filename-extension: 0 */
 
-const style = {
-  container: {
-
-  },
-};
-
 export default ({ history }) => (
   <Col sm="12" className="bg-100 mb-4 mt-4">
     <div className="container">

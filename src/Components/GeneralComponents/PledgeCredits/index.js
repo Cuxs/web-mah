@@ -108,6 +108,11 @@ class PledgeCredits extends React.Component {
       return false;
     }
 
+    ReactGA.event({
+      category: 'Crédito Prendario',
+      action: 'Solicitar Crédito Prendario',
+    });
+
     const dataRequest = {
       name: this.state.name,
       dni: this.state.dni,

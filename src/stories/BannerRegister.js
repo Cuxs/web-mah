@@ -1,11 +1,13 @@
 import React from 'react';
 import { Row, Button } from 'reactstrap';
 import { stringify } from 'query-string';
+import ReactGA from 'react-ga';
 
 import Input from './Input';
 import InputOrText from './InputOrText';
 
 /* eslint react/jsx-filename-extension: 0 */
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class BannerRegister extends React.Component {
   constructor(props) {
@@ -28,6 +30,10 @@ class BannerRegister extends React.Component {
       nameAgency: this.state.nameAgency,
       email: this.state.email,
     };
+    ReactGA.event({
+      category: 'Agencia Plans',
+      action: 'Ir a Registro Agencia',
+    });
     this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}`);
   }
 

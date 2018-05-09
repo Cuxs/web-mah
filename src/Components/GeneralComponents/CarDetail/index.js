@@ -9,13 +9,13 @@ import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import decode from 'jwt-decode';
 import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
 
 import {
   CarDetailQuery,
   CarSpecs,
   CommentThreadQuery,
 } from '../../../ApolloQueries/CarDetailQuery';
-import ReactGA from 'react-ga';
 
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
@@ -280,9 +280,10 @@ class CarDetail extends Component {
                       </Row>
                       <Button
                         color="primary"
-                        onClick={() =>
-                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`)
-                        }
+                        onClick={() => {
+                          ReactGA.event({ category: 'CarDetail', action: 'Ir a Créditos Prendarios' });
+                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`);
+                        }}
                       >
                         ¡Solicitá tu crédito!
                       </Button>

@@ -95,6 +95,12 @@ class FreeDestinationCredits extends React.Component {
       phone: this.state.phone,
       messagge: this.state.messagge,
     };
+
+    ReactGA.event({
+      category: 'Créditos Libre Destino',
+      action: 'Solicitar Crédito Libre Destino',
+    });
+
     requestCredit(dataRequest)
       .then(() => {
         this.setState({
