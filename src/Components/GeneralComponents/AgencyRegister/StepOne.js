@@ -4,9 +4,12 @@
 import React from 'react';
 import { Col, Row, Button } from 'reactstrap';
 import { stringify, parse } from 'query-string';
+import ReactGA from 'react-ga';
 
 import RegisterBar from '../../../stories/RegisterBar';
 import Input from '../../../stories/Input';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class StepOne extends React.Component {
   constructor(props) {
@@ -23,6 +26,7 @@ class StepOne extends React.Component {
       phone: parse(this.props.location.search).phone ? parse(this.props.location.search).phone : '',
       phoneValidate: parse(this.props.location.search).phone,
     };
+    ReactGA.pageview('/REGISTRO-AGENCIA');
   }
 
   next() {

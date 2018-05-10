@@ -12,6 +12,8 @@ import { Col, Row, Button, ButtonDropdown,
   Input,
 } from 'reactstrap';
 import { Notification } from 'react-notification';
+import { animateScroll as scroll } from 'react-scroll';
+
 import { getUserDataFromToken } from '../Modules/sessionFunctions';
 import { login, recoverPassword } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
@@ -42,6 +44,7 @@ export default class RegisterBar extends Component {
     this.isLoginFormIncomplete = this.isLoginFormIncomplete.bind(this);
     this.recoverPass = this.recoverPass.bind(this);
     this.disabled = this.disabled.bind(this);
+    scroll.scrollToTop({ duration: 300 });
   }
 
   isLoginFormIncomplete() {

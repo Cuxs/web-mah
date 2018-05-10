@@ -4,12 +4,15 @@
 import React from 'react';
 import { Col, Row, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { stringify, parse } from 'query-string';
+import ReactGA from 'react-ga';
 
 import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
 import {requestCredit} from '../../../Modules/fetches';
 
 import style from '../../../Styles/pledgeCredits';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class PersonalShopperS2 extends React.Component {
   constructor(props) {
@@ -60,6 +63,11 @@ class PersonalShopperS2 extends React.Component {
     if (!(nameValidate && dniValidate && addressValidate && ganancyValidate && financyAmountValidate && jobValidate && emailValidate && phoneValidate)) {
       return false;
     }
+
+    ReactGA.event({
+      category: 'Personal Shopper',
+      action: 'Solicitar Personal Shopper',
+    });
 
     const search = parse(this.props.location.search);
 

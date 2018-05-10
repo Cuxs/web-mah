@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import { Col, Row, Button, Alert } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
 
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
@@ -14,6 +15,8 @@ import CardAgency from '../../../stories/CardAgency';
 import Footer from '../../../stories/Footer';
 import Input from '../../../stories/Input';
 import { GetAllAgencies } from '../../../ApolloQueries/FriendlyAgencyQueries';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class FriendlyAgency extends Component {
   constructor(props) {
@@ -25,6 +28,7 @@ class FriendlyAgency extends Component {
       emailValidate: false,
     };
     this.redirect = this.redirect.bind(this);
+    ReactGA.pageview('/CONCESIONARIAS');
   }
 
   disabled() {
@@ -32,6 +36,10 @@ class FriendlyAgency extends Component {
   }
 
   redirect() {
+    ReactGA.event({
+      category: 'Concesionarias',
+      action: 'Registrar una agencia',
+    });
     this.props.history.push(`/agencyRegisterS1?email=${this.state.email}&nameAgency=${this.state.nameAgency}`);
   }
 
@@ -39,7 +47,7 @@ class FriendlyAgency extends Component {
     const { history, location, Agencies } = this.props;
     return (
       <div>
-         <Helmet>
+        <Helmet>
           <meta charSet="utf-8" />
           <title>Concesionarios Adheridos</title>
         </Helmet>

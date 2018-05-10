@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { FormGroup, Label, Button, Input } from 'reactstrap';
 import { parse } from 'query-string';
 import { graphql, compose } from 'react-apollo';
+import ReactGA from 'react-ga';
 import { ResetPasswordMutation } from '../../../ApolloQueries/UserProfileQuery';
 
 import NotificationModal from '../../../stories/NotificationModal';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class RecoverPassword extends Component {
   constructor(props) {
@@ -16,6 +19,7 @@ class RecoverPassword extends Component {
       password: '',
       repeatPassword: '',
     };
+    ReactGA.pageview('/RECUPERAR CONTRASEÑA');
   }
   resetPassword() {
     this.props.resetPassword({

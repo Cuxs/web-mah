@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { Col, Row, Button, Label, FormGroup } from 'reactstrap';
 import { parse, stringify } from 'query-string';
 
-
 import Input from '../../../stories/Input';
 import AdminBar from '../../../stories/AdminBar';
 
@@ -105,6 +104,7 @@ class CreatePublication extends React.Component {
                 </div>
 
                 <div className="text-block disable-mobile">
+                  <h4 className="title-division-primary">Para obtener más beneficios, Registrate!</h4>
                   <ul>
                     <li>Publicaciones gratis ilimitadas</li>
                     <li>Tiempo de publicación: 60 días</li>
@@ -114,9 +114,6 @@ class CreatePublication extends React.Component {
                     <li>Anuncios destacados ilimitados</li>
                     <li>Publicaciones en redes sociales</li>
                   </ul>
-                </div>
-                <div className="text-block disable-mobile">
-                  <h4 className="title-division-primary">Para obtener más beneficios, Registrate!</h4>
                   <Button color="primary btn-facebook">Registrate con facebook</Button>
                   <div className="underline" />
                   <p>O con tu email</p>

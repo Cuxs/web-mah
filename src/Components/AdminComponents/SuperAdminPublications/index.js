@@ -28,7 +28,7 @@ class SuperAdminPublications extends React.Component {
       hasNextPage: false,
       renderedData: 0,
     };
-
+    
     this.doSearch = this.doSearch.bind(this);
     this.toggle = this.toggle.bind(this);
   }

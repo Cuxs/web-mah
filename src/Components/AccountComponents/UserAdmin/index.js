@@ -24,7 +24,8 @@ import {
 import { graphql, compose } from 'react-apollo';
 import { split } from 'split-object';
 import { branch, renderComponent } from 'recompose';
-import {Helmet} from 'react-helmet';
+import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
 import UserSideBar from '../../../stories/UserSideBar';
@@ -43,16 +44,18 @@ import {
 import { getSoldPublications } from '../../../Modules/fetches';
 import LoginComponent from '../../../stories/LoginComponent';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 const renderWhileLoading = (component, propName = 'data') =>
-  branch(
-    props => props[propName] && props[propName].loading,
-    renderComponent(component),
-  );
+branch(
+  props => props[propName] && props[propName].loading,
+  renderComponent(component),
+);
 const renderForUnloggedUser = (component, propName = 'data') =>
-  branch(
-    props => !isUserLogged(),
-    renderComponent(component),
-  );
+branch(
+  props => !isUserLogged(),
+  renderComponent(component),
+);
 
 class UserAdmin extends React.Component {
   constructor(props) {
@@ -61,10 +64,11 @@ class UserAdmin extends React.Component {
       modal: false,
       graphData: [],
     };
-
+    
     this.toggle = this.toggle.bind(this);
   }
   componentWillMount() {
+    ReactGA.pageview('/USUARIO-HOME');
     this.getGraphData();
   }
   componentWillReceiveProps(nextProps) {
@@ -150,7 +154,7 @@ class UserAdmin extends React.Component {
                     <Tooltip />
                     <Legend />
                     <Line type="monotone" dataKey="ventas" stroke="blue" />
-                  </LineChart>}
+                    </LineChart>}
                 </Col>
                 <Col lg="4" md="12" sm="12" xs="12">
                   <div className="data-graph col-sm-12 col-xs-12">

@@ -11,6 +11,7 @@ import ScrollToTop from 'react-scroll-up';
 import { branch, renderComponent } from 'recompose';
 import { animateScroll as scroll } from 'react-scroll';
 import _ from 'lodash';
+import ReactGA from 'react-ga';
 
 
 import AdminBar from '../../../stories/AdminBar';
@@ -22,6 +23,9 @@ import { isUserLogged, getUserDataFromToken } from '../../../Modules/sessionFunc
 import { SearchUserPublicationQuery } from '../../../ApolloQueries/UserPublicationsQuery';
 
 import LoginComponent from '../../../stories/LoginComponent';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 
 const renderUnloggedUser = (component, propName = 'data') =>
   branch(
@@ -47,6 +51,7 @@ class UserPublications extends React.Component {
   }
 
   componentWillMount() {
+    ReactGA.pageview('/USUARIO-PUBLICACIONES');
     this.props.PubsPerPage()
       .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
         let existingPubs = this.state.publications;
@@ -171,7 +176,7 @@ class UserPublications extends React.Component {
                       </FlipMove>
                     </div>
                   </div>
-                </div>
+                  </div>
               }
             </Col>
             <ScrollToTop showUnder={320} >

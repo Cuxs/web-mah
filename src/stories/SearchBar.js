@@ -16,6 +16,8 @@ import {
 } from 'reactstrap';
 import { Notification } from 'react-notification';
 import FacebookLogin from 'react-facebook-login';
+import ReactGA from 'react-ga';
+import { animateScroll as scroll } from 'react-scroll';
 
 
 import _ from 'lodash';
@@ -40,6 +42,8 @@ import parseError from '../Modules/errorParser';
 import { login, recoverPassword, checkFacebookLogin, loginOrRegisterFacebook } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
 /* eslint react/jsx-filename-extension: 0 */
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class SearchBar extends Component {
   constructor(props) {
@@ -80,10 +84,16 @@ class SearchBar extends Component {
     this.recoverPass = this.recoverPass.bind(this);
     this.disabled = this.disabled.bind(this);
     this.loginFB = this.loginFB.bind(this);
+    this.pledgeCredits = this.pledgeCredits.bind(this);
+    this.friendlyAgency = this.friendlyAgency.bind(this);
+    this.withoutRegister = this.withoutRegister.bind(this);
+    this.agencyRegister = this.agencyRegister.bind(this);
+    this.userRegister = this.userRegister.bind(this);
     this.statusChangeCallback = this.statusChangeCallback.bind(this);
   }
 
   componentDidMount() {
+    scroll.scrollToTop({ duration: 300 });
     window.fbAsyncInit = function () {
       window.FB.init({
         appId: '146328269397173',
@@ -119,6 +129,10 @@ class SearchBar extends Component {
     });
   }
   submitSearch() {
+    ReactGA.event({
+      category: `SearchBar ${this.props.history.location.pathname}`,
+      action: 'Ir a Buscar autos',
+    });
     this.setState({ sidebar: '' });
     this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${
       this.state.carState
@@ -194,6 +208,46 @@ class SearchBar extends Component {
       isNotificationActive: !this.state.isNotificationActive,
     });
   }
+  pledgeCredits() {
+    ReactGA.event({
+      category: `SearchBar ${this.props.history.location.pathname}`,
+      action: 'Ir a Créditos Prendarios',
+    });
+    return this.props.history.push('/pledgeCredits');
+  }
+
+  friendlyAgency() {
+    ReactGA.event({
+      category: `SearchBar ${this.props.history.location.pathname}`,
+      action: 'Ir a Concesionarias',
+    });
+    return this.props.history.push('/friendlyAgency');
+  }
+
+  withoutRegister() {
+    ReactGA.event({
+      category: `SearchBar ${this.props.history.location.pathname}`,
+      action: 'Ir a Publicá ya',
+    });
+    return this.props.history.push('/withoutRegister');
+  }
+
+  userRegister() {
+    ReactGA.event({
+      category: `SearchBar ${this.props.history.location.pathname}`,
+      action: 'Ir a Registro Usuario',
+    });
+    return this.props.history.push('/userRegister');
+  }
+
+  agencyRegister() {
+    ReactGA.event({
+      category: `SearchBar ${this.props.history.location.pathname}`,
+      action: 'Ir a Registro Agencia',
+    });
+    return this.props.history.push('/agencyRegister');
+  }
+
   loginUser(email, password) {
     if (!(this.state.emailValidate && this.state.passwordValidate)) {
       this._inputEmail.validate('email');
@@ -205,12 +259,20 @@ class SearchBar extends Component {
         const MAHtoken = response.message;
         saveState({ login: { MAHtoken } });
         this.toggleModal();
+        ReactGA.event({
+          category: `SearchBar ${this.props.history.location.pathname}`,
+          action: 'Ir a Login',
+        });
         this.setState({
           isNotificationActive: true,
           email: '',
           password: '',
           isUserLogged: true,
         });
+        if (isAdminLogged()) {
+          return this.props.history.push('/admin');
+        }
+        return this.props.history.push('/userAdmin');
       })
       .catch((error) => {
         const errorParsed = parseError(error);
@@ -345,13 +407,13 @@ class SearchBar extends Component {
               <div className="w-100 d-block d-lg-none" />
               <Col lg="auto">
                 <Row>
-                  <Button color="secondary" className="ml-4" href="/pledgeCredits" > Solicitá tu crédito</Button>
+                  <Button color="secondary" onClick={this.pledgeCredits} className="ml-4" > Solicitá tu crédito</Button>
                 </Row>
               </Col>
               <div className="w-100 d-block d-lg-none" />
               <Col lg="auto">
                 <Row>
-                  <Button color="secondary" className="btn-link" style={{ boxShadow: 'none' }} href="/friendlyAgency" >Concesionarias</Button>
+                  <Button color="secondary" onClick={this.friendlyAgency} className="btn-link" style={{ boxShadow: 'none' }} >Concesionarias</Button>
                 </Row>
               </Col>
               <div className="w-100 d-block d-lg-none" />
@@ -393,15 +455,15 @@ class SearchBar extends Component {
                         >
                           <DropdownToggle caret className="btn-link-active" style={{ width: '160px', boxShadow: 'none' }}>Publicá Gratis</DropdownToggle>
                           <DropdownMenu className="custom-dropdown">
-                            <DropdownItem value="publicateFree" href="/withoutRegister">
+                            <DropdownItem value="publicateFree" onClick={this.withoutRegister}>
                               <h4>¡Publica ya!</h4>
                               <h6>1 Publicación Gratis</h6>
                             </DropdownItem>
-                            <DropdownItem value="particular" href="/userRegister">
+                            <DropdownItem value="particular" onClick={this.userRegister}>
                               <h4>Soy Particular. Registrate, es muy fácil</h4>
                               <h6>Publicaciones gratis ilimitadas</h6>
                             </DropdownItem>
-                            <DropdownItem value="agency" href="/agencyRegister">
+                            <DropdownItem value="agency" onClick={this.agencyRegister}>
                               <h4>Soy un Concesionario. Registrate y vende más</h4>
                               <h6>Publicaciones gratis ilimitadas</h6>
                             </DropdownItem>

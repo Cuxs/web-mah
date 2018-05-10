@@ -5,6 +5,7 @@ import React from 'react';
 import {
   Redirect,
 } from 'react-router-dom';
+import ReactGA from 'react-ga';
 import RegisterBar from '../../../stories/RegisterBar';
 import BannerWithoutRegister from '../../../stories/BannerWithoutRegister';
 import FeaturesWithoutRegister from '../../../stories/FeaturesWithoutRegister';
@@ -13,8 +14,11 @@ import Footer from '../../../stories/Footer';
 import Plans from '../../../stories/Plans';
 import { isUserLogged } from '../../../Modules/sessionFunctions';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 const WithoutRegister = ({ history, location }) => (
   <div>
+    {ReactGA.pageview('/PLANES-SIN-REGISTRO')}
     {isUserLogged() &&
     <Redirect to="/createPublication" />}
     <RegisterBar history={history} location={location} />

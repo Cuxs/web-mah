@@ -1,8 +1,12 @@
 import React from 'react';
 import { Col, Row, Button } from 'reactstrap';
+import ReactGA from 'react-ga';
+
 /* eslint react/jsx-filename-extension: 0 */
 import InputOrText from './InputOrText';
 import { isAdminLogged } from '../Modules/sessionFunctions';
+
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class CreditsBanner extends React.Component {
   constructor(props) {
@@ -15,6 +19,9 @@ class CreditsBanner extends React.Component {
       title4: 'Créditos de libre destino ',
       text4: 'Hacé con tu préstamo lo que desees y lo que siempre soñaste.',
     };
+    this.pledgeCredits = this.pledgeCredits.bind(this);
+    this.personalShopperS1 = this.personalShopperS1.bind(this);
+    this.freeDestinationCredits = this.freeDestinationCredits.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     if (!nextProps.Texts.loading) {
@@ -23,6 +30,30 @@ class CreditsBanner extends React.Component {
       nextProps.Texts.PageTexts.map(row => texts[row.section] = row.text);
       this.setState({ ...texts });
     }
+  }
+
+  pledgeCredits() {
+    ReactGA.event({
+      category: 'Home Banner',
+      action: 'Ir a Créditos Prendarios',
+    });
+    return this.props.history.push('/pledgeCredits');
+  }
+
+  freeDestinationCredits() {
+    ReactGA.event({
+      category: 'Home Banner',
+      action: 'Ir a Créditos Libre Destino',
+    });
+    return this.props.history.push('/freeDestinationCredits');
+  }
+
+  personalShopperS1() {
+    ReactGA.event({
+      category: 'Home Banner',
+      action: 'Ir a Personal Shopper',
+    });
+    return this.props.history.push('/personalShopperS1');
   }
 
   render() {
@@ -46,7 +77,7 @@ class CreditsBanner extends React.Component {
                     <p>{this.state.text2}</p>
                   </div>
                 }
-                <Button color="primary" onClick={() => this.props.history.push('/pledgeCredits')} className="align-self-end"> Consultá</Button>
+                <Button color="primary" onClick={this.pledgeCredits} className="align-self-end"> Consultá</Button>
               </Col>
             </Row>
           </Col>
@@ -67,7 +98,7 @@ class CreditsBanner extends React.Component {
                     <p>{this.state.text3}</p>
                   </div>
                 }
-                <Button color="primary" onClick={() => this.props.history.push('/personalShopperS1')} className="align-self-end"> Consultá</Button>
+                <Button color="primary" onClick={this.personalShopperS1} className="align-self-end"> Consultá</Button>
               </Col>
             </Row>
           </Col>
@@ -88,7 +119,7 @@ class CreditsBanner extends React.Component {
                     <p>{this.state.text4}</p>
                   </div>
                 }
-                <Button color="primary" onClick={() => this.props.history.push('/freeDestinationCredits')} className="align-self-end"> Consultá</Button>
+                <Button color="primary" onClick={this.freeDestinationCredits} className="align-self-end"> Consultá</Button>
               </Col>
             </Row>
           </Col>

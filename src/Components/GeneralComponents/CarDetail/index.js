@@ -9,6 +9,7 @@ import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import decode from 'jwt-decode';
 import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
 
 import {
   CarDetailQuery,
@@ -36,6 +37,8 @@ import {
   isUserLogged,
 } from '../../../Modules/sessionFunctions';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 const renderForNullPublication = (component, propName = 'data') =>
   branch(
     props => props[propName] && props[propName].Publication === null,
@@ -57,6 +60,7 @@ class CarDetail extends Component {
     };
     this.toggle = this.toggle.bind(this);
     this.isPublicationVisible = this.isPublicationVisible.bind(this);
+    ReactGA.pageview('/DETALLE-AUTO');
   }
 
   toggle() {
@@ -276,9 +280,10 @@ class CarDetail extends Component {
                       </Row>
                       <Button
                         color="primary"
-                        onClick={() =>
-                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`)
-                        }
+                        onClick={() => {
+                          ReactGA.event({ category: 'CarDetail', action: 'Ir a Créditos Prendarios' });
+                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`);
+                        }}
                       >
                         ¡Solicitá tu crédito!
                       </Button>

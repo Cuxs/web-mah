@@ -8,6 +8,7 @@ import qs from 'query-string';
 import { animateScroll as scroll } from 'react-scroll';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
 
 import SearchMutation from '../../../ApolloQueries/SearchMutation';
 import { GetAgencyDetail } from '../../../ApolloQueries/FriendlyAgencyQueries';
@@ -21,6 +22,8 @@ import HeaderAgency from '../../../stories/HeaderAgency';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 class Microsite extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +35,7 @@ class Microsite extends Component {
   componentWillMount() {
     const url = this.props.location.search;
     this.doSearch(url);
+    ReactGA.pageview('/MICROSITIO');
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {

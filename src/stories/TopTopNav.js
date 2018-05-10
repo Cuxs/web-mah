@@ -1,16 +1,36 @@
 import React from 'react';
 import { Row } from 'reactstrap';
+import ReactGA from 'react-ga';
 
 /* eslint react/jsx-filename-extension: 0 */
-
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 export default ({ history }) => (
   <div className="container-fluid">
     <Row>
       <div className="TopTopNav" id="myTopnav">
-        <a onClick={() => history.push('/freeDestinationCredits')}>Créditos Libre Destino</a>
-        <a onClick={() => history.push('/personalShopperS1')}>Personal Shopper</a>
-        <a onClick={() => history.push('/pledgeCredits')}>Creditos Prendarios</a>
+        <a onClick={() => {
+          ReactGA.event({
+            category: history.location.pathname,
+            action: 'Ir a Créditos Libre Destino',
+          });
+          history.push('/freeDestinationCredits');
+        }}>
+          Créditos Libre Destino
+        </a>
+        <a onClick={() => {
+          ReactGA.event({
+            category: history.location.pathname,
+            action: 'Ir a Personal Shopper',
+          });
+          history.push('/personalShopperS1')
+        }}>Personal Shopper</a>
+        <a onClick={() => {
+          ReactGA.event({
+            category: history.location.pathname,
+            action: 'Ir a Creditos Prendarios',
+          });
+          history.push('/pledgeCredits')}}>Creditos Prendarios</a>
       </div>
     </Row>
   </div>

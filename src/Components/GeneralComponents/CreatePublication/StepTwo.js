@@ -32,18 +32,18 @@ class StepTwo extends Component {
     super(props);
     this.state = {
       modal: false,
+      modalBack: false,
       responseMsg: '',
       responseTitle: '',
       disabled: true,
       edit: false,
       previousImages: [],
       isNotificationActive: false,
-      notificationMessage:'',
-      notificationTitle:''
+      notificationMessage: '',
+      notificationTitle: '',
     };
     this.toggle = this.toggle.bind(this);
     this.toggleNotification = this.toggleNotification.bind(this);
-    
   }
   componentWillMount() {
     const search = parse(this.props.location.search);
@@ -96,14 +96,34 @@ class StepTwo extends Component {
             responseTitle: 'Guardado',
           });
         });
-    } else { 
+    } else {
       myDropzone.processQueue();
     }
   }
+
   toggleNotification() {
     this.setState({
       isNotificationActive: !this.state.isNotificationActive,
     });
+  }
+
+  toggleBack() {
+    this.setState({
+      modalBack: !this.state.modalBack,
+    });
+  }
+
+  previous() {
+    const search = parse(this.props.location.search);
+    const dataCar = {
+      DataCar: search.DataCar,
+    };
+    const dataExtras = {
+      Caracteristics: search.Caracteristics,
+      TecnicalData: search.TecnicalData,
+      Additionals: search.Additionals,
+    };
+    this.props.history.push(`/createPublicationS1?${stringify(dataCar)}&${stringify(dataExtras)}`);
   }
 
   render() {
@@ -235,14 +255,7 @@ class StepTwo extends Component {
                   style={{ width: '100%' }}
                   className="d-flex justify-content-between align-items-center"
                 >
-                  <Button
-                    color="default"
-                    onClick={() =>
-                      this.props.history.push(`/createPublicationS1?${stringify(dataCar)}`)
-                    }
-                  >
-                    Volver
-                  </Button>
+                  <Button color="default" onClick={() => this.setState({ modalBack: true })}>Volver</Button>
                   <Button
                     color="primary"
                     disabled={this.state.disabled}
@@ -274,19 +287,33 @@ class StepTwo extends Component {
                   </Button>
                 </ModalFooter>
               </Modal>
+              <Modal isOpen={this.state.modalBack} toggle={this.toggleBack}>
+                <ModalHeader toggle={this.toggleModal}>¿Estás seguro que deséas volver?</ModalHeader>
+                <ModalBody>
+                  <div className="col-md-6 offset-md-3">
+                    Se perderán las fotos que ya se han cargado.
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="default" onClick={() => this.toggleBack()} >NO</Button>
+                  <Button color="primary" onClick={() => this.previous()} >SI</Button>
+                </ModalFooter>
+              </Modal>
             </Col>
           </Row>
         </div>
         <Notification
-            isActive={this.state.isNotificationActive}
-            message={this.state.notificationMessage}
-            title={this.state.notificationTitle}
-            barStyle={{ backgroundColor: '#FFD740', zIndex: 3000, fontSize: '18px', color:'grey' }}
-            dismissAfter={false}
-            action="Cerrar"            
-            onDismiss={this.toggleNotification}
-            onClick={() => this.setState({ isNotificationActive: false })}
-          />
+          isActive={this.state.isNotificationActive}
+          message={this.state.notificationMessage}
+          title={this.state.notificationTitle}
+          barStyle={{
+            backgroundColor: '#FFD740', zIndex: 3000, fontSize: '18px', color: 'grey',
+          }}
+          dismissAfter={false}
+          action="Cerrar"
+          onDismiss={this.toggleNotification}
+          onClick={() => this.setState({ isNotificationActive: false })}
+        />
       </div>
     );
   }

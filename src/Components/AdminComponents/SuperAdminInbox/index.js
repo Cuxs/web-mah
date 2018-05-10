@@ -17,6 +17,7 @@ import { graphql, compose } from 'react-apollo';
 import { ChatFeed, Message } from 'react-chat-ui';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
+import { animateScroll as scroll } from 'react-scroll';
 
 import AdminBar from '../../../stories/AdminBar';
 import NotificationModal from '../../../stories/NotificationModal';
@@ -52,6 +53,7 @@ class SuperAdminInbox extends Component {
     this.deleteMessage = this.deleteMessage.bind(this);
   }
   componentWillMount() {
+    scroll.scrollToTop({ duration: 300 });
     if (!isAdminLogged()) {
       this.props.history.push('/loginAdmin');
     }

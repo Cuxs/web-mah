@@ -6,6 +6,7 @@ import { Col, Row, Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBod
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import ScrollToTop from 'react-scroll-up';
+import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
 import UserSideBar from '../../../stories/UserSideBar';
@@ -13,11 +14,13 @@ import { UserDetailQuery, UserDataMutation, UserPasswordMutation } from '../../.
 import { getUserToken, isUserLogged } from '../../../Modules/sessionFunctions';
 import LoginComponent from '../../../stories/LoginComponent';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+
 const renderForUnloggedUser = (component, propName = 'data') =>
-  branch(
-    props => !isUserLogged(),
-    renderComponent(component),
-  );
+branch(
+  props => !isUserLogged(),
+  renderComponent(component),
+);
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -35,6 +38,7 @@ class UserProfile extends React.Component {
       responseTitle: '',
       modal: false,
     };
+    ReactGA.pageview('/USUARIO-PERFIL');
     this.update = this.update.bind(this);
   }
 

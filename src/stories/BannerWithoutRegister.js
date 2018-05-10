@@ -3,12 +3,14 @@ import { Row, FormGroup, Button, Label } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { stringify } from 'query-string';
 import Select from 'react-select';
+import ReactGA from 'react-ga';
 
 import { AllBrandsQuery, GroupsQuery } from '../ApolloQueries/TautosQuery';
 import { prepareArraySelect } from '../Modules/functions';
 import InputOrText from './InputOrText';
 
 /* eslint react/jsx-filename-extension: 0 */
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class Banner extends React.Component {
   constructor(props) {
@@ -47,6 +49,10 @@ class Banner extends React.Component {
       brandId: this.state.brand,
       groupId: this.state.group,
     };
+    ReactGA.event({
+      category: 'Publicá ya Plans',
+      action: 'Ir a Publicá ya',
+    });
     this.props.history.push(`/publicateWithoutRegister?${stringify(dataCar)}`);
   }
 

@@ -3,14 +3,17 @@
 
 import React from 'react';
 import { Col, Row } from 'reactstrap';
+import ReactGA from 'react-ga';
 
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
 import Footer from '../../../stories/Footer';
 
+ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 export default ({ location, history }) => (
   <div>
+    {ReactGA.pageview('/TERMINOS-CONDICIONES')}
     <div>
       <TopTopNav history={history} />
       <SearchBar
