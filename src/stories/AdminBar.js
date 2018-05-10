@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { animateScroll as scroll } from 'react-scroll';
 import { getUserDataFromToken, clearSession, isAdminLogged, isUserLogged } from '../Modules/sessionFunctions';
 
 /* eslint react/jsx-filename-extension: 0 */
@@ -11,6 +12,7 @@ export default class AdminBar extends React.Component {
     this.state = {
       dropdownUser: false,
     };
+    scroll.scrollToTop({ duration: 300 });
   }
 
   toggle() {

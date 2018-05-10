@@ -17,6 +17,7 @@ import {
 import { Notification } from 'react-notification';
 import FacebookLogin from 'react-facebook-login';
 import ReactGA from 'react-ga';
+import { animateScroll as scroll } from 'react-scroll';
 
 
 import _ from 'lodash';
@@ -92,6 +93,7 @@ class SearchBar extends Component {
   }
 
   componentDidMount() {
+    scroll.scrollToTop({ duration: 300 });
     window.fbAsyncInit = function () {
       window.FB.init({
         appId: '146328269397173',
@@ -267,6 +269,10 @@ class SearchBar extends Component {
           password: '',
           isUserLogged: true,
         });
+        if (isAdminLogged()) {
+          return this.props.history.push('/admin');
+        }
+        return this.props.history.push('/userAdmin');
       })
       .catch((error) => {
         const errorParsed = parseError(error);

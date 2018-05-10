@@ -231,7 +231,7 @@ class StepThree extends Component {
                 </ModalFooter>
               </Modal>
               <Modal isOpen={this.state.modalBack} toggle={this.toggleBack}>
-                <ModalHeader toggle={this.toggleModal}>Estás seguro que deséas volver?</ModalHeader>
+                <ModalHeader toggle={this.toggleModal}>¿Estás seguro que deséas volver?</ModalHeader>
                 <ModalBody>
                   <div className="col-md-6 offset-md-3">
                     Se perderán las fotos que ya se han cargado.

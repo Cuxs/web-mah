@@ -19,7 +19,7 @@ import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../A
 import style from '../../../Styles/register';
 import LoginComponent from '../../../stories/LoginComponent';
 import { isUserLogged } from '../../../Modules/sessionFunctions';
-import { thousands, generateYearArray, prepareArraySelect } from '../../../Modules/functions';
+import { thousands, generateYearPerModel, prepareArraySelect } from '../../../Modules/functions';
 
 ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
@@ -301,12 +301,12 @@ class CreatePublication extends React.Component {
                 <FormGroup>
                   <Label for="exampleSelect">¿Cuál es el año?</Label>
                   <Select
-                    disabled = {this.state.codia === ''}
+                    disabled={this.state.codia === ''}
                     id="year-select"
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
-                    options={generateYearArray()}
+                    options={generateYearPerModel(this.state.Prices)}
                     simpleValue
                     clearable
                     name="selected-state"

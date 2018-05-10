@@ -46,3 +46,18 @@ export const generateYearArray = () => {
   }
   return yearArray;
 };
+
+export const generateYearPerModel = (array) => {
+  const newArray = [];
+
+  _.each(array, (item) => {
+    if (item.precio !== 0) {
+      const objectItem = {};
+      objectItem.value = item.anio;
+      objectItem.label = item.anio;
+      newArray.push(objectItem);
+    }
+  });
+
+  return newArray;
+}

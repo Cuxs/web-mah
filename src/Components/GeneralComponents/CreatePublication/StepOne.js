@@ -20,7 +20,15 @@ class CreatePublicationS1 extends React.Component {
 
   componentWillMount() {
     const search = parse(this.props.location.search);
-    this.props.client.query({
+
+    if (search.Caracteristics) {
+      return this.setState({
+        Caracteristics: parse(search.Caracteristics),
+        TecnicalData: parse(search.TecnicalData),
+        Additionals: parse(search.Additionals),
+      });
+    }
+    return this.props.client.query({
       query: InfoCarQuery,
       variables: {
         ext_codia: search.Caracteristics ? parse(search.DataCar).codia : search.codia,
