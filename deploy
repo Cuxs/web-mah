@@ -3,16 +3,25 @@
 set -eu
 
 USER=deployer
-SERVER=beta.miautohoy.com
-APP_PATH=/var/www/beta.miautohoy.com/current
+TARGET=${1:-testing}
 
-echo "Deploying, please wait..."
+if [[ $TARGET == "production" ]]; then
+  SERVER=miautohoy.com
+  APP_PATH=/var/www/miautohoy.com/current
+  SERVICE=miautohoy
+else
+  SERVER=test.miautohoy.com
+  APP_PATH=/var/www/test.miautohoy.com/current
+  SERVICE=miautohoytest
+fi
+
+echo "Deploying to $TARGET, please wait..."
 
 ssh $USER@$SERVER "mkdir -p $APP_PATH"
 rsync -az --delete --exclude .git --exclude .gitignore \
   --exclude deploy --exclude node_modules \
   -e ssh . $USER@$SERVER:$APP_PATH
 ssh $USER@$SERVER "cd $APP_PATH && npm install && npm run build"
-ssh root@$SERVER "systemctl restart miautohoy"
+ssh root@$SERVER "systemctl restart $SERVICE"
 
 echo "Deploy finished"
