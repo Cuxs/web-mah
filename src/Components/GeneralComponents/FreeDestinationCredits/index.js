@@ -153,7 +153,7 @@ class FreeDestinationCredits extends React.Component {
                       />
                       <InputOrText
                         section="text1"
-route={this.props.location.pathname.slice(1)}
+                        route={this.props.location.pathname.slice(1)}
                         text={this.state.text1}
                         onChange={text1 => this.setState({ text1 })}
                       />
@@ -175,14 +175,14 @@ route={this.props.location.pathname.slice(1)}
                           type="h6"
                           text={this.state.title2}
                           section="title2"
-height="40px"
-route={this.props.location.pathname.slice(1)}
+                          height="40px"
+                          route={this.props.location.pathname.slice(1)}
                           onChange={title2 => this.setState({ title2 })}
                         />
                         <InputOrText
                           section="text2"
-height="120px"
-route={this.props.location.pathname.slice(1)}
+                          height="120px"
+                          route={this.props.location.pathname.slice(1)}
                           type="h4"
                           text={this.state.text2}
                           onChange={text2 => this.setState({ text2 })}
@@ -200,8 +200,8 @@ route={this.props.location.pathname.slice(1)}
                       <div className="step">
                         <InputOrText
                           section="title3"
-height="40px"
-route={this.props.location.pathname.slice(1)}
+                          height="40px"
+                          route={this.props.location.pathname.slice(1)}
                           type="h6"
                           text={this.state.title3}
                           onChange={title3 => this.setState({ title3 })}
@@ -209,8 +209,8 @@ route={this.props.location.pathname.slice(1)}
                         <InputOrText
                           type="h4"
                           section="text2"
-height="120px"
-route={this.props.location.pathname.slice(1)}
+                          height="120px"
+                          route={this.props.location.pathname.slice(1)}
 
                           text={this.state.text2}
                           onChange={text2 => this.setState({ text2 })}
@@ -291,7 +291,7 @@ route={this.props.location.pathname.slice(1)}
                 />
                 <Input
                   label="Email"
-                  type="text"
+                  type="email"
                   value={this.state.email}
                   onChange={event =>
                     this.setState({ email: event.target.value })
