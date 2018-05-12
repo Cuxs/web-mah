@@ -132,9 +132,9 @@ class CarDetail extends Component {
           <meta charSet="utf-8" />
           <title>{`${carDetailData.Publication.brand} - ${carDetailData.Publication.group}` }</title>
           <meta property="fb:app_id" content={146328269397173} />
-          <meta property="og:url" content={`https://beta.miautohoy.com/carDetail${location.search}`} />
+          <meta property="og:url" content={`https://miautohoy.com/carDetail${location.search}`} />
           <meta property="og:type" content="website" />
-          <meta property="og:image" content={`https://beta.miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`} />
+          <meta property="og:image" content={`https://miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`} />
         </Helmet>
        }
         <TopTopNav history={history} />
@@ -289,7 +289,7 @@ class CarDetail extends Component {
                       </Button>
                       <div className="container-social">
                         <a
-                          href={`https://www.facebook.com/sharer.php?s=100&p[title]=${carDetailData.Publication.brand} - ${carDetailData.Publication.group}&p[url]=https://beta.miautohoy.com/carDetail${location.search}&p[summary]="Mi auto hoy, cambia la forma de comprar o vender tu auto."&p[images][0]=https://beta.miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`}
+                          href={`https://facebook.com/sharer.php?s=100&p[title]=${carDetailData.Publication.brand} - ${carDetailData.Publication.group}&p[url]=https://miautohoy.com/carDetail${location.search}&p[summary]="Mi auto hoy, cambia la forma de comprar o vender tu auto."&p[images][0]=https://api.miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`}
                           className="btn btn-social-icon"
                         >
                           <img
@@ -298,7 +298,7 @@ class CarDetail extends Component {
                           />
                         </a>
                         <a
-                          href={`https://twitter.com/intent/tweet?text=Vendo ${carDetailData.Publication.brand} - ${carDetailData.Publication.group}. Ingresa a https://beta.miautohoy.com/carDetail${location.search} para ver más detalles!`}
+                          href={`https://twitter.com/intent/tweet?text=Vendo ${carDetailData.Publication.brand} - ${carDetailData.Publication.group}. Ingresa a https://miautohoy.com/carDetail${location.search} para ver más detalles!`}
                           className="btn btn-social-icon"
                         >
                           <img

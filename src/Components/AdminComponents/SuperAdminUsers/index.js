@@ -96,7 +96,7 @@ class SuperAdminUsers extends React.Component {
       return 'No hay resultados, pruebe con otros filtros';
     }
     this.state.searchUsers.Users.map(user => (
-      items.push(<SACardUser data={user} key={user.id} onHighlight={() => this.toggle()} />)));
+      items.push(<SACardUser data={user} key={user.id} history={this.props.history} onHighlight={() => this.toggle()} />)));
     return items;
   }
   renderData() {
@@ -111,7 +111,7 @@ class SuperAdminUsers extends React.Component {
     }
     const items = [];
     users.map(user => (
-      items.push(<SACardUser data={user} key={user.id} onHighlight={() => this.toggle()} />)));
+      items.push(<SACardUser data={user} history={this.props.history} key={user.id} onHighlight={() => this.toggle()} />)));
     return items;
   }
 
