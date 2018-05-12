@@ -322,7 +322,7 @@ class FreeDestinationCredits extends React.Component {
                     this.setState({ messaggeValidate: isValid })
                   }
                 />
-                <Button color="primary" className="float-right">
+                <Button color="primary" className="float-right" onClick={() => this.requestCredit()} >
                   Solicitar
                 </Button>
               </div>
