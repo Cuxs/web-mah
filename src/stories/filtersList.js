@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { split } from 'split-object';
+import {parse} from 'query-string';
 import { Modal, ModalHeader, ModalBody, Col, Row } from 'reactstrap';
 import _ from 'lodash';
 
@@ -20,7 +21,7 @@ class FilterList extends Component {
   items(title, value, search, history) {
     return (
       <ul>
-        {(title === 'year' || title ==='modelName') ? 
+        {(title === 'year' || title ==='modelName' || title==='brand') ? 
         _.orderBy(split(value), ['key'], ['desc']).map((row, index) => (
           <li>
             {row.key !== 'null' && <button className={(index > 4) ? 'sidebar-option hide' : 'sidebar-option'} disabled={split(value).length === 1} onClick={() => history.push(`${search}&${title}=${row.key}`)}>
@@ -41,8 +42,13 @@ class FilterList extends Component {
           <strong>Ver más</strong>
           </button>
         </li>}
-        {title === 'modelName' && <li>
+        {(title === 'modelName' && parse(this.props.search).brand) && <li>
           <button className="sidebar-option" onClick={() => this.toggle('modelName')}>
+            <strong>Ver más</strong>
+          </button>
+        </li>}
+        {title === 'brand' && <li>
+          <button className="sidebar-option" onClick={() => this.toggle('brand')}>
             <strong>Ver más</strong>
           </button>
         </li>}
@@ -52,7 +58,7 @@ class FilterList extends Component {
 
   renderModal(modalData ,title, value, search, history) {
     return (
-      <Col md={12}>
+      <Col md={12}>}
         <Row>
           {title === modalData && _.orderBy(split(value), ['key'], ['desc']).map((row, index) => (
           row.key !== 'null' && <Col md={6} sm={12} xs={12} >
@@ -70,14 +76,22 @@ class FilterList extends Component {
     switch (title) {
       case 'fuel':
         return 'Combustible';
+        break;
       case 'year':
         return 'Año';
+        break;        
       case 'state':
         return 'Estado de la publicación';
+        break;        
       case 'userType':
         return 'Tipo de Usuario';
+        break;        
       case 'modelName':
         return 'Modelo';
+        break;        
+      case 'brand':
+        return 'Marca';
+        break;        
       default:
         return '';
     }
@@ -92,14 +106,21 @@ class FilterList extends Component {
 
   render() {
     return (
+      //sacar la marca en este split
       <div>
-        {split(this.props.filters).map(row => (
+        {split(this.props.filters).map(row => {
+          if(_.isUndefined(parse(this.props.search).brand)&& row.key==='modelName'){
+            return false;
+          }
+          return(
           <ul>
             <li className="sidebar-title"> {this.parseTitle(row.key)}
               { this.items(row.key, row.value, this.props.search, this.props.history) }
             </li>
           </ul>
-        ))}
+        )
+      }
+      )}
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Elige uno</ModalHeader>
           <ModalBody>
