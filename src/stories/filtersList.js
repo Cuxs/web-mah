@@ -58,7 +58,7 @@ class FilterList extends Component {
 
   renderModal(modalData ,title, value, search, history) {
     return (
-      <Col md={12}>}
+      <Col md={12}>
         <Row>
           {title === modalData && _.orderBy(split(value), ['key'], ['desc']).map((row, index) => (
           row.key !== 'null' && <Col md={6} sm={12} xs={12} >
