@@ -63,7 +63,7 @@ app.get("/carDetail", function(request, response) {
         );
         htmlData = htmlData.replace(
           /\$OG_DESCRIPTION/g,
-          Publication.observation === null ? "Mi auto hoy. Cambia la forma de comprar o vender tu auto" : Publication.observation
+          Publication.observation === null ? "miautohoy.com Cambia la forma de comprar o vender tu auto" : Publication.observation
         );
         htmlData = htmlData.replace(
           /\$OG_URL/g,

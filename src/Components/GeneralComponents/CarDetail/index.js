@@ -289,7 +289,7 @@ class CarDetail extends Component {
                       </Button>
                       <div className="container-social">
                         <a
-                          href={`https://facebook.com/sharer.php?s=100&p[title]=${carDetailData.Publication.brand} - ${carDetailData.Publication.group}&p[url]=https://miautohoy.com/carDetail${location.search}&p[summary]="Mi auto hoy, cambia la forma de comprar o vender tu auto."&p[images][0]=https://api.miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`}
+                          href={`https://www.facebook.com/sharer/sharer.php?u=https://miautohoy.com/carDetail${location.search}`}
                           className="btn btn-social-icon"
                         >
                           <img
