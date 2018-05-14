@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Col,
   Row,
@@ -7,12 +7,12 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from 'reactstrap';
-import { graphql, compose } from 'react-apollo';
-import { DeleteUserMutation } from '../ApolloQueries/UserQuery';
-import { getUserToken } from '../Modules/sessionFunctions';
-import NotificationModal from './NotificationModal';
+  Button
+} from "reactstrap";
+import { graphql, compose } from "react-apollo";
+import { DeleteUserMutation } from "../ApolloQueries/UserQuery";
+import { getUserToken } from "../Modules/sessionFunctions";
+import NotificationModal from "./NotificationModal";
 /* eslint react/jsx-filename-extension: 0 */
 
 class SACardUser extends React.Component {
@@ -22,8 +22,8 @@ class SACardUser extends React.Component {
       modal: false,
       deleteUser: false,
       showModal: false,
-      modalTitle: '',
-      modalMessage: '',
+      modalTitle: "",
+      modalMessage: ""
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -31,7 +31,7 @@ class SACardUser extends React.Component {
   toggle(deleteUser) {
     const stateData = {
       modal: !this.state.modal,
-      deleteUser,
+      deleteUser
     };
     this.setState(stateData);
   }
@@ -41,16 +41,16 @@ class SACardUser extends React.Component {
       .deleteUser({
         variables: {
           MAHtoken: getUserToken(),
-          userId: this.props.data.id,
+          userId: this.props.data.id
         },
-        refetchQueries: ['AllUsersResume'],
+        refetchQueries: ["AllUsersResume"]
       })
       .then(() => {
         this.toggle();
         this.setState({
           showModal: true,
-          modalTitle: 'Hecho',
-          modalMessage: 'El usuario ha sido eliminado exitosamente.',
+          modalTitle: "Hecho",
+          modalMessage: "El usuario ha sido eliminado exitosamente."
         });
       })
       .catch(({ graphQLErrors, networkError }) => {
@@ -58,16 +58,17 @@ class SACardUser extends React.Component {
         if (graphQLErrors) {
           graphQLErrors.map(({ message }) =>
             this.setState({
-              modalTitle: 'Error',
+              modalTitle: "Error",
               modalMessage: message,
-              showModal: true,
-            }));
+              showModal: true
+            })
+          );
         }
         if (networkError) {
           this.setState({
-            modalTitle: 'Error',
+            modalTitle: "Error",
             modalMessage: networkError,
-            showModal: true,
+            showModal: true
           });
         }
       });
@@ -76,21 +77,23 @@ class SACardUser extends React.Component {
     const { data } = this.props;
     return (
       <Col lg="4" md="6" sm="12">
-        <div className="card p-4 box-item box-user" style={{ height: '327px' }}>
+        <div className="card p-4 box-item box-user" style={{ height: "327px" }}>
           <div>
             <div className="data-input-group">
               <h4>{data.agencyName !== null ? data.agencyName : data.name}</h4>
             </div>
             <div className="data-input-group">
               <Label>EMAIL</Label>
-              <p className="truncate" >{data.agencyName !== null ? data.agencyEmail : data.email}</p>
+              <p className="truncate">
+                {data.agencyName !== null ? data.agencyEmail : data.email}
+              </p>
             </div>
             <div className="data-input-group">
               <Label>TELEFONO DE CONTACTO</Label>
               <p>
                 {data.agencyName !== null
                   ? data.agencyPhone
-                  : data.phone || 'No especificado.'}
+                  : data.phone || "No especificado."}
               </p>
             </div>
           </div>
@@ -105,21 +108,31 @@ class SACardUser extends React.Component {
             >
               VER MÁS
             </Button>
+          </div>
+          <div className="align-self-end">
+           {this.props.data.isAgency && <Button
+              className="btn-link-primary float-left"
+              style={{ position: "relative", display: "inline" }}
+              color="primary"
+              onClick={()=>this.props.history.push(`/superAdminMicrosite?u_id=${this.props.data.id}`)}
+            >
+              <img src="/assets/images/icon-edit-red.svg" />
+            </Button>}
             <Button
               className="btn-link-primary float-left"
-              style={{ position: 'relative', display: 'inline' }}
+              style={{ position: "relative", display: "inline" }}
               color="primary"
               onClick={() => this.toggle(true)}
             >
-              ELIMINAR
+              <img src="/assets/images/icon-delete.svg" />
             </Button>
           </div>
         </div>
         <Modal isOpen={this.state.modal} size="lg" toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>
             {this.state.deleteUser
-              ? '¿Desea eliminar este usuario?'
-              : 'Información del usuario'}
+              ? "¿Desea eliminar este usuario?"
+              : "Información del usuario"}
           </ModalHeader>
           <ModalBody>
             <div>
@@ -128,8 +141,8 @@ class SACardUser extends React.Component {
                   <Col md={6}>
                     <Label>
                       {data.agencyName !== null
-                        ? 'NOMBRE DE LA AGENCIA'
-                        : 'NOMBRE'}
+                        ? "NOMBRE DE LA AGENCIA"
+                        : "NOMBRE"}
                     </Label>
                     <p>
                       {data.agencyName !== null ? data.agencyEmail : data.email}
@@ -146,8 +159,8 @@ class SACardUser extends React.Component {
                   <Col md={6}>
                     <Label>
                       {data.agencyName !== null
-                        ? 'EMAIL DE LA AGENCIA'
-                        : 'EMAIL'}
+                        ? "EMAIL DE LA AGENCIA"
+                        : "EMAIL"}
                     </Label>
                     <p>
                       {data.agencyName !== null ? data.agencyEmail : data.email}
@@ -164,8 +177,8 @@ class SACardUser extends React.Component {
                   <Col md={6}>
                     <Label>
                       {data.agencyName !== null
-                        ? 'TELÉFONO DE LA AGENCIA'
-                        : 'TELÉFONO'}
+                        ? "TELÉFONO DE LA AGENCIA"
+                        : "TELÉFONO"}
                     </Label>
                     <p>
                       {data.agencyName !== null ? data.agencyPhone : data.phone}
@@ -182,8 +195,8 @@ class SACardUser extends React.Component {
                   <Col md={6}>
                     <Label>
                       {data.agencyName !== null
-                        ? 'DIRECCIÓN DE LA AGENCIA'
-                        : 'DIRECCIÓN'}
+                        ? "DIRECCIÓN DE LA AGENCIA"
+                        : "DIRECCIÓN"}
                     </Label>
                     <p>
                       {data.agencyName !== null
@@ -194,13 +207,13 @@ class SACardUser extends React.Component {
                   {data.agencyName !== null && (
                     <Col md={6}>
                       <Label>DIRECCIÓN DEL RESPONSABLE</Label>
-                      <p>{data.address || 'No especificado'}</p>
+                      <p>{data.address || "No especificado"}</p>
                     </Col>
                   )}
                 </Row>
               </Col>
               <br />
-              <h5 style={{ paddingLeft: '10px' }}>
+              <h5 style={{ paddingLeft: "10px" }}>
                 ACERCA DE LAS PUBLICACIONES
               </h5>
               <br />
@@ -213,34 +226,36 @@ class SACardUser extends React.Component {
                 </ul>
               </Col>
             </div>
-            {this.state.deleteUser ?
+            {this.state.deleteUser ? (
               <span>
-                <p style={{ textAlign: 'center', fontWeight: 900 }}>
-              ¿Esta seguro que desea eliminar este usuario?{' '}
+                <p style={{ textAlign: "center", fontWeight: 900 }}>
+                  ¿Esta seguro que desea eliminar este usuario?{" "}
                 </p>
                 <p
                   style={{
-                fontWeight: 700,
-                textAlign: 'center',
-                margin: '20px',
-                top: '-5px',
-                lineHeight: '25px',
-              }}
+                    fontWeight: 700,
+                    textAlign: "center",
+                    margin: "20px",
+                    top: "-5px",
+                    lineHeight: "25px"
+                  }}
                 >
-              Recuerde que todas sus publicaciones también serán eliminadas y no
-              podra recuperarlas.
+                  Recuerde que todas sus publicaciones también serán eliminadas
+                  y no podra recuperarlas.
                 </p>
-              </span> : <div />
-          }
+              </span>
+            ) : (
+              <div />
+            )}
           </ModalBody>
           <ModalFooter>
             <Button
               color="primary"
               onClick={() =>
-                (this.state.deleteUser ? this.deleteUser() : this.toggle())
+                this.state.deleteUser ? this.deleteUser() : this.toggle()
               }
             >
-              {this.state.deleteUser ? 'ELIMINAR' : 'OK'}
+              {this.state.deleteUser ? "ELIMINAR" : "OK"}
             </Button>
           </ModalFooter>
         </Modal>
@@ -249,13 +264,15 @@ class SACardUser extends React.Component {
           secondaryText={this.state.modalMessage}
           buttonName="Aceptar"
           showNotificationModal={this.state.showModal}
-          handleClose={() => this.setState({ showModal: false }, () => window.location.reload())}
+          handleClose={() =>
+            this.setState({ showModal: false }, () => window.location.reload())
+          }
         />
       </Col>
     );
   }
 }
-const withDeleteMutation = graphql(DeleteUserMutation, { name: 'deleteUser' });
+const withDeleteMutation = graphql(DeleteUserMutation, { name: "deleteUser" });
 const withData = compose(withDeleteMutation);
 
 export default withData(SACardUser);

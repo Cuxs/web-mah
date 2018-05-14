@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const AgencyDetailQuery = gql`
-query User($MAHtoken: String!) {
-    User(MAHtoken: $MAHtoken) {
+query User($MAHtoken: String!, $id:Int) {
+    User(MAHtoken: $MAHtoken, id: $id) {
       agencyName
       agencyAdress
       agencyEmail

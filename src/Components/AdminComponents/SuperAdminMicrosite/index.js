@@ -4,25 +4,26 @@
 import React, { Component } from 'react';
 import { Col, Row, Button, Label, Input, ModalHeader, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
+import {parse} from 'query-string';
+
 import _ from 'lodash';
 import ScrollToTop from 'react-scroll-up';
-import ReactGA from 'react-ga';
+import { animateScroll as scroll } from 'react-scroll';
 
 import AdminBar from '../../../stories/AdminBar';
 
 import ImageCrop from '../../../stories/ImageCrop';
-import UserSideBar from '../../../stories/UserSideBar';
+import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
 import { uploadAgencyImages } from '../../../Modules/fetches';
 import parseError from '../../../Modules/errorParser';
+import Breadcrumb from '../../../stories/BreadCrum';
 
 import { AgencyDetailQuery } from '../../../ApolloQueries/AgencyProfileQuery';
-import { UserDataMutation } from '../../../ApolloQueries/UserProfileQuery';
+import { AdminUserDataMutation } from '../../../ApolloQueries/SuperadminMicrositeQuery';
 
 import { getUserToken, getUserDataFromToken } from '../../../Modules/sessionFunctions';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
-class AgencyMicrosite extends Component {
+class SuperAdminMicrosite extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,19 +41,19 @@ class AgencyMicrosite extends Component {
       modal: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.update = this.update.bind(this);
-    ReactGA.pageview('/USUARIO-MICROSITE');
   }
-  
+
   componentWillReceiveProps({agencyData}) {
     if (!agencyData.loading) {
-      const
-      {agencyAdress,
+      const {
+        agencyAdress,
         agencyEmail,
         agencyName,
         agencyPhone,
         bannerImage,
-        profileImage} = agencyData.User
+        profileImage,
+      } = agencyData.User
+      scroll.scrollToTop({ duration: 300 });      
       this.setState({
         agencyAdress,
         agencyEmail,
@@ -81,6 +82,7 @@ class AgencyMicrosite extends Component {
     this.props.updateData({
       variables: {
         MAHtoken: getUserToken(),
+        userId: parse(this.props.location.search).u_id,
         agencyName: this.state.agencyName,
         agencyAdress: this.state.agencyAdress,
         agencyEmail: this.state.agencyEmail,
@@ -102,8 +104,8 @@ class AgencyMicrosite extends Component {
   }
   handleSubmit() {
     const { profileImage, bannerImage } = this.state;
-    const { id } = getUserDataFromToken();
-    uploadAgencyImages(profileImage, bannerImage, id)
+    const { u_id } = parse(this.props.location.search)
+    uploadAgencyImages(profileImage, bannerImage, u_id)
       .then((resp) => {
         this.setState({
           modal: true,
@@ -129,9 +131,10 @@ class AgencyMicrosite extends Component {
         <div className="container">
           <Row>
             <Col lg="3" md="12" sm="12" xs="12">
-              <UserSideBar history={history} location={location} />
+            <SuperAdminSideBar history={this.props.history} location={this.props.location} />
             </Col>
             <Col lg="9" md="12" sm="12" xs="12" className="mt-4">
+            <Breadcrumb history={this.props.history} />
               <Row>
                 <Col lg="6" md="12" sm="12" xs="12" className="container-data-input-group">
                   <div className="card p-4 mb-4">
@@ -283,16 +286,16 @@ class AgencyMicrosite extends Component {
     );
   }
 }
-const options = () => ({
+const options = (props) => ({
   variables: {
     MAHtoken: getUserToken(),
+    id: parse(props.location.search).u_id
   },
 });
 const withAgencyDetail = graphql(AgencyDetailQuery, {
   name: 'agencyData',
   options,
 });
-const withUserDataMutation = graphql(UserDataMutation, { name: 'updateData' });
-
+const withUserDataMutation = graphql(AdminUserDataMutation, { name: 'updateData' });
 const withData = compose(withAgencyDetail, withUserDataMutation);
-export default withData(AgencyMicrosite);
+export default withData(SuperAdminMicrosite);
