@@ -49,27 +49,21 @@ class SuperAdminUsers extends React.Component {
       }));
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.location.search !== nextProps.location.search) {
-      const userType = parse(nextProps.location.search).userType;
-      this.doSearch(1, userType);
-    }
-  }
 
-  doSearch(page, userType) {
-    const variableList = {};
-    variableList.page = page;
-    if (userType) { variableList.userType = userType; }
+  doSearch(page) {
     this.props.client.query({
       query: AllUsersQuery,
-      variables: {
-        variableList,
-      },
+        variables:{
+          page
+        }  
     })
       .then(({ data: { AllUsersResume: { totalCount } }, data: { AllUsersResume: { Users } }, data: { AllUsersResume: { hasNextPage } } }) => {
         let existingUser = [];
-        existingUser = JSON.parse(JSON.stringify(this.state.users));
-        existingUser = _.uniqBy(existingUser, 'id');
+
+        if(this.state.users){
+          existingUser = JSON.parse(JSON.stringify(this.state.users));
+          existingUser = _.uniqBy(existingUser, 'id');
+        }
         Users.map(user => existingUser.push(user));
         this.setState({
           users: existingUser,

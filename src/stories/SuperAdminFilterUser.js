@@ -15,6 +15,7 @@ class SuperAdminFilterUser extends Component {
       tipoUserDropdown: false,
       search: '',
       dropDownTipoUserValue: 'Tipo de Cliente',
+      loading: false,
     };
     this.toggleTipoUserDropdown = this.toggleTipoUserDropdown.bind(this);
     this.changeTipoUserValue = this.changeTipoUserValue.bind(this);
@@ -36,15 +37,20 @@ class SuperAdminFilterUser extends Component {
   changeTipoUserValue(e) {
     this.searchWithParam('userType', e.currentTarget.textContent);
     this.setState({ dropDownTipoUserValue: e.currentTarget.textContent });
+    this.submitSearch(e.currentTarget.textContent)
   }
 
-  submitSearch() {
+  submitSearch(userType) {
+    this.setState({loading:true})
+    const variables = {}
+    variables.text = this.state.search;
+    if(userType){variables.userType=userType}
+
     this.props.searchUser({
-      variables: {
-        text: this.state.search,
-      },
+      variables,
     })
       .then(({ data: { searchUser } }) => {
+    this.setState({loading:false})        
         this.props.searchResults(searchUser);
       });
   }
@@ -83,12 +89,29 @@ class SuperAdminFilterUser extends Component {
                   color="primary"
                   style={{ cursor: 'pointer' }}
                   className="icon is-small btn-icon"
+                  disabled={this.state.search===''}
                   onClick={() => {
                     this.submitSearch();
                   }}
                 >
                   <img src="/assets/images/icon-search.svg" alt="" />
                 </Button>
+                <Button
+                  color="primary"
+                  style={{ cursor: 'pointer', marginLeft:'20px' }}
+                  className="icon is-small btn-icon"
+                  onClick={() => {
+                    window.location.reload()
+                  }}
+                >
+                  Todos
+                </Button>
+                {this.state.loading && <img
+                    style={{ height: '60px' }}
+                    src="/loading.gif"
+                    key={0}
+                    alt="Loading..."
+                  />}
               </div>
             </div>
           </Row>
