@@ -5,6 +5,12 @@ const carResult =
     border-radius:3px;
     padding:0;
   }
+  .banner-container{
+    padding:0;
+    margin:0;
+    width: 100vw;
+    height: 100%;
+  }
   .important {
     font-size: 12px;
     position: absolute;

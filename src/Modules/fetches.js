@@ -162,16 +162,14 @@ export const updatePassword = (data) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-export const requestCredit= (data)=>{
+export const requestCredit = (data) => {
   const url = `${server}/requestCredit`;
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(
-      data
-    ),
+    body: JSON.stringify(data),
   };
   return fetch(url, options)
     .then(response => response.json())
@@ -179,7 +177,7 @@ export const requestCredit= (data)=>{
       (responseData.status === undefined || responseData.status === 'error'
         ? Promise.reject(responseData.message)
         : responseData));
-}
+};
 export const uploadAgencyImages = (profileImage, bannerImage, id) => {
   const url = `${server}/uploadAgencyImages/${id}`;
   const formData = new FormData();
@@ -283,9 +281,9 @@ export const getImages = (publication_id) => {
 export const uploadSliders = (data) => {
   const url = `${server}/uploadSliders`;
   const formData = new FormData();
-  if(data.slider1){  formData.append('sliders', data.slider1);}
-  if(data.slider2){  formData.append('sliders', data.slider2);}
-  if(data.slider3){  formData.append('sliders', data.slider3);}
+  if (data.slider1) { formData.append('sliders', data.slider1); }
+  if (data.slider2) { formData.append('sliders', data.slider2); }
+  if (data.slider3) { formData.append('sliders', data.slider3); }
 
   const options = {
     method: 'POST',
@@ -303,18 +301,18 @@ export const uploadSliders = (data) => {
         : responseData));
 };
 
-export const getSliders = () =>{
+export const getSliders = () => {
   const url = `${server}/getSliders`;
   const options = {
     method: 'GET',
-    headers:{
-      'Content-Type': 'application/json',      
-    }
-  }
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   return fetch(url, options)
-  .then(response => response.json())
-  .then(responseData =>
-    (responseData.status === undefined || responseData.status === 'error'
-      ? Promise.reject(responseData.message)
-      : responseData));
-}
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
