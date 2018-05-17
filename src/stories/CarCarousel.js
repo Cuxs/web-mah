@@ -9,7 +9,7 @@ import style from '../Styles/carResult';
 
 /* eslint react/jsx-filename-extension: 0 */
 
-export default class CarResult extends Component {
+export default class CarCarousel extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
@@ -52,7 +52,7 @@ export default class CarResult extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img style={{ position: 'relative', width: '100%', height: 'auto' }} src={item.src} alt={item.altText} />
+        <img style={{ position: 'relative', width: this.props.width || '100%', height: this.props.height || 'auto' }} src={item.src} alt={item.altText} />
       </CarouselItem>
     ));
     return (

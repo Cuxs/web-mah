@@ -89,7 +89,7 @@ class InputOrText extends Component {
     };
     return (
       <div>
-        <Row style={container} >
+        <Row style={this.props.style || container} >
           <Col sm="9">
             { this.state.inputShow ?
               <Input

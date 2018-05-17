@@ -36,6 +36,7 @@ import SuperAdminPublications from './Components/AdminComponents/SuperAdminPubli
 import SuperAdminInbox from './Components/AdminComponents/SuperAdminInbox';
 import SuperAdminUsers from './Components/AdminComponents/SuperAdminUsers';
 import SuperAdminRates from './Components/AdminComponents/SuperAdminRates';
+import SuperAdminSliders from './Components/AdminComponents/SuperAdminSliders';
 import SuperAdminMicrosite from './Components/AdminComponents/SuperAdminMicrosite';
 import TermsAndConditions from './Components/GeneralComponents/TermsAndConditions';
 import UserAdmin from './Components/AccountComponents/UserAdmin';
@@ -138,6 +139,7 @@ class App extends Component {
             <Route exact path="/superAdminUsers" component={SuperAdminUsers} />
             <Route exact path="/superAdminRates" component={SuperAdminRates} />
             <Route exact path="/SuperAdminMicrosite" component={SuperAdminMicrosite} />
+            <Route exact path="/superAdminSliders" component={SuperAdminSliders} />
             <Route exact path="/termsAndConditions" component={TermsAndConditions} />
             <Route exact path="/userAdmin" component={UserAdmin} />
             <Route exact path="/userPublications" component={UserPublications} />
