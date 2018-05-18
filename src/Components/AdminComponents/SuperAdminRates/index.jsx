@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Row } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 
-import { getUserToken } from '../../../Modules/sessionFunctions';
+import { getUserToken, isAdminLogged } from '../../../Modules/sessionFunctions';
 import AdminBar from '../../../stories/AdminBar';
 import InputRate from '../../../stories/InputRate';
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
