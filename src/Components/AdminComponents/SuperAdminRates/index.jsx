@@ -18,6 +18,9 @@ class SuperAdminRates extends Component {
   }
 
   componentWillMount() {
+    if (!isAdminLogged()) {
+      this.props.history.push('/loginAdmin');
+    }
     this.getRates(this.props);
   }
 

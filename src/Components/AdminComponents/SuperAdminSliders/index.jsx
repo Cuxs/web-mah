@@ -27,6 +27,9 @@ class SuperAdminSliders extends Component {
     this.toggle = this.toggle.bind(this);
   }
   componentWillMount(){
+    if (!isAdminLogged()) {
+      this.props.history.push('/loginAdmin');
+    }
     getSliders()
     .then((res)=>{
       this.setState({
