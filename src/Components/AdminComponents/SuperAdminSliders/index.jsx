@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Col, Row, Label, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import ImageCrop from "../../../stories/ImageCrop";
 
-import { getUserToken } from "../../../Modules/sessionFunctions";
+import { getUserToken, isAdminLogged } from "../../../Modules/sessionFunctions";
 import AdminBar from "../../../stories/AdminBar";
 import SuperAdminSideBar from "../../../stories/SuperAdminSideBar";
 import { uploadSliders, getSliders } from "../../../Modules/fetches";
