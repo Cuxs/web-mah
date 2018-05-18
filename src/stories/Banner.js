@@ -41,8 +41,9 @@ class Banner extends React.Component {
                 {isAdminLogged() ?
                   <InputOrText
                     style={{
-                      position: 'relative',
-                      top: '-160px',
+                      fontSize: window.matchMedia("(max-width: 768px)").matches ? '13px !important': 'inherit',
+                      position: 'absolute',
+                      top: window.matchMedia("(max-width: 768px)").matches ? '-93px' : '-160px',
                       left: '80px',
                       color: 'white',
                       justifyContent: 'space-between',
