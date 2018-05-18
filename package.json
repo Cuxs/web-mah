@@ -54,7 +54,7 @@
   "scripts": {
     "startServer": "nodemon server.js",
     "start": "react-scripts start",
-    "build": "REACT_APP_API=https://api.miautohoy.com REACT_APP_SOCKET=wss://api.miautohoy.com/subscriptions react-scripts build -p",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",

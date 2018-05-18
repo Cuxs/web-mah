@@ -20,7 +20,6 @@ export default class BannerCarousel extends Component {
     this.onExited = this.onExited.bind(this);
   }
 
-
   onExiting() {
     this.animating = true;
   }
@@ -52,8 +51,7 @@ export default class BannerCarousel extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        {console.log(item)}
-        <img style={{ position: 'relative', width: this.props.width || '100%', height: this.props.height || 'auto' }} src={item.src} alt={item.altText} />
+        <img style={{ position: 'relative', width: '100%', height: 'auto' }} src={item.src} alt={item.altText} />
       </CarouselItem>
     ));
     return (
