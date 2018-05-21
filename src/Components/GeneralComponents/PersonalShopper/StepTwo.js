@@ -10,7 +10,6 @@ import SearchBar from '../../../stories/SearchBar';
 import Input from '../../../stories/Input';
 import {requestCredit} from '../../../Modules/fetches';
 
-import style from '../../../Styles/pledgeCredits';
 
 ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
@@ -224,7 +223,6 @@ class PersonalShopperS2 extends React.Component {
             </ModalFooter>
           </Modal>
         </div>
-        <style jsx>{style}</style>
       </div>
     );
   }

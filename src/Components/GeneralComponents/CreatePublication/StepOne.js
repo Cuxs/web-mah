@@ -10,7 +10,6 @@ import { withApollo } from 'react-apollo/withApollo';
 import AdminBar from '../../../stories/AdminBar';
 import { InfoCarQuery } from '../../../ApolloQueries/TautosQuery';
 
-import style from '../../../Styles/register';
 
 class CreatePublicationS1 extends React.Component {
   constructor(props) {
@@ -178,7 +177,6 @@ class CreatePublicationS1 extends React.Component {
               }
             </Col>
           </Row>
-          <style jsx>{style}</style>
         </div>
       </div>
     );

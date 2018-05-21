@@ -5,7 +5,6 @@ import React from 'react';
 import { Col, Row, Button, Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap';
 
 import RegisterBar from '../../../stories/RegisterBar';
-import style from '../../../Styles/register';
 
 class StepThree extends React.Component {
   constructor(props) {

@@ -16,7 +16,6 @@ import Input from '../../../stories/Input';
 
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
 
-import style from '../../../Styles/register';
 import LoginComponent from '../../../stories/LoginComponent';
 import { isUserLogged } from '../../../Modules/sessionFunctions';
 import { thousands, generateYearPerModel, prepareArraySelect } from '../../../Modules/functions';
@@ -348,7 +347,6 @@ class CreatePublication extends React.Component {
               </div>
             </Col>
           </Row>
-          <style jsx>{style}</style>
         </div>
       </div>
     );

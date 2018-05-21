@@ -21,7 +21,6 @@ import { animateScroll as scroll } from 'react-scroll';
 
 
 import _ from 'lodash';
-import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
 import {
   getSuggestions,

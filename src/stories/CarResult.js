@@ -5,7 +5,6 @@ import {
   CarouselControl,
   CarouselIndicators,
 } from 'reactstrap';
-import style from '../Styles/carResult';
 import { thousands } from '../Modules/functions';
 
 export default class CarResult extends Component {

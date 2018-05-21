@@ -5,7 +5,6 @@ import {
   CarouselControl,
   CarouselIndicators,
 } from 'reactstrap';
-import style from '../Styles/carResult';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -72,7 +71,6 @@ export default class CarCarousel extends Component {
           </Carousel>
 
         </div>
-        <style jsx>{style}</style>
       </div>
 
     );
