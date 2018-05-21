@@ -50,7 +50,7 @@ export default class BannerCarousel extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img style={{ position: 'relative', width: '100%', height: 'auto' }} src={item.src} alt={item.altText} />
+        <img className='banner-img' src={item.src} alt={item.altText} />
       </CarouselItem>
     ));
     return (
