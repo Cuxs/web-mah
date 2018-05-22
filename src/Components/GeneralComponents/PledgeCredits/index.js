@@ -264,7 +264,7 @@ class PledgeCredits extends React.Component {
                         section="title1"
                         route={this.props.location.pathname.slice(1)}
                         text={this.state.title1}
-                        style="title-division-primary"
+                        customClass="title-division-primary"
                         onChange={title1 => this.setState({ title1 })}
                       />
                       <InputOrText
@@ -407,7 +407,7 @@ class PledgeCredits extends React.Component {
                         multiple
                         route={this.props.location.pathname.slice(1)}
                         text={this.state.text5}
-                        style="small-letter"
+                        customClass="small-letter"
                         onChange={text5 => this.setState({ text5 })}
                       />
                     </small>
