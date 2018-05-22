@@ -278,12 +278,10 @@ export const getImages = (publication_id) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-export const uploadSliders = (data) => {
-  const url = `${server}/uploadSliders`;
+export const uploadSliders = (file, number) => {
+  const url = `${server}/uploadSliders/${number}`;
   const formData = new FormData();
-  if (data.slider1) { formData.append('sliders', data.slider1); }
-  if (data.slider2) { formData.append('sliders', data.slider2); }
-  if (data.slider3) { formData.append('sliders', data.slider3); }
+  formData.append('slider', file)
 
   const options = {
     method: 'POST',
@@ -316,3 +314,20 @@ export const getSliders = () => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+
+export const deleteSlider = (number) =>{
+  const url = `${server}/deleteSlider/${number}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,      
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+}

@@ -130,9 +130,8 @@ export default class ImageCrop extends Component {
                     color="default"
                     onClick={() =>
                       this.setState({
-                        cropResult: `${process.env.REACT_APP_API}/images/${
-                          this.props.previewImage
-                        }`,
+                        cropResult: this.props.previewImage ?
+                         `${process.env.REACT_APP_API}/images/${this.props.previewImage}` : (this.props.banner ? defaultSrcBanner: defaultSrc)
                       })
                     }
                   >
