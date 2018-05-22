@@ -172,7 +172,6 @@ export default class SuperAdminAnalytics extends Component {
                   <GoogleDataChart views={views} config={events} />
                   <GoogleDataChart views={views} config={other} />
                   <GoogleDataChart views={views} config={paises} />
-                  <GoogleDataChart views={views} config={last7days} />
                 </GoogleProvider>
               )}
             </Col>
