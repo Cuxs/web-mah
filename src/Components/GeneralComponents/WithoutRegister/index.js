@@ -29,9 +29,9 @@ const WithoutRegister = ({ history, location }) => (
     <div id="Plans">
       <Plans history={history} />
     </div>
-    <div id="Faq">
+   {/*  <div id="Faq">
       <Faq />
-    </div>
+    </div> */}
     <Footer history={history} />
   </div>
 );
