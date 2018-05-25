@@ -26,23 +26,57 @@ import { getUserToken } from "../../../Modules/sessionFunctions";
   };
 })(window, document, "script");
 
-const last30days = {
+const pages = {
   reportType: "ga",
   query: {
-    dimensions: "ga:date",
-    metrics: "ga:pageviews",
+    dimensions: "ga:pageTitle",
+    metrics: "ga:uniquePageviews",
+    sort: "-ga:uniquePageviews",
+    "max-results": "10",
     "start-date": "30daysAgo",
     "end-date": "yesterday"
   },
   chart: {
-    type: "LINE",
+    type: "TABLE",
+    title: "Páginas más visitadas - Últimos 30 días",
+    container: "main-chart-container",
     options: {
-      // options for google charts
-      // https://google-developers.appspot.com/chart/interactive/docs/gallery
-      title: "Last 30 days pageviews"
-    }
+      width: "90%"
+    },
   }
 };
+const events = {
+  reportType: "ga",
+  query: {
+    dimensions: "ga:eventAction",
+    metrics: "ga:uniqueEvents",
+    sort: "-ga:uniqueEvents",
+    "max-results": "10",
+    "start-date": "30daysAgo",
+    "end-date": "yesterday"
+  },
+  chart: {
+    type: "TABLE",
+    title: "Eventos principales - Últimos 30 días",
+    container: "main-chart-container",
+    options: {
+      width: "90%"
+    },
+  }
+};
+const other = {
+  reportType: "ga",
+  query: {
+    dimensions: "ga:date",
+    metrics: "ga:pageviews",
+    "start-date": "7daysAgo",
+    "end-date": "yesterday"
+  },
+  chart: {
+    type: "LINE"
+  }
+};
+
 const last7days = {
   reportType: "ga",
   query: {
@@ -55,6 +89,7 @@ const last7days = {
     type: "LINE"
   }
 };
+
 const paises = {
   reportType: "ga",
   query: {
@@ -133,10 +168,10 @@ export default class SuperAdminAnalytics extends Component {
             <Col lg="9" md="12">
               {this.state.fetched && (
                 <GoogleProvider accessToken={this.state.token}>
-                  <GoogleDataChart views={views} config={otros} />
+                  <GoogleDataChart views={views} config={pages} />
+                  <GoogleDataChart views={views} config={events} />
+                  <GoogleDataChart views={views} config={other} />
                   <GoogleDataChart views={views} config={paises} />
-                  <GoogleDataChart views={views} config={last30days} />
-                  <GoogleDataChart views={views} config={last7days} />
                 </GoogleProvider>
               )}
             </Col>
