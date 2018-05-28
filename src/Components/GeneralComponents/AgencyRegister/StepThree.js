@@ -4,9 +4,12 @@
 import React from 'react';
 import { Col, Row, Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
 import { stringify, parse } from 'query-string';
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import {validate} from '../../../Modules/functions';
+import {scroller} from 'react-scroll';
+import _ from 'lodash';
 
 import RegisterBar from '../../../stories/RegisterBar';
-import Input from '../../../stories/Input';
 import { registerAgency } from '../../../Modules/fetches';
 
 
@@ -31,6 +34,8 @@ class StepThree extends React.Component {
       modalText: '',
     };
     this.toggle = this.toggle.bind(this);
+    this.submit = this.submit.bind(this);
+    
   }
 
   toggle() {
@@ -54,11 +59,6 @@ class StepThree extends React.Component {
     this.props.history.push(`/agencyRegisterS2?${stringify(dataAgency)}}`);
   }
 
-  disabled() {
-    return (this.state.nameOwnerValidate && this.state.passValidate && this.state.repeatPassValidate && this.state.addressOwnerValidate && this.state.dniOwnerValidate && this.state.emailOwnerValidate && this.state.phoneOwnerValidate);
-  }
-
-
   previousS1() {
     const search = parse(this.props.location.search);
 
@@ -76,18 +76,15 @@ class StepThree extends React.Component {
     this.props.history.push(`/agencyRegisterS1?${stringify(dataAgency)}}`);
   }
 
-  submit() {
-    if (!(this.state.nameOwnerValidate && this.state.passValidate && this.state.repeatPassValidate && this.state.addressOwnerValidate && this.state.dniOwnerValidate && this.state.emailOwnerValidate && this.state.phoneOwnerValidate)) {
-      this._inputName.validate('string');
-      this._inputEmail.validate('email');
-      this._inputAddress.validate('string');
-      this._inputPhone.validate('number');
-      this._inputDni.validate('number');
-      this._inputPass.validate('password');
-      this._inputRepeatPass.validate('passoword');
+  submit(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
       return false;
-    }
-
+    } 
     const search = parse(this.props.location.search);
 
     const dataAgency = {
@@ -167,73 +164,83 @@ class StepThree extends React.Component {
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Información del dueño o responsable del Concesionario </h4>
-                <Input
-                  ref={inputName => (this._inputName = inputName)}
-                  label="Nombre y Apellido"
+                <AvForm onSubmit={this.submit}>
+                <label>Nombre y Apellido</label>
+                <AvField
                   type="text"
                   value={this.state.nameOwner}
                   onChange={event => this.setState({ nameOwner: event.target.value })}
-                  validate={isValid => this.setState({ nameOwnerValidate: isValid })}
+                  className="form-control"
+                  validate={validate('string')}
+                  name="nameOwner"
+                  id="nameOwner"
                 />
-                <Input
-                  ref={inputDni => (this._inputDni = inputDni)}
-                  label="DNI"
+                  <label>DNI</label>
+                <AvField
                   type="number"
                   value={this.state.dniOwner}
                   onChange={event => this.setState({ dniOwner: event.target.value })}
-                  validate={isValid => this.setState({ dniOwnerValidate: isValid })}
+                  className="form-control"
+                  validate={validate('number')}
+                  name="dniOwner"
+                  id="dniOwner"
                 />
-                <Input
-                  ref={inputAddress => (this._inputAddress = inputAddress)}
-                  label="Dirección"
-                  type="alphanumeric"
+                  <label>Dirección</label>
+                <AvField
+                  type="text"
                   value={this.state.addressOwner}
                   onChange={event => this.setState({ addressOwner: event.target.value })}
-                  validate={isValid => this.setState({ addressOwnerValidate: isValid })}
+                  validate={validate('text')}
+                  name="addressOwner"
+                  id="addressOwner"
                 />
-                <Input
-                  ref={inputEmail => (this._inputEmail = inputEmail)}
-                  label="Email"
+                  <label>Email</label>
+                <AvField
                   type="email"
                   value={this.state.emailOwner}
                   onChange={event => this.setState({ emailOwner: event.target.value })}
-                  validate={isValid => this.setState({ emailOwnerValidate: isValid })}
+                  validate={validate('email')}
+                  name="emailOwner"
+                  id="emailOwner"
                 />
-                <Input
-                  ref={inputPhone => (this._inputPhone = inputPhone)}
-                  label="Teléfono"
+                  <label>Teléfono</label>
+                <AvField
                   type="number"
                   value={this.state.phoneOwner}
                   onChange={event => this.setState({ phoneOwner: event.target.value })}
-                  validate={isValid => this.setState({ phoneOwnerValidate: isValid })}
+                  validate={validate('number')}
+                  name="phoneOwner"
+                  id="phoneOwner"
                 />
                 <div>
                   <div className="underline" />
-                  <Input
-                    ref={inputPass => (this._inputPass = inputPass)}
-                    label="Contraseña"
+                  <label>Contraseña</label>
+                  <AvField
                     type="password"
                     value={this.state.pass}
                     onChange={event => this.setState({ pass: event.target.value })}
-                    validate={isValid => this.setState({ passValidate: isValid })}
                     placeholder="Mínimo 6 caracteres"
+                    validate={validate('password')}
+                    name="pass"
+                    id="pass"
                   />
-                  <Input
-                    ref={inputRepeatPass => (this._inputRepeatPass = inputRepeatPass)}
-                    label="Repetir contraseña"
+                    <label>Repetir contraseña</label>
+                  <AvField
                     type="password"
                     repeatPass
                     value={this.state.repeatPass}
-                    currentPass={this.state.pass}
                     onChange={event => this.setState({ repeatPass: event.target.value })}
-                    validate={isValid => this.setState({ repeatPassValidate: isValid })}
                     placeholder="Mínimo 6 caracteres"
+                    validate={{match:{value:'pass'}}}
+                    name="repeatPass"
+                    id="repeatPass"
                   />
                   <div className="underline" />
 
                   <Button color="default" onClick={() => this.previous()} className="float-left" >Volver</Button>
-                  <Button color="primary" className="float-right" onClick={() => this.submit()}>Registrarme</Button>
+                  <Button color="primary" className="float-right" type="submit">Registrarme</Button>
                 </div>
+                </AvForm>
               </div>
             </Col>
           </Row>

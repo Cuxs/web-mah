@@ -5,8 +5,12 @@ import React from 'react';
 import { Col, Row, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { stringify, parse } from 'query-string';
 
+import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
+import { validate } from "../../../Modules/functions";
+import {scroller} from 'react-scroll';
+import _ from 'lodash';
+
 import RegisterBar from '../../../stories/RegisterBar';
-import Input from '../../../stories/Input';
 import { registerUser } from '../../../Modules/fetches';
 
 class StepTwo extends React.Component {
@@ -31,6 +35,7 @@ class StepTwo extends React.Component {
       passwordShow: 'password',
     };
     this.toggle = this.toggle.bind(this);
+    this.register = this.register.bind(this);
   }
 
   disabled() {
@@ -49,16 +54,15 @@ class StepTwo extends React.Component {
     setTimeout(() => this.setState({ passwordShow: 'password' }), 4000);
   }
 
-  register() {
-    if (!(this.state.nameValidate && this.state.phoneValidate && this.state.addressValidate && this.state.dniValidate && this.state.passValidate && this.state.repeatPassValidate)) {
-      this._inputName.validate('string');
-      this._inputAddress.validate('string');
-      this._inputPhone.validate('number');
-      this._inputDni.validate('number');
-      this._inputPass.validate('password');
+  register(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
       return false;
-    }
-
+    } 
     const search = parse(this.props.location.search);
 
     const dataUser = {
@@ -119,49 +123,61 @@ class StepTwo extends React.Component {
               </div>
             </Col>
             <Col md="6" sm="12" xs="12" className="mb-4">
+            <AvForm onSubmit={this.register}>
               <div className="col-md-9 float-left">
                 <h4 className="title-division">Los interesados se comunicarán con vos</h4>
-                <Input
-                  ref={inputName => (this._inputName = inputName)}
-                  label="Nombre y Apellido"
+                <label>Nombre y Apellido</label>
+                <AvField
                   type="text"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
-                  validate={isValid => this.setState({ nameValidate: isValid })}
+                  name="name"
+                  id="name"
+                  validate={validate("string")}
+                  className="form-control"
                 />
-                <Input
-                  ref={inputDni => (this._inputDni = inputDni)}
-                  label="DNI"
+                  <label>DNI</label>
+                <AvField
                   type="number"
                   value={this.state.dni}
                   onChange={event => this.setState({ dni: event.target.value })}
-                  validate={isValid => this.setState({ dniValidate: isValid })}
+                  name="dni"
+                  id="dni"
+                  validate={validate("number")}
+                  className="form-control"
                 />
-                <Input
-                  ref={inputAddress => (this._inputAddress = inputAddress)}
-                  label="Dirección"
+                  <label>Dirección</label>
+                <AvField
                   type="alphanumeric"
                   value={this.state.address}
                   onChange={event => this.setState({ address: event.target.value })}
-                  validate={isValid => this.setState({ addressValidate: isValid })}
+                  name="address"
+                  id="address"
+                  validate={validate("text")}
+                  className="form-control"
                 />
-                <Input
-                  ref={inputPhone => (this._inputPhone = inputPhone)}
-                  label="Teléfono"
+                  <label>Teléfono</label>
+                <AvField
                   type="number"
                   value={this.state.phone}
                   onChange={event => this.setState({ phone: event.target.value })}
-                  validate={isValid => this.setState({ phoneValidate: isValid })}
+                  name="phone"
+                  id="phone"
+                  validate={validate("number")}
+                  className="form-control"
                 />
                 <div className="underline" />
-                <Input
-                  ref={inputPass => (this._inputPass = inputPass)}
-                  label="Contraseña"
+                <label>Contraseña</label>
+                <AvField
                   type={this.state.passwordShow}
                   value={this.state.pass}
                   onChange={event => this.setState({ pass: event.target.value })}
-                  validate={isValid => this.setState({ passValidate: isValid })}
+                  name="pass"
+                  id="pass"
+                  validate={validate("password")}
+                  className="form-control"
                   placeholder="Mínimo 6 caracteres"
+                  required
                 />
                 <div style={{ marginBottom: 80 }} >
                   <Button color="link" className="float-right" onClick={() => this.showPass()}>Mostrar</Button>
@@ -169,9 +185,10 @@ class StepTwo extends React.Component {
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" className="float-right" onClick={() => this.register()}>Registrarme</Button>
+                  <Button color="primary" className="float-right" type="submit" >Registrarme</Button>
                 </div>
               </div>
+            </AvForm>
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>

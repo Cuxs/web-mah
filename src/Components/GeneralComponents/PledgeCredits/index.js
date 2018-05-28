@@ -18,9 +18,13 @@ import { parse } from "query-string";
 import { graphql, compose } from "react-apollo";
 import { P } from "glamorous";
 import ReactGA from "react-ga";
+import {scroller} from 'react-scroll';
+
+
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import {validate} from '../../../Modules/functions';
 
 import SearchBar from "../../../stories/SearchBar";
-import Input from "../../../stories/Input";
 import { thousands } from "../../../Modules/functions";
 import InputOrText from "../../../stories/InputOrText";
 import { GetTextsQuery } from "../../../ApolloQueries/TextsQueries";
@@ -36,24 +40,15 @@ class PledgeCredits extends React.Component {
     this.state = {
       time: 12,
       mount: "",
-      mountValidate: false,
       fee: "",
       name: "",
-      nameValidate: false,
       dni: "",
-      dniValidate: false,
       address: "",
-      addressValidate: false,
       ganancy: "",
-      ganancyValidate: false,
       financyAmount: "",
-      financyAmountValidate: false,
       creditReason: "",
-      creditReasonValidate: false,
       email: "",
-      emailValidate: false,
       phone: "",
-      phoneValidate: false,
       messagge: "",
       modal: false,
       modalMessage: "",
@@ -64,6 +59,7 @@ class PledgeCredits extends React.Component {
       success: false
     };
     this.toggle = this.toggle.bind(this);
+    this.requestCredit = this.requestCredit.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -93,63 +89,25 @@ class PledgeCredits extends React.Component {
     });
   }
 
-  disabled() {
-    const {
-      nameValidate,
-      dniValidate,
-      addressValidate,
-      ganancyValidate,
-      financyAmountValidate,
-      creditReasonValidate,
-      emailValidate,
-      phoneValidate
-    } = this.state;
-    return !(
-      nameValidate &&
-      dniValidate &&
-      addressValidate &&
-      ganancyValidate &&
-      financyAmountValidate &&
-      creditReasonValidate &&
-      emailValidate &&
-      phoneValidate
-    );
-  }
-
-  requestCredit() {
-    const {
-      nameValidate,
-      dniValidate,
-      addressValidate,
-      ganancyValidate,
-      financyAmountValidate,
-      creditReasonValidate,
-      emailValidate,
-      phoneValidate
-    } = this.state;
-    if (
-      !(
-        nameValidate &&
-        dniValidate &&
-        addressValidate &&
-        ganancyValidate &&
-        financyAmountValidate &&
-        creditReasonValidate &&
-        emailValidate &&
-        phoneValidate
-      )
-    ) {
-      this._inputName.validate("string");
-      this._inputDni.validate("number");
-      this._inputAddress.validate("string");
-      this._inputFinancyAmount.validate("money");
-      this._inputGanancy.validate("money");
-      this._inputCreditReason.validate("string");
-      this._inputEmail.validate("email");
-      this._inputPhone.validate("number");
+  requestCredit(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
       return false;
-    }
-
+    }  
+    const {
+      nameValidate,
+      dniValidate,
+      addressValidate,
+      ganancyValidate,
+      financyAmountValidate,
+      creditReasonValidate,
+      emailValidate,
+      phoneValidate
+    } = this.state;
     ReactGA.event({
       category: "Crédito Prendario",
       action: "Solicitar Crédito Prendario"
@@ -339,12 +297,11 @@ class PledgeCredits extends React.Component {
 
                 <h6>SIMULÁ TU CUOTA</h6>
                 <div className="simulator-container">
-                  <Input
-                    label="Monto a financiar *"
-                    type="money"
+                <label> Monto a financiar *</label>
+                  <input
+                    type="number"
                     value={this.state.mount}
                     onChange={event => this.updateMount(event.target.value)}
-                    validate={isValid => this.setState({ mountValid: isValid })}
                     placeholder="De $10.000 a $150.000"
                   />
                   {!this.props.location.search && (
@@ -456,125 +413,122 @@ class PledgeCredits extends React.Component {
                   <div className="underline" />
 
                   <h4 className="title-division">Solicitá tu crédito!</h4>
-                  <Input
-                    ref={inputName => (this._inputName = inputName)}
-                    label="Nombre y Apellido"
+                  <AvForm onSubmit={this.requestCredit}>
+                    <label>Nombre y Apellido</label>
+                  <AvField
                     type="text"
                     value={this.state.name}
                     onChange={event =>
                       this.setState({ name: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ nameValidate: isValid })
-                    }
+                    name="name"
+                    id="name"
+                    validate={validate('string')} 
+                    className="form-control"
                   />
-                  <Input
-                    ref={inputDni => (this._inputDni = inputDni)}
-                    label="Documento de Identidad"
+                    <label>Documento de Identidad</label>
+                  <AvField
                     type="number"
                     value={this.state.dni}
                     onChange={event =>
                       this.setState({ dni: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ dniValidate: isValid })
-                    }
+                    name="dni"
+                    id="dni"
+                    validate={validate('number')} 
+                    className="form-control"
                   />
-                  <Input
-                    ref={inputAddress => (this._inputAddress = inputAddress)}
-                    label="Domicilio"
+                    <label>Domicilio</label>
+                  <AvField
                     type="alphanumeric"
                     value={this.state.address}
                     onChange={event =>
                       this.setState({ address: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ addressValidate: isValid })
-                    }
+                    name="address"
+                    id="address"
+                    validate={validate('text')} 
+                    className="form-control"
                   />
-                  <Input
-                    ref={inputGanancy => (this._inputGanancy = inputGanancy)}
-                    label="Ingresos"
-                    type="money"
+                    <label>Ingresos</label>
+                  <AvField
+                    type="number"
                     value={this.state.ganancy}
                     onChange={event =>
                       this.setState({ ganancy: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ ganancyValidate: isValid })
-                    }
+                    name="ganancy"
+                    id="ganancy"
+                    validate={validate('number')} 
+                    className="form-control"
                   />
-                  <Input
-                    ref={inputFinancyAmount =>
-                      (this._inputFinancyAmount = inputFinancyAmount)
-                    }
-                    label="Monto a financiar"
-                    type="money"
+                    <label>Monto a financiar</label>
+                  <AvField
+                    type="number"
                     value={this.state.financyAmount}
                     onChange={event =>
                       this.setState({ financyAmount: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ financyAmountValidate: isValid })
-                    }
+                    name="financyAmount"
+                    id="financyAmount"
+                    validate={validate('number')} 
+                    className="form-control"
                   />
-                  <Input
-                    ref={inputCreditReason =>
-                      (this._inputCreditReason = inputCreditReason)
-                    }
-                    label="Destino del crédito"
+                    <label>Destino del crédito</label>
+                  <AvField
                     type="string"
                     value={this.state.creditReason}
                     onChange={event =>
                       this.setState({ creditReason: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ creditReasonValidate: isValid })
-                    }
+                    name="creditReason"
+                    id="creditReason"
+                    validate={validate('string')} 
+                    className="form-control"
                   />
-                  <Input
-                    ref={inputEmail => (this._inputEmail = inputEmail)}
-                    label="Email"
+                    <label>Email</label>
+                  <AvField
                     type="email"
                     value={this.state.email}
                     onChange={event =>
                       this.setState({ email: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ emailValidate: isValid })
-                    }
+                    name="email"
+                    id="email"
+                    validate={validate('email')} 
+                    className="form-control"
                   />
-                  <Input
-                    ref={inputPhone => (this._inputPhone = inputPhone)}
-                    label="Teléfono"
+                    <label>Teléfono</label>
+                  <AvField
                     type="number"
                     value={this.state.phone}
                     onChange={event =>
                       this.setState({ phone: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ phoneValidate: isValid })
-                    }
+                    name="phone"
+                    id="phone"
+                    validate={validate('number')} 
+                    className="form-control"
                   />
-                  <Input
-                    label="Mensaje"
+                    <label>Mensaje</label>
+                  <AvField
                     type="textarea"
                     value={this.state.messagge}
                     onChange={event =>
                       this.setState({ messagge: event.target.value })
                     }
-                    validate={isValid =>
-                      this.setState({ messaggeValidate: isValid })
-                    }
+                    name="messagge"
+                    id="messagge"
+                    className="form-control"
                   />
                   <Button
                     color="primary"
                     className="float-right"
-                    onClick={() => this.requestCredit()}
+                    type="submit"
                   >
-                    {" "}
                     Solicitar
                   </Button>
+                  </AvForm>
                 </div>
               </form>
             </Col>

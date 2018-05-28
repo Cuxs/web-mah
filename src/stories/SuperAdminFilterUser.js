@@ -3,7 +3,7 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row, Button 
 import { parse, stringify } from 'query-string';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
-import Input from './Input';
+
 import { searchUserMutation } from '../ApolloQueries/SuperAdminUsersQuery';
 
 /* eslint react/jsx-filename-extension: 0 */
@@ -78,12 +78,11 @@ class SuperAdminFilterUser extends Component {
 
             <div className="col-lg-6 col-md-6 col-sm-12 text-right m-15" style={{ marginBottom: '-1rem' }} >
               <div className="row" >
-                <Input
+                <input
                   type="text"
                   value={this.state.search}
                   placeholder="Buscar..."
                   onChange={event => this.setState({ search: event.target.value })}
-                  validate={isValid => this.setState({ emailValidate: isValid })}
                 />
                 <Button
                   color="primary"

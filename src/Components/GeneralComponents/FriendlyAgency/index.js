@@ -8,12 +8,15 @@ import _ from 'lodash';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
 
+import {scroller} from 'react-scroll';
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import {validate} from '../../../Modules/functions';
+
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
 import PublicityBanner from '../../../stories/PublicityBanner';
 import CardAgency from '../../../stories/CardAgency';
 import Footer from '../../../stories/Footer';
-import Input from '../../../stories/Input';
 import { GetAllAgencies } from '../../../ApolloQueries/FriendlyAgencyQueries';
 
 ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
@@ -31,11 +34,15 @@ class FriendlyAgency extends Component {
     ReactGA.pageview('/CONCESIONARIAS');
   }
 
-  disabled() {
-    return !(this.state.nameAgencyValidate && this.state.emailValidate);
-  }
-
-  redirect() {
+  redirect(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    } 
     ReactGA.event({
       category: 'Concesionarias',
       action: 'Registrar una agencia',
@@ -87,21 +94,28 @@ class FriendlyAgency extends Component {
                 <p>Publicaciones gratis ilimitadas.</p>
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis y empezá a vender ahora!</strong></h5>
-                  <Input
-                    placeholder="Nombre de la concesionaria"
-                    type="text"
+                  <AvForm onSubmit={this.redirect}>
+                  <label>Nombre de la concesionaria</label>
+                  <AvField
                     value={this.state.nameAgency}
                     onChange={event => this.setState({ nameAgency: event.target.value })}
-                    validate={isValid => this.setState({ nameAgencyValidate: isValid })}
+                    name="nameAgency"
+                    id="nameAgency"
+                    validate={validate('text')} 
+                    className="form-control"
                   />
-                  <Input
-                    placeholder="Email"
+                  <label> Email </label>
+                  <AvField
                     type="email"
                     value={this.state.email}
                     onChange={event => this.setState({ email: event.target.value })}
-                    validate={isValid => this.setState({ emailValidate: isValid })}
+                    name="email"
+                    id="email"
+                    validate={validate('email')} 
+                    className="form-control"
                   />
-                  <Button color="primary" className="btn-block" disabled={this.disabled()} onClick={() => this.redirect()} >Comenzar</Button>
+                  <Button color="primary" className="btn-block" type="submit" >Comenzar</Button>
+                  </AvForm>
                 </div>
               </Col>
             </Row>

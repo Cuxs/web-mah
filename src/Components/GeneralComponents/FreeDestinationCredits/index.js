@@ -13,9 +13,14 @@ import {
 } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import ReactGA from 'react-ga';
+import _ from 'lodash';
+
+
+import {scroller} from 'react-scroll';
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import {validate} from '../../../Modules/functions';
 
 import SearchBar from '../../../stories/SearchBar';
-import Input from '../../../stories/Input';
 import InputOrText from '../../../stories/InputOrText';
 import { GetTextsQuery } from '../../../ApolloQueries/TextsQueries';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
@@ -28,21 +33,13 @@ class FreeDestinationCredits extends React.Component {
     super(props);
     this.state = {
       name: '',
-      nameValidate: false,
       dni: '',
-      dniValidate: false,
       address: '',
-      addressValidate: false,
       ganancy: '',
-      ganancyValidate: false,
       financyAmount: '',
-      financyAmountValidate: false,
       creditReason: '',
-      creditReasonValidate: false,
       email: '',
-      emailValidate: false,
       phone: '',
-      phoneValidate: false,
       messagge: '',
       modalTitle: '',
       modalMessage: '',
@@ -52,6 +49,7 @@ class FreeDestinationCredits extends React.Component {
     };
     this.toggle = this.toggle.bind(this);
     ReactGA.pageview('/CREDITOS-LIBRE-DESTINO');
+    this.requestCredit= this.requestCredit.bind(this)
   }
 
   toggle() {
@@ -59,31 +57,15 @@ class FreeDestinationCredits extends React.Component {
       modal: !this.state.modal,
     });
   }
-
-  disabled() {
-    const {
-      nameValidate,
-      dniValidate,
-      addressValidate,
-      ganancyValidate,
-      financyAmountValidate,
-      creditReasonValidate,
-      emailValidate,
-      phoneValidate,
-    } = this.state;
-    return !(
-      nameValidate &&
-      dniValidate &&
-      addressValidate &&
-      ganancyValidate &&
-      financyAmountValidate &&
-      creditReasonValidate &&
-      emailValidate &&
-      phoneValidate
-    );
-  }
-
-  requestCredit() {
+  requestCredit(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    } 
     const dataRequest = {
       name: this.state.name,
       dni: this.state.dni,
@@ -227,105 +209,120 @@ class FreeDestinationCredits extends React.Component {
               </div>
             </Col>
             <Col md="6" sm="12" xs="12">
+            <AvForm onSubmit={this.requestCredit}>
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Solicitá tu crédito!</h4>
-                <Input
-                  label="Nombre y Apellido"
+                <label>Nombre y Apellido</label>
+                <AvField
                   type="text"
                   value={this.state.name}
                   onChange={event =>
                     this.setState({ name: event.target.value })
                   }
-                  validate={isValid => this.setState({ nameValidate: isValid })}
+                  name="name"
+                  id="name"
+                  validate={validate('string')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Documento de Identidad"
+                <label>Documento de Identidad</label>
+                <AvField
                   type="number"
                   value={this.state.dni}
                   onChange={event => this.setState({ dni: event.target.value })}
-                  validate={isValid => this.setState({ dniValidate: isValid })}
+                  name="dni"
+                  id="dni"
+                  validate={validate('number')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Domicilio"
+                <label>Domicilio</label>
+                <AvField
                   type="alphanumeric"
                   value={this.state.address}
                   onChange={event =>
                     this.setState({ address: event.target.value })
                   }
-                  validate={isValid =>
-                    this.setState({ addressValidate: isValid })
-                  }
+                  name="address"
+                  id="address"
+                  validate={validate('string')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Ingresos"
-                  type="money"
+                <label>Ingresos</label>
+                <AvField
+                  type="number"
                   value={this.state.ganancy}
                   onChange={event =>
                     this.setState({ ganancy: event.target.value })
                   }
-                  validate={isValid =>
-                    this.setState({ ganancyValidate: isValid })
-                  }
+                  name="ganancy"
+                  id="ganancy"
+                  validate={validate('number')} 
+                  className="form-control"
+                  
                 />
-                <Input
-                  label="Monto a financiar"
-                  type="money"
+                <label>Monto a financiar</label>
+                <AvField
+                  type="number"
                   value={this.state.financyAmount}
                   onChange={event =>
                     this.setState({ financyAmount: event.target.value })
                   }
-                  validate={isValid =>
-                    this.setState({ financyAmountValidate: isValid })
-                  }
+                  name="financyAmount"
+                  id="financyAmount"
+                  validate={validate('number')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Destino del crédito"
+                <label>Destino del crédito</label>
+                <AvField
                   type="text"
                   value={this.state.creditReason}
                   onChange={event =>
                     this.setState({ creditReason: event.target.value })
                   }
-                  validate={isValid =>
-                    this.setState({ creditReasonValidate: isValid })
-                  }
+                  name="creditReason"
+                  id="creditReason"
+                  validate={validate('string')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Email"
+                <label>Email</label>
+                <AvField
                   type="email"
                   value={this.state.email}
                   onChange={event =>
                     this.setState({ email: event.target.value })
                   }
-                  validate={isValid =>
-                    this.setState({ emailValidate: isValid })
-                  }
+                  name="email"
+                  id="email"
+                  validate={validate('email')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Teléfono"
+                <label>Teléfono</label>
+                <AvField
                   type="number"
                   value={this.state.phone}
                   onChange={event =>
                     this.setState({ phone: event.target.value })
                   }
-                  validate={isValid =>
-                    this.setState({ phoneValidate: isValid })
-                  }
+                  name="phone"
+                  id="phone"
+                  validate={validate('number')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Mensaje"
+                <label>Mensaje</label>
+                <AvField
                   type="textarea"
                   value={this.state.messagge}
                   onChange={event =>
                     this.setState({ messagge: event.target.value })
                   }
-                  validate={isValid =>
-                    this.setState({ messaggeValidate: isValid })
-                  }
+                  name="messagge"
+                  id="messagge"
+                  className="form-control"
                 />
-                <Button color="primary" className="float-right" onClick={() => this.requestCredit()} >
+                <Button color="primary" className="float-right" type="submit" >
                   Solicitar
                 </Button>
               </div>
+            </AvForm>
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>

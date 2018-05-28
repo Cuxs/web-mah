@@ -4,8 +4,16 @@
 import React, { Component } from 'react';
 import { Col, Row, Button, Label, FormGroup } from 'reactstrap';
 import { parse, stringify } from 'query-string';
+import {scroller} from 'react-scroll';
+import _ from 'lodash';
 
-import Input from '../../../stories/Input';
+import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
+import { validate } from "../../../Modules/functions";
+
+import FacebookLogin from 'react-facebook-login';
+import { saveState } from '../../../Modules/localStorage';
+import { loginOrRegisterFacebook } from '../../../Modules/fetches';
+
 import AdminBar from '../../../stories/AdminBar';
 
 
@@ -14,13 +22,12 @@ class CreatePublication extends React.Component {
     super(props);
     const search = parse(this.props.location.search);
     this.state = {
+      emailForRegister: '',
       name: search.DataPerson ? parse(search.DataPerson).name : '',
-      nameValidate: search.DataPerson,
       phone: search.DataPerson ? parse(search.DataPerson).phone : '',
-      phoneValidate: search.DataPerson,
       email: search.DataPerson ? parse(search.DataPerson).email : '',
-      emailValidate: search.DataPerson,
     };
+    this.next=this.next.bind(this)
   }
 
   previous() {
@@ -43,14 +50,15 @@ class CreatePublication extends React.Component {
     this.props.history.push(`/publicateWithoutRegisterS1?${stringify(dataCar)}&${stringify(dataExtras)}&${stringify(dataPerson)}`);
   }
 
-  next() {
-    if (!(this.state.emailValidate && this.state.nameValidate && this.state.phoneValidate)) {
-      this._inputName.validate('string');
-      this._inputEmail.validate('email');
-      this._inputPhone.validate('number');
+  next(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
       return false;
-    }
-
+    }  
     const search = parse(this.props.location.search);
     const dataCar = {
       DataCar: stringify(parse(search.DataCar)),
@@ -69,6 +77,27 @@ class CreatePublication extends React.Component {
     };
     return this.props.history.push(`/publicateWithoutRegisterS3?${stringify(dataCar)}&${stringify(dataPerson)}&${stringify(dataExtras)}`);
   }
+
+  loginFB() {
+    window.FB.getLoginStatus((response) => {
+      window.FB.api('/me', { fields: ['email', 'name'] }, (res) => {
+        loginOrRegisterFacebook(res)
+          .then((resp) => {
+            const MAHtoken = resp.message;
+            saveState({ login: { MAHtoken } });
+            this.setState({
+              isNotificationActive: true,
+              email: '',
+              password: '',
+              isUserLogged: true,
+            });
+            this.props.history.push('/userAdmin')
+          })
+          .catch(error => console.log(error));
+      });
+    });
+  }
+
 
   render() {
     return (
@@ -114,59 +143,69 @@ class CreatePublication extends React.Component {
                     <li>Anuncios destacados ilimitados</li>
                     <li>Publicaciones en redes sociales</li>
                   </ul>
-                  <Button color="primary btn-facebook">Registrate con facebook</Button>
+                  <FacebookLogin
+                    appId="146328269397173"
+                    autoLoad
+                    callback={() => this.loginFB()}
+                    icon="fa-facebook"
+                    fields="name,email,picture"
+                    textButton="Registrate con facebook"
+                    cssClass="btn btn-primary btn-facebook"
+                  />
                   <div className="underline" />
                   <p>O con tu email</p>
+                  <AvForm>
                   <FormGroup>
                     <Label for="exampleEmail">Email</Label>
-                    <Input type="email" name="email" id="exampleText" />
+                    <AvField validate={validate('email')} type="email" name="email" id="exampleText" value={this.state.emailForRegister} onChange={(e)=>this.setState({emailForRegister: e.target.value})} />
                   </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleEmail">Contraseña</Label>
-                    <Input type="password" name="password" id="exampleText" />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="exampleEmail">Repetir Contraseña</Label>
-                    <Input type="password" name="password" id="exampleText" />
-                  </FormGroup>
-                  <Button color="primary" className="float-right">Registrarme</Button>
+                  <Button color="primary" className="float-right" onClick={()=>{this.props.history.push(`/userRegisterS1?email=${this.state.emailForRegister}`)}}>Registrarme</Button>
+                  </AvForm>
                 </div>
               </div>
 
             </Col>
             <Col md="6" sm="12" xs="12" className="mb-4">
+            <AvForm onSubmit={this.next}>
               <div className="col-md-9 float-left">
                 <h4 className="title-division">Los interesados se comunicarán con vos</h4>
-                <Input
-                  ref={inputName => (this._inputName = inputName)}
-                  label="Nombre y Apellido"
+                <label>Nombre y Apellido</label>
+                <AvField
                   type="string"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
-                  validate={isValid => this.setState({ nameValidate: isValid })}
+                  name="name"
+                  id="name"
+                  validate={validate("string")}
+                  className="form-control"
                 />
-                <Input
-                  ref={inputEmail => (this._inputEmail = inputEmail)}
-                  label="Email"
+                  <label>Email</label>
+                <AvField
                   type="email"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
-                  validate={isValid => this.setState({ emailValidate: isValid })}
+                  name="email"
+                  id="email"
+                  validate={validate("email")}
+                  className="form-control"
                 />
-                <Input
-                  ref={inputPhone => (this._inputPhone = inputPhone)}
-                  label="Teléfono"
+                  <label>Teléfono</label>
+                <AvField
                   type="number"
                   value={this.state.phone}
                   onChange={event => this.setState({ phone: event.target.value })}
-                  validate={isValid => this.setState({ phoneValidate: isValid })}
+                  name="phone"
+                  id="phone"
+                  validate={validate("number")}
+                  className="form-control"
                 />
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()} >Volver</Button>
-                  <Button color="primary" className="float-right" onClick={() => this.next()} >Siguiente</Button>
+                  <Button color="primary" className="float-right"type="submit" >Siguiente</Button>
                 </div>
               </div>
+              </AvForm>
             </Col>
           </Row>
         </div>

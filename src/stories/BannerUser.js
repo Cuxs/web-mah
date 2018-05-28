@@ -3,9 +3,12 @@ import { Row, Button } from 'reactstrap';
 import { stringify } from 'query-string';
 import ReactGA from 'react-ga';
 
-import Input from './Input';
 import InputOrText from './InputOrText';
+import {scroller} from 'react-scroll';
+import _ from 'lodash';
 
+import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
+import { validate } from "../Modules/functions";
 /* eslint react/jsx-filename-extension: 0 */
 ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
@@ -17,9 +20,19 @@ class BannerUser extends React.Component {
       emailValidate: true,
       text: 'Publicá gratis, crea tu cuenta y comenzá a ganar dinero vendiendo autos!',
     };
+    this.start= this.start.bind(this)
   }
 
-  start() {
+  start(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    } 
+
     const dataUser = {
       email: this.state.email,
     };
@@ -46,14 +59,19 @@ class BannerUser extends React.Component {
               <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 float-right" >
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis!</strong></h5>
-                  <Input
+                  <AvForm onSubmit={this.start}>
+                  <AvField
                     type="email"
                     value={this.state.email}
                     onChange={event => this.setState({ email: event.target.value })}
-                    validate={isValid => this.setState({ emailValidate: isValid })}
+                    validate={validate('email')}
+                    name="email"
+                    id="email"
+                    className="form-group"
                     placeholder="Correo electrónico"
                   />
-                  <Button color="primary" className="btn-block" disabled={!this.state.emailValidate} onClick={() => this.start()} >Comenzar</Button>
+                  <Button color="primary" className="btn-block" disabled={!this.state.emailValidate}  type="submit" >Comenzar</Button>
+                  </AvForm>
                 </div>
               </div>
             </Row>

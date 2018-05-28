@@ -3,7 +3,11 @@ import { Row, Button } from 'reactstrap';
 import { stringify } from 'query-string';
 import ReactGA from 'react-ga';
 
-import Input from './Input';
+import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
+import { validate } from "../Modules/functions";
+import {scroller} from 'react-scroll';
+import _ from 'lodash';
+
 import InputOrText from './InputOrText';
 
 /* eslint react/jsx-filename-extension: 0 */
@@ -20,12 +24,16 @@ class BannerRegister extends React.Component {
       text: 'Publicá gratis, todos tus datos y creá tu concesionaria online',
     };
   }
+  start(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    } 
 
-  disabled() {
-    return !(this.state.nameAgencyValidate && this.state.emailValidate);
-  }
-
-  start() {
     const dataAgency = {
       nameAgency: this.state.nameAgency,
       email: this.state.email,
@@ -53,22 +61,30 @@ class BannerRegister extends React.Component {
               <div className="container-data-input-group col-lg-4 col-md-5 col-sm-12 col-xs-12 float-right" >
                 <div className="cont-form">
                   <h5><strong>¡Registrate gratis y empezá a vender ahora!</strong></h5>
-                  <Input
+                  <AvForm onSubmit={this.start}>
+                  <AvField
                     type="text"
                     value={this.state.nameAgency}
                     onChange={event => this.setState({ nameAgency: event.target.value })}
-                    validate={isValid => this.setState({ nameAgencyValidate: isValid })}
                     placeholder="Nombre de la concesionaria"
+                    name="nameAgency"
+                    id="nameAgency"
+                    validate={validate("text")}
+                    className="form-control"
                   />
-                  <Input
+                  <AvField
                     type="email"
                     value={this.state.email}
                     onChange={event => this.setState({ email: event.target.value })}
-                    validate={isValid => this.setState({ emailValidate: isValid })}
                     placeholder="Correo electrónico"
+                    name="email"
+                    id="email"
+                    validate={validate("email")}
+                    className="form-control"
                   />
 
-                  <Button color="primary" disabled={this.disabled()} className="btn-block" onClick={() => this.start()} >Comenzar</Button>
+                  <Button color="primary" disabled={this.disabled()} className="btn-block" type="submit">Comenzar</Button>
+                  </AvForm>
                 </div>
               </div>
             </Row>

@@ -9,9 +9,12 @@ import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import ReactGA from 'react-ga';
+import {scroller} from 'react-scroll';
+
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import {validate} from '../../../Modules/functions';
 
 import SearchBar from '../../../stories/SearchBar';
-import Input from '../../../stories/Input';
 import InputOrText from '../../../stories/InputOrText';
 
 import {
@@ -92,13 +95,18 @@ class PersonalShopper extends React.Component {
     });
   }
 
-  next() {
+  next(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    } 
     const {
       priceValidate, brand, group, codia,
     } = this.state;
-    if (!priceValidate || brand === '' || group === '' || codia === '') {
-      return false;
-    }
 
     const dataCredit = {
       kms: this.state.kms,
@@ -215,6 +223,7 @@ class PersonalShopper extends React.Component {
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Datos del auto que comprarías</h4>
+                <AvForm onSubmit={this.next}>
                 <FormGroup>
                   <Label for="exampleEmail">Cantidad de kilómetros</Label>
                   <Select
@@ -247,27 +256,31 @@ class PersonalShopper extends React.Component {
                     onChange={newValue => this.setState({ year: newValue })}
                   />
                 </FormGroup>
-                <Input
-                  label="Precio aproximado"
+                <label>Precio aproximado</label>
+                <AvField
                   type="money"
                   placeholder="Ingrese un número sin puntos ni comas"
                   value={this.state.price}
                   onChange={event => this.setState({ price: event.target.value })}
-                  validate={isValid => this.setState({ priceValidate: isValid })}
+                  name="price"
+                  id="price"
+                  validate={validate('number')} 
+                  className="form-control"
                 />
                 <div className="simulator-container">
                   {this.renderCar(AllBrands)}
                   {/* <Button color="secondary"> Añadir otro</Button> */}
                 </div>
-
-                <Input
-                  label="Descripción"
+                <label>Descripción</label>
+                <AvField
                   type="textarea"
+                  name="observation"
+                  id="observation"
                   value={this.state.observation}
                   onChange={event => this.setState({ observation: event.target.value })}
-                  validate={isValid => this.setState({ observationValidate: isValid })}
                 />
-                <Button color="primary" onClick={this.next} className="float-right"> Siguiente</Button>
+                <Button color="primary" type="submit" className="float-right"> Siguiente</Button>
+                </AvForm>
               </div>
             </Col>
           </Row>
