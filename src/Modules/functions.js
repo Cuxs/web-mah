@@ -85,7 +85,7 @@ export const validate = (type) => {
       };
     case 'number':
       return {
-        min: { value: 0 },
+        min: { value: 0, errorMessage: 'El número debe ser mayor a cero'},
         pattern: {
           value: "[0-9]+",
           errorMessage: "Ingrese solo números."
@@ -99,7 +99,7 @@ export const validate = (type) => {
       };
     case 'string':
       return {
-        pattern: { value: /^[A-Z]*$/, errorMessage:'Ingrese solo letras'},
+        pattern: {  value: "[a-zA-Z]+", errorMessage:'Ingrese solo letras'},
         required: { errorMessage: 'Este campo es requerido' },
       };
     default:

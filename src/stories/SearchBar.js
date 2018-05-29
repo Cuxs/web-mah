@@ -375,7 +375,7 @@ class SearchBar extends Component {
                     getSectionSuggestions={getSectionSuggestions}
                     inputProps={inputProps}
                   />
-                  <style jsx>{autocompleteStyles}</style>
+                  <style jsx="true" >{autocompleteStyles}</style>
                 </Row>
               </Col>
               <Col lg="1" sm="10" xs="10">

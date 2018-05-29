@@ -130,7 +130,7 @@ class FreeDestinationCredits extends React.Component {
                         route={this.props.location.pathname.slice(1)}
                         type="p"
                         text={this.state.title1}
-                        style="title-division-primary"
+                        customClass="title-division-primary"
                         onChange={title1 => this.setState({ title1 })}
                       />
                       <InputOrText
