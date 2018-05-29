@@ -574,6 +574,7 @@ class SearchBar extends Component {
                     onClick={() => this.toggleModal()}
                     color="default"
                     className="alternative"
+                    style={{ height: '50px' }}
                   >
                       Salir
                   </Button>
@@ -592,11 +593,10 @@ class SearchBar extends Component {
               </div>
             </ModalBody>
             <ModalFooter>
-                <div className="underline" />
-                <div className="col-md-10 offset-md-1">
-                  <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
-                  <p>No tengo cuenta. Soy una concesionaria. <a href="" className="btn-link">Registrar Agencia</a></p>
-                </div>
+              <div className="col-md-10">
+                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
+                <p>No tengo cuenta. Soy una concesionaria. <a href="" className="btn-link">Registrar Agencia</a></p>
+              </div>
             </ModalFooter>
           </Modal>
           <NotificationModal

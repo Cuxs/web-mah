@@ -297,13 +297,16 @@ class PledgeCredits extends React.Component {
 
                 <h6>SIMULÁ TU CUOTA</h6>
                 <div className="simulator-container">
-                <label> Monto a financiar *</label>
-                  <input
-                    type="number"
-                    value={this.state.mount}
-                    onChange={event => this.updateMount(event.target.value)}
-                    placeholder="De $10.000 a $150.000"
-                  />
+                  <Label> Monto a financiar *</Label>
+                  <div className="form-group">
+                    <input
+                      type="number"
+                      value={this.state.mount}
+                      className="form-control"
+                      onChange={event => this.updateMount(event.target.value)}
+                      placeholder="De $10.000 a $150.000"
+                    />
+                  </div>
                   {!this.props.location.search && (
                     <div className="d-flex flex-row align-items-center">
                       <Label>¿Modelo posterior a 2007?</Label>
@@ -311,7 +314,7 @@ class PledgeCredits extends React.Component {
                         <input
                           type="checkbox"
                           name="onoffswitch"
-                          class="onoffswitch-checkbox"
+                          className="onoffswitch-checkbox"
                           onChange={(e)=>{
                             this.setState({afterYearSwitch: e.target.checked},()=>{
                               this.updateTime()

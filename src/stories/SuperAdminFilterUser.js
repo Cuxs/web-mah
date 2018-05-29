@@ -76,7 +76,7 @@ class SuperAdminFilterUser extends Component {
               </Dropdown>
             </div>
 
-            <div className="col-lg-6 col-md-6 col-sm-12 text-right m-15" style={{ marginBottom: '-1rem' }} >
+            <div className="col-lg-6 col-md-6 col-sm-12 text-right m-15" >
               <div className="row" >
                 <input
                   type="text"
