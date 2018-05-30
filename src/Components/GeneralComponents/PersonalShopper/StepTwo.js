@@ -5,14 +5,15 @@ import React from 'react';
 import { Col, Row, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { stringify, parse } from 'query-string';
 import ReactGA from 'react-ga';
+import {scroller} from 'react-scroll';
+import _ from 'lodash';
+
+
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import {validate} from '../../../Modules/functions';
 
 import SearchBar from '../../../stories/SearchBar';
-import Input from '../../../stories/Input';
 import {requestCredit} from '../../../Modules/fetches';
-
-import style from '../../../Styles/pledgeCredits';
-
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class PersonalShopperS2 extends React.Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class PersonalShopperS2 extends React.Component {
       modalMessage: '',
       success:false,    
     };
+    this.register= this.register.bind(this)
   }
 
   previous() {
@@ -56,13 +58,18 @@ class PersonalShopperS2 extends React.Component {
     this.props.history.push(`/personalShopperS1?${stringify(dataShopper)}}`);
   }
 
-  register() {
+  register(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    } 
     const {
       nameValidate, dniValidate, addressValidate, ganancyValidate, financyAmountValidate, jobValidate, emailValidate, phoneValidate,
     } = this.state;
-    if (!(nameValidate && dniValidate && addressValidate && ganancyValidate && financyAmountValidate && jobValidate && emailValidate && phoneValidate)) {
-      return false;
-    }
 
     ReactGA.event({
       category: 'Personal Shopper',
@@ -141,77 +148,106 @@ class PersonalShopperS2 extends React.Component {
               </div>
             </Col>
             <Col md="6" sm="12" xs="12">
+            <AvForm onSubmit={this.register}>
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Datos del interesado</h4>
-                <Input
-                  label="Nombre y Apellido"
+                <label>Nombre y Apellido</label>
+                <AvField
                   type="text"
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
-                  validate={isValid => this.setState({ nameValidate: isValid })}
+                  name="name"
+                  id="name"
+                  validate={validate('string')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Documento de Identidad"
+                  <label>Documento de Identidad</label>
+                <AvField
                   type="number"
                   value={this.state.dni}
                   onChange={event => this.setState({ dni: event.target.value })}
-                  validate={isValid => this.setState({ dniValidate: isValid })}
+                  name="dni"
+                  id="dni"
+                  validate={validate('number')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Domicilio"
+                  <label>Domicilio</label>
+                <AvField
                   type="string"
                   value={this.state.address}
                   onChange={event => this.setState({ address: event.target.value })}
-                  validate={isValid => this.setState({ addressValidate: isValid })}
+                  name="address"
+                  id="address"
+                  validate={validate('text')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Ingresos"
+                  <label>Ingresos</label>
+                <AvField
                   type="money"
                   value={this.state.ganancy}
                   onChange={event => this.setState({ ganancy: event.target.value })}
-                  validate={isValid => this.setState({ ganancyValidate: isValid })}
+                  name="ganancy"
+                  id="ganancy"
+                  validate={validate('number')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Monto a financiar"
+                  <label>Monto a financiar</label>
+                <AvField
                   type="money"
                   value={this.state.financyAmount}
                   onChange={event => this.setState({ financyAmount: event.target.value })}
-                  validate={isValid => this.setState({ financyAmountValidate: isValid })}
+                   name="financyAmount"
+                  id="financyAmount"
+                  validate={validate('number')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Ocupación"
+                  <label>Ocupación</label>
+                <AvField
                   type="text"
                   value={this.state.job}
                   onChange={event => this.setState({ job: event.target.value })}
-                  validate={isValid => this.setState({ jobValidate: isValid })}
+                  name="job"
+                  id="job"
+                  validate={validate('string')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Email"
+                  <label>Email</label>
+                <AvField
                   type="email"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
-                  validate={isValid => this.setState({ emailValidate: isValid })}
+                  name="email"
+                  id="email"
+                  validate={validate('email')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Teléfono"
+                  <label>Teléfono</label>
+                <AvField
                   type="number"
                   value={this.state.phone}
                   onChange={event => this.setState({ phone: event.target.value })}
-                  validate={isValid => this.setState({ phoneValidate: isValid })}
+                   name="phone"
+                  id="phone"
+                  validate={validate('number')} 
+                  className="form-control"
                 />
-                <Input
-                  label="Mensaje"
+                  <label>Mensaje</label>
+                <AvField
                   type="textarea"
                   value={this.state.messagge}
                   onChange={event => this.setState({ messagge: event.target.value })}
-                  validate={isValid => this.setState({ messaggeValidate: isValid })}
+                   name="messagge"
+                  id="messagge"
+                  validate={validate('text')} 
+                  className="form-control"
                 />
                 <div>
                   <div className="underline" />
                   <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" className="float-right" onClick={() => this.register()}>Consultar</Button>
+                  <Button color="primary" className="float-right" type="submit">Consultar</Button>
                 </div>
               </div>
+              </AvForm>
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
@@ -224,7 +260,6 @@ class PersonalShopperS2 extends React.Component {
             </ModalFooter>
           </Modal>
         </div>
-        <style jsx>{style}</style>
       </div>
     );
   }

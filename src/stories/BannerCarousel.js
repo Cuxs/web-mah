@@ -8,7 +8,7 @@ import {
 
 /* eslint react/jsx-filename-extension: 0 */
 
-export default class CarCarousel extends Component {
+export default class BannerCarousel extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
@@ -18,7 +18,6 @@ export default class CarCarousel extends Component {
     this.onExiting = this.onExiting.bind(this);
     this.onExited = this.onExited.bind(this);
   }
-
 
   onExiting() {
     this.animating = true;
@@ -51,12 +50,12 @@ export default class CarCarousel extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img style={{ position: 'relative', width: this.props.width || '100%', height: this.props.height || 'auto' }} src={item.src} alt={item.altText} />
+        <img className='banner-img' src={item.src} alt={item.altText} />
       </CarouselItem>
     ));
     return (
       <div>
-        <div className="car-container">
+        <div className="banner-container">
           <Carousel
             pauser={['hover', false]}
             activeIndex={activeIndex}

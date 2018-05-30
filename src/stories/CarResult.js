@@ -5,7 +5,6 @@ import {
   CarouselControl,
   CarouselIndicators,
 } from 'reactstrap';
-import style from '../Styles/carResult';
 import { thousands } from '../Modules/functions';
 
 export default class CarResult extends Component {
@@ -74,7 +73,7 @@ export default class CarResult extends Component {
 
   render() {
     const { activeIndex } = this.state;
-    const slides = this.props.photoGalery.map(item => (
+    const slides = this.props.photoGalery.map((item, id) => (
       <CarouselItem
         onExiting={this.onExiting}
         onExited={this.onExited}
@@ -83,6 +82,7 @@ export default class CarResult extends Component {
         <img
           style={{ position: 'relative', width: '100%', height: 'auto' }}
           src={item.src}
+          key={id}          
           alt={item.altText}
         />
       </CarouselItem>

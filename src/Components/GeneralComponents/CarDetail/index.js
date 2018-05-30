@@ -37,8 +37,6 @@ import {
   isUserLogged,
 } from '../../../Modules/sessionFunctions';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 const renderForNullPublication = (component, propName = 'data') =>
   branch(
     props => props[propName] && props[propName].Publication === null,
@@ -171,6 +169,7 @@ class CarDetail extends Component {
             carDetailData.Publication !== null && (
               <Row>
                 <Col md="8" sm="12" xs="12">
+                  {console.log(carDetailData.Publication.ImageGroup)}
                   <CarCarousel
                     photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
                   />

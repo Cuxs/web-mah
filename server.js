@@ -41,6 +41,28 @@ app.get('/microsite', function (request, response) {
     })
     .catch(err => console.log("error", err));
 })
+app.get('/', function (request, response) {
+    const filePath = path.resolve(__dirname, "./build", "index.html");
+      fs.readFile(filePath, "utf8", function(err, htmlData) {
+        if (err) {
+          return console.log(err);
+        }
+
+        htmlData = htmlData.replace(
+          /\$OG_TITLE/g,
+          'Miautohoy.com'
+        );
+        htmlData = htmlData.replace(
+          /\$OG_DESCRIPTION/g,
+           'miautohoy.com, la nueva forma de comprar o vender tu auto'
+        );
+        result = htmlData.replace(
+          /\$OG_IMAGE/g,
+          `${process.env.HOMEPAGE}/logo.png`
+        );
+        response.send(result);
+      });
+})
 app.get("/carDetail", function(request, response) {
   fetch(
     `${

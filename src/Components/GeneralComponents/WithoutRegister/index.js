@@ -14,8 +14,6 @@ import Footer from '../../../stories/Footer';
 import Plans from '../../../stories/Plans';
 import { isUserLogged } from '../../../Modules/sessionFunctions';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 const WithoutRegister = ({ history, location }) => (
   <div>
     {ReactGA.pageview('/PLANES-SIN-REGISTRO')}

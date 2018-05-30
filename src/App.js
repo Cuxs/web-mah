@@ -1,5 +1,7 @@
 /* eslint react/jsx-filename-extension: 0 */
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -36,6 +38,9 @@ import SuperAdminPublications from './Components/AdminComponents/SuperAdminPubli
 import SuperAdminInbox from './Components/AdminComponents/SuperAdminInbox';
 import SuperAdminUsers from './Components/AdminComponents/SuperAdminUsers';
 import SuperAdminRates from './Components/AdminComponents/SuperAdminRates';
+import SuperAdminSliders from './Components/AdminComponents/SuperAdminSliders';
+import SuperAdminAnalytics from './Components/AdminComponents/SuperAdminAnalytics';
+import SuperAdminMicrosite from './Components/AdminComponents/SuperAdminMicrosite';
 import TermsAndConditions from './Components/GeneralComponents/TermsAndConditions';
 import UserAdmin from './Components/AccountComponents/UserAdmin';
 import UserProfile from './Components/AccountComponents/UserProfile';
@@ -97,7 +102,11 @@ const Topics = ({ match }) => (
 );
 
 class App extends Component {
+  componentDidMount(){
+    ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+  }
   render() {
+    
     return (
       <Router>
         <div>
@@ -136,6 +145,9 @@ class App extends Component {
             <Route exact path="/superAdminAllMessages" component={SuperAdminAllMessages} />
             <Route exact path="/superAdminUsers" component={SuperAdminUsers} />
             <Route exact path="/superAdminRates" component={SuperAdminRates} />
+            <Route exact path="/SuperAdminMicrosite" component={SuperAdminMicrosite} />
+            <Route exact path="/superAdminSliders" component={SuperAdminSliders} />
+            <Route exact path="/superAdminAnalytics" component={SuperAdminAnalytics} />
             <Route exact path="/termsAndConditions" component={TermsAndConditions} />
             <Route exact path="/userAdmin" component={UserAdmin} />
             <Route exact path="/userPublications" component={UserPublications} />

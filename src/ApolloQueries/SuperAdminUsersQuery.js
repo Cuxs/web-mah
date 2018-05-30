@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 
-const searchUserMutation = gql `mutation searchUser($text: String!) {
-  searchUser(text:$text){
+const searchUserMutation = gql `mutation searchUser($text: String!, $userType: String) {
+  searchUser(text:$text, userType: $userType){
     Users {
       id
 		  name

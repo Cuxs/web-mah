@@ -4,5 +4,17 @@
   padding:20px;
   font:bold $font-size-lg $font-family-sans-serif;
   color:$primary;
+}
+.banner-img{
+  position: relative;
+  width: 100vw;
+  height: auto;
+}
 
+@media screen and (max-width: 960px) {
+  .banner-img{
+    position: relative;
+    width: 100vw;
+    height: auto;
+  }
 }

@@ -80,6 +80,9 @@
   }
 }
 @media screen and (max-width: 420px) {
+  .disable-mobile{
+    display: none;
+  }
   .register-steps{
     .steps{
       .step{

@@ -44,7 +44,6 @@ import {
 import { getSoldPublications } from '../../../Modules/fetches';
 import LoginComponent from '../../../stories/LoginComponent';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 const renderWhileLoading = (component, propName = 'data') =>
 branch(

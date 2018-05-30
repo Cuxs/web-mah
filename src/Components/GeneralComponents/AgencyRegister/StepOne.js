@@ -4,40 +4,37 @@
 import React from 'react';
 import { Col, Row, Button } from 'reactstrap';
 import { stringify, parse } from 'query-string';
+import {scroller} from 'react-scroll';
 import ReactGA from 'react-ga';
+import _ from 'lodash';
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import {validate} from '../../../Modules/functions';
 
 import RegisterBar from '../../../stories/RegisterBar';
-import Input from '../../../stories/Input';
-
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class StepOne extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: parse(this.props.location.search).email ? parse(this.props.location.search).email : '',
-      emailValidate: parse(this.props.location.search).email,
       repeatPass: parse(this.props.location.search).repeatPass ? parse(this.props.location.search).repeatPass : '',
-      repeatPassValidate: parse(this.props.location.search).repeatPass,
       name: parse(this.props.location.search).name ? parse(this.props.location.search).name : '',
-      nameValidate: parse(this.props.location.search).name,
       address: parse(this.props.location.search).address ? parse(this.props.location.search).name : '',
-      addressValidate: parse(this.props.location.search).address,
       phone: parse(this.props.location.search).phone ? parse(this.props.location.search).phone : '',
-      phoneValidate: parse(this.props.location.search).phone,
     };
     ReactGA.pageview('/REGISTRO-AGENCIA');
+    this.next = this.next.bind(this)
   }
 
-  next() {
-    if (!(this.state.emailValidate && this.state.addressValidate && this.state.phoneValidate && this.state.nameValidate)) {
-      this._inputName.validate('string');
-      this._inputEmail.validate('email');
-      this._inputAddress.validate('string');
-      this._inputPhone.validate('number');
+  next(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
       return false;
-    }
-
+    } 
     const dataAgency = {
       email: this.state.email,
       repeatPass: this.state.repeatPass,
@@ -92,43 +89,55 @@ class StepOne extends React.Component {
             <Col md="6" sm="12" xs="12">
               <div className="col-md-9 float-left pb-4">
                 <h4 className="title-division">Registrarme</h4>
-                <Input
-                  ref={inputEmail => (this._inputEmail = inputEmail)}
-                  label="Email (Email para iniciar sesión)"
-                  type="email"
+                <AvForm onSubmit={this.next}>
+                <label>Email</label>
+                <AvField
+                  name="email"
+                  id="email"
+                  validate={validate('email')}
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
-                  validate={isValid => this.setState({ emailValidate: isValid })}
+                  type="email"
+                  className="form-control"
                 />
-                <Input
-                  ref={inputName => (this._inputName = inputName)}
-                  label="Nombre del Encargado"
-                  type="text"
+                <label>Nombre del encargado</label>
+                <AvField
+                  name="name"
+                  id="name"
+                  validate={validate('string')}                  
                   value={this.state.name}
                   onChange={event => this.setState({ name: event.target.value })}
-                  validate={isValid => this.setState({ nameValidate: isValid })}
+                  type="text"
+                  className="form-control"
+                  
                 />
-                <Input
-                  ref={inputAddress => (this._inputAddress = inputAddress)}
-                  label="Domicilio del Encargado"
-                  type="string"
-                  value={this.state.address}
+                <label>Domicilio del Encargado</label>
+                <AvField
+                  name="address"
+                  id="address"
                   onChange={event => this.setState({ address: event.target.value })}
-                  validate={isValid => this.setState({ addressValidate: isValid })}
+                  validate={validate('text')}                  
+                  type="text"
+                  value={this.state.address}
+                  className="form-control"                  
                 />
-                <Input
-                  ref={inputPhone => (this._inputPhone = inputPhone)}
-                  label="Teléfono del Encargado"
+                <label>Teléfono del Encargado</label>
+                <AvField
+                  name="phone"
+                  id="phone"
                   type="number"
                   value={this.state.phone}
+                  validate={validate('number')}                                    
                   onChange={event => this.setState({ phone: event.target.value })}
-                  validate={isValid => this.setState({ phoneValidate: isValid })}
+                  className="form-control"                  
                 />
 
                 <div>
                   <div className="underline" />
-                  <Button color="primary" className="float-right" onClick={() => this.next()} >Siguiente</Button>
+                  <Button color="primary" className="float-right" >Siguiente</Button>
                 </div>
+                </AvForm>
+                
               </div>
             </Col>
           </Row>

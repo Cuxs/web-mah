@@ -3,7 +3,6 @@ import { Row } from 'reactstrap';
 import ReactGA from 'react-ga';
 
 /* eslint react/jsx-filename-extension: 0 */
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 export default ({ history }) => (
   <div className="container-fluid">

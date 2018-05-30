@@ -278,6 +278,7 @@ export default class LoginComponent extends Component {
                 onClick={() => window.location.assign('/')}
                 color="default"
                 className="alternative"
+                style={{ height: '50px' }}
               >
                 Salir
               </Button>

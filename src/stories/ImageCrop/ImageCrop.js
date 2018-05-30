@@ -6,26 +6,33 @@ import './ImageCrop.css';
 /* eslint react/jsx-filename-extension: 0 */
 
 const defaultSrc = '/default.jpg';
+const defaultSrcBanner = '/defaultBanner.png';
 const invalidFormat = '/formato-no-valido.png';
 
 export default class ImageCrop extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      src: defaultSrc,
-      cropResult: defaultSrc,
+      src: props.banner ? defaultSrcBanner: defaultSrc,
+      cropResult: props.banner ? defaultSrcBanner: defaultSrc,
     };
     this.cropImage = this.cropImage.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (_.isNull(this.state.cropResult)) {
+    console.log(nextProps);
+    if(nextProps.previewImage === 'erased'){
       this.setState({
-        cropResult: defaultSrc,
+        cropResult: this.props.banner ? defaultSrcBanner: defaultSrc,
       });
     }
-    if (nextProps.previewImage !== '' && this.state.cropResult === defaultSrc) {
+    if (_.isNull(this.state.cropResult)) {
+      this.setState({
+        cropResult: this.props.banner ? defaultSrcBanner: defaultSrc,
+      });
+    }
+    if (nextProps.previewImage !== '' && (this.state.cropResult === defaultSrc || this.state.cropResult === defaultSrcBanner)) {
       this.setState({
         cropResult: `${process.env.REACT_APP_API}/images/${
           nextProps.previewImage
@@ -97,7 +104,7 @@ export default class ImageCrop extends Component {
             <div>
               <input
                 type="file"
-                componentClass="input"
+                componentclass="input"
                 onChange={event => this.onChange(event)}
               />
             </div>
@@ -129,9 +136,8 @@ export default class ImageCrop extends Component {
                     color="default"
                     onClick={() =>
                       this.setState({
-                        cropResult: `${process.env.REACT_APP_API}/images/${
-                          this.props.previewImage
-                        }`,
+                        cropResult: this.props.previewImage ?
+                         `${process.env.REACT_APP_API}/images/${this.props.previewImage}` : (this.props.banner ? defaultSrcBanner: defaultSrc)
                       })
                     }
                   >

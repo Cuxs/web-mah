@@ -11,12 +11,16 @@ query User($MAHtoken: String!) {
   }  
 `;
 const UserDataMutation = gql`
-mutation modifyUserData($MAHtoken: String!, $name:String, $address:String, $phone:String) {
-  modifyUserData(MAHtoken: $MAHtoken, name:$name, address:$address, phone:$phone){
+mutation modifyUserData($MAHtoken: String!, $name:String, $address:String, $phone:String, $agencyName:String, $agencyAdress:String,$agencyEmail:String, $agencyPhone:String) {
+  modifyUserData(MAHtoken: $MAHtoken, name:$name, address:$address, phone:$phone, agencyName:$agencyName, agencyAdress:$agencyAdress, agencyEmail:$agencyEmail, agencyPhone:$agencyPhone ){
     name,
     address,
     email
-    phone
+    phone,
+    agencyName,
+    agencyAdress,
+    agencyEmail,
+    agencyPhone
   }
 }
 `;

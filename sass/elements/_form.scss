@@ -1,3 +1,8 @@
+textarea{
+  height: 90px !important;
+  line-height: 20px !important;
+}
+
 .form-group{
   label{
     font:700 14px $font-family-sans-serif;
@@ -37,8 +42,8 @@
   }
   .form-control{
     padding:0 15px !important;
-    height: 50px !important;
-    line-height: 50px !important;
+    height: 50px;
+    line-height: 50px;
     &:focus{
       outline: none !important;
       outline-style:none;
@@ -69,7 +74,7 @@
   box-shadow: none !important;
 }
 .Select-menu-outer {
-  background-color: rgb(160, 158, 158) !important;
+  background-color: #fafafa !important;
 }
 
 // CHECKBOX

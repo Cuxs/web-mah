@@ -1,7 +1,9 @@
 .banner-home{
   background-size: cover !important;
-  padding: 5vw;
-  width: 100vw;
+  background-color: $gray-500;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
   h3{
     font:bold #{$h1-font-size}/#{$h1-font-size+0.1} $font-family-sans-serif;
     line-height: 40px !important;
@@ -11,7 +13,6 @@
     //left: 10vw;
     //width:480px;
   }
-
   .container-data-input-group{
     // position: absolute;
     // right: 40px;

@@ -4,8 +4,8 @@ import { Col, Row } from 'reactstrap';
 
 
 export default ({ children }) => {
-  const item = children.map(row =>
-    (<Col lg="3" md="6" sm="12" xs="12" className="box-item" >
+  const item = children.map((row, index) =>
+    (<Col key={index} lg="3" md="6" sm="12" xs="12" className="box-item" >
       {row}
     </Col>
     ));

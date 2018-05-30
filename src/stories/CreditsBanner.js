@@ -6,8 +6,6 @@ import ReactGA from 'react-ga';
 import InputOrText from './InputOrText';
 import { isAdminLogged } from '../Modules/sessionFunctions';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class CreditsBanner extends React.Component {
   constructor(props) {
     super(props);

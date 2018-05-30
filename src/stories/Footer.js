@@ -4,8 +4,6 @@ import ReactGA from 'react-ga';
 
 /* eslint react/jsx-filename-extension: 0 */
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 export default ({ history }) => (
   <footer className="footer">
     <div className="container">
@@ -40,7 +38,7 @@ export default ({ history }) => (
           <ul>
             <li><a className="btn a-footer" href="mailto:contacto@miautohoy.com">contacto@miautohoy.com</a></li>
             <li><a className="btn a-footer" href="tel:02604420183">Tel. (0260) – 4420183</a></li>
-            <li><a className="btn a-footer" href="" target="_blank">Seguinos en Facebook</a></li>
+            <li><a href="https://www.facebook.com/miautohoycom/" className="btn a-footer" target="_blank">Seguinos en Facebook</a></li>
           </ul>
         </div>
         <div className="col-md-12 text-center">

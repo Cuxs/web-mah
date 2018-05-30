@@ -61,3 +61,50 @@ export const generateYearPerModel = (array) => {
 
   return newArray;
 }
+export const validate = (type) => {
+  switch (type) {
+    case 'text':
+      return {
+        required: { errorMessage: 'Este campo es requerido' },
+      };
+    case 'password':
+      return {
+        // pattern: { value: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,}$/, errorMessage: 'Ingresa una combinación de al menos seis números, letras y mayúscula.' },
+        pattern: { value: /^.{6,}$/, errorMessage: 'Ingresa una combinación de al menos seis números, letras y mayúscula.' },
+        required: { errorMessage: 'Este campo es requerido' },
+      };
+    case 'confirmPass':
+      return {
+        match: { value: 'contraseña' },
+        required: { errorMessage: 'Este campo es requerido' },
+      };
+    case 'date':
+      return {
+        datetime: true,
+        required: { errorMessage: 'Este campo es requerido' },
+      };
+    case 'number':
+      return {
+        min: { value: 0, errorMessage: 'El número debe ser mayor a cero'},
+        pattern: {
+          value: "[0-9]+",
+          errorMessage: "Ingrese solo números."
+        },
+        required: { errorMessage: 'Este campo es requerido' },
+      };
+    case 'email':
+      return {
+        email: { value: true, errorMessage: 'El email es inválido' },
+        required: { errorMessage: 'Este campo es requerido' },
+      };
+    case 'string':
+      return {
+        pattern: {  value: "[a-zA-Z]+", errorMessage:'Ingrese solo letras'},
+        required: { errorMessage: 'Este campo es requerido' },
+      };
+    default:
+      return {
+        required: true,
+      };
+  }
+};

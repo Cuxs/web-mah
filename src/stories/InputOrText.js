@@ -65,19 +65,19 @@ class InputOrText extends Component {
   renderText() {
     switch (this.props.type) {
       case 'h3':
-        return <h3 className={this.props.style}>{this.props.text}</h3>;
+        return <h3 className={this.props.customClass}>{this.props.text}</h3>;
       case 'h4':
-        return <h4 className={this.props.style}>{this.props.text}</h4>;
+        return <h4 className={this.props.customClass}>{this.props.text}</h4>;
       case 'h5':
-        return <h5 className={this.props.style}>{this.props.text}</h5>;
+        return <h5 className={this.props.customClass}>{this.props.text}</h5>;
       case 'h6':
-        return <h6 className={this.props.style}>{this.props.text}</h6>;
+        return <h6 className={this.props.customClass}>{this.props.text}</h6>;
       default:
         if (this.props.multiple) {
           const multipleLines = this.props.text.split(/\n/);
-          return multipleLines.map(row => <p className={this.props.style}>{row}</p>);
+          return multipleLines.map(row => <p className={this.props.customClass}>{row}</p>);
         }
-        return <p className={this.props.style}>{this.props.text}</p>;
+        return <p className={this.props.customClass}>{this.props.text}</p>;
     }
   }
 
@@ -89,7 +89,7 @@ class InputOrText extends Component {
     };
     return (
       <div>
-        <Row style={container} >
+        <Row style={this.props.style || container} >
           <Col sm="9">
             { this.state.inputShow ?
               <Input

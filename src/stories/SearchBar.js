@@ -19,9 +19,11 @@ import FacebookLogin from 'react-facebook-login';
 import ReactGA from 'react-ga';
 import { animateScroll as scroll } from 'react-scroll';
 
+import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
+import { validate } from "../Modules/functions";
+import {scroller} from 'react-scroll';
 
 import _ from 'lodash';
-import style from '../Styles/search';
 import autocompleteStyles from '../Styles/autocompleteInput';
 import {
   getSuggestions,
@@ -36,14 +38,11 @@ import {
   clearSession,
   isAdminLogged,
 } from '../Modules/sessionFunctions';
-import Input from './Input';
 import NotificationModal from '../stories/NotificationModal';
 import parseError from '../Modules/errorParser';
 import { login, recoverPassword, checkFacebookLogin, loginOrRegisterFacebook } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
 /* eslint react/jsx-filename-extension: 0 */
-
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class SearchBar extends Component {
   constructor(props) {
@@ -89,6 +88,7 @@ class SearchBar extends Component {
     this.withoutRegister = this.withoutRegister.bind(this);
     this.agencyRegister = this.agencyRegister.bind(this);
     this.userRegister = this.userRegister.bind(this);
+    this.loginUser = this.loginUser.bind(this);
     this.statusChangeCallback = this.statusChangeCallback.bind(this);
   }
 
@@ -128,7 +128,15 @@ class SearchBar extends Component {
       suggestions: [],
     });
   }
-  submitSearch() {
+  submitSearch(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    } 
     ReactGA.event({
       category: `SearchBar ${this.props.history.location.pathname}`,
       action: 'Ir a Buscar autos',
@@ -248,13 +256,16 @@ class SearchBar extends Component {
     return this.props.history.push('/agencyRegister');
   }
 
-  loginUser(email, password) {
-    if (!(this.state.emailValidate && this.state.passwordValidate)) {
-      this._inputEmail.validate('email');
-      this._inputPassword.validate('password');
+  loginUser(event, errors) {
+    if (!_.isEmpty(errors)) {
+      scroller.scrollTo(errors[0], {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
       return false;
-    }
-    login(email, password)
+    } 
+    login(this.state.email, this.state.password)
       .then((response) => {
         const MAHtoken = response.message;
         saveState({ login: { MAHtoken } });
@@ -362,7 +373,7 @@ class SearchBar extends Component {
                     getSectionSuggestions={getSectionSuggestions}
                     inputProps={inputProps}
                   />
-                  <style jsx>{autocompleteStyles}</style>
+                  <style jsx="true" >{autocompleteStyles}</style>
                 </Row>
               </Col>
               <Col lg="1" sm="10" xs="10">
@@ -495,6 +506,7 @@ class SearchBar extends Component {
             <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
             <ModalBody>
               <div className="col-md-10 offset-md-1">
+              <AvForm onSubmit={this.loginUser}>
                 <FacebookLogin
                   appId="146328269397173"
                   autoLoad
@@ -505,21 +517,25 @@ class SearchBar extends Component {
                   cssClass="btn btn-primary btn-facebook"
                 />
                 <div className="underline" />
-                <Input
-                  ref={inputEmail => (this._inputEmail = inputEmail)}
+                <AvField
                   label="Email"
                   type="email"
                   value={this.state.email}
                   onChange={event => this.setState({ email: event.target.value })}
-                  validate={isValid => this.setState({ emailValidate: isValid })}
+                  name="email"
+                  id="email"
+                  validate={validate("email")}
+                  className="form-control"
                 />
-                <Input
-                  ref={inputPassword => (this._inputPassword = inputPassword)}
+                <AvField
                   label="Contraseña"
                   type="password"
                   value={this.state.password}
                   onChange={event => this.setState({ password: event.target.value })}
-                  validate={isValid => this.setState({ passwordValidate: isValid })}
+                   name="password"
+                  id="password"
+                  validate={validate("password")}
+                  className="form-control"
                 />
                 <a onClick={() => { this.setState({ forgetPass: true }); }} style={{ cursor: 'pointer', color: '#E40019' }}>
                   ¿Olvidaste tu contraseña?
@@ -527,16 +543,21 @@ class SearchBar extends Component {
                 {this.state.forgetPass && (
                   <div style={{ paddingTop: '20px' }}>
                     <Label>Ingresa tu email para poder recuperarla </Label>
-                    <Input
+                    <AvForm onSubmit={this.recoverPass}>
+                    <AvField
                       style={{ display: 'inline' }}
                       type="email"
                       value={this.state.recoverPassEmail}
                       onChange={e =>
-                      this.setState({ recoverPassEmail: e.target.value })
-                    }
+                      this.setState({ recoverPassEmail: e.target.value })}
+                      name="email"
+                      id="email"
+                      validate={validate("email")}
+                      className="form-control"
                     />
                     {this.state.displayError && <small style={{ color: 'red' }}>{this.state.error}</small>}
-                    <Button color="secondary" disabled={this.disabled()} onClick={this.recoverPass} className="alternative" style={{ display: 'inline' }}>Recuperar </Button>
+                    <Button color="secondary" type="submit" className="alternative" style={{ display: 'inline' }}>Recuperar </Button>
+                    </AvForm>
                     {this.state.loading && <img
                       style={{ height: '85px', paddingTop: '10px' }}
                       src="/loading.gif"
@@ -545,33 +566,34 @@ class SearchBar extends Component {
                     />}
                   </div>
                 )}
-              </div>
-            </ModalBody>
-            <ModalFooter>
-              <div className="row">
+                <div className="row">
                 <div className="col-3 float-left offset-md-2">
                   <Button
                     onClick={() => this.toggleModal()}
                     color="default"
                     className="alternative"
+                    style={{ height: '50px' }}
                   >
                       Salir
                   </Button>
                 </div>
                 <div className="col-6 float-right">
                   <Button
-                    onClick={() => this.loginUser(this.state.email, this.state.password)}
+                    type="submit"
                     color="primary"
                     className="alternative"
                   >
                     Iniciar sesión
                   </Button>
                 </div>
-                <div className="underline" />
-                <div className="col-md-10 offset-md-1">
-                  <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
-                  <p>No tengo cuenta. Soy una concesionaria. <a href="" className="btn-link">Registrar Agencia</a></p>
                 </div>
+                </AvForm>
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              <div className="col-md-10">
+                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <button style={{fontSize:'12px'}} onClick={()=>this.props.history.push("/userRegister")} className="btn-link">Registrarme</button></p>
+                <p>No tengo cuenta. Soy una concesionaria. <button style={{fontSize:'12px', margin:'none'}} onClick={()=>this.props.history.push("/agencyRegister")} className="btn-link">Registrar Agencia</button></p>
               </div>
             </ModalFooter>
           </Modal>

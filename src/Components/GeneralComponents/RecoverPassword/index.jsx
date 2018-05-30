@@ -7,8 +7,6 @@ import { ResetPasswordMutation } from '../../../ApolloQueries/UserProfileQuery';
 
 import NotificationModal from '../../../stories/NotificationModal';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class RecoverPassword extends Component {
   constructor(props) {
     super(props);

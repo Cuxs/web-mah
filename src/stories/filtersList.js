@@ -42,7 +42,7 @@ class FilterList extends Component {
           <strong>Ver más</strong>
           </button>
         </li>}
-        {(title === 'modelName' && parse(this.props.search).brand) && <li>
+        {(title === 'modelName' && (parse(this.props.search).brand || parse(this.props.search).text !== '')) && <li>
           <button className="sidebar-option" onClick={() => this.toggle('modelName')}>
             <strong>Ver más</strong>
           </button>
@@ -106,10 +106,10 @@ class FilterList extends Component {
 
   render() {
     return (
-      //sacar la marca en este split
+      //saca la marca en este split
       <div>
         {split(this.props.filters).map(row => {
-          if(_.isUndefined(parse(this.props.search).brand)&& row.key==='modelName'){
+          if((_.isUndefined(parse(this.props.search).brand) && parse(this.props.search).text ==='' ) && row.key==='modelName'){
             return false;
           }
           return(

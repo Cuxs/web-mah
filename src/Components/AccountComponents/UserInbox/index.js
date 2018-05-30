@@ -21,7 +21,6 @@ import {
 import { getUserToken, isUserLogged } from '../../../Modules/sessionFunctions';
 import LoginComponent from '../../../stories/LoginComponent';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 const renderForUnloggedUser = (component, propName = 'data') =>
 branch(

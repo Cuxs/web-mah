@@ -162,16 +162,14 @@ export const updatePassword = (data) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-export const requestCredit= (data)=>{
+export const requestCredit = (data) => {
   const url = `${server}/requestCredit`;
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(
-      data
-    ),
+    body: JSON.stringify(data),
   };
   return fetch(url, options)
     .then(response => response.json())
@@ -179,7 +177,7 @@ export const requestCredit= (data)=>{
       (responseData.status === undefined || responseData.status === 'error'
         ? Promise.reject(responseData.message)
         : responseData));
-}
+};
 export const uploadAgencyImages = (profileImage, bannerImage, id) => {
   const url = `${server}/uploadAgencyImages/${id}`;
   const formData = new FormData();
@@ -280,3 +278,56 @@ export const getImages = (publication_id) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+export const uploadSliders = (file, number) => {
+  const url = `${server}/uploadSliders/${number}`;
+  const formData = new FormData();
+  formData.append('slider', file)
+
+  const options = {
+    method: 'POST',
+    headers: {
+      mimeType: 'multipart/form-data',
+      Authorization: token,
+    },
+    body: formData,
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+
+export const getSliders = () => {
+  const url = `${server}/getSliders`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+
+export const deleteSlider = (number) =>{
+  const url = `${server}/deleteSlider/${number}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,      
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+}
