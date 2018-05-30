@@ -23,6 +23,7 @@ class BannerRegister extends React.Component {
       emailValidate: true,
       text: 'Publicá gratis, todos tus datos y creá tu concesionaria online',
     };
+    this.start = this.start.bind(this)
   }
   start(event, errors) {
     if (!_.isEmpty(errors)) {
@@ -83,7 +84,7 @@ class BannerRegister extends React.Component {
                     className="form-control"
                   />
 
-                  <Button color="primary" disabled={this.disabled()} className="btn-block" type="submit">Comenzar</Button>
+                  <Button color="primary" className="btn-block" type="submit">Comenzar</Button>
                   </AvForm>
                 </div>
               </div>

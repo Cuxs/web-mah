@@ -147,7 +147,7 @@ class StepThree extends React.Component {
                     <Button className="btn btn-link-primary" style={{ paddingLeft: 0 }} onClick={() => this.previous()} >Modificar datos</Button>
                   </div>
 
-                  <div className={`step ${this.disabled() ? 'done' : ''}`}>
+                  <div className={`step ${this.state.pass !=='' ? 'done' : ''}`}>
                     <h6>PASO 3</h6>
                     <h4>Información del responsable de la Concesionario</h4>
                   </div>

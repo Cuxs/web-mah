@@ -92,7 +92,7 @@ class SuperAdminSliders extends Component {
       const sliderDeletedFile = `slider${number}`
       const sliderDeleted = `previewSlider${number}`
       this.setState({
-        [sliderDeleted]: '',
+        [sliderDeleted]: 'erased',
         [sliderDeletedFile]: '',
         loading: false,
         notification: true,

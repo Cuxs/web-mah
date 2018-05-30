@@ -21,6 +21,12 @@ export default class ImageCrop extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if(nextProps.previewImage === 'erased'){
+      this.setState({
+        cropResult: this.props.banner ? defaultSrcBanner: defaultSrc,
+      });
+    }
     if (_.isNull(this.state.cropResult)) {
       this.setState({
         cropResult: this.props.banner ? defaultSrcBanner: defaultSrc,

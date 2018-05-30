@@ -594,8 +594,8 @@ class SearchBar extends Component {
             </ModalBody>
             <ModalFooter>
               <div className="col-md-10">
-                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <a href="" className="btn-link">Registrarme</a></p>
-                <p>No tengo cuenta. Soy una concesionaria. <a href="" className="btn-link">Registrar Agencia</a></p>
+                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <a href="/userRegister" className="btn-link">Registrarme</a></p>
+                <p>No tengo cuenta. Soy una concesionaria. <a href="/agencyRegister" className="btn-link">Registrar Agencia</a></p>
               </div>
             </ModalFooter>
           </Modal>

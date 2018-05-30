@@ -11,7 +11,7 @@ class Banner extends React.Component {
     super(props);
     this.state = {
       title1: '',
-      sliders: [],
+      sliders: [{src:''}],
     };
   }
   componentWillMount() {
@@ -29,12 +29,25 @@ class Banner extends React.Component {
   }
 
   render() {
+    let backgroundImage = this.state.sliders[0].src;
     return (
       <div className="container-fluid">
         <Row>
+      {
+        window.matchMedia("(max-width: 550px)").matches 
+          ?
+          <div style={{
+            backgroundImage:`url(${backgroundImage})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: '50% 50%',
+            width:'100vw',
+            height:'200px'
+          }}/> 
+          // <div id='tuhermana' style={{ backgroundColor: 'red', width:'100vw', height:'100vh'}}/> 
+          : 
           <BannerCarousel
-            photoGalery={this.state.sliders}
-          />
+            photoGalery={this.state.sliders}/>
+      }
           <div className="container">
             <Row className="align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
@@ -43,7 +56,7 @@ class Banner extends React.Component {
                     style={{
                       fontSize: window.matchMedia("(max-width: 990px)").matches ? '13px': 'inherit',
                       position: 'absolute',
-                      top: window.matchMedia("(max-width: 990px)").matches ? '-93px' : '-160px',
+                      top: '-160px',
                       left: '80px',
                       color: 'white',
                       justifyContent: 'space-between',

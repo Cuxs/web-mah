@@ -12,7 +12,7 @@ import Plans from '../../../stories/Plans';
 
 ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
-const Home = ({ history }) => (
+const AgencyRegister = ({ history }) => (
   <div>
     {ReactGA.pageview('/PLANES-AGENCIA')}
     <div>
@@ -32,4 +32,4 @@ const Home = ({ history }) => (
   </div>
 );
 
-export default Home;
+export default AgencyRegister;

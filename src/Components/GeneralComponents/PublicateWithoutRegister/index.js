@@ -459,6 +459,7 @@ class CreatePublication extends React.Component {
                   <label>Observaciones (Opcional)</label>
                   <AvField
                     type="textarea"
+                    style={{height:'90px !important', lineHeight:'20px !important'}}
                     value={this.state.observation}
                     onChange={event =>
                       this.setState({ observation: event.target.value })
