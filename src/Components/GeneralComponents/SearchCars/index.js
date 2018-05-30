@@ -36,8 +36,6 @@ import { getFiltersAndTotalResult } from '../../../Modules/fetches';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class SearchCars extends Component {
   constructor(props) {
     super(props);

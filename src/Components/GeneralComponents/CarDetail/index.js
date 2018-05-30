@@ -37,8 +37,6 @@ import {
   isUserLogged,
 } from '../../../Modules/sessionFunctions';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 const renderForNullPublication = (component, propName = 'data') =>
   branch(
     props => props[propName] && props[propName].Publication === null,

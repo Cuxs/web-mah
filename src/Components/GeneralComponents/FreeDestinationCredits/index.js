@@ -26,8 +26,6 @@ import { GetTextsQuery } from '../../../ApolloQueries/TextsQueries';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
 import { requestCredit } from '../../../Modules/fetches';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class FreeDestinationCredits extends React.Component {
   constructor(props) {
     super(props);

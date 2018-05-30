@@ -24,8 +24,6 @@ import { SearchUserPublicationQuery } from '../../../ApolloQueries/UserPublicati
 
 import LoginComponent from '../../../stories/LoginComponent';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 
 const renderUnloggedUser = (component, propName = 'data') =>
   branch(

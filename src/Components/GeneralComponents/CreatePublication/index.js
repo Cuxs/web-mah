@@ -31,8 +31,6 @@ import {
   prepareArraySelect
 } from "../../../Modules/functions";
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 const renderForUnloggedUser = (component, propName = "data") =>
   branch(props => !isUserLogged(), renderComponent(component));
 

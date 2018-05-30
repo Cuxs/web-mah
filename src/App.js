@@ -1,5 +1,7 @@
 /* eslint react/jsx-filename-extension: 0 */
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -100,7 +102,11 @@ const Topics = ({ match }) => (
 );
 
 class App extends Component {
+  componentDidMount(){
+    ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
+  }
   render() {
+    
     return (
       <Router>
         <div>

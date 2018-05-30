@@ -10,8 +10,6 @@ import Faq from '../../../stories/Faq';
 import Footer from '../../../stories/Footer';
 import Plans from '../../../stories/Plans';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 const AgencyRegister = ({ history }) => (
   <div>
     {ReactGA.pageview('/PLANES-AGENCIA')}

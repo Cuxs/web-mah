@@ -27,7 +27,6 @@ class Banner extends React.Component {
     this.props.Texts.PageTexts.map(row => texts[row.section] = row.text);
     this.setState({ ...texts });
   }
-
   render() {
     let backgroundImage = this.state.sliders[0].src;
     return (
@@ -54,10 +53,8 @@ class Banner extends React.Component {
                 {isAdminLogged() ?
                   <InputOrText
                     style={{
-                      fontSize: window.matchMedia("(max-width: 990px)").matches ? '13px': 'inherit',
                       position: 'absolute',
                       top: '-160px',
-                      left: '80px',
                       color: 'white',
                       justifyContent: 'space-between',
                     }}
@@ -73,6 +70,7 @@ class Banner extends React.Component {
                     position: 'relative',
                     top: '-160px',
                     left: '80px',
+                    left: window.matchMedia("(max-width: 550px)").matches ? '0px' : '80px' ,                    
                     color: 'white',
                     justifyContent: 'space-between',
                   }}

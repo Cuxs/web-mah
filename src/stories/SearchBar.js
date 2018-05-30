@@ -44,8 +44,6 @@ import { login, recoverPassword, checkFacebookLogin, loginOrRegisterFacebook } f
 import { saveState } from '../Modules/localStorage';
 /* eslint react/jsx-filename-extension: 0 */
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class SearchBar extends Component {
   constructor(props) {
     super(props);
@@ -594,8 +592,8 @@ class SearchBar extends Component {
             </ModalBody>
             <ModalFooter>
               <div className="col-md-10">
-                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <a href="/userRegister" className="btn-link">Registrarme</a></p>
-                <p>No tengo cuenta. Soy una concesionaria. <a href="/agencyRegister" className="btn-link">Registrar Agencia</a></p>
+                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <button style={{fontSize:'12px'}} onClick={()=>this.props.history.push("/userRegister")} className="btn-link">Registrarme</button></p>
+                <p>No tengo cuenta. Soy una concesionaria. <button style={{fontSize:'12px', margin:'none'}} onClick={()=>this.props.history.push("/agencyRegister")} className="btn-link">Registrar Agencia</button></p>
               </div>
             </ModalFooter>
           </Modal>

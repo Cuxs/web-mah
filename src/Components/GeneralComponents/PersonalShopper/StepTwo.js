@@ -15,9 +15,6 @@ import {validate} from '../../../Modules/functions';
 import SearchBar from '../../../stories/SearchBar';
 import {requestCredit} from '../../../Modules/fetches';
 
-
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class PersonalShopperS2 extends React.Component {
   constructor(props) {
     super(props);

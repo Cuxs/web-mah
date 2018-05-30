@@ -9,8 +9,6 @@ import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
 import Footer from '../../../stories/Footer';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 export default ({ location, history }) => (
   <div>
     {ReactGA.pageview('/TERMINOS-CONDICIONES')}

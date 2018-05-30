@@ -22,8 +22,6 @@ import HeaderAgency from '../../../stories/HeaderAgency';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class Microsite extends Component {
   constructor(props) {
     super(props);

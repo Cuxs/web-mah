@@ -10,7 +10,6 @@ import _ from 'lodash';
 import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
 import { validate } from "../Modules/functions";
 /* eslint react/jsx-filename-extension: 0 */
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
 
 class BannerUser extends React.Component {
   constructor(props) {

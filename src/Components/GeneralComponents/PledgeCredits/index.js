@@ -32,8 +32,6 @@ import { RatesQuery } from "../../../ApolloQueries/RatesQuery";
 import { isAdminLogged } from "../../../Modules/sessionFunctions";
 import { requestCredit } from "../../../Modules/fetches";
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class PledgeCredits extends React.Component {
   constructor(props, context) {
     super(props, context);

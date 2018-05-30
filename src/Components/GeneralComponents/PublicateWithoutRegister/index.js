@@ -28,8 +28,6 @@ import {
   generateYearArray
 } from "../../../Modules/functions";
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class CreatePublication extends React.Component {
   constructor(props) {
     super(props);

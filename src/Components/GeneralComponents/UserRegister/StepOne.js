@@ -16,8 +16,6 @@ import RegisterBar from '../../../stories/RegisterBar';
 import { saveState } from '../../../Modules/localStorage';
 import { loginOrRegisterFacebook } from '../../../Modules/fetches';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class StepOne extends React.Component {
   constructor(props) {
     super(props);

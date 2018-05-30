@@ -19,8 +19,6 @@ import CardAgency from '../../../stories/CardAgency';
 import Footer from '../../../stories/Footer';
 import { GetAllAgencies } from '../../../ApolloQueries/FriendlyAgencyQueries';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class FriendlyAgency extends Component {
   constructor(props) {
     super(props);

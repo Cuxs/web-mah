@@ -12,8 +12,6 @@ import {validate} from '../../../Modules/functions';
 
 import RegisterBar from '../../../stories/RegisterBar';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class StepOne extends React.Component {
   constructor(props) {
     super(props);

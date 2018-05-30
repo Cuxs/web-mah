@@ -20,8 +20,6 @@ import { UserDataMutation } from '../../../ApolloQueries/UserProfileQuery';
 
 import { getUserToken, getUserDataFromToken } from '../../../Modules/sessionFunctions';
 
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class AgencyMicrosite extends Component {
   constructor(props) {
     super(props);

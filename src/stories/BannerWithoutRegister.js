@@ -10,8 +10,6 @@ import { prepareArraySelect } from '../Modules/functions';
 import InputOrText from './InputOrText';
 
 /* eslint react/jsx-filename-extension: 0 */
-ReactGA.initialize(process.env.REACT_APP_ANALYTICS);
-
 class Banner extends React.Component {
   constructor(props) {
     super(props);
