@@ -16,7 +16,7 @@ app.get('/microsite', function (request, response) {
     }/graphql?query={GetAgencyDetail(id:${request.query.c_id}){profileImage,agencyName}}`
   ).then(res => res.json())
   .then(({ data }) => {
-    const filePath = path.resolve(__dirname, "./build", "index.html");
+    const filePath = path.resolve(__dirname, "./prod", "index.html");
       fs.readFile(filePath, "utf8", function(err, htmlData) {
         if (err) {
           return console.log(err);
@@ -42,7 +42,7 @@ app.get('/microsite', function (request, response) {
     .catch(err => console.log("error", err));
 })
 app.get('/', function (request, response) {
-    const filePath = path.resolve(__dirname, "./build", "index.html");
+    const filePath = path.resolve(__dirname, "./prod", "index.html");
       fs.readFile(filePath, "utf8", function(err, htmlData) {
         if (err) {
           return console.log(err);
@@ -71,7 +71,7 @@ app.get("/carDetail", function(request, response) {
   )
     .then(res => res.json())
     .then(({ data }) => {
-      const filePath = path.resolve(__dirname, "./build", "index.html");
+      const filePath = path.resolve(__dirname, "./prod", "index.html");
       fs.readFile(filePath, "utf8", function(err, htmlData) {
         if (err) {
           return console.log(err);
@@ -100,10 +100,10 @@ app.get("/carDetail", function(request, response) {
     })
     .catch(err => console.log("error", err));
 });
-app.use(express.static(path.resolve(__dirname, "./build")));
+app.use(express.static(path.resolve(__dirname, "./prod")));
 
 app.get("*", function(request, response) {
-  const filePath = path.resolve(__dirname, "./build", "index.html");
+  const filePath = path.resolve(__dirname, "./prod", "index.html");
   response.sendFile(filePath);
 });
 app.listen(port, () => console.log(`Listening on port ${port}`));

@@ -102,14 +102,30 @@ const paises = {
   },
   chart: {
     container: "chart-1-container",
-    type: "PIE",
+    type: "GEO",
     options: {
       width: "100%",
       pieHole: 4 / 9
     }
   }
 };
-const otros = {
+const browsers = {
+  reportType: "ga",
+  query: {
+    dimensions: "ga:browser",
+    metrics: "ga:sessions",
+    sort: "-ga:sessions",
+    "max-results": "6"
+  },
+  chart: {
+    type: "TABLE",
+    container: "main-chart-container",
+    options: {
+      width: "100%"
+    }
+  }
+};
+const newUsers = {
   reportType: "ga",
   query: {
     dimensions: "ga:browser",
@@ -168,10 +184,16 @@ export default class SuperAdminAnalytics extends Component {
             <Col lg="9" md="12">
               {this.state.fetched && (
                 <GoogleProvider accessToken={this.state.token}>
+                  <h4>Países</h4><h5>Ultimos 30 días</h5>
+                  <GoogleDataChart views={views} config={paises} /><br/><br/>
+                  <h4>Navegadores</h4><h5>Ultimos 30 días</h5>
+                  <GoogleDataChart views={views} config={browsers} /><br/><br/>
+                  <h4>Eventos únicos</h4><h5>Ultimos 30 días</h5>                  
+                  <GoogleDataChart views={views} config={events} /><br/><br/>
+                  <h4>Visitas</h4><h5>Ultimos 30 días</h5>                                    
+                  <GoogleDataChart views={views} config={other} /><br/><br/>
+                  <h4>Visitas a páginas</h4><h5>Ultimos 30 días</h5>                                                      
                   <GoogleDataChart views={views} config={pages} />
-                  <GoogleDataChart views={views} config={events} />
-                  <GoogleDataChart views={views} config={other} />
-                  <GoogleDataChart views={views} config={paises} />
                 </GoogleProvider>
               )}
             </Col>
