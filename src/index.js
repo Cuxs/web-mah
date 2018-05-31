@@ -48,3 +48,4 @@ const client = new ApolloClient({
 render(<ApolloProvider client={client}>
   <App />
        </ApolloProvider>, document.getElementById('root'));
+registerServiceWorker()
