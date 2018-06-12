@@ -135,7 +135,7 @@ class StepThree extends Component {
       autoProcessQueue: false,
       maxFiles: 8,
       parallelUploads: 100,
-      timeout: 15000,
+      timeout: 120000,
       uploadMultiple: true,
       dictInvalidFileType: 'Formato de archivo incorrecto',
       dictRemoveFile: 'Borrar',

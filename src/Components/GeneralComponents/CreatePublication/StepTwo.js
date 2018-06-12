@@ -157,7 +157,7 @@ class StepTwo extends Component {
       maxFiles: 8,
       maxFilesize: 10,
       parallelUploads: 100,
-      timeout: 15000,
+      timeout: 120000,
       uploadMultiple: true,
       dictFileTooBig: 'El archivo es muy grande ({{filesize}}). El tamaño máximo es de {{maxFilesize}}.',
       dictInvalidFileType: 'Formato de archivo incorrecto',
