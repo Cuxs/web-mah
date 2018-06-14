@@ -11,6 +11,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
+import { hotjar } from "react-hotjar";
 import { Helmet } from 'react-helmet';
 import { graphql } from 'react-apollo';
 import qs from 'query-string';
@@ -52,6 +53,7 @@ class SearchCars extends Component {
     this.toggleOrderDropdown = this.toggleOrderDropdown.bind(this);
   }
   componentWillMount() {
+    hotjar.initialize(916734, 6)
     const url = this.props.location.search;
     this.doFilterTotalResultSearch(url);
     this.doSearch(1, true, this.props);

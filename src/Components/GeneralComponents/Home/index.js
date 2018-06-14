@@ -7,6 +7,8 @@ import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
+import { hotjar } from "react-hotjar";
+
 
 import {
   HomeQuery,
@@ -46,6 +48,7 @@ const Home = ({
     {!data.loading && (
       <div>
         {ReactGA.pageview('/HOME')}
+        {hotjar.initialize(916734, 6)}
         <Helmet>
           <meta charSet="utf-8" />
           <title>Bienvenido a Mi Auto Hoy</title>

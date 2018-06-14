@@ -10,6 +10,7 @@ import _ from 'lodash';
 import decode from 'jwt-decode';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
+import { hotjar } from "react-hotjar";
 
 import {
   CarDetailQuery,
@@ -49,7 +50,6 @@ const renderWhileLoading = (component, propName = 'data', propName2 = 'data') =>
       props[propName] && props[propName].loading && props[propName2].loading,
     renderComponent(component),
   );
-
 class CarDetail extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +60,9 @@ class CarDetail extends Component {
     this.isPublicationVisible = this.isPublicationVisible.bind(this);
     ReactGA.pageview('/DETALLE-AUTO');
   }
-
+  componentWillMount(){
+    hotjar.initialize(916734, 6)
+  }
   toggle() {
     this.setState({
       modal: !this.state.modal,
