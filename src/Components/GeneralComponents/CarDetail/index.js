@@ -192,7 +192,12 @@ class CarDetail extends Component {
                               0,
                               ',',
                               '.',
-                            )}
+                            )? thousands(
+                              carDetailData.Publication.kms,
+                              0,
+                              ',',
+                              '.',
+                            ): 'No especificado' }
                           </p>
                         </div>
                       </Col>
@@ -245,14 +250,14 @@ class CarDetail extends Component {
                       <Row>
                         <div className="col-12 item-data">
                           <small className="item-year">
-                            {carDetailData.Publication.year} -
-                            {thousands(
+                            {carDetailData.Publication.year}
+                            {thousands(carDetailData.Publication.kms,0,',','.',)? 
+                            ` - ${thousands(
                               carDetailData.Publication.kms,
                               0,
                               ',',
                               '.',
-                            )}
-                            km
+                            )} kms`: '' }
                           </small>
                           <p className="item-name">
                             <strong>
