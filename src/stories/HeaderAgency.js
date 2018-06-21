@@ -7,7 +7,7 @@ export default ({ data }) => (
     <Row className="microsite-portrait">
       <div
         style={{
-          backgroundImage: `url(${process.env.REACT_APP_API}/images/${data.bannerImage})`,
+          backgroundImage: data.bannerImage ? `url(${process.env.REACT_APP_API}/images/${data.bannerImage})`:'url(/assets/images/banner-empty-mah.png)',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
           height: 'auto',
@@ -29,7 +29,7 @@ export default ({ data }) => (
               backgroundColor: '#fff',
             }}
           /> */}
-          <img src={`${process.env.REACT_APP_API}/images/${data.profileImage}`} alt="ProfilePic" />
+          <img src={data.profileImage ? `${process.env.REACT_APP_API}/images/${data.profileImage}` : '/logo.png' } alt="ProfilePic" />
         </Col>
         <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12 container-data-input-group" >
           <h3><strong>{data.agencyName}</strong></h3>
