@@ -10,6 +10,7 @@ import _ from 'lodash';
 import decode from 'jwt-decode';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
+import { hotjar } from "react-hotjar";
 
 import {
   CarDetailQuery,
@@ -49,7 +50,6 @@ const renderWhileLoading = (component, propName = 'data', propName2 = 'data') =>
       props[propName] && props[propName].loading && props[propName2].loading,
     renderComponent(component),
   );
-
 class CarDetail extends Component {
   constructor(props) {
     super(props);
@@ -60,7 +60,9 @@ class CarDetail extends Component {
     this.isPublicationVisible = this.isPublicationVisible.bind(this);
     ReactGA.pageview('/DETALLE-AUTO');
   }
-
+  componentWillMount(){
+    hotjar.initialize(916734, 6)
+  }
   toggle() {
     this.setState({
       modal: !this.state.modal,
@@ -169,7 +171,6 @@ class CarDetail extends Component {
             carDetailData.Publication !== null && (
               <Row>
                 <Col md="8" sm="12" xs="12">
-                  {console.log(carDetailData.Publication.ImageGroup)}
                   <CarCarousel
                     photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
                   />
@@ -191,7 +192,12 @@ class CarDetail extends Component {
                               0,
                               ',',
                               '.',
-                            )}
+                            )? thousands(
+                              carDetailData.Publication.kms,
+                              0,
+                              ',',
+                              '.',
+                            ): 'No especificado' }
                           </p>
                         </div>
                       </Col>
@@ -244,14 +250,14 @@ class CarDetail extends Component {
                       <Row>
                         <div className="col-12 item-data">
                           <small className="item-year">
-                            {carDetailData.Publication.year} -
-                            {thousands(
+                            {carDetailData.Publication.year}
+                            {thousands(carDetailData.Publication.kms,0,',','.',)? 
+                            ` - ${thousands(
                               carDetailData.Publication.kms,
                               0,
                               ',',
                               '.',
-                            )}
-                            km
+                            )} kms`: '' }
                           </small>
                           <p className="item-name">
                             <strong>

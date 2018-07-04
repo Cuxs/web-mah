@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 export const thousands = (number, decimals, decPoint, thousandsSep) => {
+  if(!number){return false}
   decimals = decimals || 0;
   number = parseFloat(number);
 

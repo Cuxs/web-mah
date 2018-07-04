@@ -19,6 +19,7 @@ import { graphql, compose } from "react-apollo";
 import { P } from "glamorous";
 import ReactGA from "react-ga";
 import {scroller} from 'react-scroll';
+import { hotjar } from "react-hotjar";
 
 
 import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
@@ -59,7 +60,9 @@ class PledgeCredits extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.requestCredit = this.requestCredit.bind(this);
   }
-
+  componentWillMount(){
+    hotjar.initialize(916734, 6)
+  }
   componentWillReceiveProps(nextProps) {
     ReactGA.pageview("/CREDITOS-PRENDARIOS");
     if (!nextProps.Texts.loading) {

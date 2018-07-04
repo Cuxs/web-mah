@@ -1,18 +1,18 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import React from 'react';
-import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
-import { scroller } from 'react-scroll';
-import { graphql, compose, withApollo } from 'react-apollo';
-import { stringify, parse } from 'query-string';
-import _ from 'lodash';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
-import { branch, renderComponent } from 'recompose';
-import ReactGA from 'react-ga';
-import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
-import { validate } from '../../../Modules/functions';
+import React from "react";
+import { Col, Row, FormGroup, Label, Button } from "reactstrap";
+import { scroller } from "react-scroll";
+import { graphql, compose, withApollo } from "react-apollo";
+import { stringify, parse } from "query-string";
+import _ from "lodash";
+import Select from "react-select";
+import "react-select/dist/react-select.css";
+import { branch, renderComponent } from "recompose";
+import ReactGA from "react-ga";
+import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
+import { validate } from "../../../Modules/functions";
 
 import AdminBar from '../../../stories/AdminBar';
 
@@ -88,6 +88,8 @@ class CreatePublication extends React.Component {
       Groups: [],
       Models: [],
       Prices: [],
+      carError: false,
+      stateError: false,
     };
     ReactGA.pageview('/CREAR-PUBLICACION');
     this.next = this.next.bind(this);
@@ -151,7 +153,6 @@ class CreatePublication extends React.Component {
         });
     }
   }
-
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
@@ -178,7 +179,6 @@ class CreatePublication extends React.Component {
       })
       .then(response => this.setState({ Groups: response.data.Group }));
   }
-
   onChangeGroup(newGroup) {
     this.setState({
       group: newGroup,
@@ -201,7 +201,6 @@ class CreatePublication extends React.Component {
       })
       .then(response => this.setState({ Models: response.data.Models }));
   }
-
   onChangeModel(newModel) {
     this.setState({
       codia: newModel,
@@ -219,7 +218,6 @@ class CreatePublication extends React.Component {
       })
       .then(response => this.setState({ Prices: response.data.Price }));
   }
-
   onChangeYear(newYear) {
     this.setState({
       year: newYear,
@@ -245,6 +243,25 @@ class CreatePublication extends React.Component {
       });
       return false;
     }
+    if (this.state.carState === "") {
+      this.setState({ stateError: true });
+      scroller.scrollTo("carState-select", {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    }
+    if (this.state.codia === "") {
+      this.setState({ carError: true });
+      scroller.scrollTo("brand-select", {
+        duration: 600,
+        smooth: true,
+        offset: -100
+      });
+      return false;
+    }
+   
     const {
       brand,
       group,
@@ -328,6 +345,14 @@ class CreatePublication extends React.Component {
                 <h4 className="title-division">Describe tu auto</h4>
                 <AvForm onSubmit={this.next}>
                   <FormGroup>
+                  {this.state.stateError && (
+                      <div>
+                        <div style={{ color: "red" }}>
+                          Por favor selecciona el tipo de auto.
+                        </div>
+                        <br />
+                      </div>
+                    )}
                     <Label for="exampleSelect">
                       ¿Qué tipo de auto quieres vender?
                     </Label>
@@ -437,6 +462,7 @@ class CreatePublication extends React.Component {
                       options={generateYearPerModel(this.state.Prices)}
                       simpleValue
                       clearable
+                      required
                       name="selected-state"
                       value={this.state.year}
                       placeholder="Selecciona un año"
@@ -445,7 +471,7 @@ class CreatePublication extends React.Component {
                       noResultsText="No se encontraron resultados"
                     />
                   </FormGroup>
-                  <Label for="kms">¿Cuántos kilometros tiene?</Label>
+                  <Label for="kms">¿Cuántos kilometros tiene? (Opcional)</Label>
                   <AvField
                     type="number"
                     value={this.state.kms}
@@ -455,11 +481,21 @@ class CreatePublication extends React.Component {
                     placeholder="Ingrese un número sin puntos ni comas"
                     disabled={this.state.kmsDisabled}
                     className="form-control"
-                    validate={validate('number')}
+                    validate={{
+                      min: {
+                        value: 0,
+                        errorMessage: "El número debe ser mayor a cero"
+                      },
+                      pattern: {
+                        value: "[0-9]+",
+                        errorMessage: "Ingrese solo números."
+                      },
+                    }}
                     name="kms"
                     id="kms"
                   />
-                  <Label for="price">¿A qué precio lo querés vender?</Label>
+
+                  <Label for="price">¿A qué precio lo querés vender? (Opcional)</Label>
                   <AvField
                     type="number"
                     value={this.state.price}
@@ -468,10 +504,20 @@ class CreatePublication extends React.Component {
                     }
                     placeholder="Ingrese un número sin puntos ni comas"
                     className="form-control"
-                    validate={validate('number')}
+                    validate={{
+                      min: {
+                        value: 0,
+                        errorMessage: "El número debe ser mayor a cero"
+                      },
+                      pattern: {
+                        value: "[0-9]+",
+                        errorMessage: "Ingrese solo números."
+                      },
+                    }}
                     name="price"
                     id="price"
                   />
+                  <small style={{position: 'relative', top:'-20px'}}> Si no ingresas un precio, aparecerá "consultar" en su lugar</small><br/>
                   {this.state.priceSuggested && (
                     <p>
                       Precio Sugerido: <b>{this.state.priceSuggested}</b>
@@ -490,11 +536,7 @@ class CreatePublication extends React.Component {
                   />
 
                   <div className="underline" />
-                  <Button
-                    color="primary"
-                    className="float-right"
-                    onClick={() => this.next()}
-                  >
+                  <Button color="primary" className="float-right" type="submit">
                     Siguiente
                   </Button>
                 </AvForm>

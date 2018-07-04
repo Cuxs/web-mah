@@ -248,7 +248,7 @@ class SuperAdminInbox extends Component {
 const options = ({ location }) => ({
   variables: {
     MAHtoken: getUserToken(),
-    id: parse(location.search).ct_id,
+    id: parseInt(parse(location.search).ct_id,10),
     commentThread_id: parse(location.search).ct_id, // requerida por MessageQuery
   },
 });
