@@ -94,7 +94,7 @@ class CreatePublication extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.location.search !== '') {
+    if (!_.isUndefined(parse(nextProps.location.search).brandId)) {
       const brandId = parse(nextProps.location.search).brandId !== undefined
         ? parse(nextProps.location.search).brandId
         : _.find(nextProps.ta3AllBrands.AllBrands, ['ta3_marca',

@@ -58,32 +58,34 @@ class SuperAdminSideBar extends React.Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Crear una publicación para</ModalHeader>
           <ModalBody>
-            <FormGroup>
-              <Label for="exampleEmail">Mail de Usuario</Label>
-              {loading ?
-                <img
-                  className="loading-gif"
-                  style={{ height: '250px' }}
-                  src="/loading.gif"
-                  key={0}
-                  alt="Loading..."
-                /> :
-                <Select
-                  id="carState-select"
-                  ref={(ref) => { this.select = ref; }}
-                  onBlurResetsInput={false}
-                  autoFocus
-                  clearable={false}
-                  onSelectResetsInput={false}
-                  placeholder="Selecciona un usuario"
-                  options={data}
-                  simpleValue
-                  name="selected-state"
-                  value={this.state.selectedUser}
-                  onChange={newValue => this.setState({ selectedUser: newValue })}
-                />
+            <Col>
+              <FormGroup>
+                <Label for="exampleEmail">Mail de Usuario</Label>
+                {loading ?
+                  <img
+                    className="loading-gif"
+                    style={{ height: '250px' }}
+                    src="/loading.gif"
+                    key={0}
+                    alt="Loading..."
+                  /> :
+                  <Select
+                    id="carState-select"
+                    ref={(ref) => { this.select = ref; }}
+                    onBlurResetsInput={false}
+                    autoFocus
+                    clearable={false}
+                    onSelectResetsInput={false}
+                    placeholder="Selecciona un usuario"
+                    options={data}
+                    simpleValue
+                    name="selected-state"
+                    value={this.state.selectedUser}
+                    onChange={newValue => this.setState({ selectedUser: newValue })}
+                  />
               }
-            </FormGroup>
+              </FormGroup>
+            </Col>
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={() => this.toggle()}>Salir</Button>
