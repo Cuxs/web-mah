@@ -1,18 +1,18 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import React from "react";
-import { Col, Row, FormGroup, Label, Button } from "reactstrap";
-import { scroller } from "react-scroll";
-import { graphql, compose, withApollo } from "react-apollo";
-import { stringify, parse } from "query-string";
-import _ from "lodash";
-import Select from "react-select";
-import "react-select/dist/react-select.css";
-import { branch, renderComponent } from "recompose";
-import ReactGA from "react-ga";
-import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
-import { validate } from "../../../Modules/functions";
+import React from 'react';
+import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
+import { scroller } from 'react-scroll';
+import { graphql, compose, withApollo } from 'react-apollo';
+import { stringify, parse } from 'query-string';
+import _ from 'lodash';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
+import { branch, renderComponent } from 'recompose';
+import ReactGA from 'react-ga';
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import { validate } from '../../../Modules/functions';
 
 import AdminBar from '../../../stories/AdminBar';
 
@@ -96,7 +96,7 @@ class CreatePublication extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!_.isUndefined(parse(nextProps.location.search).brandId)) {
+    if (!_.isUndefined(parse(nextProps.location.search).brand)) {
       const brandId = parse(nextProps.location.search).brandId !== undefined
         ? parse(nextProps.location.search).brandId
         : _.find(nextProps.ta3AllBrands.AllBrands, ['ta3_marca',
@@ -243,25 +243,25 @@ class CreatePublication extends React.Component {
       });
       return false;
     }
-    if (this.state.carState === "") {
+    if (this.state.carState === '') {
       this.setState({ stateError: true });
-      scroller.scrollTo("carState-select", {
+      scroller.scrollTo('carState-select', {
         duration: 600,
         smooth: true,
-        offset: -100
+        offset: -100,
       });
       return false;
     }
-    if (this.state.codia === "") {
+    if (this.state.codia === '') {
       this.setState({ carError: true });
-      scroller.scrollTo("brand-select", {
+      scroller.scrollTo('brand-select', {
         duration: 600,
         smooth: true,
-        offset: -100
+        offset: -100,
       });
       return false;
     }
-   
+
     const {
       brand,
       group,
@@ -345,13 +345,13 @@ class CreatePublication extends React.Component {
                 <h4 className="title-division">Describe tu auto</h4>
                 <AvForm onSubmit={this.next}>
                   <FormGroup>
-                  {this.state.stateError && (
-                      <div>
-                        <div style={{ color: "red" }}>
+                    {this.state.stateError && (
+                    <div>
+                      <div style={{ color: 'red' }}>
                           Por favor selecciona el tipo de auto.
-                        </div>
-                        <br />
                       </div>
+                      <br />
+                    </div>
                     )}
                     <Label for="exampleSelect">
                       ¿Qué tipo de auto quieres vender?
@@ -484,11 +484,11 @@ class CreatePublication extends React.Component {
                     validate={{
                       min: {
                         value: 0,
-                        errorMessage: "El número debe ser mayor a cero"
+                        errorMessage: 'El número debe ser mayor a cero',
                       },
                       pattern: {
-                        value: "[0-9]+",
-                        errorMessage: "Ingrese solo números."
+                        value: '[0-9]+',
+                        errorMessage: 'Ingrese solo números.',
                       },
                     }}
                     name="kms"
@@ -507,17 +507,17 @@ class CreatePublication extends React.Component {
                     validate={{
                       min: {
                         value: 0,
-                        errorMessage: "El número debe ser mayor a cero"
+                        errorMessage: 'El número debe ser mayor a cero',
                       },
                       pattern: {
-                        value: "[0-9]+",
-                        errorMessage: "Ingrese solo números."
+                        value: '[0-9]+',
+                        errorMessage: 'Ingrese solo números.',
                       },
                     }}
                     name="price"
                     id="price"
                   />
-                  <small style={{position: 'relative', top:'-20px'}}> Si no ingresas un precio, aparecerá "consultar" en su lugar</small><br/>
+                  <small style={{ position: 'relative', top: '-20px' }}> Si no ingresas un precio, aparecerá "consultar" en su lugar</small><br />
                   {this.state.priceSuggested && (
                     <p>
                       Precio Sugerido: <b>{this.state.priceSuggested}</b>
