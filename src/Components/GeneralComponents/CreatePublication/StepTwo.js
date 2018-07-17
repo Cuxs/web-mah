@@ -265,8 +265,8 @@ class StepTwo extends Component {
                   </Button>
                 </div>
               </div>
-              <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggleModal}>
+              <Modal isOpen={this.state.modal}>
+                <ModalHeader>
                   {this.state.responseTitle}
                 </ModalHeader>
                 <ModalBody>

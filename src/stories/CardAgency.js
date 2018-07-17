@@ -10,6 +10,7 @@ const CardAgency = ({ data, history }) => (
           backgroundImage: `url(${process.env.REACT_APP_API}/images/${data.profileImage})`,
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
+          backgroundSize: '100%',
           height: '182px',
         }}
       />
