@@ -184,7 +184,6 @@ class SACardPublication extends Component {
             }));
         }
         if (networkError) {
-          console.log(networkError)
           this.setState({
             modal: true,
             questionModal: false,
@@ -270,7 +269,6 @@ class SACardPublication extends Component {
             }));
         }
         if (networkError) {
-          console.log(networkError);
           this.setState({
             modalTitle: 'Error',
             modalMsg: networkError,
@@ -286,7 +284,6 @@ class SACardPublication extends Component {
     this.toggleDeleteModal();
   }
   handleRedirect() {
-    console.log(this.props.data);
     const { data } = this.props;
     const dataCar = {
       brand: data.brand,

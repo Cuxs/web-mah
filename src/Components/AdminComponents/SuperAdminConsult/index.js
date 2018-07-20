@@ -11,7 +11,7 @@ import 'react-select/dist/react-select.css';
 import _ from 'lodash';
 import ScrollToTop from 'react-scroll-up';
 import { animateScroll as scroll } from 'react-scroll';
-
+import ReactGA from 'react-ga';
 import AdminBar from '../../../stories/AdminBar';
 
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
@@ -183,7 +183,7 @@ class SuperAdminConsult extends Component {
                       onBlurResetsInput={false}
                       onSelectResetsInput={false}
                       options={prepareArraySelect(
-                        AllBrands,
+                       // AllBrands,
                         'ta3_nmarc',
                         'ta3_marca',
                       )}

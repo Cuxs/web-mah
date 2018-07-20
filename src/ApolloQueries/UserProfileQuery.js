@@ -6,13 +6,21 @@ query User($MAHtoken: String!) {
       name
       address
       email
-      phone
+      phone,
+      Province{
+        id
+        name
+      }
+      Town{
+        id
+        name
+      }
     }
   }  
 `;
 const UserDataMutation = gql`
-mutation modifyUserData($MAHtoken: String!, $name:String, $address:String, $phone:String, $agencyName:String, $agencyAdress:String,$agencyEmail:String, $agencyPhone:String) {
-  modifyUserData(MAHtoken: $MAHtoken, name:$name, address:$address, phone:$phone, agencyName:$agencyName, agencyAdress:$agencyAdress, agencyEmail:$agencyEmail, agencyPhone:$agencyPhone ){
+mutation modifyUserData($MAHtoken: String!, $name:String, $address:String, $phone:String, $agencyName:String, $agencyAdress:String,$agencyEmail:String, $agencyPhone:String, $province_id:Int, $town_id:Int) {
+  modifyUserData(MAHtoken: $MAHtoken, name:$name, address:$address, phone:$phone, agencyName:$agencyName, agencyAdress:$agencyAdress, agencyEmail:$agencyEmail, agencyPhone:$agencyPhone, province_id:$province_id, town_id:$town_id){
     name,
     address,
     email
@@ -20,7 +28,9 @@ mutation modifyUserData($MAHtoken: String!, $name:String, $address:String, $phon
     agencyName,
     agencyAdress,
     agencyEmail,
-    agencyPhone
+    agencyPhone,
+    province_id,
+    town_id
   }
 }
 `;

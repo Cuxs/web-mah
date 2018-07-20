@@ -87,6 +87,8 @@ class SuperAdminMicrosite extends Component {
         agencyAdress: this.state.agencyAdress,
         agencyEmail: this.state.agencyEmail,
         agencyPhone: this.state.agencyPhone,
+        province_id: this.state.province_id,
+        town_id: this.state.town_id,
       },
       refetchQueries: ['User'],
     }).then(({ data: { modifyUserData: uData } }) => {
