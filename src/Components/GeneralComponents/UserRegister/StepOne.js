@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import { Col, Row, Button, Label } from 'reactstrap';
 import { stringify, parse } from 'query-string';
 import ReactGA from 'react-ga';
 import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
@@ -115,7 +115,7 @@ class StepOne extends React.Component {
 
                 <h6>O con tu Email</h6>
                 <br />
-                <label>Email</label>
+                <Label>Email</Label>
                 <AvField
                   type="email"
                   value={this.state.email}

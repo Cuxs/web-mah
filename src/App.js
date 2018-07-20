@@ -40,9 +40,11 @@ import SuperAdminUsers from './Components/AdminComponents/SuperAdminUsers';
 import SuperAdminRates from './Components/AdminComponents/SuperAdminRates';
 import SuperAdminSliders from './Components/AdminComponents/SuperAdminSliders';
 import SuperAdminAnalytics from './Components/AdminComponents/SuperAdminAnalytics';
+import SuperAdminConsult from './Components/AdminComponents/SuperAdminConsult';
 import SuperAdminMicrosite from './Components/AdminComponents/SuperAdminMicrosite';
 import TermsAndConditions from './Components/GeneralComponents/TermsAndConditions';
 import UserAdmin from './Components/AccountComponents/UserAdmin';
+import UserConsult from './Components/AccountComponents/UserConsult';
 import UserProfile from './Components/AccountComponents/UserProfile';
 import UserInbox from './Components/AccountComponents/UserInbox';
 import UserPublications from './Components/AccountComponents/UserPublications';
@@ -148,8 +150,10 @@ class App extends Component {
             <Route exact path="/SuperAdminMicrosite" component={SuperAdminMicrosite} />
             <Route exact path="/superAdminSliders" component={SuperAdminSliders} />
             <Route exact path="/superAdminAnalytics" component={SuperAdminAnalytics} />
+            <Route exact path="/superAdminConsult" component={SuperAdminConsult} />
             <Route exact path="/termsAndConditions" component={TermsAndConditions} />
             <Route exact path="/userAdmin" component={UserAdmin} />
+            <Route exact path="/userConsult" component={UserConsult} />
             <Route exact path="/userPublications" component={UserPublications} />
             <Route exact path="/userProfile" component={UserProfile} />
             <Route exact path="/userInbox" component={UserInbox} />

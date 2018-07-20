@@ -4,6 +4,7 @@
   height: 100%;
   overflow: hidden;
   position: relative;
+  padding: 20px;
   h3{
     font:bold #{$h1-font-size}/#{$h1-font-size+0.1} $font-family-sans-serif;
     line-height: 40px !important;
