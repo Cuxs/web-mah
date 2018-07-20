@@ -45,7 +45,6 @@ class SuperAdminAllMessages extends Component {
     } = this.props;
     let sortedThreads = [];
     sortedThreads = (_.sortBy(Threads, th => th.messages.map(ms => (ms.read !== null))));
-
     return (
       <div>
         <AdminBar history={history} />

@@ -21,7 +21,8 @@ export const thousands = (number, decimals, decPoint, thousandsSep) => {
     numbersString = numbersString.slice(0, -3);
   }
 
-  return (number < 0 ? '-' : '') + numbersString + formattedNumber + (decimalsString ? (decPoint + decimalsString) : '');
+  return (number < 0 ? '-' : '') + numbersString + formattedNumber;
+  // return (number < 0 ? '-' : '') + numbersString + formattedNumber + (decimalsString ? (decPoint + decimalsString) : '');
 };
 
 export const prepareArraySelect = (array, rowValue, rowLabel) => {

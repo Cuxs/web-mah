@@ -2,13 +2,15 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
+import { Col, Row, Button, Modal, ModalBody, ModalHeader, ModalFooter, FormGroup, Label } from 'reactstrap';
 import { stringify, parse } from 'query-string';
-
-import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
-import { validate } from "../../../Modules/functions";
-import {scroller} from 'react-scroll';
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import { scroller } from 'react-scroll';
 import _ from 'lodash';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
+
+import { validate, prepareArraySelect } from '../../../Modules/functions';
 
 import RegisterBar from '../../../stories/RegisterBar';
 import { registerUser } from '../../../Modules/fetches';
@@ -29,6 +31,20 @@ class StepTwo extends React.Component {
       passValidate: parse(this.props.location.search).email,
       repeatPass: parse(this.props.location.search).repeatPass ? parse(this.props.location.search).repeatPass : '',
       repeatPassValidate: parse(this.props.location.search).email,
+      province: 0,
+      provinceList: [{ id: 1, name: 'Buenos Aires' },
+        { id: 2, name: 'Buenos Aires-GBA' },
+        { id: 3, name: 'Capital Federal' },
+        { id: 4, name: 'Catamarca' },
+        { id: 5, name: 'Chaco' },
+        { id: 6, name: 'Chubut' }],
+      city: 0,
+      cityList: [{ id: 1, name: 'Bahía Blanca' },
+        { id: 2, name: 'Balcarce' },
+        { id: 3, name: 'Baradero' },
+        { id: 4, name: 'Benito Juarez' },
+        { id: 5, name: 'Berisso' },
+        { id: 6, name: 'Bolivar' }],
       modal: false,
       modalTitle: '',
       modalText: '',
@@ -54,15 +70,29 @@ class StepTwo extends React.Component {
     setTimeout(() => this.setState({ passwordShow: 'password' }), 4000);
   }
 
+  onChangeProvince(newProvince) {
+    this.setState({
+      province: newProvince,
+    });
+    // this.props.client
+    //   .query({
+    //     query: GroupsQuery,
+    //     variables: {
+    //       gru_nmarc: newBrand,
+    //     },
+    //   })
+    //   .then(response => this.setState({ Groups: response.data.Group }));
+  }
+
   register(event, errors) {
     if (!_.isEmpty(errors)) {
       scroller.scrollTo(errors[0], {
         duration: 600,
         smooth: true,
-        offset: -100
+        offset: -100,
       });
       return false;
-    } 
+    }
     const search = parse(this.props.location.search);
 
     const dataUser = {
@@ -72,6 +102,8 @@ class StepTwo extends React.Component {
       address: this.state.address,
       dni: this.state.dni,
       password: this.state.pass,
+      province: this.state.province,
+      city: this.state.city,
     };
     registerUser(dataUser)
       .then((res) => {
@@ -123,72 +155,120 @@ class StepTwo extends React.Component {
               </div>
             </Col>
             <Col md="6" sm="12" xs="12" className="mb-4">
-            <AvForm onSubmit={this.register}>
-              <div className="col-md-9 float-left">
-                <h4 className="title-division">Los interesados se comunicarán con vos</h4>
-                <label>Nombre y Apellido</label>
-                <AvField
-                  type="text"
-                  value={this.state.name}
-                  onChange={event => this.setState({ name: event.target.value })}
-                  name="name"
-                  id="name"
-                  validate={validate("string")}
-                  className="form-control"
-                />
-                  <label>DNI</label>
-                <AvField
-                  type="number"
-                  value={this.state.dni}
-                  onChange={event => this.setState({ dni: event.target.value })}
-                  name="dni"
-                  id="dni"
-                  validate={validate("number")}
-                  className="form-control"
-                />
-                  <label>Dirección</label>
-                <AvField
-                  type="alphanumeric"
-                  value={this.state.address}
-                  onChange={event => this.setState({ address: event.target.value })}
-                  name="address"
-                  id="address"
-                  validate={validate("text")}
-                  className="form-control"
-                />
-                  <label>Teléfono</label>
-                <AvField
-                  type="number"
-                  value={this.state.phone}
-                  onChange={event => this.setState({ phone: event.target.value })}
-                  name="phone"
-                  id="phone"
-                  validate={validate("number")}
-                  className="form-control"
-                />
-                <div className="underline" />
-                <label>Contraseña</label>
-                <AvField
-                  type={this.state.passwordShow}
-                  value={this.state.pass}
-                  onChange={event => this.setState({ pass: event.target.value })}
-                  name="pass"
-                  id="pass"
-                  validate={validate("password")}
-                  className="form-control"
-                  placeholder="Mínimo 6 caracteres"
-                  required
-                />
-                <div style={{ marginBottom: 80 }} >
-                  <Button color="link" className="float-right" onClick={() => this.showPass()}>Mostrar</Button>
-                </div>
-                <div>
+              <AvForm onSubmit={this.register}>
+                <div className="col-md-9 float-left">
+                  <h4 className="title-division">Los interesados se comunicarán con vos</h4>
+                  <Label>Nombre y Apellido</Label>
+                  <AvField
+                    type="text"
+                    value={this.state.name}
+                    onChange={event => this.setState({ name: event.target.value })}
+                    name="name"
+                    id="name"
+                    validate={validate('string')}
+                    className="form-control"
+                  />
+                  <Label>DNI</Label>
+                  <AvField
+                    type="number"
+                    value={this.state.dni}
+                    onChange={event => this.setState({ dni: event.target.value })}
+                    name="dni"
+                    id="dni"
+                    validate={validate('number')}
+                    className="form-control"
+                  />
+                  <Label>Dirección</Label>
+                  <AvField
+                    type="alphanumeric"
+                    value={this.state.address}
+                    onChange={event => this.setState({ address: event.target.value })}
+                    name="address"
+                    id="address"
+                    validate={validate('text')}
+                    className="form-control"
+                  />
+                  <FormGroup>
+                    <Label>Provincia</Label>
+                    <Select
+                      id="province-select"
+                      ref={(ref) => {
+                        this.select = ref;
+                      }}
+                      onBlurResetsInput={false}
+                      onSelectResetsInput={false}
+                      options={prepareArraySelect(
+                        this.state.provinceList,
+                        'id',
+                        'name',
+                      )}
+                      simpleValue
+                      clearable
+                      name="selected-state"
+                      value={this.state.province}
+                      placeholder="Selecciona una provincia"
+                      onChange={newValue => this.onChangeProvince(newValue)}
+                      searchable
+                      noResultsText="No se encontraron resultados"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>Localidad</Label>
+                    <Select
+                      id="city-select"
+                      ref={(ref) => {
+                        this.select = ref;
+                      }}
+                      onBlurResetsInput={false}
+                      onSelectResetsInput={false}
+                      options={prepareArraySelect(
+                        this.state.cityList,
+                        'id',
+                        'name',
+                      )}
+                      simpleValue
+                      clearable
+                      name="selected-state"
+                      value={this.state.city}
+                      placeholder="Selecciona una localidad"
+                      onChange={city => this.setState({ city })}
+                      searchable
+                      noResultsText="No se encontraron resultados"
+                    />
+                  </FormGroup>
+                  <Label>Teléfono</Label>
+                  <AvField
+                    type="number"
+                    value={this.state.phone}
+                    onChange={event => this.setState({ phone: event.target.value })}
+                    name="phone"
+                    id="phone"
+                    validate={validate('number')}
+                    className="form-control"
+                  />
                   <div className="underline" />
-                  <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" className="float-right" type="submit" >Registrarme</Button>
+                  <Label>Contraseña</Label>
+                  <AvField
+                    type={this.state.passwordShow}
+                    value={this.state.pass}
+                    onChange={event => this.setState({ pass: event.target.value })}
+                    name="pass"
+                    id="pass"
+                    validate={validate('password')}
+                    className="form-control"
+                    placeholder="Mínimo 6 caracteres"
+                    required
+                  />
+                  <div style={{ marginBottom: 80 }} >
+                    <Button color="link" className="float-right" onClick={() => this.showPass()}>Mostrar</Button>
+                  </div>
+                  <div>
+                    <div className="underline" />
+                    <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
+                    <Button color="primary" className="float-right" type="submit" >Registrarme</Button>
+                  </div>
                 </div>
-              </div>
-            </AvForm>
+              </AvForm>
             </Col>
           </Row>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>

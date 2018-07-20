@@ -2,14 +2,16 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import { Col, Row, Button, FormGroup } from 'reactstrap';
 import { stringify, parse } from 'query-string';
 import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
-import {validate} from '../../../Modules/functions';
-import {scroller} from 'react-scroll';
+import { scroller } from 'react-scroll';
 import _ from 'lodash';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 
+import { validate, prepareArraySelect } from '../../../Modules/functions';
 import RegisterBar from '../../../stories/RegisterBar';
 
 
@@ -21,8 +23,36 @@ class StepTwo extends React.Component {
       addressAgency: parse(this.props.location.search).addressAgency ? parse(this.props.location.search).addressAgency : '',
       phoneAgency: parse(this.props.location.search).phoneAgency ? parse(this.props.location.search).phoneAgency : '',
       emailAgency: parse(this.props.location.search).emailAgency ? parse(this.props.location.search).emailAgency : '',
+      provinceAgency: 0,
+      provinceAgencyList: [{ id: 1, name: 'Buenos Aires' },
+        { id: 2, name: 'Buenos Aires-GBA' },
+        { id: 3, name: 'Capital Federal' },
+        { id: 4, name: 'Catamarca' },
+        { id: 5, name: 'Chaco' },
+        { id: 6, name: 'Chubut' }],
+      cityAgency: 0,
+      cityAgencyList: [{ id: 1, name: 'Bahía Blanca' },
+        { id: 2, name: 'Balcarce' },
+        { id: 3, name: 'Baradero' },
+        { id: 4, name: 'Benito Juarez' },
+        { id: 5, name: 'Berisso' },
+        { id: 6, name: 'Bolivar' }],
     };
-    this.next = this.next.bind(this)
+    this.next = this.next.bind(this);
+  }
+
+  onChangeProvince(newProvince) {
+    this.setState({
+      province: newProvince,
+    });
+    // this.props.client
+    //   .query({
+    //     query: GroupsQuery,
+    //     variables: {
+    //       gru_nmarc: newBrand,
+    //     },
+    //   })
+    //   .then(response => this.setState({ Groups: response.data.Group }));
   }
 
   previous() {
@@ -44,10 +74,10 @@ class StepTwo extends React.Component {
       scroller.scrollTo(errors[0], {
         duration: 600,
         smooth: true,
-        offset: -100
+        offset: -100,
       });
       return false;
-    } 
+    }
     const search = parse(this.props.location.search);
 
     const dataAgency = {
@@ -61,6 +91,8 @@ class StepTwo extends React.Component {
       phoneAgency: this.state.phoneAgency,
       nameAgency: this.state.nameAgency,
       addressAgency: this.state.addressAgency,
+      cityAgency: this.state.cityAgency,
+      provinceAgency: this.state.provinceAgency,
     };
     return this.props.history.push(`/agencyRegisterS3?${stringify(dataAgency)}`);
   }
@@ -108,53 +140,101 @@ class StepTwo extends React.Component {
             </Col>
             <Col md="6" sm="12" xs="12">
               <AvForm onSubmit={this.next}>
-              <div className="col-md-9 float-left pb-4">
-                <h4 className="title-division">Información de la agencia </h4>
-                <label for="nameAgency">Nombre de la Agencia</label>
-                <AvField
-                  name = 'nameAgency'
-                  id = 'nameAgency'
-                  validate={validate('string')}                  
-                  type="text"
-                  value={this.state.nameAgency}
-                  className="form-control"
-                  onChange={event => this.setState({ nameAgency: event.target.value })}
-                />
-                <label for="addressAgency">Dirección de la Agencia</label>                
-                <AvField
-                  name='addressAgency'
-                  id='addressAgency'
-                  validate={validate('text')}                                    
-                  className="form-control"
-                  value={this.state.addressAgency}
-                  onChange={event => this.setState({ addressAgency: event.target.value })}
-                />
-                <label for="email">Email de la Agencia</label>
-                <AvField
-                  name='email'
-                  id='email'
-                  validate={validate('email')}                                    
-                  type="email"
-                  value={this.state.emailAgency}
-                  onChange={event => this.setState({ emailAgency: event.target.value })}
-                  className="form-control"
-                />
-                <label for="phoneAgency">Teléfono de la Agencia</label>
-                <AvField
-                  name="phoneAgency"
-                  id="phoneAgency"
-                  validate={validate('number')}                                                      
-                  type="number"
-                  value={this.state.phoneAgency}
-                  onChange={event => this.setState({ phoneAgency: event.target.value })}
-                  className="form-control"
-                />
-                <div>
-                  <div className="underline" />
-                  <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
-                  <Button color="primary" className="float-right" type="submit">Siguiente</Button>
+                <div className="col-md-9 float-left pb-4">
+                  <h4 className="title-division">Información de la agencia </h4>
+                  <label htmlFor="nameAgency">Nombre de la Agencia</label>
+                  <AvField
+                    name="nameAgency"
+                    id="nameAgency"
+                    validate={validate('string')}
+                    type="text"
+                    value={this.state.nameAgency}
+                    className="form-control"
+                    onChange={event => this.setState({ nameAgency: event.target.value })}
+                  />
+                  <label htmlFor="addressAgency">Dirección de la Agencia</label>
+                  <AvField
+                    name="addressAgency"
+                    id="addressAgency"
+                    validate={validate('text')}
+                    className="form-control"
+                    value={this.state.addressAgency}
+                    onChange={event => this.setState({ addressAgency: event.target.value })}
+                  />
+                  <FormGroup>
+                    <label>Provincia</label>
+                    <Select
+                      id="province-select"
+                      ref={(ref) => {
+                        this.select = ref;
+                      }}
+                      onBlurResetsInput={false}
+                      onSelectResetsInput={false}
+                      options={prepareArraySelect(
+                        this.state.provinceAgencyList,
+                        'id',
+                        'name',
+                      )}
+                      simpleValue
+                      clearable
+                      name="selected-state"
+                      value={this.state.province}
+                      placeholder="Selecciona una provincia"
+                      onChange={newValue => this.onChangeProvince(newValue)}
+                      searchable
+                      noResultsText="No se encontraron resultados"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <label>Localidad</label>
+                    <Select
+                      id="city-select"
+                      ref={(ref) => {
+                        this.select = ref;
+                      }}
+                      onBlurResetsInput={false}
+                      onSelectResetsInput={false}
+                      options={prepareArraySelect(
+                        this.state.cityAgencyList,
+                        'id',
+                        'name',
+                      )}
+                      simpleValue
+                      clearable
+                      name="selected-state"
+                      value={this.state.city}
+                      placeholder="Selecciona una localidad"
+                      onChange={city => this.setState({ city })}
+                      searchable
+                      noResultsText="No se encontraron resultados"
+                    />
+                  </FormGroup>
+                  <label htmlFor="email">Email de la Agencia</label>
+                  <AvField
+                    name="email"
+                    id="email"
+                    validate={validate('email')}
+                    type="email"
+                    value={this.state.emailAgency}
+                    onChange={event => this.setState({ emailAgency: event.target.value })}
+                    className="form-control"
+                  />
+                  <label htmlFor="phoneAgency">Teléfono de la Agencia</label>
+                  <AvField
+                    name="phoneAgency"
+                    id="phoneAgency"
+                    validate={validate('number')}
+                    type="number"
+                    value={this.state.phoneAgency}
+                    onChange={event => this.setState({ phoneAgency: event.target.value })}
+                    className="form-control"
+                  />
+                  <div>
+                    <div className="underline" />
+                    <Button color="default" className="float-left" onClick={() => this.previous()}>Volver</Button>
+                    <Button color="primary" className="float-right" type="submit">Siguiente</Button>
+                  </div>
                 </div>
-              </div>
               </AvForm>
             </Col>
           </Row>
