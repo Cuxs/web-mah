@@ -139,11 +139,12 @@ class SACardPublication extends Component {
       modal: !this.state.modal,
     });
   }
-  toggleQuestionModal(verb) {
+  toggleQuestionModal(verb, pubId) {
     this.setState({
       questionModal: !this.state.questionModal,
       questionModalText: `¿Esta seguro que desea ${verb} esta publicación?`,
       verb,
+      pubId
     });
   }
   toggleDeleteModal() {
@@ -227,7 +228,6 @@ class SACardPublication extends Component {
         }
       });
   }
-
   toggleModalState(pubId) {
     this.setState({
       modalState: !this.state.modalState,
@@ -342,6 +342,8 @@ class SACardPublication extends Component {
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.toggleQuestionModal('desaprobar'); }} >Desaprobar</Button>}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.toggleQuestionModal('aprobar'); }} >Aprobar</Button>}
               {stateName === 'Destacada' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.highlightPublication(data.id, true) }} >Dejar de Destacar</Button>}
+              {stateName === 'Vencida' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.toggleQuestionModal('volver a publicar', data.id); }} >Volver a publicar</Button>}
+
               <div className="clearfix" />
             </div>
           </div>
@@ -394,7 +396,8 @@ class SACardPublication extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" disabled={this.state.verb === 'desaprobar' && this.state.reason === ''} onClick={() => (this.state.verb === 'aprobar' ? this.aprove() : this.disaprove())}>Ok</Button>
+            {!this.state.verb === 'volver a publicar' &&<Button color="primary" disabled={this.state.verb === 'desaprobar' && this.state.reason === ''} onClick={() => (this.state.verb === 'aprobar' ? this.aprove() : this.disaprove())}>Ok</Button>}
+            {this.state.verb === 'volver a publicar' &&<Button color="primary" onClick={() => this.changePublicationState('Publicada')}>Ok</Button>}
             <Button color="secondary" onClick={() => this.toggleQuestionModal()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
