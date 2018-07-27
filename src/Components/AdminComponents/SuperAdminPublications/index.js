@@ -34,7 +34,7 @@ class SuperAdminPublications extends React.Component {
   }
 
   componentWillMount() {
-    scroll.scrollTo(100, { duration: 2000 });
+    scroll.scrollTo(0, { duration: 2000 });
     if (!isAdminLogged()) {
       this.props.history.push('/loginAdmin');
     }
@@ -146,7 +146,7 @@ class SuperAdminPublications extends React.Component {
             <Col lg="3" md="12" >
               <SuperAdminSideBar history={this.props.history} location={this.props.location} />
             </Col>
-            <Col lg="9" md="12" >
+            <Col lg="9" md="12">
               <SuperAdminFilter history={this.props.history} location={this.props.location} />
               <div className="container-box-item">
                 <div className="col-12">

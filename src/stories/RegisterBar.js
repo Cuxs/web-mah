@@ -121,8 +121,8 @@ export default class RegisterBar extends Component {
   render() {
     const { onlyLogin, history } = this.props;
     return (
-      <div className="container-fluid">
-        <Row className="header">
+      <div className="container-fluid" style={{ marginBottom: '75px' }}>
+        <Row className="header" style={{ top: '0px' }} >
           <Col md="3" sm="6" xs="6">
             <Row>
               <a onClick={() => history.push('/')} className="brand" >
