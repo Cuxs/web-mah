@@ -2,13 +2,17 @@
   background-color:$gray-200;
   padding-top: 15px;
   padding-bottom: 15px;
+  margin: 0px;
   width: 100vw;
-
+  position: fixed;
+  top: 29px;
+  left: 0px;
+  right: 0px;
+  z-index: 30;
   .brand{
     margin:4px auto 0 auto;
     cursor: pointer;
   }
-
   //1
   .react-autosuggest__container{
     width: 100%;
@@ -100,6 +104,10 @@
       }
     }
   }
+}
+
+.mt-90{
+  margin-top: 90px;
 }
 
 @media screen and (max-width: 768px) {
