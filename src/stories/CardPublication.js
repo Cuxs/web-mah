@@ -213,7 +213,7 @@ class CardPublication extends Component {
                 </p>
                 <small>{data.modelName}</small>
                 <p className="item-price">
-                  <strong>${thousands(data.price, 2, ',', '.')}</strong>
+                  <strong>${thousands(data.price, 0, ',', '.')}</strong>
                 </p>
                 <small>
                   {data.year} - {thousands(data.kms, 0, ',', '.')}km

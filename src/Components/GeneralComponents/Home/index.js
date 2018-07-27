@@ -2,13 +2,12 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import _ from 'lodash';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
 import { hotjar } from "react-hotjar";
-
+import {mobilecheck} from "../../../Modules/functions";
 
 import {
   HomeQuery,
@@ -30,12 +29,14 @@ import LoadingComponent from '../../../stories/LoadingComponent';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
-/* const script = document.createElement('script');
 
+
+const script = document.createElement('script');
 script.src = '//code.tidio.co/2adtbpujxsburoaa4sm7umttnp1j1wjr.js';
 script.async = true;
+!mobilecheck() && document.body.appendChild(script);
 
-document.body.appendChild(script); */
+
 const renderWhileLoading = (component, propName = 'data') =>
   branch(
     props => props[propName] && props[propName].loading,
