@@ -1,11 +1,11 @@
 export default (error) => {
-  if (error.toString().indexOf('Failed to fetch') !== -1 || error.toString().indexOf('NetworkError') !== -1) {
+  if ((error && error.toString().indexOf('Failed to fetch') !== -1 )|| (error && error.toString().indexOf('NetworkError') !== -1)) {
     return {
       title: 'Error de conexión',
       message: 'Error de conexión, inténtelo más tarde.',
     };
   }
-  if (error.toString().indexOf('jwt expired') !== -1) {
+  if (error && error.toString().indexOf('jwt expired') !== -1) {
     return {
       title: 'Su sesión expiró',
       message: 'Por favor, inicia sesión nuevamente.',

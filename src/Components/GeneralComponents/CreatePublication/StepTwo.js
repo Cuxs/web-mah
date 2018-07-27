@@ -95,7 +95,14 @@ class StepTwo extends Component {
             responseMsg: resp.message,
             responseTitle: 'Guardado',
           });
-        });
+        })
+        .catch((e)=>{
+          this.setState({
+            modal: true,
+            responseMsg: e.message,
+            responseTitle: 'Error',
+          })
+        })
     } else {
       myDropzone.processQueue();
     }
