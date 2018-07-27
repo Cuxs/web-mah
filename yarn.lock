@@ -7103,10 +7103,6 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-analytics-widget@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-analytics-widget/-/react-analytics-widget-1.2.0.tgz#e43df22e9224f252002a1229ad720c3d41fa9c07"
-
 react-apollo@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.0.4.tgz#01dd32a8e388672f5d7385b21cdd0b94009ee9ee"
