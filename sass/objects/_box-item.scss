@@ -10,8 +10,11 @@
       }
       .photos{
         // margin-bottom:10px;
-        background-color: $gray-500;
-        height: 100%;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 230px;
         overflow: hidden;
         position: relative;
         p{
