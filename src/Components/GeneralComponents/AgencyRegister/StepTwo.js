@@ -12,6 +12,7 @@ import 'react-select/dist/react-select.css';
 
 
 import { validate, prepareArraySelect } from '../../../Modules/functions';
+import { getProvinces, getTowns } from '../../../Modules/fetches';
 import RegisterBar from '../../../stories/RegisterBar';
 
 
@@ -23,36 +24,31 @@ class StepTwo extends React.Component {
       addressAgency: parse(this.props.location.search).addressAgency ? parse(this.props.location.search).addressAgency : '',
       phoneAgency: parse(this.props.location.search).phoneAgency ? parse(this.props.location.search).phoneAgency : '',
       emailAgency: parse(this.props.location.search).emailAgency ? parse(this.props.location.search).emailAgency : '',
-      provinceAgency: 0,
-      provinceAgencyList: [{ id: 1, name: 'Buenos Aires' },
-        { id: 2, name: 'Buenos Aires-GBA' },
-        { id: 3, name: 'Capital Federal' },
-        { id: 4, name: 'Catamarca' },
-        { id: 5, name: 'Chaco' },
-        { id: 6, name: 'Chubut' }],
-      cityAgency: 0,
-      cityAgencyList: [{ id: 1, name: 'Bahía Blanca' },
-        { id: 2, name: 'Balcarce' },
-        { id: 3, name: 'Baradero' },
-        { id: 4, name: 'Benito Juarez' },
-        { id: 5, name: 'Berisso' },
-        { id: 6, name: 'Bolivar' }],
+      province_id: 0,
+      provinceList: [],
+      town_id: 0,
+      townList: [],
     };
     this.next = this.next.bind(this);
   }
 
+  componentWillMount() {
+    getProvinces()
+      .then((response) => {
+        this.setState({ provinceList: response.data });
+      })
+      .catch(error => console.log(error));
+  }
+
   onChangeProvince(newProvince) {
-    this.setState({
-      province: newProvince,
-    });
-    // this.props.client
-    //   .query({
-    //     query: GroupsQuery,
-    //     variables: {
-    //       gru_nmarc: newBrand,
-    //     },
-    //   })
-    //   .then(response => this.setState({ Groups: response.data.Group }));
+    getTowns(newProvince)
+      .then((response) => {
+        this.setState({
+          province_id: newProvince,
+          townList: response.data,
+        });
+      })
+      .catch(error => console.log(error));
   }
 
   previous() {
@@ -91,8 +87,8 @@ class StepTwo extends React.Component {
       phoneAgency: this.state.phoneAgency,
       nameAgency: this.state.nameAgency,
       addressAgency: this.state.addressAgency,
-      cityAgency: this.state.cityAgency,
-      provinceAgency: this.state.provinceAgency,
+      town_id: this.state.town_id,
+      province_id: this.state.province_id,
     };
     return this.props.history.push(`/agencyRegisterS3?${stringify(dataAgency)}`);
   }
@@ -165,20 +161,14 @@ class StepTwo extends React.Component {
                     <label>Provincia</label>
                     <Select
                       id="province-select"
-                      ref={(ref) => {
-                        this.select = ref;
-                      }}
+                      ref={(ref) => { this.select = ref; }}
                       onBlurResetsInput={false}
                       onSelectResetsInput={false}
-                      options={prepareArraySelect(
-                        this.state.provinceAgencyList,
-                        'id',
-                        'name',
-                      )}
+                      options={prepareArraySelect(this.state.provinceList, 'id', 'name')}
                       simpleValue
                       clearable
                       name="selected-state"
-                      value={this.state.province}
+                      value={this.state.province_id}
                       placeholder="Selecciona una provincia"
                       onChange={newValue => this.onChangeProvince(newValue)}
                       searchable
@@ -195,16 +185,16 @@ class StepTwo extends React.Component {
                       onBlurResetsInput={false}
                       onSelectResetsInput={false}
                       options={prepareArraySelect(
-                        this.state.cityAgencyList,
+                        this.state.townList,
                         'id',
                         'name',
                       )}
                       simpleValue
                       clearable
                       name="selected-state"
-                      value={this.state.city}
+                      value={this.state.town_id}
                       placeholder="Selecciona una localidad"
-                      onChange={city => this.setState({ city })}
+                      onChange={town_id => this.setState({ town_id })}
                       searchable
                       noResultsText="No se encontraron resultados"
                     />

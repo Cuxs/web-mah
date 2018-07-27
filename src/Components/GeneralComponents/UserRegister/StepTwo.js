@@ -13,7 +13,7 @@ import 'react-select/dist/react-select.css';
 import { validate, prepareArraySelect } from '../../../Modules/functions';
 
 import RegisterBar from '../../../stories/RegisterBar';
-import { registerUser } from '../../../Modules/fetches';
+import { getProvinces, getTowns, registerUser } from '../../../Modules/fetches';
 
 class StepTwo extends React.Component {
   constructor(props) {
@@ -31,20 +31,10 @@ class StepTwo extends React.Component {
       passValidate: parse(this.props.location.search).email,
       repeatPass: parse(this.props.location.search).repeatPass ? parse(this.props.location.search).repeatPass : '',
       repeatPassValidate: parse(this.props.location.search).email,
-      province: 0,
-      provinceList: [{ id: 1, name: 'Buenos Aires' },
-        { id: 2, name: 'Buenos Aires-GBA' },
-        { id: 3, name: 'Capital Federal' },
-        { id: 4, name: 'Catamarca' },
-        { id: 5, name: 'Chaco' },
-        { id: 6, name: 'Chubut' }],
-      city: 0,
-      cityList: [{ id: 1, name: 'Bahía Blanca' },
-        { id: 2, name: 'Balcarce' },
-        { id: 3, name: 'Baradero' },
-        { id: 4, name: 'Benito Juarez' },
-        { id: 5, name: 'Berisso' },
-        { id: 6, name: 'Bolivar' }],
+      province_id: 0,
+      provinceList: [],
+      town_id: 0,
+      townList: [],
       modal: false,
       modalTitle: '',
       modalText: '',
@@ -52,6 +42,25 @@ class StepTwo extends React.Component {
     };
     this.toggle = this.toggle.bind(this);
     this.register = this.register.bind(this);
+  }
+
+  componentWillMount() {
+    getProvinces()
+      .then((response) => {
+        this.setState({ provinceList: response.data });
+      })
+      .catch(error => console.log(error));
+  }
+
+  onChangeProvince(newProvince) {
+    getTowns(newProvince)
+      .then((response) => {
+        this.setState({
+          province_id: newProvince,
+          townList: response.data,
+        });
+      })
+      .catch(error => console.log(error));
   }
 
   disabled() {
@@ -68,20 +77,6 @@ class StepTwo extends React.Component {
   showPass() {
     this.setState({ passwordShow: 'text' });
     setTimeout(() => this.setState({ passwordShow: 'password' }), 4000);
-  }
-
-  onChangeProvince(newProvince) {
-    this.setState({
-      province: newProvince,
-    });
-    // this.props.client
-    //   .query({
-    //     query: GroupsQuery,
-    //     variables: {
-    //       gru_nmarc: newBrand,
-    //     },
-    //   })
-    //   .then(response => this.setState({ Groups: response.data.Group }));
   }
 
   register(event, errors) {
@@ -102,8 +97,8 @@ class StepTwo extends React.Component {
       address: this.state.address,
       dni: this.state.dni,
       password: this.state.pass,
-      province: this.state.province,
-      city: this.state.city,
+      province_id: this.state.province_id,
+      town_id: this.state.town_id,
     };
     registerUser(dataUser)
       .then((res) => {
@@ -189,23 +184,17 @@ class StepTwo extends React.Component {
                     className="form-control"
                   />
                   <FormGroup>
-                    <Label>Provincia</Label>
+                    <label>Provincia</label>
                     <Select
                       id="province-select"
-                      ref={(ref) => {
-                        this.select = ref;
-                      }}
+                      ref={(ref) => { this.select = ref; }}
                       onBlurResetsInput={false}
                       onSelectResetsInput={false}
-                      options={prepareArraySelect(
-                        this.state.provinceList,
-                        'id',
-                        'name',
-                      )}
+                      options={prepareArraySelect(this.state.provinceList, 'id', 'name')}
                       simpleValue
                       clearable
                       name="selected-state"
-                      value={this.state.province}
+                      value={this.state.province_id}
                       placeholder="Selecciona una provincia"
                       onChange={newValue => this.onChangeProvince(newValue)}
                       searchable
@@ -213,25 +202,19 @@ class StepTwo extends React.Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label>Localidad</Label>
+                    <label>Localidad</label>
                     <Select
                       id="city-select"
-                      ref={(ref) => {
-                        this.select = ref;
-                      }}
+                      ref={(ref) => { this.select = ref }}
                       onBlurResetsInput={false}
                       onSelectResetsInput={false}
-                      options={prepareArraySelect(
-                        this.state.cityList,
-                        'id',
-                        'name',
-                      )}
+                      options={prepareArraySelect(this.state.townList, 'id', 'name')}
                       simpleValue
                       clearable
                       name="selected-state"
-                      value={this.state.city}
+                      value={this.state.town_id}
                       placeholder="Selecciona una localidad"
-                      onChange={city => this.setState({ city })}
+                      onChange={town_id => this.setState({ town_id })}
                       searchable
                       noResultsText="No se encontraron resultados"
                     />
