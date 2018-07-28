@@ -1,6 +1,10 @@
 #myTopnav{
+  background-color: #fff;
+  z-index: 31;
   width: 100vw;
   display: inline-block;
+  position: fixed;
+  top: 0px;
   a{
     font:300 #{$font-size-sm + 0.05}/#{$font-size-lg} $font-family-sans-serif;
     color:$gray-600;

@@ -1,7 +1,7 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import { Helmet } from 'react-helmet';
@@ -29,8 +29,6 @@ import LoadingComponent from '../../../stories/LoadingComponent';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
-
-
 const script = document.createElement('script');
 script.src = '//code.tidio.co/2adtbpujxsburoaa4sm7umttnp1j1wjr.js';
 script.async = true;
@@ -56,8 +54,10 @@ const Home = ({
         </Helmet>
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
-        {!Texts.loading && <Banner Texts={Texts} />}
-        <CreditsBanner history={history} Texts={Texts} />
+        {!Texts.loading && <Fragment>
+          <Banner Texts={Texts} />
+          <CreditsBanner history={history} Texts={Texts} />
+        </Fragment>}
         <CarHomeContainer>
           {data.HighlightedPublications.map(row => (
             <CarResult
