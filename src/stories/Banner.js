@@ -11,7 +11,7 @@ class Banner extends React.Component {
     super(props);
     this.state = {
       title1: '',
-      sliders: [{src:''}],
+      sliders: [{ src: '' }],
     };
   }
   componentWillMount() {
@@ -28,24 +28,25 @@ class Banner extends React.Component {
     this.setState({ ...texts });
   }
   render() {
-    let backgroundImage = this.state.sliders[0].src;
+    const backgroundImage = this.state.sliders[0].src;
     return (
       <div className="container-fluid">
         <Row>
-      {
-        window.matchMedia("(max-width: 550px)").matches 
+          {
+        window.matchMedia('(max-width: 550px)').matches
           ?
-          <div style={{
-            backgroundImage:`url(${backgroundImage})`,
+            <div style={{
+            backgroundImage: `url(${backgroundImage})`,
             backgroundRepeat: 'no-repeat',
             backgroundPosition: '50% 50%',
-            width:'100vw',
-            height:'200px'
-          }}/> 
-          // <div id='tuhermana' style={{ backgroundColor: 'red', width:'100vw', height:'100vh'}}/> 
-          : 
-          <BannerCarousel
-            photoGalery={this.state.sliders}/>
+            width: '100%',
+            height: '200px',
+          }}
+            />
+          :
+            <BannerCarousel
+              photoGalery={this.state.sliders}
+            />
       }
           <div className="container">
             <Row className="align-items-center justify-content-between">
@@ -68,11 +69,11 @@ class Banner extends React.Component {
                 :
                   <h3 style={{
                     position: 'relative',
-                    top: '-160px',
-                    left: '80px',
-                    left: window.matchMedia("(max-width: 550px)").matches ? '0px' : '80px' ,                    
+                    top: window.matchMedia('(max-width: 550px)').matches ? '-120px' : '-150px',
+                    left: window.matchMedia('(max-width: 550px)').matches ? '0px' : '80px',
                     color: 'white',
                     justifyContent: 'space-between',
+                    marginBottom: '-50px',
                   }}
                   >{this.state.title1}
                   </h3>
