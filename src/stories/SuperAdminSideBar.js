@@ -3,7 +3,14 @@ import { Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Lab
 import Select from 'react-select';
 /* eslint react/jsx-filename-extension: 0 */
 import { graphql, compose } from 'react-apollo';
+import { branch, renderComponent } from 'recompose';
 import { AllUsersMailsQuery } from '../ApolloQueries/UserQuery';
+import LoginComponent from '../stories/LoginComponent';
+import { isUserLogged } from '../Modules/sessionFunctions';
+
+
+const renderForUnloggedUser = (component, propName = 'data') =>
+  branch(props => !isUserLogged(), renderComponent(component));
 
 class SuperAdminSideBar extends React.Component {
   constructor(props) {
@@ -50,6 +57,9 @@ class SuperAdminSideBar extends React.Component {
           <li>
             <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/superAdminSliders' ? 'active' : ''} onClick={() => history.push('/superAdminSliders')} >Sliders</Button>
           </li>
+          <li>
+            <Button style={{ cursor: 'pointer' }} color="default" className={location.pathname === '/superAdminAnalytics' ? 'active' : ''} onClick={() => history.push('/superAdminAnalytics')} >Analytics</Button>
+          </li>
           <Button style={{ cursor: 'pointer' }} color="primary" className={location.pathname === '/createPublication' ? 'active' : ''} onClick={this.toggle} >Crear publicación</Button>
         </ul>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
@@ -94,5 +104,8 @@ class SuperAdminSideBar extends React.Component {
   }
 }
 
-const withData = graphql(AllUsersMailsQuery, { name: 'userMails' });
+const withData = compose(
+  graphql(AllUsersMailsQuery, { name: 'userMails' }),
+  renderForUnloggedUser(LoginComponent, 'userMails')
+)
 export default withData(SuperAdminSideBar);
