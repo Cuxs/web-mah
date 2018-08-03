@@ -213,10 +213,10 @@ class CardPublication extends Component {
                 </p>
                 <small>{data.modelName}</small>
                 <p className="item-price">
-                  <strong>${thousands(data.price, 0, ',', '.')}</strong>
+                  <strong>{data.price ? `$${thousands(data.price, 0, ',', '.')}` : 'Consultar'}</strong>
                 </p>
                 <small>
-                  {data.year} - {thousands(data.kms, 0, ',', '.')}km
+                  {data.year} - {`${thousands(this.props.data.kms, 0, ',', '.') ? ` - ${thousands(this.props.data.kms, 0, ',', '.')} kms.` : ''}`}
                 </small>
               </div>
               <div className="d-flex flex-column align-items-end item-visibility">
