@@ -7,19 +7,23 @@ import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import ScrollToTop from 'react-scroll-up';
 import ReactGA from 'react-ga';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 import AdminBar from '../../../stories/AdminBar';
 import UserSideBar from '../../../stories/UserSideBar';
 import { UserDetailQuery, UserDataMutation, UserPasswordMutation } from '../../../ApolloQueries/UserProfileQuery';
 import { getUserToken, isUserLogged } from '../../../Modules/sessionFunctions';
+import { getProvinces, getTowns } from '../../../Modules/fetches';
+import { validate, prepareArraySelect } from '../../../Modules/functions';
 import LoginComponent from '../../../stories/LoginComponent';
 
 
 const renderForUnloggedUser = (component, propName = 'data') =>
-branch(
-  props => !isUserLogged(),
-  renderComponent(component),
-);
+  branch(
+    props => !isUserLogged(),
+    renderComponent(component),
+  );
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -30,6 +34,8 @@ class UserProfile extends React.Component {
       address: 'Cargando...',
       phone: 'Cargando...',
       email: 'Cargando...',
+      provinceList: [],
+      townList: [],
       oldPassword: '',
       newPassword: '',
       repeatNpass: '',
@@ -41,6 +47,14 @@ class UserProfile extends React.Component {
     this.update = this.update.bind(this);
   }
 
+  componentWillMount() {
+    getProvinces()
+      .then((response) => {
+        this.setState({ provinceList: response.data });
+      })
+      .catch(error => console.log(error));
+  }
+
   componentWillReceiveProps(newProps) {
     if (!newProps.userProfile.loading) {
       this.setState({
@@ -49,6 +63,15 @@ class UserProfile extends React.Component {
         email: newProps.userProfile.User.email,
         phone: newProps.userProfile.User.phone,
       });
+      getTowns(newProps.userProfile.User.Province.id)
+        .then((response) => {
+          this.setState({
+            townList: response.data,
+            province_id: newProps.userProfile.User.Province.id,
+            town_id: newProps.userProfile.User.Town.id,
+          });
+        })
+        .catch(error => console.log(error));
     }
   }
   toggle() {
@@ -68,6 +91,8 @@ class UserProfile extends React.Component {
         name: this.state.name,
         address: this.state.address,
         phone: this.state.phone,
+        province_id: this.state.province_id,
+        town_id: this.state.town_id,
       },
       refetchQueries: ['User'],
     }).then(({ data: { modifyUserData: uData } }) => {
@@ -154,15 +179,52 @@ class UserProfile extends React.Component {
                   : <p>{this.state.address}</p>}
                     </div>
                     <div className="data-input-group">
+                      <label>Provincia</label>
+                      <Select
+                        id="province-select"
+                        ref={(ref) => { this.select = ref; }}
+                        onBlurResetsInput={false}
+                        onSelectResetsInput={false}
+                        options={prepareArraySelect(this.state.provinceList, 'id', 'name')}
+                        simpleValue
+                        clearable
+                        disabled={!this.state.modifyActive}
+                        name="selected-state"
+                        value={this.state.province_id}
+                        placeholder="Selecciona una provincia"
+                        onChange={newValue => this.onChangeProvince(newValue)}
+                        searchable
+                        noResultsText="No se encontraron resultados"
+                      />
+                    </div>
+                    <div className="data-input-group">
+                      <label>Localidad</label>
+                      <Select
+                        id="city-select"
+                        ref={(ref) => { this.select = ref; }}
+                        onBlurResetsInput={false}
+                        onSelectResetsInput={false}
+                        options={prepareArraySelect(this.state.townList, 'id', 'name')}
+                        simpleValue
+                        clearable
+                        disabled={!this.state.modifyActive}
+                        name="selected-state"
+                        value={this.state.town_id}
+                        placeholder="Selecciona una localidad"
+                        onChange={town_id => this.setState({ town_id })}
+                        searchable
+                        noResultsText="No se encontraron resultados"
+                      />
+                    </div>
+                    <div className="data-input-group">
                       <label>EMAIL DE CONTACTO <small>(Mail de inicio de sesión)</small></label>
                       <p>{this.state.email}</p>
                     </div>
                     <div className="data-input-group">
-
                       <label>TELEFONO DE CONTACTO</label>
                       {this.state.modifyActive ?
                         <Input type="text" name="phone" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
-                  : <p>{this.state.phone}</p>}
+                      : <p>{this.state.phone}</p>}
                     </div>
                     <div className="underline" />
                     {this.state.modifyActive ?
