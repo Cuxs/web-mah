@@ -30,6 +30,7 @@ class SuperAdminConsult extends React.Component {
       brand: '',
       group: '',
       codia: '',
+      year: '',
       Groups: [],
       Models: [],
       Prices: [],
