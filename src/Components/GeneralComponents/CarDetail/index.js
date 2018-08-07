@@ -1,77 +1,77 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import React, { Component } from 'react';
-import { Col, Row, Button } from 'reactstrap';
-import { graphql, compose } from 'react-apollo';
-import { branch, renderComponent } from 'recompose';
-import { stringify, parse } from 'query-string';
-import _ from 'lodash';
-import decode from 'jwt-decode';
-import { Helmet } from 'react-helmet';
-import ReactGA from 'react-ga';
+import React, { Component } from "react";
+import { Col, Row, Button } from "reactstrap";
+import { graphql, compose } from "react-apollo";
+import { branch, renderComponent } from "recompose";
+import { stringify, parse } from "query-string";
+import _ from "lodash";
+import decode from "jwt-decode";
+import { Helmet } from "react-helmet";
+import ReactGA from "react-ga";
 import { hotjar } from "react-hotjar";
 
 import {
   CarDetailQuery,
   CarSpecs,
-  CommentThreadQuery,
-} from '../../../ApolloQueries/CarDetailQuery';
+  CommentThreadQuery
+} from "../../../ApolloQueries/CarDetailQuery";
 
-import TopTopNav from '../../../stories/TopTopNav';
-import SearchBar from '../../../stories/SearchBar';
-import Footer from '../../../stories/Footer';
-import BreadCrum from '../../../stories/BreadCrum';
-import PublicityBanner from '../../../stories/PublicityBanner';
-import CarCarousel from '../../../stories/CarCarousel';
-import CarSpecifications from '../../../stories/CarSpecifications';
-import MessageCarDetail from '../../../stories/MessagesCarDetail';
+import TopTopNav from "../../../stories/TopTopNav";
+import SearchBar from "../../../stories/SearchBar";
+import Footer from "../../../stories/Footer";
+import BreadCrum from "../../../stories/BreadCrum";
+import PublicityBanner from "../../../stories/PublicityBanner";
+import CarCarousel from "../../../stories/CarCarousel";
+import CarSpecifications from "../../../stories/CarSpecifications";
+import MessageCarDetail from "../../../stories/MessagesCarDetail";
 
-import _404page from '../../../stories/404page';
-import LoadingComponent from '../../../stories/LoadingComponent';
+import _404page from "../../../stories/404page";
+import LoadingComponent from "../../../stories/LoadingComponent";
 
-import { thousands } from '../../../Modules/functions';
-import photoGaleryParser from '../../../Modules/photoGaleryParser';
+import { thousands } from "../../../Modules/functions";
+import photoGaleryParser from "../../../Modules/photoGaleryParser";
 import {
   getUserToken,
   getUserDataFromToken,
-  isUserLogged,
-} from '../../../Modules/sessionFunctions';
+  isUserLogged
+} from "../../../Modules/sessionFunctions";
 
-const renderForNullPublication = (component, propName = 'data') =>
+const renderForNullPublication = (component, propName = "data") =>
   branch(
     props => props[propName] && props[propName].Publication === null,
-    renderComponent(component),
+    renderComponent(component)
   );
 
-const renderWhileLoading = (component, propName = 'data', propName2 = 'data') =>
+const renderWhileLoading = (component, propName = "data", propName2 = "data") =>
   branch(
     props =>
       props[propName] && props[propName].loading && props[propName2].loading,
-    renderComponent(component),
+    renderComponent(component)
   );
 class CarDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      modal: false
     };
     this.toggle = this.toggle.bind(this);
     this.isPublicationVisible = this.isPublicationVisible.bind(this);
-    ReactGA.pageview('/DETALLE-AUTO');
+    ReactGA.pageview("/DETALLE-AUTO");
   }
-  componentWillMount(){
-    hotjar.initialize(916734, 6)
+  componentWillMount() {
+    hotjar.initialize(916734, 6);
   }
   toggle() {
     this.setState({
-      modal: !this.state.modal,
+      modal: !this.state.modal
     });
   }
   isPublicationVisible() {
     const { carDetailData, carSpecsData } = this.props;
     if (!carDetailData.loading && !carSpecsData.loading) {
-      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente') {
+      if (carDetailData.Publication.CurrentState.stateName === "Pendiente"  || carDetailData.Publication.CurrentState.stateName === 'Vencida' || carDetailData.Publication.CurrentState.stateName === 'Suspendida' || carDetailData.Publication.CurrentState.stateName === 'Eliminada') {
         return false;
       }
       return true;
@@ -85,7 +85,7 @@ class CarDetail extends Component {
       }
       return data.phone;
     }
-    return '';
+    return "";
   }
   dontShowEditButton() {
     if (
@@ -104,39 +104,57 @@ class CarDetail extends Component {
       carSpecsData,
       commentThreadData,
       history,
-      location,
+      location
     } = this.props;
-    let hiddenClass = '';
+    let hiddenClass = "";
     if (!carDetailData.loading && !carSpecsData.loading) {
-      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente') {
-        hiddenClass = 'hidden';
+      if (
+        carDetailData.Publication.CurrentState.stateName === "Pendiente" ||
+        carDetailData.Publication.CurrentState.stateName === "Vencida" ||
+        carDetailData.Publication.CurrentState.stateName === "Suspendida" ||
+        carDetailData.Publication.CurrentState.stateName === "Eliminada"
+      ) {
+        hiddenClass = "hidden";
       } else {
-        hiddenClass = '';
+        hiddenClass = "";
       }
       if (
-        carDetailData.Publication.CurrentState.stateName === 'Pendiente' &&
+        (carDetailData.Publication.CurrentState.stateName === "Pendiente" ||
+          carDetailData.Publication.CurrentState.stateName === "Vencida" ||
+          carDetailData.Publication.CurrentState.stateName === "Suspendida" ||
+          carDetailData.Publication.CurrentState.stateName === "Eliminada") &&
         parse(this.props.location.search).t
       ) {
         const uData = decode(parse(this.props.location.search).t);
-        if (uData.userType === 'Admin') {
-          hiddenClass = '';
+        if (uData.userType === "Admin") {
+          hiddenClass = "";
         } else {
-          hiddenClass = 'hidden';
+          hiddenClass = "hidden";
         }
       }
     }
     return (
       <div>
-        {!carDetailData.loading &&
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{`${carDetailData.Publication.brand} - ${carDetailData.Publication.group}` }</title>
-          <meta property="fb:app_id" content={146328269397173} />
-          <meta property="og:url" content={`https://miautohoy.com/carDetail${location.search}`} />
-          <meta property="og:type" content="website" />
-          <meta property="og:image" content={`https://miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`} />
-        </Helmet>
-       }
+        {!carDetailData.loading && (
+          <Helmet>
+            <meta charSet="utf-8" />
+            <title>{`${carDetailData.Publication.brand} - ${
+              carDetailData.Publication.group
+            }`}</title>
+            <meta property="fb:app_id" content={146328269397173} />
+            <meta
+              property="og:url"
+              content={`https://miautohoy.com/carDetail${location.search}`}
+            />
+            <meta property="og:type" content="website" />
+            <meta
+              property="og:image"
+              content={`https://miautohoy.com/images/${
+                carDetailData.Publication.ImageGroup.image1
+              }`}
+            />
+          </Helmet>
+        )}
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
         <div className="container mb-4 mt-4">
@@ -157,7 +175,7 @@ class CarDetail extends Component {
             <div className="col-md-3 hidden-sm-down" />
             <Col md="6" sm="12" xs="12">
               <h3 className="hiddenMessage">
-                Esta publicación esta pendiente de aprobación.
+                {`Esta publicación se encuentra ${carDetailData.Publication.CurrentState.stateName}.`}
               </h3>
             </Col>
             <div className="col-md-3 hidden-sm-down" />
@@ -172,7 +190,9 @@ class CarDetail extends Component {
               <Row>
                 <Col md="8" sm="12" xs="12">
                   <CarCarousel
-                    photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
+                    photoGalery={photoGaleryParser(
+                      carDetailData.Publication.ImageGroup
+                    )}
                   />
                   <div className="container-data-input-group">
                     <h5 className="title">Resumen</h5>
@@ -190,14 +210,16 @@ class CarDetail extends Component {
                             {thousands(
                               carDetailData.Publication.kms,
                               0,
-                              ',',
-                              '.',
-                            )? thousands(
-                              carDetailData.Publication.kms,
-                              0,
-                              ',',
-                              '.',
-                            ): 'No especificado' }
+                              ",",
+                              "."
+                            )
+                              ? thousands(
+                                  carDetailData.Publication.kms,
+                                  0,
+                                  ",",
+                                  "."
+                                )
+                              : "No especificado"}
                           </p>
                         </div>
                       </Col>
@@ -251,13 +273,19 @@ class CarDetail extends Component {
                         <div className="col-12 item-data">
                           <small className="item-year">
                             {carDetailData.Publication.year}
-                            {thousands(carDetailData.Publication.kms,0,',','.',)? 
-                            ` - ${thousands(
+                            {thousands(
                               carDetailData.Publication.kms,
                               0,
-                              ',',
-                              '.',
-                            )} kms`: '' }
+                              ",",
+                              "."
+                            )
+                              ? ` - ${thousands(
+                                  carDetailData.Publication.kms,
+                                  0,
+                                  ",",
+                                  "."
+                                )} kms`
+                              : ""}
                           </small>
                           <p className="item-name">
                             <strong>
@@ -275,10 +303,10 @@ class CarDetail extends Component {
                                 ? `$${thousands(
                                     carDetailData.Publication.price,
                                     2,
-                                    ',',
-                                    '.',
+                                    ",",
+                                    "."
                                   )}`
-                                : 'Consultar'}
+                                : "Consultar"}
                             </strong>
                           </p>
                         </div>
@@ -286,15 +314,24 @@ class CarDetail extends Component {
                       <Button
                         color="primary"
                         onClick={() => {
-                          ReactGA.event({ category: 'CarDetail', action: 'Ir a Créditos Prendarios' });
-                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`);
+                          ReactGA.event({
+                            category: "CarDetail",
+                            action: "Ir a Créditos Prendarios"
+                          });
+                          history.push(
+                            `/pledgeCredits?${stringify(
+                              carDetailData.Publication
+                            )}`
+                          );
                         }}
                       >
                         ¡Solicitá tu crédito!
                       </Button>
                       <div className="container-social">
                         <a
-                          href={`https://www.facebook.com/sharer/sharer.php?u=https://miautohoy.com/carDetail${location.search}`}
+                          href={`https://www.facebook.com/sharer/sharer.php?u=https://miautohoy.com/carDetail${
+                            location.search
+                          }`}
                           className="btn btn-social-icon"
                         >
                           <img
@@ -303,7 +340,13 @@ class CarDetail extends Component {
                           />
                         </a>
                         <a
-                          href={`https://twitter.com/intent/tweet?text=Vendo ${carDetailData.Publication.brand} - ${carDetailData.Publication.group}. Ingresa a https://miautohoy.com/carDetail${location.search} para ver más detalles!`}
+                          href={`https://twitter.com/intent/tweet?text=Vendo ${
+                            carDetailData.Publication.brand
+                          } - ${
+                            carDetailData.Publication.group
+                          }. Ingresa a https://miautohoy.com/carDetail${
+                            location.search
+                          } para ver más detalles!`}
                           className="btn btn-social-icon"
                         >
                           <img
@@ -319,11 +362,22 @@ class CarDetail extends Component {
                           {carDetailData.Publication.User
                             ? carDetailData.Publication.User.agencyName ||
                               carDetailData.Publication.User.name
-                            : 'Particular'}
+                            : "Particular"}
                         </h5>
                         {carDetailData.Publication.User ? (
                           carDetailData.Publication.User.agencyName && (
-                            <Button onClick={() => this.props.history.push(`/microsite?concesionaria=${carDetailData.Publication.User.agencyName}&c_id=${carDetailData.Publication.User.id}`)} color="link">Ver todos los autos</Button>
+                            <Button
+                              onClick={() =>
+                                this.props.history.push(
+                                  `/microsite?concesionaria=${
+                                    carDetailData.Publication.User.agencyName
+                                  }&c_id=${carDetailData.Publication.User.id}`
+                                )
+                              }
+                              color="link"
+                            >
+                              Ver todos los autos
+                            </Button>
                           )
                         ) : (
                           <span />
@@ -334,7 +388,7 @@ class CarDetail extends Component {
                             {carDetailData.Publication.User
                               ? carDetailData.Publication.User.agencyAdress ||
                                 carDetailData.Publication.User.address
-                              : 'No especificado'}
+                              : "No especificado"}
                           </p>
                         </div>
                         <div className="data-input-group">
@@ -347,7 +401,7 @@ class CarDetail extends Component {
                             {carDetailData.Publication.User
                               ? carDetailData.Publication.User.agencyEmail ||
                                 carDetailData.Publication.User.email ||
-                                'No especificado'
+                                "No especificado"
                               : carDetailData.Publication.email}
                           </p>
                         </div>
@@ -392,26 +446,26 @@ const options = ({ location, commentThreadData }) => ({
     commentThread_id:
       commentThreadData && !commentThreadData.loading
         ? commentThreadData.CommentThread.id
-        : null,
-  },
+        : null
+  }
 });
 const withCarDetails = graphql(CarDetailQuery, {
-  name: 'carDetailData',
-  options,
+  name: "carDetailData",
+  options
 });
 
-const withSpecs = graphql(CarSpecs, { name: 'carSpecsData', options });
+const withSpecs = graphql(CarSpecs, { name: "carSpecsData", options });
 const withCommentThread = graphql(CommentThreadQuery, {
-  name: 'commentThreadData',
-  options,
+  name: "commentThreadData",
+  options
 });
 
 const withData = compose(
   withSpecs,
   withCarDetails,
   withCommentThread,
-  renderForNullPublication(_404page, 'carDetailData'),
-  renderWhileLoading(LoadingComponent, 'carDetailData', 'carSpecsData'),
+  renderForNullPublication(_404page, "carDetailData"),
+  renderWhileLoading(LoadingComponent, "carDetailData", "carSpecsData")
 );
 const CarDetailwithData = withData(CarDetail);
 

@@ -73,6 +73,13 @@ class CarSpecification extends Component {
                 </Col>
               );
             }
+            if(row.value ==="true"){
+              return (
+                <Col md="6" sm="6" xs="12">
+                  <p className='active'>{_.upperFirst(_.lowerCase(row.key))}</p>
+                </Col>
+              );
+            }
             if (typeof row.value === 'boolean' || row.value === null) {
               return (
                 <Col md="6" sm="6" xs="12">
@@ -93,6 +100,13 @@ class CarSpecification extends Component {
               return (
                 <Col md="6" sm="6" xs="12">
                   <p className='disable'>{_.upperFirst(_.lowerCase(row.key))}</p>
+                </Col>
+              );
+            }
+             if(row.value ==="true"){
+              return (
+                <Col md="6" sm="6" xs="12">
+                  <p className='active'>{_.upperFirst(_.lowerCase(row.key))}</p>
                 </Col>
               );
             }

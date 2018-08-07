@@ -67,7 +67,9 @@ class SearchCars extends Component {
     scroll.scrollToTop({ duration: 300 });
   }
   doFilterTotalResultSearch(url) {
-    getFiltersAndTotalResult(qs.parse(url))
+    let search = qs.parse(url);
+    search.state = 'Activas';
+    getFiltersAndTotalResult(search)
       .then(res => this.setState({
         totalResults: res.data.totalResults,
         filters: res.data.filters,
@@ -85,7 +87,7 @@ class SearchCars extends Component {
           text: qs.parse(url).text,
           page,
           year: qs.parse(url).year,
-          state: qs.parse(url).state,
+          state: 'Activas',
           fuel: qs.parse(url).fuel,
           userType: qs.parse(url).userType,
           modelName: qs.parse(url).modelName,
