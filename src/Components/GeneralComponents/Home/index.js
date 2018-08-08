@@ -21,6 +21,7 @@ import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
 import CarResult from '../../../stories/CarResult';
 import Banner from '../../../stories/Banner';
+import Card123Seguros from '../../../stories/Card123Seguros';
 import CreditsBanner from '../../../stories/CreditsBanner';
 import LastPublications from '../../../stories/LastPublications';
 import FriendlyCompanies from '../../../stories/FriendlyCompanies';
@@ -78,6 +79,7 @@ const Home = ({
             []
           }
         </LastPublications>
+        <Card123Seguros />
         <FriendlyCompanies>
           <a href="http://www.mendoza.gov.ar/prevencionvial/"><img src="/assets/images/EA1.jpg" alt="prevencion" /></a>
           <a href="http://www.pueblobenegas.com/"><img src="/assets/images/EA2.jpg" alt="benegas" /></a>

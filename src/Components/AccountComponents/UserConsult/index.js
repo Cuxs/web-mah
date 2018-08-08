@@ -2,132 +2,111 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import { Col, Row, Button, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { graphql, compose } from 'react-apollo';
+import { Col, Row, FormGroup, Label } from 'reactstrap';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
-import ScrollToTop from 'react-scroll-up';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
 import UserSideBar from '../../../stories/UserSideBar';
-import { UserDetailQuery, UserDataMutation, UserPasswordMutation } from '../../../ApolloQueries/UserProfileQuery';
-import { getUserToken, isUserLogged } from '../../../Modules/sessionFunctions';
+import { isUserLogged } from '../../../Modules/sessionFunctions';
+import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
+import { prepareArraySelect, thousands, generateYearPerModel } from '../../../Modules/functions';
 import LoginComponent from '../../../stories/LoginComponent';
 
 
 const renderForUnloggedUser = (component, propName = 'data') =>
-branch(
-  props => !isUserLogged(),
-  renderComponent(component),
-);
+  branch(
+    props => !isUserLogged(),
+    renderComponent(component),
+  );
 
 class UserConsult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modifyActive: false,
-      name: 'Cargando...',
-      address: 'Cargando...',
-      phone: 'Cargando...',
-      email: 'Cargando...',
-      oldPassword: '',
-      newPassword: '',
-      repeatNpass: '',
-      responseMsg: '',
-      responseTitle: '',
-      modal: false,
+      brand: '',
+      group: '',
+      codia: '',
+      Groups: [],
+      Models: [],
+      Prices: [],
+
     };
-    ReactGA.pageview('/USUARIO-PERFIL');
-    this.update = this.update.bind(this);
+    ReactGA.pageview('/USUARIO-CONSULTA');
   }
 
-  componentWillReceiveProps(newProps) {
-    if (!newProps.userProfile.loading) {
-      this.setState({
-        name: newProps.userProfile.User.name,
-        address: newProps.userProfile.User.address,
-        email: newProps.userProfile.User.email,
-        phone: newProps.userProfile.User.phone,
-      });
-    }
-  }
-  toggle() {
+  onChangeBrand(newBrand) {
     this.setState({
-      modifyActive: !this.state.modifyActive,
+      brand: newBrand,
+      group: '',
+      codia: '',
+      Models: [],
+      Prices: [],
+      year: '',
+      priceSuggested: '',
     });
+    this.props.client
+      .query({
+        query: GroupsQuery,
+        variables: {
+          gru_nmarc: newBrand,
+        },
+      })
+      .then(response => this.setState({ Groups: response.data.Group }));
   }
-  toggleModal() {
+  onChangeGroup(newGroup) {
     this.setState({
-      modal: !this.state.modal,
+      group: newGroup,
+      Prices: [],
+      year: '',
+      codia: '',
+      priceSuggested: '',
     });
+    this.props.client
+      .query({
+        query: ModelsQuery,
+        variables: {
+          ta3_nmarc: this.state.brand,
+          ta3_cgrup: newGroup,
+        },
+      })
+      .then(response => this.setState({ Models: response.data.Models }));
   }
-  update() {
-    this.props.updateData({
-      variables: {
-        MAHtoken: getUserToken(),
-        name: this.state.name,
-        address: this.state.address,
-        phone: this.state.phone,
-      },
-      refetchQueries: ['User'],
-    }).then(({ data: { modifyUserData: uData } }) => {
-      this.setState({
-        modal: true,
-        name: uData.name,
-        address: uData.address,
-        phone: uData.phone,
-        responseTitle: 'Felicitaciones',
-        responseMsg: 'Datos actualizados con éxito',
-      });
-      this.toggle();
-    }).catch(err => console.log(err));
-  }
-  updatePassword() {
-    this.props.updatePassword({
-      variables: {
-        MAHtoken: getUserToken(),
-        oldPassword: this.state.oldPassword,
-        newPassword: this.state.newPassword,
-      },
-    }).then(() => {
-      this.setState({
-        modal: true,
-        oldPassword: '',
-        newPassword: '',
-        repeatNpass: '',
-        responseTitle: 'Felicitaciones',
-        responseMsg: 'Contraseña actualizada con éxito',
-      });
-    }).catch(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors) {
-        graphQLErrors.map(({ message }) =>
-          this.setState({
-            responseTitle: 'Error',
-            responseMsg: message,
-            modal: true,
-          }));
-      }
-      if (networkError) {
-        this.setState({
-          responseTitle: 'Error',
-          responseMsg: networkError,
-          modal: true,
-        });
-      }
+  onChangeModel(newModel) {
+    this.setState({
+      codia: newModel,
     });
+    this.props.client
+      .query({
+        query: YearsQuery,
+        variables: {
+          ta3_codia: newModel,
+        },
+      })
+      .then(response => this.setState({ Prices: response.data.Price }));
   }
-  isPasswordFormInvalid() {
-    if (this.state.newPassword !== this.state.repeatNpass ||
-    this.state.newPassword === '') {
-      return true;
-    }
-    return false;
+  onChangeYear(newYear) {
+    this.setState({
+      year: newYear,
+      priceSuggested: this.state.Prices[
+        this.state.Prices[0].anio - parseInt(newYear, 10)
+      ]
+        ? `$${thousands(
+          this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)]
+            .precio,
+          0,
+          ',',
+          '.',
+        )}`
+        : 'No encontramos uno para ese año.',
+    });
   }
 
   render() {
-    const {
-      history, location, userProfile,
-    } = this.props;
+    const { history, location, ta3AllBrands: { AllBrands } } = this.props;
     return (
       <div>
         <AdminBar history={history} />
@@ -138,96 +117,98 @@ class UserConsult extends React.Component {
             </Col>
             <Col lg="9" md="12" sm="12" className="mt-4">
               <Row>
-                {!userProfile.loading &&
-                <Col lg="6" md="8" sm="12" className="container-data-input-group">
-                  <div className="card p-4" style={{ height: '100%' }}>
-                    <div className="data-input-group">
-                      <label>NOMBRE Y APELLIDO</label>
-                      {this.state.modifyActive ?
-                        <Input type="text" name="name" value={this.state.name} onChange={event => this.setState({ name: event.target.value })} />
-                : <p>{this.state.name}</p>}
-                    </div>
-                    <div className="data-input-group">
-                      <label>DOMICILIO</label>
-                      {this.state.modifyActive ?
-                        <Input type="text" name="address" value={this.state.address} onChange={event => this.setState({ address: event.target.value })} />
-                  : <p>{this.state.address}</p>}
-                    </div>
-                    <div className="data-input-group">
-                      <label>EMAIL DE CONTACTO <small>(Mail de inicio de sesión)</small></label>
-                      <p>{this.state.email}</p>
-                    </div>
-                    <div className="data-input-group">
-
-                      <label>TELEFONO DE CONTACTO</label>
-                      {this.state.modifyActive ?
-                        <Input type="text" name="phone" value={this.state.phone} onChange={event => this.setState({ phone: event.target.value })} />
-                  : <p>{this.state.phone}</p>}
-                    </div>
-                    <div className="underline" />
-                    {this.state.modifyActive ?
-                      <span>
-                        <Button color="secondary" className="btn-link-warning align-self-end" onClick={() => this.toggle()} >Cancelar</Button>
-                        <Button color="primary" className="btn-link-primary align-self-end" onClick={() => this.update()}>  <img src="/assets/images/icon-check-red.svg" alt="" />Guardar</Button>
-                      </span>
-                  : <Button className="btn-link-primary align-self-end" color="primary" onClick={() => this.setState({ modifyActive: true })} >Modificar</Button>}
-                  </div>
-                </Col>}
                 <Col lg="6" md="8" sm="12" className="container-data-input-group mv-15">
                   <div className="card p-4" style={{ height: '100%' }}>
-                    <h6 className="title-division"><b>¿Quieres cambiar la contraseña?</b></h6>
                     <FormGroup>
-                      <Label for="exampleEmail">Contraseña actual</Label>
-                      <Input type="password" onChange={e => this.setState({ oldPassword: e.target.value })} value={this.state.oldPassword} name="password" id="exampleText" />
+                      <Label for="exampleSelect">¿Cuál es la marca?</Label>
+                      <Select
+                        id="brand-select"
+                        onBlurResetsInput={false}
+                        onSelectResetsInput={false}
+                        options={prepareArraySelect(AllBrands, 'ta3_nmarc', 'ta3_marca')}
+                        simpleValue
+                        clearable
+                        name="selected-state"
+                        value={this.state.brand}
+                        placeholder="Selecciona una marca"
+                        onChange={newValue => this.onChangeBrand(newValue)}
+                        searchable
+                        noResultsText="No se encontraron resultados"
+                      />
                     </FormGroup>
                     <FormGroup>
-                      <Label for="exampleEmail">Nueva Contraseña</Label>
-                      <Input type="password" onChange={e => this.setState({ repeatNpass: e.target.value })} value={this.state.repeatNpass} name="password" id="exampleText" />
+                      <Label for="exampleSelect">¿Cuál es el modelo?</Label>
+                      <Select
+                        id="groups-select"
+                        onBlurResetsInput={false}
+                        onSelectResetsInput={false}
+                        options={prepareArraySelect(this.state.Groups, 'gru_cgrup', 'gru_ngrup')}
+                        simpleValue
+                        clearable
+                        name="selected-state"
+                        value={this.state.group}
+                        placeholder="Selecciona un modelo"
+                        onChange={newValue => this.onChangeGroup(newValue)}
+                        searchable
+                        noResultsText="No se encontraron resultados"
+                      />
                     </FormGroup>
                     <FormGroup>
-                      <Label for="exampleEmail">Repetir nueva Contraseña</Label>
-                      <Input type="password" onChange={e => this.setState({ newPassword: e.target.value })} value={this.state.newPassword} name="password" id="exampleText" />
+                      <Label for="exampleSelect">¿Cuál es la versión?</Label>
+                      <Select
+                        id="models-select"
+                        onBlurResetsInput={false}
+                        onSelectResetsInput={false}
+                        options={prepareArraySelect(this.state.Models, 'ta3_codia', 'ta3_model')}
+                        simpleValue
+                        clearable
+                        name="selected-state"
+                        value={this.state.codia}
+                        placeholder="Selecciona un tipo"
+                        onChange={newValue => this.onChangeModel(newValue)}
+                        searchable
+                        noResultsText="No se encontraron resultados"
+                      />
                     </FormGroup>
-                    <Button type="secondary" className="btn-link-primary align-self-end" disabled={this.isPasswordFormInvalid()} onClick={() => this.updatePassword()}><img src="/assets/images/icon-check-red.svg" alt="" />Cambiar</Button>
+                    <FormGroup>
+                      <Label for="exampleSelect">¿Cuál es el año?</Label>
+                      <Select
+                        id="year-select"
+                        onBlurResetsInput={false}
+                        onSelectResetsInput={false}
+                        options={generateYearPerModel(this.state.Prices)}
+                        simpleValue
+                        clearable
+                        required
+                        name="selected-state"
+                        value={this.state.year}
+                        placeholder="Selecciona un año"
+                        onChange={newValue => this.onChangeYear(newValue)}
+                        searchable
+                        noResultsText="No se encontraron resultados"
+                      />
+                    </FormGroup>
+                    <p>Precio Revista: <b>{this.state.priceSuggested}</b></p>
                   </div>
                 </Col>
               </Row>
             </Col>
           </Row>
-          <ScrollToTop showUnder={320} >
-            <img style={{ width: '30px' }} src="/assets/images/icon-arrow-top.svg" alt="Inicio" />
-          </ScrollToTop>
         </div>
-        <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
-          <ModalHeader toggle={this.toggleModal}>{this.state.responseTitle}</ModalHeader>
-          <ModalBody>
-            <div className="col-md-6 offset-md-3">
-              <h5>{this.state.responseMsg}</h5>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={() => this.toggleModal()}>OK</Button>
-          </ModalFooter>
-        </Modal>
       </div>
     );
   }
 }
 
-const options = () => ({
-  variables: {
-    MAHtoken: getUserToken(),
-  },
+
+const WithAllBrands = graphql(AllBrandsQuery, {
+  name: 'ta3AllBrands',
 });
 
-const withUserData = graphql(UserDetailQuery, { name: 'userProfile', options });
-const withUserDataMutation = graphql(UserDataMutation, { name: 'updateData' });
-const withPasswordMutation = graphql(UserPasswordMutation, { name: 'updatePassword' });
 const withData = compose(
-  withUserData,
-  renderForUnloggedUser(LoginComponent, 'userProfile'),
-  withUserDataMutation,
-  withPasswordMutation,
+  WithAllBrands,
+  renderForUnloggedUser(LoginComponent, 'userConsult'),
 );
 
-export default withData(UserConsult);
+
+export default withApollo(withData(UserConsult));

@@ -18,14 +18,15 @@ import {
   CommentThreadQuery
 } from "../../../ApolloQueries/CarDetailQuery";
 
-import TopTopNav from "../../../stories/TopTopNav";
-import SearchBar from "../../../stories/SearchBar";
-import Footer from "../../../stories/Footer";
-import BreadCrum from "../../../stories/BreadCrum";
-import PublicityBanner from "../../../stories/PublicityBanner";
-import CarCarousel from "../../../stories/CarCarousel";
-import CarSpecifications from "../../../stories/CarSpecifications";
-import MessageCarDetail from "../../../stories/MessagesCarDetail";
+import TopTopNav from '../../../stories/TopTopNav';
+import SearchBar from '../../../stories/SearchBar';
+import Footer from '../../../stories/Footer';
+import Card123Seguros from '../../../stories/Card123Seguros';
+import BreadCrum from '../../../stories/BreadCrum';
+import PublicityBanner from '../../../stories/PublicityBanner';
+import CarCarousel from '../../../stories/CarCarousel';
+import CarSpecifications from '../../../stories/CarSpecifications';
+import MessageCarDetail from '../../../stories/MessagesCarDetail';
 
 import _404page from "../../../stories/404page";
 import LoadingComponent from "../../../stories/LoadingComponent";
@@ -327,6 +328,7 @@ class CarDetail extends Component {
                       >
                         ¡Solicitá tu crédito!
                       </Button>
+                      <Card123Seguros isCarSelected />
                       <div className="container-social">
                         <a
                           href={`https://www.facebook.com/sharer/sharer.php?u=https://miautohoy.com/carDetail${
