@@ -10,7 +10,7 @@ import 'react-select/dist/react-select.css';
 import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
-import SuperAdminSideBar from '../../../stories/UserSideBar';
+import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../../../ApolloQueries/TautosQuery';
 import { prepareArraySelect, thousands, generateYearPerModel } from '../../../Modules/functions';
@@ -111,7 +111,7 @@ class SuperAdminConsult extends React.Component {
     return (
       <div>
         <AdminBar history={history} />
-        <div className="container">
+        <div className="container-fluid">
           <Row>
             <Col lg="3" md="12" sm="12" xs="12">
               <SuperAdminSideBar history={history} location={location} />

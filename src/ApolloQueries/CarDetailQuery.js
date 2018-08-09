@@ -55,6 +55,12 @@ query Publication($id: Int!) {
         profileImage
         bannerImage
       }
+      Province{
+        name
+      }
+      Town{
+        name
+      }
     }
   }
     `;

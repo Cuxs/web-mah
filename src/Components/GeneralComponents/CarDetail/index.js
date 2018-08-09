@@ -84,7 +84,7 @@ class CarDetail extends Component {
       if (data.User) {
         return data.User.isAgency ? data.User.agencyPhone : data.User.phone;
       }
-      return data.phone;
+      return data.phone || false;
     }
     return "";
   }
@@ -386,15 +386,16 @@ class CarDetail extends Component {
                         )}
                         <div className="data-input-group">
                           <label>DOMICILIO</label>
-                          <p>
-                            {carDetailData.Publication.User
+                          <p>{`
+                            ${carDetailData.Publication.User
                               ? carDetailData.Publication.User.agencyAdress ||
                                 carDetailData.Publication.User.address
-                              : "No especificado"}
+                              : "No especificado"} ${carDetailData.Publication.Town ? `, ${carDetailData.Publication.Town.name} ,`: ''} ${carDetailData.Publication.Province ? carDetailData.Publication.Province .name : ""}
+                          `}
                           </p>
                         </div>
                         <div className="data-input-group">
-                          <label>TELÉFONOS</label>
+                          {this.showUserPhone(carDetailData.Publication) && <label>TELÉFONOS</label>}
                           <p>{this.showUserPhone(carDetailData.Publication)}</p>
                         </div>
                         <div className="data-input-group">
