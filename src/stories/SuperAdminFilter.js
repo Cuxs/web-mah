@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Col, Row, Button } from 'reactstrap';
 import { parse, stringify } from 'query-string';
 /* eslint react/jsx-filename-extension: 0 */
+import { graphql, compose } from 'react-apollo';
+
+import { searchPubMutation } from '../ApolloQueries/SuperAdminPubQuery';
 
 class SuperAdminFilter extends Component {
   constructor(props) {
@@ -58,6 +61,21 @@ class SuperAdminFilter extends Component {
   changeStateValue(e) {
     this.searchWithParam('stateName', e.currentTarget.textContent);
     this.setState({ dropDownPublicationStateValue: e.currentTarget.textContent });
+  }
+
+  submitSearch(userType) {
+    this.setState({ loading: true });
+    const variables = {};
+    variables.text = this.state.search;
+    if (userType) { variables.userType = userType; }
+
+    this.props.searchPub({
+      variables,
+    })
+      .then(({ data: { searchPub } }) => {
+        this.setState({ loading: false });
+        this.props.searchResults(searchPub);
+      });
   }
 
   render() {
@@ -120,10 +138,52 @@ class SuperAdminFilter extends Component {
               </div>
             </div>
           </Row>
+          <Row>
+            <Col md="8" sm="12" className="d-flex flex-row row-search" >
+              <input
+                type="text"
+                className="form-control"
+                value={this.state.search}
+                placeholder="Buscar..."
+                onChange={event => this.setState({ search: event.target.value })}
+              />
+              <Button
+                color="primary"
+                style={{ cursor: 'pointer' }}
+                className="icon is-small btn-icon"
+                disabled={this.state.search === ''}
+                onClick={() => {
+                  this.submitSearch();
+                }}
+              >
+                <img src="/assets/images/icon-search.svg" alt="" />
+              </Button>
+              <Button
+                color="primary"
+                style={{ cursor: 'pointer', marginLeft: '20px' }}
+                className="icon is-small btn-icon"
+                onClick={() => {
+                    window.location.reload();
+                  }}
+              >
+                  Todos
+              </Button>
+              {this.state.loading && <img
+                style={{ height: '60px' }}
+                src="/loading.gif"
+                key={0}
+                alt="Loading..."
+              />}
+            </Col>
+          </Row>
         </Col>
       </Row>
     );
   }
 }
 
-export default SuperAdminFilter;
+const withSearhMutation = graphql(searchPubMutation, { name: 'searchPub' });
+
+
+const withData = compose(withSearhMutation);
+export default withData(SuperAdminFilter);
