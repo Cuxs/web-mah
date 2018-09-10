@@ -147,7 +147,7 @@ class Card123Seguros extends React.Component {
       <div className="container">
         {this.props.isCarSelected && <button className="container-button" onClick={this.handleQuoting} >
           <Col md={10} className="d-flex align-items-start flex-column" >
-            <label>Cotizá un seguro para tu auto</label>
+            <label>¡Cotizá el seguro para este vehículo ya!</label>
             <img src="/assets/images/123seguro-logo.svg" alt="" className="logo" />
           </Col>
           <Col md={2}>

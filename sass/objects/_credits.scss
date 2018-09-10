@@ -16,3 +16,23 @@
   margin-bottom: 0px;
   line-height: 2;
 }
+.modal-credit{
+  &-left{
+    padding-left: 30px;
+    padding-right: 5px;
+  }
+  &-right{
+    padding-right: 30px;
+    padding-left: 5px;
+  }
+  button {
+    border: solid 1px $gray-300;
+    .subtitle {
+      font-size: 12px;
+    }
+    img {
+      height: 30px;
+      width: auto;
+    }
+  }
+}

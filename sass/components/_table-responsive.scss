@@ -47,9 +47,11 @@
     background-color: #f3f3f3;
     text-align: center;
     height: 70px;
+    width: 16.7%;
   }
   td {
     text-align: center;
+    width: 16.7%;
   }
   .td-image {
     background-color: #f3f3f3;
@@ -69,8 +71,9 @@
       border: none;
       background-color:$secondary;
       text-transform: uppercase;
-      height: 50px;
+      height: 70px;
       color: #FFF;
+      cursor: pointer;
     }
     span {
       color: #34495E;

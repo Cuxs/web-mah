@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button } from 'reactstrap';
+import { Col, Row, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import { stringify, parse } from 'query-string';
@@ -10,7 +10,7 @@ import _ from 'lodash';
 import decode from 'jwt-decode';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
-import { hotjar } from "react-hotjar";
+import { hotjar } from 'react-hotjar';
 
 import {
   CarDetailQuery,
@@ -55,14 +55,15 @@ class CarDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      showModal: false,
     };
     this.toggle = this.toggle.bind(this);
+    this.renderBtnCredit = this.renderBtnCredit.bind(this);
     this.isPublicationVisible = this.isPublicationVisible.bind(this);
     ReactGA.pageview('/DETALLE-AUTO');
   }
-  componentWillMount(){
-    hotjar.initialize(916734, 6)
+  componentWillMount() {
+    hotjar.initialize(916734, 6);
   }
   toggle() {
     this.setState({
@@ -98,6 +99,19 @@ class CarDetail extends Component {
       return false;
     }
     return true;
+  }
+  toggleModal() {
+    this.setState({ showModal: !this.state.showModal });
+  }
+  renderBtnCredit(title, subtitle, brand) {
+    return (
+      <button>
+        <label>{title}</label>
+        <label className='subtitle'>{subtitle}</label>
+        {brand === 'miautohoy' && <img src="/logo.png" alt="Logo" />}
+        {brand === 'tutasa' && <img src="/assets/images/tutasa.jpeg" alt="" className="logo" />}
+      </button>
+    );
   }
   render() {
     const {
@@ -193,12 +207,12 @@ class CarDetail extends Component {
                               0,
                               ',',
                               '.',
-                            )? thousands(
+                            ) ? thousands(
                               carDetailData.Publication.kms,
                               0,
                               ',',
                               '.',
-                            ): 'No especificado' }
+                            ) : 'No especificado' }
                           </p>
                         </div>
                       </Col>
@@ -252,13 +266,13 @@ class CarDetail extends Component {
                         <div className="col-12 item-data">
                           <small className="item-year">
                             {carDetailData.Publication.year}
-                            {thousands(carDetailData.Publication.kms,0,',','.',)? 
+                            {thousands(carDetailData.Publication.kms, 0, ',', '.') ?
                             ` - ${thousands(
                               carDetailData.Publication.kms,
                               0,
                               ',',
                               '.',
-                            )} kms`: '' }
+                            )} kms` : '' }
                           </small>
                           <p className="item-name">
                             <strong>
@@ -286,10 +300,11 @@ class CarDetail extends Component {
                       </Row>
                       <Button
                         color="primary"
-                        onClick={() => {
-                          ReactGA.event({ category: 'CarDetail', action: 'Ir a Créditos Prendarios' });
-                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`);
-                        }}
+                        // onClick={() => {
+                        //   ReactGA.event({ category: 'CarDetail', action: 'Ir a Créditos Prendarios' });
+                        //   history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`);
+                        // }}
+                        onClick={() => this.setState({ showModal: true })}
                       >
                         ¡Solicitá tu crédito!
                       </Button>
@@ -380,6 +395,19 @@ class CarDetail extends Component {
               </Row>
             )}
         </div>
+        <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>¿Qué tipo de crédito querés solicitar?</ModalHeader>
+          <ModalBody>
+            <Row>
+              <Col md="6" sm="12" className="modal-credit modal-credit-left">
+                {this.renderBtnCredit('Crédito Personal', '¡Totalmente online!', 'tutasa')}
+              </Col>
+              <Col md="6" sm="12" className="modal-credit modal-credit-right">
+                {this.renderBtnCredit('Crédito Prendario', '¡Hasta 60 meses de plazo!', 'miautohoy')}
+              </Col>
+            </Row>
+          </ModalBody>
+        </Modal>
         <Footer history={history} />
       </div>
     );
