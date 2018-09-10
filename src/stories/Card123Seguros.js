@@ -15,10 +15,10 @@ class Card123Seguros extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      brand: '',
-      group: '',
-      codia: '',
-      year: '',
+      brand: null,
+      group: null,
+      codia: null,
+      year: null,
       Groups: [],
       Models: [],
       Prices: [],
@@ -46,11 +46,11 @@ class Card123Seguros extends React.Component {
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
-      group: '',
-      codia: '',
+      group: null,
+      codia: null,
       Models: [],
       Prices: [],
-      year: '',
+      year: null,
     });
     this.props.client.query({
       query: GroupsQuery,
@@ -64,8 +64,8 @@ class Card123Seguros extends React.Component {
     this.setState({
       group: newGroup,
       Prices: [],
-      year: '',
-      codia: '',
+      year: null,
+      codia: null,
     });
     this.props.client
       .query({
@@ -94,11 +94,16 @@ class Card123Seguros extends React.Component {
     this.setState({ year: newYear });
   }
   handleQuoting() {
-    getProvinces()
-      .then((response) => {
-        this.setState({ provinceList: response.data, showModal: true });
-      })
-      .catch(error => console.log(error));
+    const {
+      brand, group, codia, year,
+    } = this.state;
+    if (brand !== null && group !== null && codia !== null && year !== null) {
+      getProvinces()
+        .then((response) => {
+          this.setState({ provinceList: response.data, showModal: true });
+        })
+        .catch(error => console.log(error));
+    }
   }
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
@@ -116,7 +121,7 @@ class Card123Seguros extends React.Component {
           <Col md={2}>
             <img src="/assets/images/icon-arrow-right.svg" alt="Ir al formulario" />
           </Col>
-                                     </button>}
+        </button>}
         {!this.props.isCarSelected && <div className="container-123">
           <Col lg={12}>
             <label>Cotizá un seguro para tu auto</label>
@@ -192,12 +197,12 @@ class Card123Seguros extends React.Component {
               <img src="/assets/images/123seguro-logo.svg" alt="" className="logo" />
             </div>
           </Col>
-                                      </div>}
+        </div>}
         <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size="lg">
           <ModalHeader toggle={this.toggleModal}>Completá tus datos, para obtener un precio preciso</ModalHeader>
           <ModalBody>
-            <AvForm onSubmit={this.next} className="d-flex flex-row" >
-              <Col md={6} sm={12}>
+            <AvForm onSubmit={this.next} className="d-flex flex-lg-row flex-md-column" >
+              <Col lg={6} md={12}>
                 <label>Nombre y Apellido</label>
                 <AvField
                   type="string"
@@ -275,8 +280,9 @@ class Card123Seguros extends React.Component {
               </Col>
             </AvForm>
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={() => this.toggleModal()}>OK</Button>
+          <ModalFooter className="d-flex justify-content-end">
+            <Button color="default" onClick={() => this.toggleModal()}>Salir</Button>
+            <Button color="primary" onClick={() => this.toggleModal()}>Ver Cotización</Button>
           </ModalFooter>
         </Modal>
       </div>

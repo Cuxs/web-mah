@@ -339,8 +339,8 @@ class SearchBar extends Component {
       value,
       onChange: this.onChange,
     };
-    const haveTopBar = (this.props.location.pathname === '/' || this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/microsite') || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars'));
-    const haveToBanner = (this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars'));
+    const haveTopBar = (this.props.location.pathname === '/' || this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/microsite') || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
+    const haveToBanner = (this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
     return (
       <div className="container-fluid" style={{ marginBottom: haveToBanner ? '140px' : '90px' }} >
         <Row className="header" style={{ top: haveTopBar ? '29px' : '0px' }}>

@@ -1,0 +1,155 @@
+//TABLES
+.narrowtable {
+  margin-top: 20px;
+  border: solid 1px $gray-300;
+  margin-bottom: 30px;
+  width: 100%;
+  th {
+    background-color: #f3f3f3;
+    text-align: center;
+    height: 70px;
+  }
+  td {
+    text-align: center;
+  }
+  .td-image {
+    background-color: #f3f3f3;
+  }
+  .coverage {
+    display: none;
+  }
+  .coverage-mobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    button {
+      width: 100%;
+      border: none;
+      background-color: transparent;
+      text-transform: uppercase;
+      height: 50px;
+      color: #34495E;
+      font: 900 16px $font-family-sans-serif;
+      letter-spacing: 1.14px;
+      line-height: 19px;
+    }
+  }
+}
+.widetable {
+  width: 100%;
+  border: solid 1px $gray-300;
+  border-radius: 5px;
+  border-collapse: collapse;
+  overflow: hidden;
+  th {
+    background-color: #f3f3f3;
+    text-align: center;
+    height: 70px;
+  }
+  td {
+    text-align: center;
+  }
+  .td-image {
+    background-color: #f3f3f3;
+  }
+  .coverage-mobile {
+    display: none;
+  }
+  .coverage {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    button {
+      display: none;
+      width: 100%;
+      border: none;
+      background-color:$secondary;
+      text-transform: uppercase;
+      height: 50px;
+      color: #FFF;
+    }
+    span {
+      color: #34495E;
+      font: 900 16px $font-family-sans-serif;
+      letter-spacing: 1.14px;
+      line-height: 19px;
+    }
+  }
+  .coverage:hover{
+    span {
+      display: none;
+    }
+    button {
+      display: inline;
+    }
+  }
+}
+.title-hire123 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.card-coverage {
+  border-radius: 5px;
+  margin-top: 25px;
+  border: solid 1px $gray-300;
+  &-title {
+    background-color: #f3f3f3;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      font: 900 26px $font-family-sans-serif;
+      padding: 0;
+      margin: 0;
+      margin-right: 15px;
+    }
+  }
+  &-title1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center
+  }
+  &-detail {
+    padding: 15px;
+    margin-bottom: 0px;
+    h3 {
+      color: #34495E;
+      font: 900 18px $font-family-sans-serif;
+      font-weight: bold;
+      line-height: 22px;
+    }
+    li {
+        color: #34495E;
+        font: 300 14px $font-family-sans-serif;
+        line-height: 25px;
+        margin-bottom: 0;
+        margin-left: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .card-coverage {
+    &-title {
+      flex-direction: column;
+      justify-content: start;
+      align-items: start;
+    }
+    &-title1 {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}
