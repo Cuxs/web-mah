@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
+import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 /* eslint react/jsx-filename-extension: 0 */
@@ -30,6 +31,17 @@ class Card123Seguros extends React.Component {
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.handleQuoting = this.handleQuoting.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.isCarSelected) {
+      this.setState({
+        brand: this.props.carData.brand,
+        group: this.props.carData.group,
+        codia: this.props.carData.codia,
+        year: this.props.carData.year,
+      });
+    }
   }
 
   onChangeProvince(newProvince) {
@@ -108,6 +120,26 @@ class Card123Seguros extends React.Component {
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
   }
+  viewQuoted() {
+    let year, brand, version, model;
+    if (this.props.isCarSelected) {
+      year = this.state.year;
+      brand = this.state.brand;
+      version = this.state.group;
+      model = this.state.codia;
+    } else {
+      brand = _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', this.state.brand]).ta3_marca;
+      version = _.find(this.state.Groups, ['gru_cgrup', this.state.group]).gru_ngrup;
+      model = _.find(this.state.Models, ['ta3_codia', this.state.codia]).ta3_model;
+      year = this.state.year;
+    }
+    this.props.history.push({
+      pathname: '/hire123Seguros',
+      state: {
+        brand, version, model, year,
+      },
+    });
+  }
 
   render() {
     const { ta3AllBrands: { AllBrands } } = this.props;
@@ -121,7 +153,7 @@ class Card123Seguros extends React.Component {
           <Col md={2}>
             <img src="/assets/images/icon-arrow-right.svg" alt="Ir al formulario" />
           </Col>
-        </button>}
+                                     </button>}
         {!this.props.isCarSelected && <div className="container-123">
           <Col lg={12}>
             <label>Cotizá un seguro para tu auto</label>
@@ -197,7 +229,7 @@ class Card123Seguros extends React.Component {
               <img src="/assets/images/123seguro-logo.svg" alt="" className="logo" />
             </div>
           </Col>
-        </div>}
+                                      </div>}
         <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size="lg">
           <ModalHeader toggle={this.toggleModal}>Completá tus datos, para obtener un precio preciso</ModalHeader>
           <ModalBody>
@@ -282,7 +314,7 @@ class Card123Seguros extends React.Component {
           </ModalBody>
           <ModalFooter className="d-flex justify-content-end">
             <Button color="default" onClick={() => this.toggleModal()}>Salir</Button>
-            <Button color="primary" onClick={() => this.toggleModal()}>Ver Cotización</Button>
+            <Button color="primary" onClick={() => this.viewQuoted()}>Ver Cotización</Button>
           </ModalFooter>
         </Modal>
       </div>

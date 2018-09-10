@@ -191,6 +191,7 @@ class Hire123Seguros extends Component {
   }
 
   render() {
+    console.log(this.props)
     const headers = {
       image: <img src="/assets/images/123seguro-logo.svg" alt="" className="logo" />,
       coverage1: 'Responsabilidad Civil',
