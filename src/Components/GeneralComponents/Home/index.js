@@ -53,7 +53,7 @@ const Home = ({
           <meta charSet="utf-8" />
           <title>Bienvenido a Mi Auto Hoy</title>
         </Helmet>
-        <TopTopNav history={history} />
+        {/* <TopTopNav history={history} /> */}
         <SearchBar history={history} location={location} />
         {!Texts.loading && <Fragment>
           <Banner Texts={Texts} />
