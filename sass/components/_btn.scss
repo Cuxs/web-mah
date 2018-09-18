@@ -8,14 +8,14 @@
 
   //PRIMARY
   &.btn-primary{
-    font-weight:900;
+    font-weight:700;
     font-size: 14px;
     text-transform: uppercase;
-    padding: 10px 15px;
+    padding: 10px 20px;
     height: 50px;
     line-height: 30px;
     letter-spacing: 1px;
-    @include border-radius(3px);
+    @include border-radius(5px);
     &.alternative{
       background-color: transparent;
       color:$primary;
@@ -25,10 +25,10 @@
   }
   //SECONDARY
   &.btn-secondary{
-    @include border-radius(3px);
+    @include border-radius(5px);
     font:700 14px $font-family-sans-serif;
     text-transform: uppercase;
-    padding: 10px 15px;
+    padding: 10px 20px;
     height: 50px;
     line-height: 30px;
     letter-spacing: 1px;
@@ -41,10 +41,14 @@
   &.btn-default-menu{
     border:none;
     background:none;
-    font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+    font:700 #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
     color:$secondary;
     line-height: 20px;
     &:active{
+      background:none !important;
+      border-bottom: solid 2px $secondary !important;
+    }
+    &:hover{
       background:none !important;
       border-bottom: solid 2px $secondary !important;
     }

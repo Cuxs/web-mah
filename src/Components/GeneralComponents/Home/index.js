@@ -23,6 +23,7 @@ import CarResult from '../../../stories/CarResult';
 import Banner from '../../../stories/Banner';
 import Card123Seguros from '../../../stories/Card123Seguros';
 import CreditsBanner from '../../../stories/CreditsBanner';
+import Services from '../../../stories/Services';
 import LastPublications from '../../../stories/LastPublications';
 import FriendlyCompanies from '../../../stories/FriendlyCompanies';
 import Footer from '../../../stories/Footer';
@@ -57,8 +58,9 @@ const Home = ({
         <SearchBar history={history} location={location} />
         {!Texts.loading && <Fragment>
           <Banner Texts={Texts} />
-          <CreditsBanner history={history} Texts={Texts} />
+          {/* <CreditsBanner history={history} Texts={Texts} /> */}
         </Fragment>}
+        <Services history={history} location={location} />
         <CarHomeContainer>
           {data.HighlightedPublications.map(row => (
             <CarResult

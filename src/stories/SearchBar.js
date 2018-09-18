@@ -369,22 +369,19 @@ class SearchBar extends Component {
         <Row className="header" style={{ top: '0px' }}>
           <Col md="2" className="brand">
             <Row>
-              <a onClick={() => this.props.history.push('/')}>
+              <a onClick={() => this.props.history.push('/')} className="ml-3" >
                 <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
               </a>
             </Row>
           </Col>
-          <Col md="10" className="d-xl-none">
+          <div className="d-lg-none">
             <Button color="primary" onClick={() => this.setState({ sidebar: 'active' })} className="float-left btn-sidebar-open btn-link-primary">
               <img src="/assets/images/icon-menu.svg" alt="" />
             </Button>
-          </Col>
+          </div>
           <Col md="10">
-            <Button color="primary" onClick={() => this.setState({ sidebar: '' })} className="btn-link-primary btn-sidebar-close d-none">
-              <img src="/assets/images/icon-close.svg" alt="" />
-            </Button>
             <Row className="align-items-center area-btns justify-content-between">
-              <div className="d-flex flex-row" >
+              <div className="d-flex flex-row search" >
                 <Col lg="12" xs="12" sm="12">
                   <Row>
                     <Autosuggest
@@ -416,7 +413,21 @@ class SearchBar extends Component {
                   </Row>
                 </Col>
               </div>
-              <div className="d-flex flex-row" >
+              <div className="sell-mobile">
+                {this.state.isUserLogged ?
+                  <Button color="primary" className="mr-4 btn-seller" onClick={() => this.props.history.push('/createPublication')}>
+                    Vender
+                  </Button>
+                :
+                  <Button color="primary" className="mr-4 btn-seller" onClick={() => this.toggleModalVender()}>
+                    Vender
+                  </Button>
+                }
+              </div>
+              <div className={`d-flex flex-row sidebar-mobile ${this.state.sidebar}`} >
+                <Button color="primary" onClick={() => this.setState({ sidebar: '' })} className="btn-link-primary btn-sidebar-close d-none">
+                  <img src="/assets/images/icon-close.svg" alt="" />
+                </Button>
                 <div className="w-100 d-block d-lg-none" />
                 <Col lg="auto">
                   <Row>
@@ -437,8 +448,7 @@ class SearchBar extends Component {
                         isOpen={this.state.dropdownUser}
                         toggle={this.toggleUser}
                       >
-                        <Button style={{ cursor: 'pointer' }} color="primary" className={this.props.location.pathname === '/createPublication' ? 'active' : ''} onClick={() => this.props.history.push('/createPublication')} >Publica Ya!</Button>
-                        <DropdownToggle caret color="default" className="btn-link btn-block">{this.state.nameFB ? this.state.nameFB : _.truncate(getUserDataFromToken().name, { length: 10 })}</DropdownToggle>
+                        <DropdownToggle caret color="default-menu mr-4">{this.state.nameFB ? this.state.nameFB : _.truncate(getUserDataFromToken().name, { length: 18 })}</DropdownToggle>
                         <DropdownMenu>
                           {!isAdminLogged() &&
                           <DropdownItem
@@ -454,6 +464,9 @@ class SearchBar extends Component {
                           </DropdownItem>}
                           <DropdownItem value="closeSession" onClick={() => this.clearSession()}>Cerrar Sesión</DropdownItem>
                         </DropdownMenu>
+                        <Button color="primary" className="btn-seller" onClick={() => this.props.history.push('/createPublication')}>
+                          Vender
+                        </Button>
                       </ButtonDropdown>
                     </Row>
                   </Col>
@@ -469,7 +482,7 @@ class SearchBar extends Component {
                     </Col>
                     <Col lg="auto" sm="12">
                       <Row>
-                        <Button color="primary" className="mr-4" onClick={() => this.toggleModalVender()}>
+                        <Button color="primary" onClick={() => this.toggleModalVender()}>
                           Vender
                         </Button>
                       </Row>

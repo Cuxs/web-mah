@@ -19,14 +19,14 @@
   .react-autosuggest__container{
     width: 100%;
     .react-autosuggest__input{
-      font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+      font:700 14px $font-family-sans-serif;
       @include border-radius(3px 0 0 3px);
       @include placeholder {
-        font:bold $font-size-lg $font-family-sans-serif;
-        color:$secondary;
+        font:400 14px $font-family-sans-serif;
+        color:$gray-3;
         line-height: 25px;
       }
-      border:solid 1px $gray-200;
+      border:solid 1px $gray-300;
       border-right: none;
       padding:10px 45px 10px 15px;
       height: 50px;
@@ -36,7 +36,7 @@
       @include border-radius(3px);
       border:solid 1px $gray-200;
       .react-autosuggest__section-title{
-        font:300 $font-size-sm $font-family-sans-serif;
+        font:400 $font-size-sm $font-family-sans-serif;
       }
       .react-autosuggest__suggestions-list{
         li{
@@ -52,9 +52,10 @@
   .btn-group{
     margin-top:-1px;
     width: 100%;
-    &>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
-      border-bottom-right-radius: 3px !important;
-      border-top-right-radius: 3px !important;
+    .btn-primary {
+      border-bottom-left-radius: 5px !important;
+      border-top-left-radius: 5px !important;
+      margin-right: 20px;    
     }
     .btn-select{
       border:solid 1px $gray-200;
@@ -84,13 +85,13 @@
   //3
   .area-btns{
     .btn{
-      padding:10px 15px;
+      padding:10px 20px;
       height: 50px;
       line-height: 30px !important;
       &.btn-secondary{
         font:bold #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
         text-transform: uppercase;
-        @include border-radius(3px);
+        @include border-radius(5px);
         border:none;
       }
 
@@ -113,6 +114,9 @@
         }
       }
     }
+  }
+  .sell-mobile{
+    display: none;
   }
 }
 
@@ -139,6 +143,9 @@
 
 @media screen and (max-width: 768px) {
   .header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     .brand{
       display: none;
     }
@@ -148,6 +155,39 @@
         margin-left: -20px;
         border: none;
       }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .header{
+    .search{
+      max-width: 120px;
+    }
+    .react-autosuggest__container{
+      .react-autosuggest__input{
+        padding-right:10px !important;
+      }
+    }
+    .btn-seller{
+      margin-right: 20px !important;
+    }
+  }
+}
+@media screen and (max-width: 390px) {
+  .header{
+    .search{
+      max-width: 100px;
+    }
+    .btn-primary{
+      padding: 10px !important;
+    }
+  }
+}
+@media screen and (max-width: 1240px) {
+.header{
+    .sell-mobile{
+      display: initial;
     }
   }
 }
