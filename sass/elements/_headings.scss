@@ -19,8 +19,16 @@ label{
   letter-spacing:0.76px;
 }
 
+h1{
+  font-size: 32px;
+  color: $secondary;
+  letter-spacing: 0.89px;
+  line-height: 42px;
+  font-weight: 700;
+}
+
 h4{
-  font-size:18px/16px;
+  font-size:18px;
   color:$secondary;
   letter-spacing: 0.34px;
   line-height: 24px;

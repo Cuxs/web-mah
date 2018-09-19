@@ -1,0 +1,68 @@
+
+.scrolling-wrapper {
+  display: none;
+}
+
+.service{
+  height: 360px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  &:hover{
+    animation: zoomin 5s linear infinite;
+    transition: all .9s linear;
+  }
+  h1 {
+    color: #FFF;
+    text-align: left;
+  }
+  &-link{
+    background-color: transparent;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 400;
+    color: #FFF;
+  }
+}
+@-webkit-keyframes zoomin {
+  0% {
+    background-size: 100% 100%;
+  }
+  100% {
+   background-size: 120% 120%;
+  }
+}
+@keyframes zoomin {
+  0% {
+    background-size: 100% 100%;
+  }
+  100% {
+   background-size: 120% 120%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .service {
+    animation: none;
+    transition: none;
+  }
+  .service-desktop{
+    display: none;
+  }
+  .scrolling-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  
+    .service-col {
+      flex: 0 0 auto;
+    }
+  }
+}

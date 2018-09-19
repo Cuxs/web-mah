@@ -1,40 +1,77 @@
 import React from 'react';
-import { Row, Button } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { stringify } from 'query-string';
 import ReactGA from 'react-ga';
-
-import InputOrText from './InputOrText';
-import {scroller} from 'react-scroll';
-import _ from 'lodash';
-
-import { validate } from "../Modules/functions";
+import { isUserLogged } from '../Modules/sessionFunctions';
 /* eslint react/jsx-filename-extension: 0 */
 
+const services1 = [
+  {
+    title: 'Financiá tu compra', link: '/pledgeCredits', subtitle: 'Simulá y solicitá un crédito >', image: 'service-1',
+  },
+  {
+    title: 'Vendé tu auto rápido y fácil', link: isUserLogged() ? '/createPublication' : '/publicateWithoutRegister', subtitle: 'Vendé autos >', image: 'service-2',
+  },
+  {
+    title: 'Encontrá ese auto que querés', link: '/SearchCars?text=&carState=Usado', subtitle: 'Comprá un auto >', image: 'service-3',
+  },
+];
+const services2 = [
+  {
+    title: 'Obtené un seguro online', link: '', subtitle: 'Cotizá y contratá Seguros >', image: 'service-4',
+  },
+  {
+    title: 'Buscamos un auto a tu medida', link: '/personalShopperS1', subtitle: 'Solicitá un Personal Shopper >', image: 'service-5',
+  },
+  {
+    title: 'Concesionarias de confianza', link: '/friendlyAgency', subtitle: 'Buscá Concesionarios >', image: 'service-6',
+  },
+];
+
 class BannerUser extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      emailValidate: true,
-      text: 'Publicá gratis, crea tu cuenta y comenzá a ganar dinero vendiendo autos!',
-    };
-  }
-
-
   renderButton(service) {
     return (
-      <button className="service" style={{ background: 'url(/assets/images/services-01.png) no-repeat center center' }}>
-
-      </button>
+      <div className="service" style={{ backgroundImage: `url(/assets/images/${service.image}.png)` }}>
+        <h1>{service.title}</h1>
+        <button className="service-link" onClick={() => this.props.history.push(service.link)} >{service.subtitle}</button>
+      </div>
     );
   }
 
   render() {
     return (
-      <div className="container-fluid">
-        {this.renderButton()}
+      <div>
+        <div className="container">
+          <h3 className="title-division">Nuestros servicios</h3>
+        </div>
+        <div className="container service-desktop">
+          <div className="row">
+            {services1.map(item =>
+            (<Col md="4" sm="12" >
+              {this.renderButton(item)}
+             </Col>))}
+          </div>
+          <div className="row">
+            {services2.map(item =>
+            (<Col md="4" sm="12" >
+              {this.renderButton(item)}
+             </Col>))}
+          </div>
+        </div>
+        <div className="scrolling-wrapper">
+          {services1.map(item =>
+            (<Col md="4" sm="12" className="service-col">
+              {this.renderButton(item)}
+             </Col>))}
+        </div>
+        <div className="scrolling-wrapper">
+          {services2.map(item =>
+            (<Col md="4" sm="12" className="service-col">
+              {this.renderButton(item)}
+             </Col>))}
+        </div>
       </div>
-    )
+    );
   }
 }
 
