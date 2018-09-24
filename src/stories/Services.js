@@ -3,6 +3,7 @@ import { Row, Col } from 'reactstrap';
 import { stringify } from 'query-string';
 import ReactGA from 'react-ga';
 import { isUserLogged } from '../Modules/sessionFunctions';
+import ServiceCarousel from './ServiceCarousel';
 /* eslint react/jsx-filename-extension: 0 */
 
 const services1 = [
@@ -49,26 +50,25 @@ class BannerUser extends React.Component {
             {services1.map(item =>
             (<Col md="4" sm="12" >
               {this.renderButton(item)}
-             </Col>))}
+            </Col>))}
           </div>
           <div className="row">
             {services2.map(item =>
             (<Col md="4" sm="12" >
               {this.renderButton(item)}
-             </Col>))}
+            </Col>))}
           </div>
         </div>
+
         <div className="scrolling-wrapper">
-          {services1.map(item =>
-            (<Col md="4" sm="12" className="service-col">
-              {this.renderButton(item)}
-             </Col>))}
+          <ServiceCarousel
+            photoGalery={services1}
+          />
         </div>
         <div className="scrolling-wrapper">
-          {services2.map(item =>
-            (<Col md="4" sm="12" className="service-col">
-              {this.renderButton(item)}
-             </Col>))}
+          <ServiceCarousel
+            photoGalery={services2}
+          />
         </div>
       </div>
     );

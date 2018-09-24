@@ -316,10 +316,12 @@ export const getImages = (publication_id) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-export const uploadSliders = (file, number) => {
-  const url = `${server}/uploadSliders/${number}`;
+export const uploadSliders = (dataSlider) => {
+  const url = `${server}/uploadSliders`;
   const formData = new FormData();
-  formData.append('slider', file)
+  formData.append('sliderNumber', dataSlider.sliderNumber);
+  formData.append('slider', dataSlider.slider);
+  formData.append('sliderResponsive', dataSlider.sliderResponsive);
 
   const options = {
     method: 'POST',

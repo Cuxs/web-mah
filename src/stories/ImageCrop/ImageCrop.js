@@ -7,29 +7,29 @@ import './ImageCrop.css';
 
 const defaultSrc = '/default.jpg';
 const defaultSrcBanner = '/defaultBanner.png';
+const defaultSrcBannerMobile = '/defaultMobile.png';
 const invalidFormat = '/formato-no-valido.png';
 
 export default class ImageCrop extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      src: props.banner ? defaultSrcBanner: defaultSrc,
-      cropResult: props.banner ? defaultSrcBanner: defaultSrc,
+      src: props.banner ? defaultSrcBanner : props.bannerMobile ? defaultSrcBannerMobile : defaultSrc,
+      cropResult: props.banner ? defaultSrcBanner : props.bannerMobile ? defaultSrcBannerMobile : defaultSrc,
     };
     this.cropImage = this.cropImage.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if(nextProps.previewImage === 'erased'){
       this.setState({
-        cropResult: this.props.banner ? defaultSrcBanner: defaultSrc,
+        cropResult: nextProps.banner ? defaultSrcBanner : nextProps.bannerMobile ? defaultSrcBannerMobile : defaultSrc,
       });
     }
     if (_.isNull(this.state.cropResult)) {
       this.setState({
-        cropResult: this.props.banner ? defaultSrcBanner: defaultSrc,
+        cropResult: nextProps.banner ? defaultSrcBanner : nextProps.bannerMobile ? defaultSrcBannerMobile : defaultSrc,
       });
     }
     if (nextProps.previewImage !== '' && (this.state.cropResult === defaultSrc || this.state.cropResult === defaultSrcBanner)) {
@@ -63,6 +63,7 @@ export default class ImageCrop extends Component {
     };
     reader.readAsDataURL(files[0]);
   }
+
   cropImage() {
     if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
       return;
@@ -137,7 +138,7 @@ export default class ImageCrop extends Component {
                     onClick={() =>
                       this.setState({
                         cropResult: this.props.previewImage ?
-                         `${process.env.REACT_APP_API}/images/${this.props.previewImage}` : (this.props.banner ? defaultSrcBanner: defaultSrc)
+                         `${process.env.REACT_APP_API}/images/${this.props.previewImage}` : (this.props.banner ? defaultSrcBanner : this.props.bannerMobile ? defaultSrcBannerMobile : defaultSrc)
                       })
                     }
                   >

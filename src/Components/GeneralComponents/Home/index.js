@@ -6,8 +6,8 @@ import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
-import { hotjar } from "react-hotjar";
-import {mobilecheck} from "../../../Modules/functions";
+import { hotjar } from 'react-hotjar';
+import { mobilecheck } from '../../../Modules/functions';
 
 import {
   HomeQuery,
