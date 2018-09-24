@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
+import _ from 'lodash';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 /* eslint react/jsx-filename-extension: 0 */
@@ -15,10 +16,10 @@ class Card123Seguros extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      brand: '',
-      group: '',
-      codia: '',
-      year: '',
+      brand: null,
+      group: null,
+      codia: null,
+      year: null,
       Groups: [],
       Models: [],
       Prices: [],
@@ -30,6 +31,17 @@ class Card123Seguros extends React.Component {
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.handleQuoting = this.handleQuoting.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.isCarSelected) {
+      this.setState({
+        brand: this.props.carData.brand,
+        group: this.props.carData.group,
+        codia: this.props.carData.codia,
+        year: this.props.carData.year,
+      });
+    }
   }
 
   onChangeProvince(newProvince) {
@@ -46,11 +58,11 @@ class Card123Seguros extends React.Component {
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
-      group: '',
-      codia: '',
+      group: null,
+      codia: null,
       Models: [],
       Prices: [],
-      year: '',
+      year: null,
     });
     this.props.client.query({
       query: GroupsQuery,
@@ -64,8 +76,8 @@ class Card123Seguros extends React.Component {
     this.setState({
       group: newGroup,
       Prices: [],
-      year: '',
-      codia: '',
+      year: null,
+      codia: null,
     });
     this.props.client
       .query({
@@ -94,14 +106,39 @@ class Card123Seguros extends React.Component {
     this.setState({ year: newYear });
   }
   handleQuoting() {
-    getProvinces()
-      .then((response) => {
-        this.setState({ provinceList: response.data, showModal: true });
-      })
-      .catch(error => console.log(error));
+    const {
+      brand, group, codia, year,
+    } = this.state;
+    if (brand !== null && group !== null && codia !== null && year !== null) {
+      getProvinces()
+        .then((response) => {
+          this.setState({ provinceList: response.data, showModal: true });
+        })
+        .catch(error => console.log(error));
+    }
   }
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
+  }
+  viewQuoted() {
+    let year, brand, version, model;
+    if (this.props.isCarSelected) {
+      year = this.state.year;
+      brand = this.state.brand;
+      version = this.state.group;
+      model = this.state.codia;
+    } else {
+      brand = _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', this.state.brand]).ta3_marca;
+      version = _.find(this.state.Groups, ['gru_cgrup', this.state.group]).gru_ngrup;
+      model = _.find(this.state.Models, ['ta3_codia', this.state.codia]).ta3_model;
+      year = this.state.year;
+    }
+    this.props.history.push({
+      pathname: '/hire123Seguros',
+      state: {
+        brand, version, model, year,
+      },
+    });
   }
 
   render() {
@@ -110,7 +147,7 @@ class Card123Seguros extends React.Component {
       <div className="container">
         {this.props.isCarSelected && <button className="container-button" onClick={this.handleQuoting} >
           <Col md={10} className="d-flex align-items-start flex-column" >
-            <label>Cotizá un seguro para tu auto</label>
+            <label>¡Cotizá el seguro para este vehículo ya!</label>
             <img src="/assets/images/123seguro-logo.svg" alt="" className="logo" />
           </Col>
           <Col md={2}>
@@ -196,8 +233,8 @@ class Card123Seguros extends React.Component {
         <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size="lg">
           <ModalHeader toggle={this.toggleModal}>Completá tus datos, para obtener un precio preciso</ModalHeader>
           <ModalBody>
-            <AvForm onSubmit={this.next} className="d-flex flex-row" >
-              <Col md={6} sm={12}>
+            <AvForm onSubmit={this.next} className="d-flex flex-lg-row flex-md-column" >
+              <Col lg={6} md={12}>
                 <label>Nombre y Apellido</label>
                 <AvField
                   type="string"
@@ -275,8 +312,9 @@ class Card123Seguros extends React.Component {
               </Col>
             </AvForm>
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={() => this.toggleModal()}>OK</Button>
+          <ModalFooter className="d-flex justify-content-end">
+            <Button color="default" onClick={() => this.toggleModal()}>Salir</Button>
+            <Button color="primary" onClick={() => this.viewQuoted()}>Ver Cotización</Button>
           </ModalFooter>
         </Modal>
       </div>

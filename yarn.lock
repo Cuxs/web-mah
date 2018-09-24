@@ -7103,6 +7103,10 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-analytics-widget@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-analytics-widget/-/react-analytics-widget-1.2.0.tgz#e43df22e9224f252002a1229ad720c3d41fa9c07"
+
 react-apollo@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.0.4.tgz#01dd32a8e388672f5d7385b21cdd0b94009ee9ee"
@@ -7233,6 +7237,10 @@ react-html-attributes@^1.3.0:
   resolved "https://registry.yarnpkg.com/react-html-attributes/-/react-html-attributes-1.4.1.tgz#97b5ec710da68833598c8be6f89ac436216840a5"
   dependencies:
     html-element-attributes "^1.0.0"
+
+react-hyper-responsive-table@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/react-hyper-responsive-table/-/react-hyper-responsive-table-0.5.1.tgz#464bb8d42f7a9a7fdd87f735ef2936fe72ed8e8f"
 
 react-icon-base@2.1.0:
   version "2.1.0"

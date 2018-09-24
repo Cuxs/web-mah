@@ -1,22 +1,22 @@
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import React, { Component } from "react";
-import { Col, Row, Button } from "reactstrap";
-import { graphql, compose } from "react-apollo";
-import { branch, renderComponent } from "recompose";
-import { stringify, parse } from "query-string";
-import _ from "lodash";
-import decode from "jwt-decode";
-import { Helmet } from "react-helmet";
-import ReactGA from "react-ga";
-import { hotjar } from "react-hotjar";
+import React, { Component } from 'react';
+import { Col, Row, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { graphql, compose } from 'react-apollo';
+import { branch, renderComponent } from 'recompose';
+import { stringify, parse } from 'query-string';
+import _ from 'lodash';
+import decode from 'jwt-decode';
+import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
+import { hotjar } from 'react-hotjar';
 
 import {
   CarDetailQuery,
   CarSpecs,
-  CommentThreadQuery
-} from "../../../ApolloQueries/CarDetailQuery";
+  CommentThreadQuery,
+} from '../../../ApolloQueries/CarDetailQuery';
 
 import TopTopNav from '../../../stories/TopTopNav';
 import SearchBar from '../../../stories/SearchBar';
@@ -28,51 +28,52 @@ import CarCarousel from '../../../stories/CarCarousel';
 import CarSpecifications from '../../../stories/CarSpecifications';
 import MessageCarDetail from '../../../stories/MessagesCarDetail';
 
-import _404page from "../../../stories/404page";
-import LoadingComponent from "../../../stories/LoadingComponent";
+import _404page from '../../../stories/404page';
+import LoadingComponent from '../../../stories/LoadingComponent';
 
-import { thousands } from "../../../Modules/functions";
-import photoGaleryParser from "../../../Modules/photoGaleryParser";
+import { thousands } from '../../../Modules/functions';
+import photoGaleryParser from '../../../Modules/photoGaleryParser';
 import {
   getUserToken,
   getUserDataFromToken,
-  isUserLogged
-} from "../../../Modules/sessionFunctions";
+  isUserLogged,
+} from '../../../Modules/sessionFunctions';
 
-const renderForNullPublication = (component, propName = "data") =>
+const renderForNullPublication = (component, propName = 'data') =>
   branch(
     props => props[propName] && props[propName].Publication === null,
-    renderComponent(component)
+    renderComponent(component),
   );
 
-const renderWhileLoading = (component, propName = "data", propName2 = "data") =>
+const renderWhileLoading = (component, propName = 'data', propName2 = 'data') =>
   branch(
     props =>
       props[propName] && props[propName].loading && props[propName2].loading,
-    renderComponent(component)
+    renderComponent(component),
   );
 class CarDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      showModal: false,
     };
     this.toggle = this.toggle.bind(this);
+    this.renderBtnCredit = this.renderBtnCredit.bind(this);
     this.isPublicationVisible = this.isPublicationVisible.bind(this);
-    ReactGA.pageview("/DETALLE-AUTO");
+    ReactGA.pageview('/DETALLE-AUTO');
   }
   componentWillMount() {
     hotjar.initialize(916734, 6);
   }
   toggle() {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   }
   isPublicationVisible() {
     const { carDetailData, carSpecsData } = this.props;
     if (!carDetailData.loading && !carSpecsData.loading) {
-      if (carDetailData.Publication.CurrentState.stateName === "Pendiente"  || carDetailData.Publication.CurrentState.stateName === 'Vencida' || carDetailData.Publication.CurrentState.stateName === 'Suspendida' || carDetailData.Publication.CurrentState.stateName === 'Eliminada') {
+      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente' || carDetailData.Publication.CurrentState.stateName === 'Vencida' || carDetailData.Publication.CurrentState.stateName === 'Suspendida' || carDetailData.Publication.CurrentState.stateName === 'Eliminada') {
         return false;
       }
       return true;
@@ -86,7 +87,7 @@ class CarDetail extends Component {
       }
       return data.phone || false;
     }
-    return "";
+    return '';
   }
   dontShowEditButton() {
     if (
@@ -99,38 +100,51 @@ class CarDetail extends Component {
     }
     return true;
   }
+  toggleModal() {
+    this.setState({ showModal: !this.state.showModal });
+  }
+  renderBtnCredit(title, subtitle, brand) {
+    return (
+      <button>
+        <label>{title}</label>
+        <label className="subtitle">{subtitle}</label>
+        {brand === 'miautohoy' && <img src="/logo.png" alt="Logo" />}
+        {brand === 'tutasa' && <img src="/assets/images/tutasa.jpeg" alt="" className="logo" />}
+      </button>
+    );
+  }
   render() {
     const {
       carDetailData,
       carSpecsData,
       commentThreadData,
       history,
-      location
+      location,
     } = this.props;
-    let hiddenClass = "";
+    let hiddenClass = '';
     if (!carDetailData.loading && !carSpecsData.loading) {
       if (
-        carDetailData.Publication.CurrentState.stateName === "Pendiente" ||
-        carDetailData.Publication.CurrentState.stateName === "Vencida" ||
-        carDetailData.Publication.CurrentState.stateName === "Suspendida" ||
-        carDetailData.Publication.CurrentState.stateName === "Eliminada"
+        carDetailData.Publication.CurrentState.stateName === 'Pendiente' ||
+        carDetailData.Publication.CurrentState.stateName === 'Vencida' ||
+        carDetailData.Publication.CurrentState.stateName === 'Suspendida' ||
+        carDetailData.Publication.CurrentState.stateName === 'Eliminada'
       ) {
-        hiddenClass = "hidden";
+        hiddenClass = 'hidden';
       } else {
-        hiddenClass = "";
+        hiddenClass = '';
       }
       if (
-        (carDetailData.Publication.CurrentState.stateName === "Pendiente" ||
-          carDetailData.Publication.CurrentState.stateName === "Vencida" ||
-          carDetailData.Publication.CurrentState.stateName === "Suspendida" ||
-          carDetailData.Publication.CurrentState.stateName === "Eliminada") &&
+        (carDetailData.Publication.CurrentState.stateName === 'Pendiente' ||
+          carDetailData.Publication.CurrentState.stateName === 'Vencida' ||
+          carDetailData.Publication.CurrentState.stateName === 'Suspendida' ||
+          carDetailData.Publication.CurrentState.stateName === 'Eliminada') &&
         parse(this.props.location.search).t
       ) {
         const uData = decode(parse(this.props.location.search).t);
-        if (uData.userType === "Admin") {
-          hiddenClass = "";
+        if (uData.userType === 'Admin') {
+          hiddenClass = '';
         } else {
-          hiddenClass = "hidden";
+          hiddenClass = 'hidden';
         }
       }
     }
@@ -141,7 +155,8 @@ class CarDetail extends Component {
             <meta charSet="utf-8" />
             <title>{`${carDetailData.Publication.brand} - ${
               carDetailData.Publication.group
-            }`}</title>
+            }`}
+            </title>
             <meta property="fb:app_id" content={146328269397173} />
             <meta
               property="og:url"
@@ -191,9 +206,7 @@ class CarDetail extends Component {
               <Row>
                 <Col md="8" sm="12" xs="12">
                   <CarCarousel
-                    photoGalery={photoGaleryParser(
-                      carDetailData.Publication.ImageGroup
-                    )}
+                    photoGalery={photoGaleryParser(carDetailData.Publication.ImageGroup)}
                   />
                   <div className="container-data-input-group">
                     <h5 className="title">Resumen</h5>
@@ -211,16 +224,16 @@ class CarDetail extends Component {
                             {thousands(
                               carDetailData.Publication.kms,
                               0,
-                              ",",
-                              "."
+                              ',',
+                              '.',
                             )
                               ? thousands(
                                   carDetailData.Publication.kms,
                                   0,
-                                  ",",
-                                  "."
+                                  ',',
+                                  '.',
                                 )
-                              : "No especificado"}
+                              : 'No especificado'}
                           </p>
                         </div>
                       </Col>
@@ -277,16 +290,16 @@ class CarDetail extends Component {
                             {thousands(
                               carDetailData.Publication.kms,
                               0,
-                              ",",
-                              "."
+                              ',',
+                              '.',
                             )
                               ? ` - ${thousands(
                                   carDetailData.Publication.kms,
                                   0,
-                                  ",",
-                                  "."
+                                  ',',
+                                  '.',
                                 )} kms`
-                              : ""}
+                              : ''}
                           </small>
                           <p className="item-name">
                             <strong>
@@ -304,10 +317,10 @@ class CarDetail extends Component {
                                 ? `$${thousands(
                                     carDetailData.Publication.price,
                                     2,
-                                    ",",
-                                    "."
+                                    ',',
+                                    '.',
                                   )}`
-                                : "Consultar"}
+                                : 'Consultar'}
                             </strong>
                           </p>
                         </div>
@@ -316,19 +329,15 @@ class CarDetail extends Component {
                         color="primary"
                         onClick={() => {
                           ReactGA.event({
-                            category: "CarDetail",
-                            action: "Ir a Créditos Prendarios"
+                            category: 'CarDetail',
+                            action: 'Ir a Créditos Prendarios',
                           });
-                          history.push(
-                            `/pledgeCredits?${stringify(
-                              carDetailData.Publication
-                            )}`
-                          );
+                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`);
                         }}
                       >
                         ¡Solicitá tu crédito!
                       </Button>
-                      <Card123Seguros isCarSelected />
+                      <Card123Seguros isCarSelected history={history} carData={carDetailData.Publication} />
                       <div className="container-social">
                         <a
                           href={`https://www.facebook.com/sharer/sharer.php?u=https://miautohoy.com/carDetail${
@@ -364,17 +373,15 @@ class CarDetail extends Component {
                           {carDetailData.Publication.User
                             ? carDetailData.Publication.User.agencyName ||
                               carDetailData.Publication.User.name
-                            : "Particular"}
+                            : 'Particular'}
                         </h5>
                         {carDetailData.Publication.User ? (
                           carDetailData.Publication.User.agencyName && (
                             <Button
                               onClick={() =>
-                                this.props.history.push(
-                                  `/microsite?concesionaria=${
+                                this.props.history.push(`/microsite?concesionaria=${
                                     carDetailData.Publication.User.agencyName
-                                  }&c_id=${carDetailData.Publication.User.id}`
-                                )
+                                  }&c_id=${carDetailData.Publication.User.id}`)
                               }
                               color="link"
                             >
@@ -390,7 +397,7 @@ class CarDetail extends Component {
                             ${carDetailData.Publication.User
                               ? carDetailData.Publication.User.agencyAdress ||
                                 carDetailData.Publication.User.address
-                              : "No especificado"} ${carDetailData.Publication.Town ? `, ${carDetailData.Publication.Town.name} ,`: ''} ${carDetailData.Publication.Province ? carDetailData.Publication.Province .name : ""}
+                              : 'No especificado'} ${carDetailData.Publication.Town ? `, ${carDetailData.Publication.Town.name} ,` : ''} ${carDetailData.Publication.Province ? carDetailData.Publication.Province.name : ''}
                           `}
                           </p>
                         </div>
@@ -404,7 +411,7 @@ class CarDetail extends Component {
                             {carDetailData.Publication.User
                               ? carDetailData.Publication.User.agencyEmail ||
                                 carDetailData.Publication.User.email ||
-                                "No especificado"
+                                'No especificado'
                               : carDetailData.Publication.email}
                           </p>
                         </div>
@@ -435,6 +442,19 @@ class CarDetail extends Component {
               </Row>
             )}
         </div>
+        <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>¿Qué tipo de crédito querés solicitar?</ModalHeader>
+          <ModalBody>
+            <Row>
+              <Col md="6" sm="12" className="modal-credit modal-credit-left">
+                {this.renderBtnCredit('Crédito Personal', '¡Totalmente online!', 'tutasa')}
+              </Col>
+              <Col md="6" sm="12" className="modal-credit modal-credit-right">
+                {this.renderBtnCredit('Crédito Prendario', '¡Hasta 60 meses de plazo!', 'miautohoy')}
+              </Col>
+            </Row>
+          </ModalBody>
+        </Modal>
         <Footer history={history} />
       </div>
     );
@@ -449,26 +469,26 @@ const options = ({ location, commentThreadData }) => ({
     commentThread_id:
       commentThreadData && !commentThreadData.loading
         ? commentThreadData.CommentThread.id
-        : null
-  }
+        : null,
+  },
 });
 const withCarDetails = graphql(CarDetailQuery, {
-  name: "carDetailData",
-  options
+  name: 'carDetailData',
+  options,
 });
 
-const withSpecs = graphql(CarSpecs, { name: "carSpecsData", options });
+const withSpecs = graphql(CarSpecs, { name: 'carSpecsData', options });
 const withCommentThread = graphql(CommentThreadQuery, {
-  name: "commentThreadData",
-  options
+  name: 'commentThreadData',
+  options,
 });
 
 const withData = compose(
   withSpecs,
   withCarDetails,
   withCommentThread,
-  renderForNullPublication(_404page, "carDetailData"),
-  renderWhileLoading(LoadingComponent, "carDetailData", "carSpecsData")
+  renderForNullPublication(_404page, 'carDetailData'),
+  renderWhileLoading(LoadingComponent, 'carDetailData', 'carSpecsData'),
 );
 const CarDetailwithData = withData(CarDetail);
 

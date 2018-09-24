@@ -24,6 +24,7 @@ import CreatePublicationStepTwo from './Components/GeneralComponents/CreatePubli
 import CreatePublicationStepThree from './Components/GeneralComponents/CreatePublication/StepThree';
 import FreeDestinationCredits from './Components/GeneralComponents/FreeDestinationCredits';
 import FriendlyAgency from './Components/GeneralComponents/FriendlyAgency';
+import Hire123Seguros from './Components/GeneralComponents/Hire123Seguros';
 import Inbox from './Components/AccountComponents/Inbox';
 import Microsite from './Components/GeneralComponents/Microsite';
 import PledgeCredits from './Components/GeneralComponents/PledgeCredits';
@@ -132,6 +133,7 @@ class App extends Component {
             <Route exact path="/createPublicationS3" component={CreatePublicationStepThree} />
             <Route exact path="/freeDestinationCredits" component={FreeDestinationCredits} />
             <Route exact path="/friendlyAgency" component={FriendlyAgency} />
+            <Route exact path="/hire123Seguros" component={Hire123Seguros} />
             <Route exact path="/inbox" component={Inbox} />
             <Route exact path="/microsite" component={Microsite} />
             <Route exact path="/pledgeCredits" component={PledgeCredits} />
