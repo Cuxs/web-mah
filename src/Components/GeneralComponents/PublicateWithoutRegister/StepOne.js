@@ -10,7 +10,14 @@ import { withApollo } from 'react-apollo/withApollo';
 import AdminBar from '../../../stories/AdminBar';
 import { InfoCarQuery } from '../../../ApolloQueries/TautosQuery';
 
+import ReactPixel from 'react-facebook-pixel';
 
+const fpOptions = {
+	autoConfig: true,
+  debug: false, 	
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
 class CreatePublicationS1 extends React.Component {
   constructor(props) {
     super(props);

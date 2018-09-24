@@ -38,6 +38,16 @@ import {
   isUserLogged
 } from "../../../Modules/sessionFunctions";
 
+import ReactPixel from 'react-facebook-pixel';
+
+const fpOptions = {
+	autoConfig: true,
+  debug: false, 	
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
+
+
 const renderForNullPublication = (component, propName = "data") =>
   branch(
     props => props[propName] && props[propName].Publication === null,
@@ -302,7 +312,7 @@ class CarDetail extends Component {
                               {carDetailData.Publication.price
                                 ? `$${thousands(
                                     carDetailData.Publication.price,
-                                    2,
+                                    0,
                                     ",",
                                     "."
                                   )}`

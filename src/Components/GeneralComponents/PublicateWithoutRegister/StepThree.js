@@ -10,7 +10,14 @@ import { Notification } from 'react-notification';
 
 import AdminBar from '../../../stories/AdminBar';
 import { server } from '../../../Modules/params';
+import ReactPixel from 'react-facebook-pixel';
 
+const fpOptions = {
+	autoConfig: true,
+  debug: false, 	
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
 let myDropzone;
 
 function initCallback(dropzone) {
@@ -64,6 +71,18 @@ class StepThree extends Component {
 
   handleSubmit() {
     this.setState({disabled: true})
+    const search = parse(this.props.location.search);
+    const dataCar = {
+      Caracteristics: parse(search.Caracteristics),
+      TecnicalData: parse(search.TecnicalData),
+      Additionals: parse(search.Additionals),
+      DataCar: parse(search.DataCar),
+      DataPerson: parse(search.DataPerson),
+    };
+    const dataPublication = Object.assign({}, dataCar.DataCar, dataCar.DataPerson);
+
+    ReactPixel.track('CompleteRegistration', dataPublication ) 
+
     myDropzone.processQueue();
 /*     setTimeout(()=>{
       this.setState({

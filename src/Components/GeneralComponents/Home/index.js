@@ -29,6 +29,16 @@ import LoadingComponent from '../../../stories/LoadingComponent';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
+import ReactPixel from 'react-facebook-pixel';
+
+const fpOptions = {
+	autoConfig: true,
+  debug: false, 	
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
+
+
 const script = document.createElement('script');
 script.src = '//code.tidio.co/2adtbpujxsburoaa4sm7umttnp1j1wjr.js';
 script.async = true;
