@@ -33,6 +33,19 @@
   }
 }
 
+.payment-banner{
+  height: 160px;
+  width: 100%;
+  background-color: $gray-200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px $gray-500;
+  border-radius: 5px;
+  color: $gray-500;
+  font-size: 30px;
+}
+
 
 @media screen and (max-width: 990px) {
   .banner-home{

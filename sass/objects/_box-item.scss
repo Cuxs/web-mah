@@ -161,6 +161,31 @@
   }
 }
 
+.car-home-responsive{
+  display: none;
+}
+
+@media screen and (max-width: 765px) {
+  .car-home{
+    display: none;
+  }
+  .car-home-responsive{
+    display: initial;
+    .pub-indicator{
+      bottom: -40px !important;
+      li{
+        height: 14px;
+        width: 14px;
+        border-radius: 7px;
+        background-color: $gray-200;
+      }
+      .active{
+        background-color: $gray-500;
+
+      }
+    }
+  }
+}
 
 @media screen and (max-width: 960px) {
   .container-box-item{

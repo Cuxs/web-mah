@@ -32,9 +32,11 @@ const services2 = [
 class BannerUser extends React.Component {
   renderButton(service) {
     return (
-      <div className="service" style={{ backgroundImage: `url(/assets/images/${service.image}.png)` }}>
-        <h1>{service.title}</h1>
-        <button className="service-link" onClick={() => this.props.history.push(service.link)} >{service.subtitle}</button>
+      <div className="service-parent">
+        <div className="service-child" style={{ backgroundImage: `url(/assets/images/${service.image}.png)` }}>
+          <h1>{service.title}</h1>
+          <button className="service-child-link" onClick={() => this.props.history.push(service.link)} >{service.subtitle}</button>
+        </div>
       </div>
     );
   }

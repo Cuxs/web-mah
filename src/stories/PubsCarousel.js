@@ -6,9 +6,12 @@ import {
   CarouselIndicators,
 } from 'reactstrap';
 
+import photoGaleryParser from '../Modules/photoGaleryParser';
+import CarResult from '../stories/CarResult';
+
 /* eslint react/jsx-filename-extension: 0 */
 
-export default class BannerCarousel extends Component {
+export default class ServiceCarousel extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
@@ -32,41 +35,45 @@ export default class BannerCarousel extends Component {
   }
   next() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === this.props.photoGalery.length - 1 ? 0 : this.state.activeIndex + 1;
+    const nextIndex = this.state.activeIndex === this.props.pubs.length - 1 ? 0 : this.state.activeIndex + 1;
     this.setState({ activeIndex: nextIndex });
   }
 
   previous() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === 0 ? this.props.photoGalery.length - 1 : this.state.activeIndex - 1;
+    const nextIndex = this.state.activeIndex === 0 ? this.props.pubs.length - 1 : this.state.activeIndex - 1;
     this.setState({ activeIndex: nextIndex });
   }
 
   render() {
     const { activeIndex } = this.state;
-    const slides = this.props.photoGalery.map(item => (
+    const slides = this.props.pubs.map((item, index) => (
       <CarouselItem
         onExiting={this.onExiting}
         onExited={this.onExited}
-        key={item.src}
       >
-        <img className="banner-img" src={item.src} alt={item.altText} />
+        <CarResult
+          photoGalery={photoGaleryParser(item.ImageGroup)}
+          data={item}
+        />
       </CarouselItem>
     ));
     return (
       <div>
-        <div className="banner-container">
+        <div className="pub-container">
           <Carousel
             pauser={['hover', false]}
             activeIndex={activeIndex}
             next={this.next}
             previous={this.previous}
           >
-            <CarouselIndicators items={this.props.photoGalery} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+            <CarouselIndicators
+              className="pub-indicator"
+              items={this.props.pubs}
+              activeIndex={activeIndex}
+              onClickHandler={this.goToIndex}
+            />
             {slides}
-
-            <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
-            <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
           </Carousel>
 
         </div>

@@ -50,9 +50,11 @@ export default class ServiceCarousel extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <div className="service service-carousel" style={{ backgroundImage: `url(/assets/images/${item.image}.png)` }}>
-          <h1>{item.title}</h1>
-          <button className="service-link" onClick={() => this.props.history.push(item.link)} >{item.subtitle}</button>
+        <div className="service-parent">
+          <div className="service-child service-carousel" style={{ backgroundImage: `url(/assets/images/${item.image}.png)` }}>
+            <h1>{item.title}</h1>
+            <button className="service-child-link" onClick={() => this.props.history.push(item.link)} >{item.subtitle}</button>
+          </div>
         </div>
       </CarouselItem>
     ));
