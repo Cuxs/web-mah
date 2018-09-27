@@ -2,9 +2,9 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button, Label, Input, ModalHeader, Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Col, Row, Button, Label, Input, ModalHeader, Modal, ModalBody, ModalFooter, FormGroup } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
-import {parse} from 'query-string';
+import { parse } from 'query-string';
 
 import _ from 'lodash';
 import ScrollToTop from 'react-scroll-up';
@@ -14,7 +14,7 @@ import AdminBar from '../../../stories/AdminBar';
 
 import ImageCrop from '../../../stories/ImageCrop';
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
-import { uploadAgencyImages } from '../../../Modules/fetches';
+import { uploadAgencyImages, changePassword } from '../../../Modules/fetches';
 import parseError from '../../../Modules/errorParser';
 import Breadcrumb from '../../../stories/BreadCrum';
 
@@ -43,7 +43,7 @@ class SuperAdminMicrosite extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillReceiveProps({agencyData}) {
+  componentWillReceiveProps({ agencyData }) {
     if (!agencyData.loading) {
       const {
         agencyAdress,
@@ -52,8 +52,8 @@ class SuperAdminMicrosite extends Component {
         agencyPhone,
         bannerImage,
         profileImage,
-      } = agencyData.User
-      scroll.scrollToTop({ duration: 300 });      
+      } = agencyData.User;
+      scroll.scrollToTop({ duration: 300 });
       this.setState({
         agencyAdress,
         agencyEmail,
@@ -106,7 +106,7 @@ class SuperAdminMicrosite extends Component {
   }
   handleSubmit() {
     const { profileImage, bannerImage } = this.state;
-    const { u_id } = parse(this.props.location.search)
+    const { u_id } = parse(this.props.location.search);
     uploadAgencyImages(profileImage, bannerImage, u_id)
       .then((resp) => {
         this.setState({
@@ -116,7 +116,25 @@ class SuperAdminMicrosite extends Component {
         });
       })
       .catch((e) => {
-        const error = parseError;
+        const error = parseError(e);
+        this.setState({
+          modal: true,
+          responseTitle: error.title,
+          responseMsg: error.message,
+        });
+      });
+  }
+  changePassword() {
+    changePassword(parse(this.proexpectassword)
+      .then((resp) => {
+        this.setState({
+          modal: true,
+          responseTitle: 'Éxito',
+          responseMsg: resp.message,
+        });
+      })
+      .catch((e) => {
+        const error = parseError(e);
         this.setState({
           modal: true,
           responseTitle: error.title,
@@ -133,10 +151,10 @@ class SuperAdminMicrosite extends Component {
         <div className="container">
           <Row>
             <Col lg="3" md="12" sm="12" xs="12">
-            <SuperAdminSideBar history={this.props.history} location={this.props.location} />
+              <SuperAdminSideBar history={this.props.history} location={this.props.location} />
             </Col>
             <Col lg="9" md="12" sm="12" xs="12" className="mt-4">
-            <Breadcrumb history={this.props.history} />
+              <Breadcrumb history={this.props.history} />
               <Row>
                 <Col lg="6" md="12" sm="12" xs="12" className="container-data-input-group">
                   <div className="card p-4 mb-4">
@@ -230,43 +248,52 @@ class SuperAdminMicrosite extends Component {
                     )}
                   </div>
                 </Col>
-
-                <Col lg="6" md="12" sm="12" xs="12" className="container-data-input-group">
-                  <div className="card p-4 mb-4">
-                    <div className="data-input-group">
-                      <Label>FOTO DE PORTADA</Label> <small>(Recomendado 1440 x 360)</small>
-                      <div className="col-12">
-                        <ImageCrop
-                          aspectRatio={16 / 4}
-                          cropImage={img => this.getBannerImage(img)}
-                          previewImage={this.state.previewBannerImage}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="data-input-group">
-                      <Label>MARCA DE LA AGENCIA O FOTO DE PERFIL</Label> <small>(Recomendado 265 x 175)</small>
-                      <div className="col-12">
-                        <ImageCrop
-                          aspectRatio={85 / 53}
-                          cropImage={img => this.getProfileImage(img)}
-                          previewImage={this.state.previewProfileImage}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="underline" />
-                    <Button
-                      type="secondary"
-                      className="btn-link-primary align-self-end"
-                      onClick={() => this.handleSubmit()}
-                    >
-                      <img src="/assets/images/icon-check-red.svg" alt="" />
-                      Guardar
-                    </Button>
+                <Col lg="6" md="8" sm="12" className="container-data-input-group mv-15">
+                  <div className="card p-3" style={{ height: '100%' }}>
+                    <h5 className="title-division"><b>Cambiar contraseña</b></h5>
+                    <FormGroup>
+                      <Label for="repeatPass">Nueva Contraseña</Label>
+                      <Input type="password" onChange={e => this.setState({ newPassword: e.target.value })} value={this.state.newPassword} name="password" id="repeatPass" />
+                    </FormGroup>
+                    <Button type="secondary" className="btn-link-primary align-self-end" disabled={this.state.password === ''} onClick={() => this.changePassword()}><img src="/assets/images/icon-check-red.svg" alt="" />Cambiar</Button>
                   </div>
                 </Col>
               </Row>
+              <Col lg="6" md="12" sm="12" xs="12" className="container-data-input-group">
+                <div className="card p-4 mb-4">
+                  <div className="data-input-group">
+                    <Label>FOTO DE PORTADA</Label> <small>(Recomendado 1440 x 360)</small>
+                    <div className="col-12">
+                      <ImageCrop
+                        aspectRatio={16 / 4}
+                        cropImage={img => this.getBannerImage(img)}
+                        previewImage={this.state.previewBannerImage}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="data-input-group">
+                    <Label>MARCA DE LA AGENCIA O FOTO DE PERFIL</Label> <small>(Recomendado 265 x 175)</small>
+                    <div className="col-12">
+                      <ImageCrop
+                        aspectRatio={85 / 53}
+                        cropImage={img => this.getProfileImage(img)}
+                        previewImage={this.state.previewProfileImage}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="underline" />
+                  <Button
+                    type="secondary"
+                    className="btn-link-primary align-self-end"
+                    onClick={() => this.handleSubmit()}
+                  >
+                    <img src="/assets/images/icon-check-red.svg" alt="" />
+                      Guardar
+                  </Button>
+                </div>
+              </Col>
             </Col>
           </Row>
           <ScrollToTop showUnder={320} >
@@ -288,10 +315,10 @@ class SuperAdminMicrosite extends Component {
     );
   }
 }
-const options = (props) => ({
+const options = props => ({
   variables: {
     MAHtoken: getUserToken(),
-    id: parse(props.location.search).u_id
+    id: parse(props.location.search).u_id,
   },
 });
 const withAgencyDetail = graphql(AgencyDetailQuery, {

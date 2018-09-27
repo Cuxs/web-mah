@@ -139,6 +139,27 @@ export const recoverPassword = (email) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+export const changePassword = (userId, newPassword) => {
+  const url = `${server}/changePassword`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+    body: JSON.stringify({
+      userId,
+      newPassword,
+    }),
+  };
+
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (_.isUndefined(responseData.status) || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
 export const updatePassword = (data) => {
   if (loadState()) {
     token = `Bearer ${loadState().login.MAHtoken}`;
