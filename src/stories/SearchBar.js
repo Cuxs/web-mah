@@ -86,6 +86,7 @@ class SearchBar extends Component {
     this.disabled = this.disabled.bind(this);
     this.loginFB = this.loginFB.bind(this);
     this.pledgeCredits = this.pledgeCredits.bind(this);
+    this.home = this.home.bind(this);
     this.friendlyAgency = this.friendlyAgency.bind(this);
     this.withoutRegister = this.withoutRegister.bind(this);
     this.agencyRegister = this.agencyRegister.bind(this);
@@ -229,6 +230,14 @@ class SearchBar extends Component {
       action: 'Ir a Créditos Prendarios',
     });
     return this.props.history.push('/pledgeCredits');
+  }
+
+  home() {
+    ReactGA.event({
+      category: `SearchBar ${this.props.history.location.pathname}`,
+      action: 'Ir a Home',
+    });
+    return this.props.history.push('/');
   }
 
   friendlyAgency() {
@@ -394,6 +403,7 @@ class SearchBar extends Component {
                       renderSectionTitle={renderSectionTitle}
                       getSectionSuggestions={getSectionSuggestions}
                       inputProps={inputProps}
+                      onFocus={() => console.log('focusss')}
                     />
                     <style jsx="true" >{autocompleteStyles}</style>
                   </Row>
@@ -428,6 +438,12 @@ class SearchBar extends Component {
                 <Button color="primary" onClick={() => this.setState({ sidebar: '' })} className="btn-link-primary btn-sidebar-close d-none">
                   <img src="/assets/images/icon-close.svg" alt="" />
                 </Button>
+                <div className="w-100 d-block d-lg-none" />
+                <Col lg="auto">
+                  <Row>
+                    <Button color="default-menu" className="ml-4" onClick={this.home} >Inicio</Button>
+                  </Row>
+                </Col>
                 <div className="w-100 d-block d-lg-none" />
                 <Col lg="auto">
                   <Row>
@@ -481,11 +497,9 @@ class SearchBar extends Component {
                       </Row>
                     </Col>
                     <Col lg="auto" sm="12">
-                      <Row>
-                        <Button color="primary" onClick={() => this.toggleModalVender()}>
+                      <Button color="primary" onClick={() => this.toggleModalVender()}>
                           Vender
-                        </Button>
-                      </Row>
+                      </Button>
                     </Col>
                   </Row>
                 </Col>

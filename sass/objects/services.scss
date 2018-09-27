@@ -3,20 +3,38 @@
   display: none;
 }
 
-.service{
+.service-parent{
   height: 360px;
+  width: auto;
+  margin-bottom: 20px;
+  overflow: hidden;
+  &:hover .service-child{
+    transform: scale(1.07);
+    transition: all .5s;
+  }
+  &:hover .service-child:before,
+  &:focus .service-child:before {
+    display: block;
+  }
+}
+
+.service-child{
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 30px;
   background-repeat: no-repeat;
   background-position: center;
-  overflow: hidden;
-  &:hover{
-    animation: zoomin 5s linear infinite;
-    transition: all .9s linear;
+  &::before {
+    content: "";
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   h1 {
     color: #FFF;
@@ -28,26 +46,11 @@
     border: none;
     cursor: pointer;
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 300;
     color: #FFF;
   }
 }
-@-webkit-keyframes zoomin {
-  0% {
-    background-size: 100% 100%;
-  }
-  100% {
-   background-size: 120% 120%;
-  }
-}
-@keyframes zoomin {
-  0% {
-    background-size: 100% 100%;
-  }
-  100% {
-   background-size: 120% 120%;
-  }
-}
+
 @media screen and (max-width: 767px) {
   .service {
     animation: none;

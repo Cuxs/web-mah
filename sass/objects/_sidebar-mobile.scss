@@ -4,7 +4,7 @@
     display: block !important;
     position: fixed;
     top: 0;
-    right: -100vw;
+    left: -100vw;
     max-width: 100%;
     width: 100vw;
     height: 100vh;
@@ -23,7 +23,7 @@
       background-color: $white;
       display: block !important;
       top: 0;
-      right: 0;
+      left: 0;
       -webkit-transition: all 500ms ease-out;
       -moz-transition: all 500ms ease-out;
       -o-transition: all 500ms ease-out;

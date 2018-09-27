@@ -23,10 +23,6 @@ class Banner extends React.Component {
           slidersMobile: [sliders[1], sliders[3], sliders[5]],
         });
       });
-    const texts = {};
-    texts.fetched = true;
-    this.props.Texts.PageTexts.map(row => texts[row.section] = row.text);
-    this.setState({ ...texts });
   }
   render() {
     // const backgroundImage = this.state.sliders[0].src;
