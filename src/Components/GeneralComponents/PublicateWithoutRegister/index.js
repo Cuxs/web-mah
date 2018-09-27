@@ -25,8 +25,16 @@ import {
 import {
   prepareArraySelect,
   thousands,
-  generateYearArray,
-} from '../../../Modules/functions';
+  generateYearArray
+} from "../../../Modules/functions";
+import ReactPixel from 'react-facebook-pixel';
+
+const fpOptions = {
+	autoConfig: true,
+  debug: false, 	
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
 
 class CreatePublication extends React.Component {
   constructor(props) {

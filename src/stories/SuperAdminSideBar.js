@@ -3,7 +3,14 @@ import { Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Lab
 import Select from 'react-select';
 /* eslint react/jsx-filename-extension: 0 */
 import { graphql, compose } from 'react-apollo';
+import { branch, renderComponent } from 'recompose';
 import { AllUsersMailsQuery } from '../ApolloQueries/UserQuery';
+import LoginComponent from '../stories/LoginComponent';
+import { isUserLogged } from '../Modules/sessionFunctions';
+
+
+const renderForUnloggedUser = (component, propName = 'data') =>
+  branch(props => !isUserLogged(), renderComponent(component));
 
 class SuperAdminSideBar extends React.Component {
   constructor(props) {
@@ -97,5 +104,8 @@ class SuperAdminSideBar extends React.Component {
   }
 }
 
-const withData = graphql(AllUsersMailsQuery, { name: 'userMails' });
+const withData = compose(
+  graphql(AllUsersMailsQuery, { name: 'userMails' }),
+  renderForUnloggedUser(LoginComponent, 'userMails')
+)
 export default withData(SuperAdminSideBar);

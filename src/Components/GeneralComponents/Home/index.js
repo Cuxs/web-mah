@@ -31,6 +31,16 @@ import LoadingComponent from '../../../stories/LoadingComponent';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
+import ReactPixel from 'react-facebook-pixel';
+
+const fpOptions = {
+	autoConfig: true,
+  debug: false, 	
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
+
+
 const script = document.createElement('script');
 script.src = '//code.tidio.co/2adtbpujxsburoaa4sm7umttnp1j1wjr.js';
 script.async = true;
@@ -85,7 +95,7 @@ const Home = ({
         <FriendlyCompanies>
           <a href="http://www.mendoza.gov.ar/prevencionvial/"><img src="/assets/images/EA1.jpg" alt="prevencion" /></a>
           <a href="http://www.pueblobenegas.com/"><img src="/assets/images/EA2.jpg" alt="benegas" /></a>
-          <a href="http://miautohoy.com/concesionaria/lm-automotores/"><img src="/assets/images/EA3.jpg" alt="lm-automotores" /></a>
+          <a href="http://miautohoy.com/microsite?concesionaria=LM%20Automotores&c_id=26"><img src="/assets/images/EA3.jpg" alt="lm-automotores" /></a>
           <a href="http://www.mktinversiones.com.ar/"><img src="/assets/images/EA4.jpg" alt="mkt" /></a>
         </FriendlyCompanies>
         <Footer history={history} />

@@ -57,21 +57,24 @@ class UserProfile extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (!newProps.userProfile.loading) {
+
       this.setState({
         name: newProps.userProfile.User.name,
         address: newProps.userProfile.User.address,
         email: newProps.userProfile.User.email,
         phone: newProps.userProfile.User.phone,
       });
-      getTowns(newProps.userProfile.User.Province.id)
-        .then((response) => {
-          this.setState({
-            townList: response.data,
-            province_id: newProps.userProfile.User.Province.id,
-            town_id: newProps.userProfile.User.Town.id,
-          });
-        })
-        .catch(error => console.log(error));
+      if (newProps.userProfile.User.Province !== null) {
+        getTowns(newProps.userProfile.User.Province.id)
+          .then((response) => {
+            this.setState({
+              townList: response.data,
+              province_id: newProps.userProfile.User.Province.id,
+              town_id: newProps.userProfile.User.Town.id,
+            });
+          })
+          .catch(error => console.log(error));
+      }
     }
   }
   toggle() {
@@ -83,6 +86,16 @@ class UserProfile extends React.Component {
     this.setState({
       modal: !this.state.modal,
     });
+  }
+  onChangeProvince(newProvince) {
+    getTowns(newProvince)
+      .then((response) => {
+        this.setState({
+          province_id: newProvince,
+          townList: response.data,
+        });
+      })
+      .catch(error => console.log(error));
   }
   update() {
     this.props.updateData({
@@ -239,16 +252,16 @@ class UserProfile extends React.Component {
                   <div className="card p-4" style={{ height: '100%' }}>
                     <h6 className="title-division"><b>¿Quieres cambiar la contraseña?</b></h6>
                     <FormGroup>
-                      <Label for="exampleEmail">Contraseña actual</Label>
-                      <Input type="password" onChange={e => this.setState({ oldPassword: e.target.value })} value={this.state.oldPassword} name="password" id="exampleText" />
+                      <Label for="pasword">Contraseña actual</Label>
+                      <Input type="password" onChange={e => this.setState({ oldPassword: e.target.value })} value={this.state.oldPassword} name="password" id="pasword" />
                     </FormGroup>
                     <FormGroup>
-                      <Label for="exampleEmail">Nueva Contraseña</Label>
-                      <Input type="password" onChange={e => this.setState({ repeatNpass: e.target.value })} value={this.state.repeatNpass} name="password" id="exampleText" />
+                      <Label for="newPassword">Nueva Contraseña</Label>
+                      <Input type="password" onChange={e => this.setState({ repeatNpass: e.target.value })} value={this.state.repeatNpass} name="password" id="newPassword" />
                     </FormGroup>
                     <FormGroup>
-                      <Label for="exampleEmail">Repetir nueva Contraseña</Label>
-                      <Input type="password" onChange={e => this.setState({ newPassword: e.target.value })} value={this.state.newPassword} name="password" id="exampleText" />
+                      <Label for="repeatPass">Repetir nueva Contraseña</Label>
+                      <Input type="password" onChange={e => this.setState({ newPassword: e.target.value })} value={this.state.newPassword} name="password" id="repeatPass" />
                     </FormGroup>
                     <Button type="secondary" className="btn-link-primary align-self-end" disabled={this.isPasswordFormInvalid()} onClick={() => this.updatePassword()}><img src="/assets/images/icon-check-red.svg" alt="" />Cambiar</Button>
                   </div>

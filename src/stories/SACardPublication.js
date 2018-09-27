@@ -396,7 +396,7 @@ class SACardPublication extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            {!this.state.verb === 'volver a publicar' &&<Button color="primary" disabled={this.state.verb === 'desaprobar' && this.state.reason === ''} onClick={() => (this.state.verb === 'aprobar' ? this.aprove() : this.disaprove())}>Ok</Button>}
+            {this.state.verb !== 'volver a publicar' &&<Button color="primary" disabled={this.state.verb === 'desaprobar' && this.state.reason === ''} onClick={() => (this.state.verb === 'aprobar' ? this.aprove() : this.disaprove())}>Ok</Button>}
             {this.state.verb === 'volver a publicar' &&<Button color="primary" onClick={() => this.changePublicationState('Publicada')}>Ok</Button>}
             <Button color="secondary" onClick={() => this.toggleQuestionModal()}>Cancelar</Button>
           </ModalFooter>

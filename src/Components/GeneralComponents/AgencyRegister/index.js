@@ -9,6 +9,14 @@ import FeaturesRegister from '../../../stories/FeaturesRegister';
 import Faq from '../../../stories/Faq';
 import Footer from '../../../stories/Footer';
 import Plans from '../../../stories/Plans';
+import ReactPixel from 'react-facebook-pixel';
+
+const fpOptions = {
+	autoConfig: true,
+  debug: false, 	
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
 
 const AgencyRegister = ({ history }) => (
   <div>

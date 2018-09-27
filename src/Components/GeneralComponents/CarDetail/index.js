@@ -39,6 +39,16 @@ import {
   isUserLogged,
 } from '../../../Modules/sessionFunctions';
 
+import ReactPixel from 'react-facebook-pixel';
+
+const fpOptions = {
+  autoConfig: true,
+  debug: false,
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
+
+
 const renderForNullPublication = (component, propName = 'data') =>
   branch(
     props => props[propName] && props[propName].Publication === null,
@@ -73,7 +83,7 @@ class CarDetail extends Component {
   isPublicationVisible() {
     const { carDetailData, carSpecsData } = this.props;
     if (!carDetailData.loading && !carSpecsData.loading) {
-      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente') {
+      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente' || carDetailData.Publication.CurrentState.stateName === 'Vencida' || carDetailData.Publication.CurrentState.stateName === 'Suspendida' || carDetailData.Publication.CurrentState.stateName === 'Eliminada') {
         return false;
       }
       return true;
@@ -85,7 +95,7 @@ class CarDetail extends Component {
       if (data.User) {
         return data.User.isAgency ? data.User.agencyPhone : data.User.phone;
       }
-      return data.phone;
+      return data.phone || false;
     }
     return '';
   }
@@ -107,7 +117,7 @@ class CarDetail extends Component {
     return (
       <button>
         <label>{title}</label>
-        <label className='subtitle'>{subtitle}</label>
+        <label className="subtitle">{subtitle}</label>
         {brand === 'miautohoy' && <img src="/logo.png" alt="Logo" />}
         {brand === 'tutasa' && <img src="/assets/images/tutasa.jpeg" alt="" className="logo" />}
       </button>
@@ -123,13 +133,21 @@ class CarDetail extends Component {
     } = this.props;
     let hiddenClass = '';
     if (!carDetailData.loading && !carSpecsData.loading) {
-      if (carDetailData.Publication.CurrentState.stateName === 'Pendiente') {
+      if (
+        carDetailData.Publication.CurrentState.stateName === 'Pendiente' ||
+        carDetailData.Publication.CurrentState.stateName === 'Vencida' ||
+        carDetailData.Publication.CurrentState.stateName === 'Suspendida' ||
+        carDetailData.Publication.CurrentState.stateName === 'Eliminada'
+      ) {
         hiddenClass = 'hidden';
       } else {
         hiddenClass = '';
       }
       if (
-        carDetailData.Publication.CurrentState.stateName === 'Pendiente' &&
+        (carDetailData.Publication.CurrentState.stateName === 'Pendiente' ||
+          carDetailData.Publication.CurrentState.stateName === 'Vencida' ||
+          carDetailData.Publication.CurrentState.stateName === 'Suspendida' ||
+          carDetailData.Publication.CurrentState.stateName === 'Eliminada') &&
         parse(this.props.location.search).t
       ) {
         const uData = decode(parse(this.props.location.search).t);
@@ -142,16 +160,27 @@ class CarDetail extends Component {
     }
     return (
       <div>
-        {!carDetailData.loading &&
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{`${carDetailData.Publication.brand} - ${carDetailData.Publication.group}` }</title>
-          <meta property="fb:app_id" content={146328269397173} />
-          <meta property="og:url" content={`https://miautohoy.com/carDetail${location.search}`} />
-          <meta property="og:type" content="website" />
-          <meta property="og:image" content={`https://miautohoy.com/images/${carDetailData.Publication.ImageGroup.image1}`} />
-        </Helmet>
-       }
+        {!carDetailData.loading && (
+          <Helmet>
+            <meta charSet="utf-8" />
+            <title>{`${carDetailData.Publication.brand} - ${
+              carDetailData.Publication.group
+            }`}
+            </title>
+            <meta property="fb:app_id" content={146328269397173} />
+            <meta
+              property="og:url"
+              content={`https://miautohoy.com/carDetail${location.search}`}
+            />
+            <meta property="og:type" content="website" />
+            <meta
+              property="og:image"
+              content={`https://miautohoy.com/images/${
+                carDetailData.Publication.ImageGroup.image1
+              }`}
+            />
+          </Helmet>
+        )}
         <TopTopNav history={history} />
         <SearchBar history={history} location={location} />
         <div className="container mb-4 mt-4">
@@ -172,7 +201,7 @@ class CarDetail extends Component {
             <div className="col-md-3 hidden-sm-down" />
             <Col md="6" sm="12" xs="12">
               <h3 className="hiddenMessage">
-                Esta publicación esta pendiente de aprobación.
+                {`Esta publicación se encuentra ${carDetailData.Publication.CurrentState.stateName}.`}
               </h3>
             </Col>
             <div className="col-md-3 hidden-sm-down" />
@@ -207,12 +236,14 @@ class CarDetail extends Component {
                               0,
                               ',',
                               '.',
-                            ) ? thousands(
-                              carDetailData.Publication.kms,
-                              0,
-                              ',',
-                              '.',
-                            ) : 'No especificado' }
+                            )
+                              ? thousands(
+                                  carDetailData.Publication.kms,
+                                  0,
+                                  ',',
+                                  '.',
+                                )
+                              : 'No especificado'}
                           </p>
                         </div>
                       </Col>
@@ -266,13 +297,19 @@ class CarDetail extends Component {
                         <div className="col-12 item-data">
                           <small className="item-year">
                             {carDetailData.Publication.year}
-                            {thousands(carDetailData.Publication.kms, 0, ',', '.') ?
-                            ` - ${thousands(
+                            {thousands(
                               carDetailData.Publication.kms,
                               0,
                               ',',
                               '.',
-                            )} kms` : '' }
+                            )
+                              ? ` - ${thousands(
+                                  carDetailData.Publication.kms,
+                                  0,
+                                  ',',
+                                  '.',
+                                )} kms`
+                              : ''}
                           </small>
                           <p className="item-name">
                             <strong>
@@ -289,7 +326,7 @@ class CarDetail extends Component {
                               {carDetailData.Publication.price
                                 ? `$${thousands(
                                     carDetailData.Publication.price,
-                                    2,
+                                    0,
                                     ',',
                                     '.',
                                   )}`
@@ -300,18 +337,22 @@ class CarDetail extends Component {
                       </Row>
                       <Button
                         color="primary"
-                        // onClick={() => {
-                        //   ReactGA.event({ category: 'CarDetail', action: 'Ir a Créditos Prendarios' });
-                        //   history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`);
-                        // }}
-                        onClick={() => this.setState({ showModal: true })}
+                        onClick={() => {
+                          ReactGA.event({
+                            category: 'CarDetail',
+                            action: 'Ir a Créditos Prendarios',
+                          });
+                          history.push(`/pledgeCredits?${stringify(carDetailData.Publication)}`);
+                        }}
                       >
                         ¡Solicitá tu crédito!
                       </Button>
                       <Card123Seguros isCarSelected history={history} carData={carDetailData.Publication} />
                       <div className="container-social">
                         <a
-                          href={`https://www.facebook.com/sharer/sharer.php?u=https://miautohoy.com/carDetail${location.search}`}
+                          href={`https://www.facebook.com/sharer/sharer.php?u=https://miautohoy.com/carDetail${
+                            location.search
+                          }`}
                           className="btn btn-social-icon"
                         >
                           <img
@@ -320,7 +361,13 @@ class CarDetail extends Component {
                           />
                         </a>
                         <a
-                          href={`https://twitter.com/intent/tweet?text=Vendo ${carDetailData.Publication.brand} - ${carDetailData.Publication.group}. Ingresa a https://miautohoy.com/carDetail${location.search} para ver más detalles!`}
+                          href={`https://twitter.com/intent/tweet?text=Vendo ${
+                            carDetailData.Publication.brand
+                          } - ${
+                            carDetailData.Publication.group
+                          }. Ingresa a https://miautohoy.com/carDetail${
+                            location.search
+                          } para ver más detalles!`}
                           className="btn btn-social-icon"
                         >
                           <img
@@ -340,22 +387,32 @@ class CarDetail extends Component {
                         </h5>
                         {carDetailData.Publication.User ? (
                           carDetailData.Publication.User.agencyName && (
-                            <Button onClick={() => this.props.history.push(`/microsite?concesionaria=${carDetailData.Publication.User.agencyName}&c_id=${carDetailData.Publication.User.id}`)} color="link">Ver todos los autos</Button>
+                            <Button
+                              onClick={() =>
+                                this.props.history.push(`/microsite?concesionaria=${
+                                    carDetailData.Publication.User.agencyName
+                                  }&c_id=${carDetailData.Publication.User.id}`)
+                              }
+                              color="link"
+                            >
+                              Ver todos los autos
+                            </Button>
                           )
                         ) : (
                           <span />
                         )}
                         <div className="data-input-group">
                           <label>DOMICILIO</label>
-                          <p>
-                            {carDetailData.Publication.User
+                          <p>{`
+                            ${carDetailData.Publication.User
                               ? carDetailData.Publication.User.agencyAdress ||
                                 carDetailData.Publication.User.address
-                              : 'No especificado'}
+                              : 'No especificado'} ${carDetailData.Publication.Town ? `, ${carDetailData.Publication.Town.name} ,` : ''} ${carDetailData.Publication.Province ? carDetailData.Publication.Province.name : ''}
+                          `}
                           </p>
                         </div>
                         <div className="data-input-group">
-                          <label>TELÉFONOS</label>
+                          {this.showUserPhone(carDetailData.Publication) && <label>TELÉFONOS</label>}
                           <p>{this.showUserPhone(carDetailData.Publication)}</p>
                         </div>
                         <div className="data-input-group">
