@@ -5,7 +5,14 @@ import React from 'react';
 import { Col, Row, Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 import AdminBar from '../../../stories/AdminBar';
+import ReactPixel from 'react-facebook-pixel';
 
+const fpOptions = {
+	autoConfig: true,
+  debug: false, 	
+};
+ReactPixel.init('549275042176385', null, fpOptions);
+ReactPixel.pageView();
 class StepFour extends React.Component {
   constructor(props) {
     super(props);
