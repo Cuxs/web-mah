@@ -412,7 +412,7 @@ class SearchBar extends Component {
                   <Row>
                     <Button
                       color="primary"
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer', padding: '10px 20px' }}
                       className="icon is-small btn-icon"
                       onClick={() => {
                       this.submitSearch();
@@ -496,7 +496,7 @@ class SearchBar extends Component {
                         </Button>
                       </Row>
                     </Col>
-                    <Col lg="auto" sm="12">
+                    <Col lg="auto" sm="12" className="d-none d-md-block d-lg-none" >
                       <Button color="primary" onClick={() => this.toggleModalVender()}>
                           Vender
                       </Button>
@@ -614,7 +614,7 @@ class SearchBar extends Component {
             size="md"
           >
             <ModalHeader toggle={this.toggleModalVender}>¿Qué tipo de vendedor sos?</ModalHeader>
-            <ModalBody style={{ paddingTop: '20px', paddingBottom: '20px' }} >
+            <ModalBody style={{ padding: '0px' }} >
               <div className="col-md-12">
                 {this.renderButton('rayo', 'Publicación inmediata', '1 publicación gratis')}
                 {this.renderButton('llaves', 'Soy un particular. Registrate es muy fácil!', 'Publicaciones gratis ilimitadas')}

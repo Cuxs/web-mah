@@ -125,9 +125,10 @@
   flex-direction: row;
   align-items: center;
   width: 100%;
-  margin-bottom: 15px;
+  padding: 15px 0px;
   background-color: transparent;
   border: none;
+  border-bottom: solid 1px $gray-300;
   img{
     width: auto;
     height: 35px;
@@ -146,9 +147,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    .brand{
-      display: none;
-    }
     .area-btns{
       .custom-dropdown{
         left: 0 !important;
@@ -188,6 +186,13 @@
 .header{
     .sell-mobile{
       display: initial;
+    }
+  }
+}
+@media screen and (max-width: 992px) {
+.header{
+    .brand{
+      display: none;
     }
   }
 }
