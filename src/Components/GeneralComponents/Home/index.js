@@ -89,7 +89,7 @@ const Home = ({
             []
           }
         </LastPublications>
-        <Card123Seguros history={history} />
+        {/* <Card123Seguros history={history} /> */}
         <FriendlyCompanies>
           <a href="http://www.mendoza.gov.ar/prevencionvial/"><img src="/assets/images/EA1.jpg" alt="prevencion" /></a>
           <a href="http://www.pueblobenegas.com/"><img src="/assets/images/EA2.jpg" alt="benegas" /></a>
