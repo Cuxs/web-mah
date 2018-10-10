@@ -11,7 +11,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { hotjar } from "react-hotjar";
+import { hotjar } from 'react-hotjar';
 import { Helmet } from 'react-helmet';
 import { graphql } from 'react-apollo';
 import qs from 'query-string';
@@ -53,7 +53,7 @@ class SearchCars extends Component {
     this.toggleOrderDropdown = this.toggleOrderDropdown.bind(this);
   }
   componentWillMount() {
-    hotjar.initialize(916734, 6)
+    hotjar.initialize(916734, 6);
     const url = this.props.location.search;
     this.doFilterTotalResultSearch(url);
     this.doSearch(1, true, this.props);
@@ -67,7 +67,7 @@ class SearchCars extends Component {
     scroll.scrollToTop({ duration: 300 });
   }
   doFilterTotalResultSearch(url) {
-    let search = qs.parse(url);
+    const search = qs.parse(url);
     search.state = 'Activas';
     getFiltersAndTotalResult(search)
       .then(res => this.setState({
@@ -92,7 +92,7 @@ class SearchCars extends Component {
           userType: qs.parse(url).userType,
           modelName: qs.parse(url).modelName,
           brand: qs.parse(url).brand,
-          province: qs.parse(url).province
+          province: qs.parse(url).province,
         },
       })
       .then(({ data: { searchPublication }, data: { searchPublication: { Publications } } }) => {
@@ -219,7 +219,7 @@ class SearchCars extends Component {
           text={text}
           history={history}
           location={location}
-        />
+        />>
         <div className="container mb-4 mt-4">
           <Row>
             <Col md="8" sm="12" xs="12">

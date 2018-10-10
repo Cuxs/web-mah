@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react';
 import {
   Col,
   Row,
@@ -7,32 +7,38 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
-} from "reactstrap";
-import ImageCrop from "../../../stories/ImageCrop";
+  ModalFooter,
+} from 'reactstrap';
+import ImageCrop from '../../../stories/ImageCrop';
 import { Notification } from 'react-notification';
 
 
-import { getUserToken, isAdminLogged } from "../../../Modules/sessionFunctions";
-import AdminBar from "../../../stories/AdminBar";
-import SuperAdminSideBar from "../../../stories/SuperAdminSideBar";
-import { uploadSliders, getSliders, deleteSlider } from "../../../Modules/fetches";
+import { getUserToken, isAdminLogged } from '../../../Modules/sessionFunctions';
+import AdminBar from '../../../stories/AdminBar';
+import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
+import { uploadSliders, getSliders, deleteSlider } from '../../../Modules/fetches';
 
 class SuperAdminSliders extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      slider1: "",
-      slider2: "",
-      slider3: "",
-      previewSlider1: "",
-      previewSlider2: "",
-      previewSlider3: "",
+      slider1: '',
+      slider2: '',
+      slider3: '',
+      slider4: '',
+      slider5: '',
+      slider6: '',
+      previewSlider1: '',
+      previewSlider2: '',
+      previewSlider3: '',
+      previewSlider4: '',
+      previewSlider5: '',
+      previewSlider6: '',
       modal: false,
-      modalTitle: "",
-      modalMessage: "",
+      modalTitle: '',
+      modalMessage: '',
       loading: false,
-      success: false
+      success: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.eraseSlider = this.eraseSlider.bind(this);
@@ -41,94 +47,100 @@ class SuperAdminSliders extends Component {
   }
   componentWillMount() {
     if (!isAdminLogged()) {
-      this.props.history.push("/loginAdmin");
+      this.props.history.push('/loginAdmin');
     }
-    getSliders().then(res => {
-      res.data.map((row)=>{
-        const sliderImage = `previewSlider${row.id}`
-        this.setState({[sliderImage]: row.image})
-      })
+    getSliders().then((res) => {
+      res.data.map((row) => {
+        const sliderImage = `previewSlider${row.id}`;
+        this.setState({ [sliderImage]: row.image });
+      });
     });
   }
   getSlider(img) {
-    return (number)=>{
+    return (number) => {
       const sliderToModify = `slider${number}`;
       this.setState({ [sliderToModify]: img });
-    }
+    };
   }
   toggle() {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   }
   toggleNotification() {
     this.setState({
-      notification: !this.state.notification
+      notification: !this.state.notification,
     });
   }
   handleSubmit(i) {
     this.setState({ loading: true });
-    const sliderToSubmit = `slider${i}`
-    uploadSliders(this.state[sliderToSubmit], i)
-      .then(res => {
+    const dataSlider = {
+      slider: this.state[`slider${i + (i - 1)}`],
+      sliderResponsive: this.state[`slider${i + i}`],
+      sliderNumber: i + (i - 1),
+    };
+    uploadSliders(dataSlider)
+      .then((res) => {
         this.setState({
           loading: false,
           notification: true,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           loading: false,
           modal: true,
-          modalTitle: "Error",
-          modalMessage: err.toString()
+          modalTitle: 'Error',
+          modalMessage: err.toString(),
         });
       });
   }
-  eraseSlider(number){
-    this.setState({ loading: true });    
+  eraseSlider(number) {
+    this.setState({ loading: true });
     deleteSlider(number)
-    .then(res => {
-      const sliderDeletedFile = `slider${number}`
-      const sliderDeleted = `previewSlider${number}`
-      this.setState({
-        [sliderDeleted]: 'erased',
-        [sliderDeletedFile]: '',
-        loading: false,
-        notification: true,
+      .then((res) => {
+        const sliderDeletedFile = `slider${number}`;
+        const sliderDeleted = `previewSlider${number}`;
+        this.setState({
+          [sliderDeleted]: 'erased',
+          [sliderDeletedFile]: '',
+          loading: false,
+          notification: true,
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          loading: false,
+          modal: true,
+          modalTitle: 'Error',
+          modalMessage: err.toString(),
+        });
       });
-    })
-    .catch(err => {
-      this.setState({
-        loading: false,
-        modal: true,
-        modalTitle: "Error",
-        modalMessage: err.toString()
-      });
-    });
   }
   renderCroppers(number) {
     const numberFor = number + 1;
     const cropperArray = [];
     for (let i = 1; i < numberFor; i++) {
-      const previewSliderNumber = `previewSlider${i}`;
-      const sliderFile = `slider${i}`;
-      cropperArray.push(
-        <Fragment key={i}>
-          <Label>SLIDER {i} </Label>
-          <small> (Recomendado 1280 x 256)</small>
-          <div className="col-12">
+      const previewSliderNumber = `previewSlider${i + (i - 1)}`;
+      const previewSliderNumberMobile = `previewSlider${i + i}`;
+      const sliderFile = `slider${i + (i - 1)}`;
+      const sliderFileMobile = `slider${i + i}`;
+      cropperArray.push(<div key={i} className="slider-card" >
+        <Label className="text-left" >SLIDER {i} </Label>
+        <div className="slider-row">
+          <div className="col-8">
+            <small> (Recomendado 1280 x 520)</small>
             <ImageCrop
-              aspectRatio={1280 / 256}
-              cropImage={img => this.getSlider(img)(i)}
+              aspectRatio={1280 / 520}
+              cropImage={img => this.getSlider(img)(i + (i - 1))}
               previewImage={this.state[previewSliderNumber]}
               banner
             />
             <Row>
               <div className="col-12 d-flex justify-content-end">
-              {this.state.loading && (
+                {this.state.loading && (
                   <img
-                    style={{ height: "60px" }}
+                    style={{ height: '60px' }}
                     src="/loading.gif"
                     key={0}
                     alt="Loading..."
@@ -138,25 +150,53 @@ class SuperAdminSliders extends Component {
                   className="btn-link-primary"
                   color="primary"
                   disabled={this.state.loading}
-                  onClick={()=>this.eraseSlider(i)}
-                  
+                  onClick={() => this.eraseSlider(i + (i - 1))}
                 >
                   Borrar
                 </Button>
+              </div>
+            </Row>
+          </div>
+          <div className="col-4">
+            <small> (Recomendado 320 x 320)</small>
+            <ImageCrop
+              aspectRatio={320 / 320}
+              cropImage={img => this.getSlider(img)(i + i)}
+              previewImage={this.state[previewSliderNumberMobile]}
+              bannerMobile
+            />
+            <Row>
+              <div className="col-12 d-flex justify-content-end">
+                {this.state.loading && (
+                  <img
+                    style={{ height: '60px' }}
+                    src="/loading.gif"
+                    key={0}
+                    alt="Loading..."
+                  />
+                )}
                 <Button
                   className="btn-link-primary"
                   color="primary"
-                  onClick={()=>this.handleSubmit(i)}
-                  disabled={this.state.loading  || this.state[sliderFile] ===''}
+                  disabled={this.state.loading}
+                  onClick={() => this.eraseSlider(i + i)}
                 >
-                  Guardar
+                  Borrar
                 </Button>
-              
-            </div>                
+              </div>
             </Row>
           </div>
-        </Fragment>
-      );
+        </div>
+        <div className="underline" style={{ margin: '10px 0px', width: 'auto' }} />
+        <Button
+          className="btn-link-primary"
+          color="primary"
+          onClick={() => this.handleSubmit(i)}
+          disabled={this.state.loading || this.state[sliderFileMobile] === '' || this.state[sliderFile] === ''}
+        >
+          Guardar
+        </Button>
+      </div>);
     }
     return cropperArray;
   }
@@ -174,18 +214,16 @@ class SuperAdminSliders extends Component {
             <Col lg="9" md="12" sm="12">
               <div className="d-flex flex-md-row flex-sm-column">
                 <Col
-                  lg="10"
-                  md="10"
-                  sm="12"
+                  lg="12"
                   className="container-data-input-group mt-4"
                 >
-                  <div className="card p-4" style={{ height: "100%" }}>
+                  <div className="card p-4" style={{ height: '100%' }}>
                     <h6 className="title-division">
                       <b>Sliders</b>
                     </h6>
-                      <div className="data-input-group">
-                        {this.renderCroppers(3)}
-                      </div>
+                    <div className="data-input-group">
+                      {this.renderCroppers(3)}
+                    </div>
                   </div>
                 </Col>
               </div>
@@ -212,12 +250,12 @@ class SuperAdminSliders extends Component {
           </ModalFooter>
         </Modal>
         <Notification
-            isActive={this.state.notification}
-            message={'Cambios guardados'}
-            dismissAfter={3500}
-            onDismiss={this.toggleNotification}
-            onClick={() => this.setState({ notification: false })}
-          />
+          isActive={this.state.notification}
+          message="Cambios guardados"
+          dismissAfter={3500}
+          onDismiss={this.toggleNotification}
+          onClick={() => this.setState({ notification: false })}
+        />
       </div>
     );
   }

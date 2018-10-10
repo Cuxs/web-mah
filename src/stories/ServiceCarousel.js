@@ -8,7 +8,7 @@ import {
 
 /* eslint react/jsx-filename-extension: 0 */
 
-export default class BannerCarousel extends Component {
+export default class ServiceCarousel extends Component {
   constructor(props) {
     super(props);
     this.state = { activeIndex: 0 };
@@ -50,7 +50,12 @@ export default class BannerCarousel extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img className="banner-img" src={item.src} alt={item.altText} />
+        <div className="service-parent">
+          <div className="service-child service-carousel" style={{ backgroundImage: `url(/assets/images/${item.image}.png)` }}>
+            <h1>{item.title}</h1>
+            <button className="service-child-link" onClick={() => this.props.history.push(item.link)} >{item.subtitle}</button>
+          </div>
+        </div>
       </CarouselItem>
     ));
     return (

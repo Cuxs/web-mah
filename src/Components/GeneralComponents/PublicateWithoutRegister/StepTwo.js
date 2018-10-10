@@ -7,7 +7,6 @@ import { parse, stringify } from 'query-string';
 import { scroller } from 'react-scroll';
 import _ from 'lodash';
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
 
 import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
 import { validate, prepareArraySelect } from '../../../Modules/functions';
@@ -267,6 +266,16 @@ class CreatePublication extends React.Component {
                       onChange={town_id => this.setState({ town_id })}
                       searchable
                       noResultsText="No se encontraron resultados"
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 4,
+                        colors: {
+                        ...theme.colors,
+                          primary25: '#E40019',
+                          primary: '#2A3B59',
+                        },
+                      })
+                      }
                     />
                   </FormGroup>
                   <div>

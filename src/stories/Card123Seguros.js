@@ -4,7 +4,6 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import _ from 'lodash';
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
@@ -172,6 +171,16 @@ class Card123Seguros extends React.Component {
                   onChange={newValue => this.onChangeBrand(newValue)}
                   searchable
                   noResultsText="No se encontraron resultados"
+                  theme={theme => ({
+                    ...theme,
+                    borderRadius: 4,
+                    colors: {
+                    ...theme.colors,
+                      primary25: '#E40019',
+                      primary: '#2A3B59',
+                    },
+                  })
+                  }
                 />
               </div>
               <div className="col-lg-3 col-md-6 p-0" >
@@ -188,6 +197,16 @@ class Card123Seguros extends React.Component {
                   onChange={newValue => this.onChangeGroup(newValue)}
                   searchable
                   noResultsText="No se encontraron resultados"
+                  theme={theme => ({
+                    ...theme,
+                    borderRadius: 4,
+                    colors: {
+                    ...theme.colors,
+                      primary25: '#E40019',
+                      primary: '#2A3B59',
+                    },
+                  })
+                  }
                 />
               </div>
               <div className="col-lg-3 col-md-6 p-0" >
@@ -204,6 +223,16 @@ class Card123Seguros extends React.Component {
                   onChange={newValue => this.onChangeModel(newValue)}
                   searchable
                   noResultsText="No se encontraron resultados"
+                  theme={theme => ({
+                    ...theme,
+                    borderRadius: 4,
+                    colors: {
+                    ...theme.colors,
+                      primary25: '#E40019',
+                      primary: '#2A3B59',
+                    },
+                  })
+                  }
                 />
               </div>
               <div className="col-lg-1 col-md-6 p-0" >
@@ -221,6 +250,16 @@ class Card123Seguros extends React.Component {
                   onChange={newValue => this.setState({ year: newValue })}
                   searchable
                   noResultsText="No se encontraron resultados"
+                  theme={theme => ({
+                    ...theme,
+                    borderRadius: 4,
+                    colors: {
+                    ...theme.colors,
+                      primary25: '#E40019',
+                      primary: '#2A3B59',
+                    },
+                  })
+                  }
                 />
               </div>
               <Button color="primary" className="btn-block" onClick={this.handleQuoting}>Cotizar</Button>
@@ -260,6 +299,16 @@ class Card123Seguros extends React.Component {
                   onChange={newValue => this.onChangeProvince(newValue)}
                   searchable
                   noResultsText="No se encontraron resultados"
+                  theme={theme => ({
+                    ...theme,
+                    borderRadius: 4,
+                    colors: {
+                    ...theme.colors,
+                      primary25: '#E40019',
+                      primary: '#2A3B59',
+                    },
+                  })
+                  }
                 />
                 <label>Localidad</label>
                 <Select
@@ -276,6 +325,16 @@ class Card123Seguros extends React.Component {
                   onChange={town_id => this.setState({ town_id })}
                   searchable
                   noResultsText="No se encontraron resultados"
+                  theme={theme => ({
+                    ...theme,
+                    borderRadius: 4,
+                    colors: {
+                    ...theme.colors,
+                      primary25: '#E40019',
+                      primary: '#2A3B59',
+                    },
+                  })
+                  }
                 />
               </Col>
               <Col md={6} sm={12}>

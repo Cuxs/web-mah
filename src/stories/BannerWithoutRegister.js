@@ -87,6 +87,16 @@ class Banner extends React.Component {
                       name="selected-state"
                       value={this.state.carState}
                       onChange={newValue => this.setState({ carState: newValue })}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 4,
+                        colors: {
+                        ...theme.colors,
+                          primary25: '#E40019',
+                          primary: '#2A3B59',
+                        },
+                      })
+                      }
                     />
                   </FormGroup>
                   <FormGroup>
@@ -105,6 +115,16 @@ class Banner extends React.Component {
                       onChange={newValue => this.onChangeBrand(newValue)}
                       searchable
                       noResultsText="No se encontraron resultados"
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 4,
+                        colors: {
+                        ...theme.colors,
+                          primary25: '#E40019',
+                          primary: '#2A3B59',
+                        },
+                      })
+                      }
                     />
                   </FormGroup>
                   <FormGroup>
@@ -123,6 +143,16 @@ class Banner extends React.Component {
                       onChange={newValue => this.onChangeGroup(newValue)}
                       searchable
                       noResultsText="No se encontraron resultados"
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 4,
+                        colors: {
+                        ...theme.colors,
+                          primary25: '#E40019',
+                          primary: '#2A3B59',
+                        },
+                      })
+                      }
                     />
                   </FormGroup>
                   <Button color="primary" onClick={() => this.start()} >Comenzar</Button>

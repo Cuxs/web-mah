@@ -7,7 +7,6 @@ import { graphql, compose, withApollo } from "react-apollo";
 import { stringify, parse } from "query-string";
 import _ from "lodash";
 import Select from "react-select";
-import "react-select/dist/react-select.css";
 import ReactGA from "react-ga";
 import { scroller } from "react-scroll";
 
@@ -250,6 +249,16 @@ class PersonalShopper extends React.Component {
                       name="selected-state"
                       value={this.state.kms}
                       onChange={newValue => this.setState({ kms: newValue })}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 4,
+                        colors: {
+                        ...theme.colors,
+                          primary25: '#E40019',
+                          primary: '#2A3B59',
+                        },
+                      })
+                      }
                     />
                   </FormGroup>
                   <FormGroup>
@@ -268,6 +277,16 @@ class PersonalShopper extends React.Component {
                       name="selected-state"
                       value={this.state.year}
                       onChange={newValue => this.setState({ year: newValue })}
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 4,
+                        colors: {
+                        ...theme.colors,
+                          primary25: '#E40019',
+                          primary: '#2A3B59',
+                        },
+                      })
+                      }
                     />
                   </FormGroup>
                   <label>Precio aproximado</label>
@@ -310,6 +329,16 @@ class PersonalShopper extends React.Component {
                           searchable
                           required
                           noResultsText="No se encontraron resultados"
+                          theme={theme => ({
+                            ...theme,
+                            borderRadius: 4,
+                            colors: {
+                            ...theme.colors,
+                              primary25: '#E40019',
+                              primary: '#2A3B59',
+                            },
+                          })
+                          }
                         />
                       </FormGroup>
                       <FormGroup>
@@ -336,6 +365,16 @@ class PersonalShopper extends React.Component {
                           searchable
                           required
                           noResultsText="No se encontraron resultados"
+                          theme={theme => ({
+                            ...theme,
+                            borderRadius: 4,
+                            colors: {
+                            ...theme.colors,
+                              primary25: '#E40019',
+                              primary: '#2A3B59',
+                            },
+                          })
+                          }
                         />
                       </FormGroup>
                       <FormGroup>
@@ -362,6 +401,16 @@ class PersonalShopper extends React.Component {
                           searchable
                           required
                           noResultsText="No se encontraron resultados"
+                          theme={theme => ({
+                            ...theme,
+                            borderRadius: 4,
+                            colors: {
+                            ...theme.colors,
+                              primary25: '#E40019',
+                              primary: '#2A3B59',
+                            },
+                          })
+                          }
                         />
                       </FormGroup>
                     </div>

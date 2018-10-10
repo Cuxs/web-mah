@@ -125,7 +125,7 @@ class SuperAdminMicrosite extends Component {
       });
   }
   changePassword() {
-    changePassword(parse(this.proexpectassword)
+    changePassword(parse(this.props.location.search).u_id, this.state.newPassword)
       .then((resp) => {
         this.setState({
           modal: true,

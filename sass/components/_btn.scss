@@ -8,13 +8,14 @@
 
   //PRIMARY
   &.btn-primary{
-    font-weight:900;
+    font-weight:700;
+    font-size: 14px;
     text-transform: uppercase;
-    padding: 10px 15px;
+    padding: 10px 20px;
     height: 50px;
     line-height: 30px;
     letter-spacing: 1px;
-    @include border-radius(3px);
+    @include border-radius(5px);
     &.alternative{
       background-color: transparent;
       color:$primary;
@@ -22,15 +23,12 @@
       height: 50px;
     }
   }
-  &.btn-default{
-    background-color: transparent;
-  }
   //SECONDARY
   &.btn-secondary{
-    @include border-radius(3px);
+    @include border-radius(5px);
     font:700 14px $font-family-sans-serif;
     text-transform: uppercase;
-    padding: 10px 15px;
+    padding: 10px 20px;
     height: 50px;
     line-height: 30px;
     letter-spacing: 1px;
@@ -40,6 +38,21 @@
     background-color: transparent !important;
   }
   
+  &.btn-default-menu{
+    border:none;
+    background:none;
+    font:700 #{$font-size-base}/#{$font-size-lg} $font-family-sans-serif;
+    color:$secondary;
+    line-height: 20px;
+    &:active{
+      background:none !important;
+      border-bottom: solid 2px $secondary !important;
+    }
+    &:hover{
+      background:none !important;
+      border-bottom: solid 2px $secondary !important;
+    }
+  }
 
   
   // SHOW MORE
@@ -51,17 +64,18 @@
 
   // FOOTER
   &.btn-footer {
-    color: #fff !important;
-    padding: 0px 12px !important;
+    color: $secondary !important;
+    padding: 0px !important;
   }
   &.btn-footerTerms {
-    color: #fff !important;
+    color: $secondary !important;
     padding: 0px !important;
   }
   &.a-footer {
-    color: #fff;
-    padding: 0px;
-    line-height: 30px
+    color: $gray-500;
+    padding: 5px;
+    padding-right: 15px;
+    line-height: 30px;
   }
 
   // LINK

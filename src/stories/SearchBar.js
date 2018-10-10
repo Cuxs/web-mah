@@ -19,19 +19,13 @@ import FacebookLogin from 'react-facebook-login';
 import ReactGA from 'react-ga';
 import { animateScroll as scroll } from 'react-scroll';
 
-import { AvForm, AvGroup, AvField } from "availity-reactstrap-validation";
-import { validate } from "../Modules/functions";
-import {scroller} from 'react-scroll';
+import { AvForm, AvGroup, AvField } from 'availity-reactstrap-validation';
+import { validate } from '../Modules/functions';
+import { scroller } from 'react-scroll';
 
 import _ from 'lodash';
 import autocompleteStyles from '../Styles/autocompleteInput';
-import {
-  getSuggestions,
-  getSuggestionValue,
-  renderSectionTitle,
-  renderSuggestion,
-  getSectionSuggestions,
-} from '../Modules/autocompleteData';
+import { getOptionsForReactSelect } from '../Modules/autocompleteData';
 import {
   isUserLogged,
   getUserDataFromToken,
@@ -42,8 +36,25 @@ import NotificationModal from '../stories/NotificationModal';
 import parseError from '../Modules/errorParser';
 import { login, recoverPassword, checkFacebookLogin, loginOrRegisterFacebook } from '../Modules/fetches';
 import { saveState } from '../Modules/localStorage';
+import CreatableSelect from 'react-select/lib/Creatable';
 /* eslint react/jsx-filename-extension: 0 */
-
+const groupStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+};
+const groupBadgeStyles = {
+  backgroundColor: '#EBECF0',
+  borderRadius: '2em',
+  color: '#172B4D',
+  display: 'inline-block',
+  fontSize: 12,
+  fontWeight: 'normal',
+  lineHeight: '1',
+  minWidth: 1,
+  padding: '0.16666666666667em 0.5em',
+  textAlign: 'center',
+};
 class SearchBar extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +62,7 @@ class SearchBar extends Component {
     this.togglePublicate = this.togglePublicate.bind(this);
     this.toggleUser = this.toggleUser.bind(this);
     this.state = {
-      suggestions: [],
+      searchText: '',
       dropdownOpen: false,
       dropdownUser: false,
       dropdownOpenPublicate: false,
@@ -62,6 +73,7 @@ class SearchBar extends Component {
       password: '',
       passwordValidate: false,
       showModal: false,
+      modalVender: false,
       modalTitle: '',
       modalMessage: '',
       isNotificationActive: false,
@@ -75,21 +87,21 @@ class SearchBar extends Component {
       error: '',
       displayError: false,
     };
-    this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this);
-    this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.toggleModalVender = this.toggleModalVender.bind(this);
     this.toggleNotification = this.toggleNotification.bind(this);
     this.recoverPass = this.recoverPass.bind(this);
     this.disabled = this.disabled.bind(this);
     this.loginFB = this.loginFB.bind(this);
     this.pledgeCredits = this.pledgeCredits.bind(this);
+    this.home = this.home.bind(this);
     this.friendlyAgency = this.friendlyAgency.bind(this);
     this.withoutRegister = this.withoutRegister.bind(this);
     this.agencyRegister = this.agencyRegister.bind(this);
     this.userRegister = this.userRegister.bind(this);
     this.loginUser = this.loginUser.bind(this);
     this.statusChangeCallback = this.statusChangeCallback.bind(this);
+    this.submitSearch = this.submitSearch.bind(this);
   }
 
   componentDidMount() {
@@ -113,38 +125,21 @@ class SearchBar extends Component {
     }(document, 'script', 'facebook-jssdk'));
   }
 
-  onChange(event, { newValue, method }) {
-    this.setState({
-      value: newValue,
-    });
-  }
-  onSuggestionsFetchRequested({ value }) {
-    this.setState({
-      suggestions: getSuggestions(value),
-    });
-  }
-  onSuggestionsClearRequested() {
-    this.setState({
-      suggestions: [],
-    });
-  }
-  submitSearch(event, errors) {
+  submitSearch(text, errors) {
     if (!_.isEmpty(errors)) {
       scroller.scrollTo(errors[0], {
         duration: 600,
         smooth: true,
-        offset: -100
+        offset: -100,
       });
       return false;
-    } 
+    }
     ReactGA.event({
       category: `SearchBar ${this.props.history.location.pathname}`,
       action: 'Ir a Buscar autos',
     });
     this.setState({ sidebar: '' });
-    this.props.history.push(`/SearchCars?text=${this.state.value}&carState=${
-      this.state.carState
-    }`);
+    this.props.history.push(`/SearchCars?text=${text}`);
   }
 
   checkLoginState() {
@@ -211,6 +206,11 @@ class SearchBar extends Component {
       modal: !this.state.modal,
     });
   }
+  toggleModalVender() {
+    this.setState({
+      modalVender: !this.state.modalVender,
+    });
+  }
   toggleNotification() {
     this.setState({
       isNotificationActive: !this.state.isNotificationActive,
@@ -222,6 +222,14 @@ class SearchBar extends Component {
       action: 'Ir a Créditos Prendarios',
     });
     return this.props.history.push('/pledgeCredits');
+  }
+
+  home() {
+    ReactGA.event({
+      category: `SearchBar ${this.props.history.location.pathname}`,
+      action: 'Ir a Home',
+    });
+    return this.props.history.push('/');
   }
 
   friendlyAgency() {
@@ -261,10 +269,10 @@ class SearchBar extends Component {
       scroller.scrollTo(errors[0], {
         duration: 600,
         smooth: true,
-        offset: -100
+        offset: -100,
       });
       return false;
-    } 
+    }
     login(this.state.email, this.state.password)
       .then((response) => {
         const MAHtoken = response.message;
@@ -332,39 +340,103 @@ class SearchBar extends Component {
     this.setState({ isUserLogged: false });
   }
 
+  renderButton(icon, title, subtitle) {
+    return (
+      <button className="btn-type-seller">
+        <div className="col-2" >
+          <img src={`/assets/images/icon-${icon}.svg`} alt="" />
+        </div>
+        <div className="col-10" >
+          <div className="d-flex flex-column justify-content-start" >
+            <h4>{title}</h4>
+            <h6>{subtitle}</h6>
+          </div>
+        </div>
+      </button>
+    );
+  }
+
   render() {
-    const { value, suggestions } = this.state;
-    const inputProps = {
-      placeholder: '¿Que estás buscando?',
-      value,
-      onChange: this.onChange,
+    const customStyles = {
+      input: base => ({
+        ...base,
+        width: '250px',
+        height: '40px',
+        fontWeight: '300',
+        fontSize: '16px',
+        border: '0px solid #aaa',
+        borderRadius: '4px',
+        outline: 'none',
+        paddingTop: '7px',
+      }),
+      menu: (base, state) =>
+        (state.isFocused
+          ? ({
+            ...base,
+            display: 'block',
+            position: 'absolute',
+            top: '51px',
+            width: '280px',
+            border: '1px solid #aaa',
+            backgroundColor: '#fff',
+            fontWeight: '300',
+            fontSize: '16px',
+            borderBottomLeftRadius: '4px',
+            borderBottomRightRadius: '4px',
+            zIndex: 2,
+          }) : { ...base }),
+      indicatorSeparator: base => ({
+        ...base,
+        display: 'none',
+      }),
+      indicatorsContainer: () => ({ display: 'none' }),
     };
+    const options = getOptionsForReactSelect();
+
     const haveTopBar = (this.props.location.pathname === '/' || this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/microsite') || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
     const haveToBanner = (this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
     return (
       <div className="container-fluid" style={{ marginBottom: haveToBanner ? '140px' : '90px' }} >
-        <Row className="header" style={{ top: haveTopBar ? '29px' : '0px' }}>
-          <Col md="2">
+        <Row className="header">
+          <Col md="2" className="brand">
             <Row>
-              <a onClick={() => this.props.history.push('/')} className="brand">
+              <a onClick={() => this.props.history.push('/')} className="ml-3" >
                 <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
               </a>
             </Row>
           </Col>
-          <Col md="10" className="d-xl-none">
-            <Button color="primary" onClick={() => this.setState({ sidebar: 'active' })} className="float-right btn-sidebar-open btn-link-primary">
+          <div className="d-lg-none">
+            <Button color="primary" onClick={() => this.setState({ sidebar: 'active' })} className="float-left btn-sidebar-open btn-link-primary">
               <img src="/assets/images/icon-menu.svg" alt="" />
             </Button>
-          </Col>
-          <Col md="10" className={`sidebar-mobile d-none d-xl-block ${this.state.sidebar}`}>
+          </div>
+          <Col md="10" className={`d-xl-block ${this.state.sidebar}`}>
             <Button color="primary" onClick={() => this.setState({ sidebar: '' })} className="btn-link-primary btn-sidebar-close d-none">
               <img src="/assets/images/icon-close.svg" alt="" />
             </Button>
-            <Row className="align-items-center area-btns justify-content-start">
+            <Row className="area-btns">
               <Col lg="3" xs="12" sm="12">
                 {/* <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} /> */}
                 <Row>
-                  <Autosuggest
+                  <CreatableSelect
+                    placeholder={<div className="d-flex" style={{ width: '250px' }}>¿Qué estas buscando?<img className="ml-auto" src="/assets/images/icon-search-red.svg" /></div>}
+                    onCreateOption={this.submitSearch}
+                    onChange={searchText => this.setState({ searchText }, () => this.submitSearch(searchText.value))}
+                    formatCreateLabel={search => `Buscar: ${search}`}
+                    styles={customStyles}
+                    options={options}
+                    theme={theme => ({
+                      ...theme,
+                      borderRadius: 4,
+                      colors: {
+                      ...theme.colors,
+                        primary25: '#E40019',
+                        primary: '#2A3B59',
+                      },
+                    })
+                  }
+                  />
+                  {/* <Autosuggest
                     multiSection
                     suggestions={suggestions}
                     onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
@@ -374,129 +446,91 @@ class SearchBar extends Component {
                     renderSectionTitle={renderSectionTitle}
                     getSectionSuggestions={getSectionSuggestions}
                     inputProps={inputProps}
-                  />
-                  <style jsx="true" >{autocompleteStyles}</style>
+                  /> */}
                 </Row>
               </Col>
-              <Col lg="1" sm="10" xs="10">
-                <Row>
-                  <ButtonDropdown
-                    isOpen={this.state.dropdownOpen}
-                    toggle={this.toggle}
-                  >
-                    <DropdownToggle caret color="default" className="btn-select">{this.state.carState}</DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem
-                        value="Nuevo"
-                        onClick={e => this.setState({ carState: e.target.value })}
-                      >
-                        Nuevo
-                      </DropdownItem>
-                      <DropdownItem
-                        value="Usado"
-                        onClick={e => this.setState({ carState: e.target.value })}
-                      >
-                        Usado
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown>
-                </Row>
-              </Col>
-
-              <Col lg="auto" sm="2" xs="2">
-                <Row>
-                  <Button
-                    color="primary"
-                    style={{ cursor: 'pointer' }}
-                    className="icon is-small btn-icon"
-                    onClick={() => {
-                      this.submitSearch();
-                    }}
-                  >
-                    <img src="/assets/images/icon-search.svg" alt="" />
+              <div className="sell-mobile">
+                {this.state.isUserLogged ?
+                  <Button color="primary" className="mr-4 btn-seller" onClick={() => this.props.history.push('/createPublication')}>
+                    Vender
                   </Button>
-                </Row>
-              </Col>
-              <div className="w-100 d-block d-lg-none" />
-              <Col lg="auto">
-                <Row>
-                  <Button color="secondary" onClick={this.pledgeCredits} className="ml-4" > Solicitá tu crédito</Button>
-                </Row>
-              </Col>
-              <div className="w-100 d-block d-lg-none" />
-              <Col lg="auto">
-                <Row>
-                  <Button color="secondary" onClick={this.friendlyAgency} className="btn-link" style={{ boxShadow: 'none' }} >Concesionarias</Button>
-                </Row>
-              </Col>
-              <div className="w-100 d-block d-lg-none" />
-              {this.state.isUserLogged ? (
+                :
+                  <Button color="primary" className="mr-4 btn-seller" onClick={() => this.toggleModalVender()}>
+                    Vender
+                  </Button>
+                }
+              </div>
+              <div className={`d-flex flex-row sidebar-mobile ${this.state.sidebar} ml-auto`} >
+                <Button color="primary" onClick={() => this.setState({ sidebar: '' })} className="btn-link-primary btn-sidebar-close d-none">
+                  <img src="/assets/images/icon-close.svg" alt="" />
+                </Button>
+                <div className="w-100 d-block d-lg-none" />
                 <Col lg="auto">
                   <Row>
-                    <ButtonDropdown
-                      isOpen={this.state.dropdownUser}
-                      toggle={this.toggleUser}
-                    >
-                      <Button style={{ cursor: 'pointer' }} color="primary" className={this.props.location.pathname === '/createPublication' ? 'active' : ''} onClick={() => this.props.history.push('/createPublication')} >Publica Ya!</Button>
-                      <DropdownToggle caret color="default" className="btn-link btn-block">{this.state.nameFB ? this.state.nameFB : _.truncate(getUserDataFromToken().name, { length: 10 })}</DropdownToggle>
-                      <DropdownMenu>
-                        {!isAdminLogged() &&
-                        <DropdownItem
-                          value="myAccount"
-                          onClick={() => (this.props.history.push('/userAdmin'))}
-                        >Mi cuenta
-                        </DropdownItem>}
-                        {isAdminLogged() &&
-                        <DropdownItem
-                          value="myAccount"
-                          onClick={() => (this.props.history.push('/admin'))}
-                        >Administrador
-                        </DropdownItem>}
-                        <DropdownItem value="closeSession" onClick={() => this.clearSession()}>Cerrar Sesión</DropdownItem>
-                      </DropdownMenu>
-                    </ButtonDropdown>
+                    <Button color="default-menu" className="ml-4" onClick={this.home} >Inicio</Button>
                   </Row>
                 </Col>
+                <div className="w-100 d-block d-lg-none" />
+                <Col lg="auto">
+                  <Row>
+                    <Button color="default-menu" className="ml-4" onClick={this.pledgeCredits} >Financiación</Button>
+                  </Row>
+                </Col>
+                <div className="w-100 d-block d-lg-none" />
+                <Col lg="auto">
+                  <Row>
+                    <Button color="default-menu" onClick={this.friendlyAgency} >Concesionarias</Button>
+                  </Row>
+                </Col>
+                <div className="w-100 d-block d-lg-none" />
+                {this.state.isUserLogged ? (
+                  <Col lg="auto">
+                    <Row>
+                      <ButtonDropdown
+                        isOpen={this.state.dropdownUser}
+                        toggle={this.toggleUser}
+                      >
+                        <DropdownToggle caret color="default-menu mr-4">{this.state.nameFB ? this.state.nameFB : _.truncate(getUserDataFromToken().name, { length: 18 })}</DropdownToggle>
+                        <DropdownMenu>
+                          {!isAdminLogged() &&
+                          <DropdownItem
+                            value="myAccount"
+                            onClick={() => (this.props.history.push('/userAdmin'))}
+                          >Mi cuenta
+                          </DropdownItem>}
+                          {isAdminLogged() &&
+                          <DropdownItem
+                            value="myAccount"
+                            onClick={() => (this.props.history.push('/admin'))}
+                          >Administrador
+                          </DropdownItem>}
+                          <DropdownItem value="closeSession" onClick={() => this.clearSession()}>Cerrar Sesión</DropdownItem>
+                        </DropdownMenu>
+                        <Button color="primary" className="btn-seller" onClick={() => this.props.history.push('/createPublication')}>
+                          Vender
+                        </Button>
+                      </ButtonDropdown>
+                    </Row>
+                  </Col>
               ) : (
                 <Col lg="auto">
                   <Row>
-                    <Col lg="auto" sm="12" >
-                      <Row>
-                        <ButtonDropdown
-                          isOpen={this.state.dropdownOpenPublicate}
-                          toggle={this.togglePublicate}
-                        >
-                          <DropdownToggle caret className="btn-link-active" style={{ width: '160px', boxShadow: 'none' }}>Publicá Gratis</DropdownToggle>
-                          <DropdownMenu className="custom-dropdown">
-                            <DropdownItem value="publicateFree" onClick={this.withoutRegister}>
-                              <h4>¡Publica ya!</h4>
-                              <h6>1 Publicación Gratis</h6>
-                            </DropdownItem>
-                            <DropdownItem value="particular" onClick={this.userRegister}>
-                              <h4>Soy Particular. Registrate, es muy fácil</h4>
-                              <h6>Publicaciones gratis ilimitadas</h6>
-                            </DropdownItem>
-                            <DropdownItem value="agency" onClick={this.agencyRegister}>
-                              <h4>Soy un Concesionario. Registrate y vende más</h4>
-                              <h6>Publicaciones gratis ilimitadas</h6>
-                            </DropdownItem>
-                            <DropdownItem value="particular" onClick={() => this.toggleModal()}>
-                              <h4>Ya tengo cuenta</h4>
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </ButtonDropdown>
-                      </Row>
-                    </Col>
                     <Col lg="auto" sm="12">
                       <Row>
-                        <Button color="default" className="btn-link" onClick={() => this.toggleModal()}>
+                        <Button color="default-menu" className="mr-4" onClick={() => this.toggleModal()}>
                           Iniciá Sesión
                         </Button>
                       </Row>
                     </Col>
+                    <Col lg="auto" sm="12" className="d-none d-md-block d-lg-none" >
+                      <Button color="primary" onClick={() => this.toggleModalVender()}>
+                          Vender
+                      </Button>
+                    </Col>
                   </Row>
                 </Col>
             )}
+              </div>
             </Row>
           </Col>
           <Modal
@@ -508,57 +542,57 @@ class SearchBar extends Component {
             <ModalHeader toggle={this.toggleModal}>Iniciar sesión</ModalHeader>
             <ModalBody>
               <div className="col-md-10 offset-md-1">
-              <AvForm onSubmit={this.loginUser}>
-                <FacebookLogin
-                  appId="146328269397173"
-                  autoLoad
-                  callback={() => this.loginFB()}
-                  icon="fa-facebook"
-                  fields="name,email,picture"
-                  textButton="Registrate con facebook"
-                  cssClass="btn btn-primary btn-facebook"
-                />
-                <div className="underline" />
-                <AvField
-                  label="Email"
-                  type="email"
-                  value={this.state.email}
-                  onChange={event => this.setState({ email: event.target.value })}
-                  name="email"
-                  id="email"
-                  validate={validate("email")}
-                  className="form-control"
-                />
-                <AvField
-                  label="Contraseña"
-                  type="password"
-                  value={this.state.password}
-                  onChange={event => this.setState({ password: event.target.value })}
-                   name="password"
-                  id="password"
-                  validate={validate("password")}
-                  className="form-control"
-                />
-                <a onClick={() => { this.setState({ forgetPass: true }); }} style={{ cursor: 'pointer', color: '#E40019' }}>
+                <AvForm onSubmit={this.loginUser}>
+                  <FacebookLogin
+                    appId="146328269397173"
+                    autoLoad
+                    callback={() => this.loginFB()}
+                    icon="fa-facebook"
+                    fields="name,email,picture"
+                    textButton="Registrate con facebook"
+                    cssClass="btn btn-primary btn-facebook"
+                  />
+                  <div className="underline" />
+                  <AvField
+                    label="Email"
+                    type="email"
+                    value={this.state.email}
+                    onChange={event => this.setState({ email: event.target.value })}
+                    name="email"
+                    id="email"
+                    validate={validate('email')}
+                    className="form-control"
+                  />
+                  <AvField
+                    label="Contraseña"
+                    type="password"
+                    value={this.state.password}
+                    onChange={event => this.setState({ password: event.target.value })}
+                    name="password"
+                    id="password"
+                    validate={validate('password')}
+                    className="form-control"
+                  />
+                  <a onClick={() => { this.setState({ forgetPass: true }); }} style={{ cursor: 'pointer', color: '#E40019' }}>
                   ¿Olvidaste tu contraseña?
-                </a>
-                {this.state.forgetPass && (
+                  </a>
+                  {this.state.forgetPass && (
                   <div style={{ paddingTop: '20px' }}>
                     <Label>Ingresa tu email para poder recuperarla </Label>
                     <AvForm onSubmit={this.recoverPass}>
-                    <AvField
-                      style={{ display: 'inline' }}
-                      type="email"
-                      value={this.state.recoverPassEmail}
-                      onChange={e =>
+                      <AvField
+                        style={{ display: 'inline' }}
+                        type="email"
+                        value={this.state.recoverPassEmail}
+                        onChange={e =>
                       this.setState({ recoverPassEmail: e.target.value })}
-                      name="email"
-                      id="email"
-                      validate={validate("email")}
-                      className="form-control"
-                    />
-                    {this.state.displayError && <small style={{ color: 'red' }}>{this.state.error}</small>}
-                    <Button color="secondary" type="submit" className="alternative" style={{ display: 'inline' }}>Recuperar </Button>
+                        name="email"
+                        id="email"
+                        validate={validate('email')}
+                        className="form-control"
+                      />
+                      {this.state.displayError && <small style={{ color: 'red' }}>{this.state.error}</small>}
+                      <Button color="secondary" type="submit" className="alternative" style={{ display: 'inline' }}>Recuperar </Button>
                     </AvForm>
                     {this.state.loading && <img
                       style={{ height: '85px', paddingTop: '10px' }}
@@ -568,37 +602,54 @@ class SearchBar extends Component {
                     />}
                   </div>
                 )}
-                <div className="row">
-                <div className="col-3 float-left offset-md-2">
-                  <Button
-                    onClick={() => this.toggleModal()}
-                    color="default"
-                    className="alternative"
-                    style={{ height: '50px' }}
-                  >
+                  <div className="row">
+                    <div className="col-3 float-left offset-md-2">
+                      <Button
+                        onClick={() => this.toggleModal()}
+                        color="default"
+                        className="alternative"
+                        style={{ height: '50px' }}
+                      >
                       Salir
-                  </Button>
-                </div>
-                <div className="col-6 float-right">
-                  <Button
-                    type="submit"
-                    color="primary"
-                    className="alternative"
-                  >
+                      </Button>
+                    </div>
+                    <div className="col-6 float-right">
+                      <Button
+                        type="submit"
+                        color="primary"
+                        className="alternative"
+                      >
                     Iniciar sesión
-                  </Button>
-                </div>
-                </div>
+                      </Button>
+                    </div>
+                  </div>
                 </AvForm>
               </div>
             </ModalBody>
             <ModalFooter>
               <div className="col-md-10">
-                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <button style={{fontSize:'12px'}} onClick={()=>this.props.history.push("/userRegister")} className="btn-link">Registrarme</button></p>
-                <p>No tengo cuenta. Soy una concesionaria. <button style={{fontSize:'12px', margin:'none'}} onClick={()=>this.props.history.push("/agencyRegister")} className="btn-link">Registrar Agencia</button></p>
+                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <button style={{ fontSize: '12px' }} onClick={() => this.props.history.push('/userRegister')} className="btn-link">Registrarme</button></p>
+                <p>No tengo cuenta. Soy una concesionaria. <button style={{ fontSize: '12px', margin: 'none' }} onClick={() => this.props.history.push('/agencyRegister')} className="btn-link">Registrar Agencia</button></p>
               </div>
             </ModalFooter>
           </Modal>
+          <Modal
+            isOpen={this.state.modalVender}
+            toggle={this.toggleModalVender}
+            className={this.props.className}
+            size="md"
+          >
+            <ModalHeader toggle={this.toggleModalVender}>¿Qué tipo de vendedor sos?</ModalHeader>
+            <ModalBody style={{ padding: '0px' }} >
+              <div className="col-md-12">
+                {this.renderButton('rayo', 'Publicación inmediata', '1 publicación gratis')}
+                {this.renderButton('llaves', 'Soy un particular. Registrate es muy fácil!', 'Publicaciones gratis ilimitadas')}
+                {this.renderButton('auto', 'Soy un Concesionario', 'Publicaciones gratis ilimitadas')}
+                {this.renderButton('comercial', 'Soy una comercializadora', 'Publicaciones gratis ilimitadas')}
+              </div>
+            </ModalBody>
+          </Modal>
+
           <NotificationModal
             primaryText={this.state.modalTitle}
             secondaryText={this.state.modalMessage}

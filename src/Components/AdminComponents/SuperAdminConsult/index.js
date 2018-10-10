@@ -6,7 +6,7 @@ import { Col, Row, FormGroup, Label } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+
 import ReactGA from 'react-ga';
 
 import AdminBar from '../../../stories/AdminBar';
@@ -135,6 +135,16 @@ class SuperAdminConsult extends React.Component {
                         onChange={newValue => this.onChangeBrand(newValue)}
                         searchable
                         noResultsText="No se encontraron resultados"
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: 4,
+                          colors: {
+                          ...theme.colors,
+                            primary25: '#E40019',
+                            primary: '#2A3B59',
+                          },
+                        })
+                        }
                       />
                     </FormGroup>
                     <FormGroup>
@@ -152,6 +162,16 @@ class SuperAdminConsult extends React.Component {
                         onChange={newValue => this.onChangeGroup(newValue)}
                         searchable
                         noResultsText="No se encontraron resultados"
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: 4,
+                          colors: {
+                          ...theme.colors,
+                            primary25: '#E40019',
+                            primary: '#2A3B59',
+                          },
+                        })
+                        }
                       />
                     </FormGroup>
                     <FormGroup>
@@ -169,6 +189,16 @@ class SuperAdminConsult extends React.Component {
                         onChange={newValue => this.onChangeModel(newValue)}
                         searchable
                         noResultsText="No se encontraron resultados"
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: 4,
+                          colors: {
+                          ...theme.colors,
+                            primary25: '#E40019',
+                            primary: '#2A3B59',
+                          },
+                        })
+                        }
                       />
                     </FormGroup>
                     <FormGroup>
@@ -187,6 +217,16 @@ class SuperAdminConsult extends React.Component {
                         onChange={newValue => this.onChangeYear(newValue)}
                         searchable
                         noResultsText="No se encontraron resultados"
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: 4,
+                          colors: {
+                          ...theme.colors,
+                            primary25: '#E40019',
+                            primary: '#2A3B59',
+                          },
+                        })
+                        }
                       />
                     </FormGroup>
                     <p>Precio Revista: <b>{this.state.priceSuggested}</b></p>

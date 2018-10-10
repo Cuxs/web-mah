@@ -8,7 +8,7 @@ import { branch, renderComponent } from 'recompose';
 import ScrollToTop from 'react-scroll-up';
 import ReactGA from 'react-ga';
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+
 
 import AdminBar from '../../../stories/AdminBar';
 import UserSideBar from '../../../stories/UserSideBar';
@@ -208,6 +208,16 @@ class UserProfile extends React.Component {
                         onChange={newValue => this.onChangeProvince(newValue)}
                         searchable
                         noResultsText="No se encontraron resultados"
+                         theme={theme => ({
+                      ...theme,
+                      borderRadius: 4,
+                      colors: {
+                      ...theme.colors,
+                        primary25: '#E40019',
+                        primary: '#2A3B59',
+                      },
+                    })
+                  }
                       />
                     </div>
                     <div className="data-input-group">
@@ -227,6 +237,16 @@ class UserProfile extends React.Component {
                         onChange={town_id => this.setState({ town_id })}
                         searchable
                         noResultsText="No se encontraron resultados"
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: 4,
+                          colors: {
+                          ...theme.colors,
+                            primary25: '#E40019',
+                            primary: '#2A3B59',
+                          },
+                        })
+                        }
                       />
                     </div>
                     <div className="data-input-group">

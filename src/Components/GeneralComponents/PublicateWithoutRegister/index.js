@@ -7,7 +7,6 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import { stringify, parse } from 'query-string';
 import _ from 'lodash';
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
 import ReactGA from 'react-ga';
 import { scroller } from 'react-scroll';
 
@@ -357,6 +356,18 @@ class CreatePublication extends React.Component {
                       onChange={newValue =>
                         this.setState({ carState: newValue })
                       }
+                      theme={theme => {({
+                        ...theme,
+                        borderRadius: 4,
+                        colors: {
+                        ...theme.colors,
+                          primary25: '#E40019',
+                          primary: '#2A3B59',
+                        },
+                      })
+                      console.log(theme)
+                    }
+                      }
                     />
                   </FormGroup>
                   <div
@@ -397,6 +408,16 @@ class CreatePublication extends React.Component {
                         onChange={newValue => this.onChangeBrand(newValue)}
                         searchable
                         noResultsText="No se encontraron resultados"
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: 4,
+                          colors: {
+                          ...theme.colors,
+                            primary25: '#E40019',
+                            primary: '#2A3B59',
+                          },
+                        })
+                        }
                       />
                     </FormGroup>
                     <FormGroup>
@@ -421,6 +442,16 @@ class CreatePublication extends React.Component {
                         onChange={newValue => this.onChangeGroup(newValue)}
                         searchable
                         noResultsText="No se encontraron resultados"
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: 4,
+                          colors: {
+                          ...theme.colors,
+                            primary25: '#E40019',
+                            primary: '#2A3B59',
+                          },
+                        })
+                        }
                       />
                     </FormGroup>
                     <FormGroup>
@@ -445,6 +476,16 @@ class CreatePublication extends React.Component {
                         onChange={newValue => this.onChangeModel(newValue)}
                         searchable
                         noResultsText="No se encontraron resultados"
+                        theme={theme => ({
+                          ...theme,
+                          borderRadius: 4,
+                          colors: {
+                          ...theme.colors,
+                            primary25: '#E40019',
+                            primary: '#2A3B59',
+                          },
+                        })
+                        }
                       />
                     </FormGroup>
                   </div>
@@ -467,6 +508,16 @@ class CreatePublication extends React.Component {
                       onChange={newValue => this.onChangeYear(newValue)}
                       searchable
                       noResultsText="No se encontraron resultados"
+                      theme={theme => ({
+                        ...theme,
+                        borderRadius: 4,
+                        colors: {
+                        ...theme.colors,
+                          primary25: '#E40019',
+                          primary: '#2A3B59',
+                        },
+                      })
+                      }
                     />
                   </FormGroup>
                   <label>¿Cuántos kilometros tiene? (Opcional)</label>

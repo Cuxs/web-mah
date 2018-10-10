@@ -6,8 +6,8 @@ import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
-import { hotjar } from "react-hotjar";
-import {mobilecheck} from "../../../Modules/functions";
+import { hotjar } from 'react-hotjar';
+import { mobilecheck } from '../../../Modules/functions';
 
 import {
   HomeQuery,
@@ -17,12 +17,13 @@ import {
   GetTextsQuery,
 } from '../../../ApolloQueries/TextsQueries';
 import CarHomeContainer from '../../../stories/CarHomeContainer';
-import TopTopNav from '../../../stories/TopTopNav';
+import PaymentBanner from '../../../stories/PaymentBanner';
 import SearchBar from '../../../stories/SearchBar';
 import CarResult from '../../../stories/CarResult';
 import Banner from '../../../stories/Banner';
 import Card123Seguros from '../../../stories/Card123Seguros';
-import CreditsBanner from '../../../stories/CreditsBanner';
+import PubsCarousel from '../../../stories/PubsCarousel';
+import Services from '../../../stories/Services';
 import LastPublications from '../../../stories/LastPublications';
 import FriendlyCompanies from '../../../stories/FriendlyCompanies';
 import Footer from '../../../stories/Footer';
@@ -63,21 +64,32 @@ const Home = ({
           <meta charSet="utf-8" />
           <title>Bienvenido a Mi Auto Hoy</title>
         </Helmet>
-        <TopTopNav history={history} />
-        <SearchBar history={history} location={location} />
-        {!Texts.loading && <Fragment>
-          <Banner Texts={Texts} />
-          <CreditsBanner history={history} Texts={Texts} />
-        </Fragment>}
-        <CarHomeContainer>
-          {data.HighlightedPublications.map(row => (
-            <CarResult
-              photoGalery={photoGaleryParser(row.ImageGroup)}
-              data={row}
+        {/* <TopTopNav history={history} /> */}
+        <div style={{top: '0px'}}>
+        <SearchBar history={history} location={location}/>
+        </div>
+        <Banner />
+        <Services history={history} location={location} />
+        <PaymentBanner />
+        <div className="car-home" >
+          <CarHomeContainer>
+            {data.HighlightedPublications.map(row => (
+              <CarResult
+                photoGalery={photoGaleryParser(row.ImageGroup)}
+                data={row}
+              />
+            ))}
+          </CarHomeContainer>
+        </div>
+        <div className="car-home-responsive" >
+          <CarHomeContainer mobile>
+            <PubsCarousel
+              pubs={data.HighlightedPublications}
             />
-          ))}
-        </CarHomeContainer>
-        <LastPublications>
+          </CarHomeContainer>
+        </div>
+        <PaymentBanner />
+        {/* <LastPublications>
           {!lastPubs.loading ?
             lastPubs.LastPublications.map(row => (
               <CarResult
@@ -88,14 +100,15 @@ const Home = ({
             :
             []
           }
-        </LastPublications>
+        </LastPublications> */}
         {/* <Card123Seguros history={history} /> */}
-        <FriendlyCompanies>
+        {/* <FriendlyCompanies>
           <a href="http://www.mendoza.gov.ar/prevencionvial/"><img src="/assets/images/EA1.jpg" alt="prevencion" /></a>
           <a href="http://www.pueblobenegas.com/"><img src="/assets/images/EA2.jpg" alt="benegas" /></a>
           <a href="http://miautohoy.com/microsite?concesionaria=LM%20Automotores&c_id=26"><img src="/assets/images/EA3.jpg" alt="lm-automotores" /></a>
           <a href="http://www.mktinversiones.com.ar/"><img src="/assets/images/EA4.jpg" alt="mkt" /></a>
-        </FriendlyCompanies>
+        </FriendlyCompanies> */}
+        
         <Footer history={history} />
       </div>
     )}

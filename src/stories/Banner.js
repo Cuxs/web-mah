@@ -1,10 +1,10 @@
 import React from 'react';
 import { Row } from 'reactstrap';
+import _ from 'lodash';
 /* eslint react/jsx-filename-extension: 0 */
-import InputOrText from './InputOrText';
 import { isAdminLogged } from '../Modules/sessionFunctions';
 import { getSliders } from '../Modules/fetches';
-import BannerCarousel from '../stories/BannerCarousel';
+import BannerCarousel from './BannerCarousel';
 
 class Banner extends React.Component {
   constructor(props) {
@@ -19,36 +19,28 @@ class Banner extends React.Component {
       .then((res) => {
         const sliders = res.data.map((row, index) => ({ src: `${process.env.REACT_APP_API}/images/${row.image}`, altText: `slider${index}` }));
         this.setState({
-          sliders,
+          sliders: [sliders[0], sliders[2], sliders[4]],
+          slidersMobile: [sliders[1], sliders[3], sliders[5]],
         });
       });
-    const texts = {};
-    texts.fetched = true;
-    this.props.Texts.PageTexts.map(row => texts[row.section] = row.text);
-    this.setState({ ...texts });
   }
   render() {
-    const backgroundImage = this.state.sliders[0].src;
+    // const backgroundImage = this.state.sliders[0].src;
     return (
       <div className="container-fluid">
         <Row>
           {
         window.matchMedia('(max-width: 550px)').matches
           ?
-            <div style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: '50% 50%',
-            width: '100%',
-            height: '200px',
-          }}
+            <BannerCarousel
+              photoGalery={_.remove(this.state.slidersMobile, n => n !== undefined)}
             />
           :
             <BannerCarousel
-              photoGalery={this.state.sliders}
+              photoGalery={_.remove(this.state.sliders, n => n !== undefined)}
             />
-      }
-          <div className="container">
+          }
+          {/* <div className="container">
             <Row className="align-items-center justify-content-between">
               <div className="col-lg-4 col-md-5 col-sm-12 col-xs-12">
                 {isAdminLogged() ?
@@ -80,7 +72,7 @@ class Banner extends React.Component {
                 }
               </div>
             </Row>
-          </div>
+          </div> */}
         </Row>
       </div>
     );
