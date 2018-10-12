@@ -28,6 +28,13 @@ class Card123Seguros extends React.Component {
       townList: [],
       town_id: '',
       showModal: false,
+
+      phone: '',
+      email: '',
+      secondName: '',
+      town_id: '',
+      province_id: '',
+      name: '',
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.handleQuoting = this.handleQuoting.bind(this);
@@ -121,7 +128,10 @@ class Card123Seguros extends React.Component {
     this.setState({ showModal: !this.state.showModal });
   }
   viewQuoted() {
-    let year, brand, version, model;
+    let year,
+      brand,
+      version,
+      model;
     if (this.props.isCarSelected) {
       year = this.state.year;
       brand = this.state.brand;
@@ -279,14 +289,14 @@ class Card123Seguros extends React.Component {
                 />
               </Col>
               <Col md={6} sm={12}>
-                <label>Edad</label>
+                <label>Apellido</label>
                 <AvField
-                  type="number"
-                  value={this.state.age}
-                  onChange={event => this.setState({ age: event.target.value })}
-                  name="name"
-                  id="name"
-                  validate={validate('number')}
+                  type="string"
+                  value={this.state.secondName}
+                  onChange={event => this.setState({ secondName: event.target.value })}
+                  name="secondName"
+                  id="secondName"
+                  validate={validate('string')}
                   className="form-control"
                 />
                 <label>Email</label>
