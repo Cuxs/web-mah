@@ -86,6 +86,8 @@ class SearchBar extends Component {
       loading: false,
       error: '',
       displayError: false,
+
+      searchModal: false,
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalVender = this.toggleModalVender.bind(this);
@@ -102,6 +104,7 @@ class SearchBar extends Component {
     this.loginUser = this.loginUser.bind(this);
     this.statusChangeCallback = this.statusChangeCallback.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
+    this.toggleSearchModal = this.toggleSearchModal.bind(this);
   }
 
   componentDidMount() {
@@ -138,7 +141,7 @@ class SearchBar extends Component {
       category: `SearchBar ${this.props.history.location.pathname}`,
       action: 'Ir a Buscar autos',
     });
-    this.setState({ sidebar: '' });
+    this.setState({ sidebar: '', searchModal:false });
     this.props.history.push(`/SearchCars?text=${text}`);
   }
 
@@ -189,6 +192,11 @@ class SearchBar extends Component {
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen,
+    });
+  }
+  toggleSearchModal() {
+    this.setState({
+      searchModal: !this.state.searchModal,
     });
   }
   togglePublicate() {
@@ -391,6 +399,40 @@ class SearchBar extends Component {
       }),
       indicatorsContainer: () => ({ display: 'none' }),
     };
+    const customStylesResponsive = {
+      input: base => ({
+        ...base,
+        width: '100vw',
+        height: '40px',
+        fontWeight: '300',
+        fontSize: '16px',
+        border: '0px solid #aaa',
+        borderRadius: '4px',
+        outline: 'none',
+        paddingTop: '7px',
+      }),
+      menu: (base, state) =>
+        (state.isFocused
+          ? ({
+            ...base,
+            display: 'block',
+            position: 'absolute',
+            top: '51px',
+            width: '280px',
+            border: '1px solid #aaa',
+            backgroundColor: '#fff',
+            fontWeight: '300',
+            fontSize: '16px',
+            borderBottomLeftRadius: '4px',
+            borderBottomRightRadius: '4px',
+            zIndex: 2,
+          }) : { ...base }),
+      indicatorSeparator: base => ({
+        ...base,
+        display: 'none',
+      }),
+      indicatorsContainer: () => ({ display: 'none' }),
+    };
     const options = getOptionsForReactSelect();
 
     const haveTopBar = (this.props.location.pathname === '/' || this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/microsite') || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
@@ -415,7 +457,7 @@ class SearchBar extends Component {
               <img src="/assets/images/icon-close.svg" alt="" />
             </Button>
             <Row className="area-btns">
-              <Col lg="3" xs="12" sm="12">
+              <Col lg="4" xs="7" md="5" sm="8">
                 {/* <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} /> */}
                 <Row>
                   <CreatableSelect
@@ -425,6 +467,7 @@ class SearchBar extends Component {
                     formatCreateLabel={search => `Buscar: ${search}`}
                     styles={customStyles}
                     options={options}
+                    onFocus={() => (window.innerWidth <= 425 ? this.toggleSearchModal() : true)}
                     theme={theme => ({
                       ...theme,
                       borderRadius: 4,
@@ -636,7 +679,6 @@ class SearchBar extends Component {
           <Modal
             isOpen={this.state.modalVender}
             toggle={this.toggleModalVender}
-            className={this.props.className}
             size="md"
           >
             <ModalHeader toggle={this.toggleModalVender}>¿Qué tipo de vendedor sos?</ModalHeader>
@@ -648,6 +690,27 @@ class SearchBar extends Component {
                 {this.renderButton('comercial', 'Soy una comercializadora', 'Publicaciones gratis ilimitadas')}
               </div>
             </ModalBody>
+          </Modal>
+          <Modal isOpen={this.state.searchModal} size="lg" className="search-modal" toggle={this.toggleSearchModal} >
+            <CreatableSelect
+              placeholder={<div className="d-flex" style={{ width: '90vw' }}>¿Qué estas buscando?<img className="ml-auto" src="/assets/images/icon-search-red.svg" /></div>}
+              onCreateOption={this.submitSearch}
+              onChange={searchText => this.setState({ searchText }, () => this.submitSearch(searchText.value))}
+              formatCreateLabel={search => `Buscar: ${search}`}
+              styles={customStylesResponsive}
+              menuIsOpen
+              options={options}
+              theme={theme => ({
+                      ...theme,
+                      borderRadius: 4,
+                      colors: {
+                      ...theme.colors,
+                        primary25: '#E40019',
+                        primary: '#2A3B59',
+                      },
+                    })
+                  }
+            />
           </Modal>
 
           <NotificationModal

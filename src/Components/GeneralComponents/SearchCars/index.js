@@ -33,7 +33,6 @@ import NumberOfResult from '../../../stories/NumberOfResult';
 
 import ActiveFilters from '../../../stories/ActiveFilters';
 
-import { getFiltersAndTotalResult } from '../../../Modules/fetches';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
@@ -55,25 +54,14 @@ class SearchCars extends Component {
   componentWillMount() {
     hotjar.initialize(916734, 6);
     const url = this.props.location.search;
-    this.doFilterTotalResultSearch(url);
     this.doSearch(1, true, this.props);
     ReactGA.pageview('/BUSCAR-AUTO');
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {
       this.doSearch(1, true, nextProps);
-      this.doFilterTotalResultSearch(nextProps.location.search);
     }
     scroll.scrollToTop({ duration: 300 });
-  }
-  doFilterTotalResultSearch(url) {
-    const search = qs.parse(url);
-    search.state = 'Activas';
-    getFiltersAndTotalResult(search)
-      .then(res => this.setState({
-        totalResults: res.data.totalResults,
-        filters: res.data.filters,
-      }));
   }
   doSearch(page, newSearch, nextProps) {
     let url;
@@ -100,6 +88,7 @@ class SearchCars extends Component {
           this.setState({
             hasNextPage: searchPublication.hasNextPage,
             totalResults: searchPublication.totalCount,
+            filters: JSON.parse(searchPublication.filters),
             Publications,
             loading: false,
 
@@ -113,6 +102,7 @@ class SearchCars extends Component {
             loading: false,
             hasNextPage: searchPublication.hasNextPage,
             totalResults: searchPublication.totalCount,
+            filters: JSON.parse(searchPublication.filters),
 
           });
         }
@@ -219,7 +209,7 @@ class SearchCars extends Component {
           text={text}
           history={history}
           location={location}
-        />>
+        />
         <div className="container mb-4 mt-4">
           <Row>
             <Col md="8" sm="12" xs="12">

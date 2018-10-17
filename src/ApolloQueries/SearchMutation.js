@@ -4,7 +4,8 @@ const SearchMutation = gql`
 mutation searchPublication($brand:String, $modelName:String, $userType:String, $user_id:Int, $carState: String, $text: String, $page: Int $fuel: String, $year: Int, $state: String, $province:String,  $MAHtoken: String)
   {searchPublication(brand:$brand, modelName:$modelName, userType:$userType, user_id: $user_id, carState: $carState, text: $text, page: $page, fuel: $fuel, year: $year state: $state, province: $province, MAHtoken:$MAHtoken) {
     totalCount
-    hasNextPage    
+    hasNextPage
+    filters    
     Publications {
       CurrentState {
         stateName

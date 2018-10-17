@@ -243,24 +243,7 @@ export const editPublicationWithoutImages = (dataPublication) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
-export const getFiltersAndTotalResult = (search) => {
-  const url = `${server}/getFiltersAndTotalResult`;
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      search,
-    }),
-  };
-  return fetch(url, options)
-    .then(response => response.json())
-    .then(responseData =>
-      (responseData.status === undefined || responseData.status === 'error'
-        ? Promise.reject(responseData.message)
-        : responseData));
-};
+
 export const getSoldPublications = () => {
   if (loadState()) {
     token = `Bearer ${loadState().login.MAHtoken}`;

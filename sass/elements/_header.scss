@@ -182,10 +182,11 @@
     }
   }
 }
-@media screen and (max-width: 1240px) {
+@media screen and (max-width: 1000px) {
 .header{
     .sell-mobile{
       display: initial;
+      position: relative;
     }
   }
 }
@@ -195,4 +196,8 @@
       display: none;
     }
   }
+}
+.search-modal{
+    background-color: white;
+    margin-top: 25px;
 }

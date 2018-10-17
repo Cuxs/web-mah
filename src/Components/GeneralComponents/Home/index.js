@@ -3,7 +3,6 @@
 
 import React, { Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { branch, renderComponent } from 'recompose';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
 import { hotjar } from 'react-hotjar';
@@ -34,8 +33,8 @@ import photoGaleryParser from '../../../Modules/photoGaleryParser';
 import ReactPixel from 'react-facebook-pixel';
 
 const fpOptions = {
-	autoConfig: true,
-  debug: false, 	
+  autoConfig: true,
+  debug: false,
 };
 ReactPixel.init('549275042176385', null, fpOptions);
 ReactPixel.pageView();
@@ -47,11 +46,7 @@ script.async = true;
 !mobilecheck() && document.body.appendChild(script);
 
 
-const renderWhileLoading = (component, propName = 'data') =>
-  branch(
-    props => props[propName] && props[propName].loading,
-    renderComponent(component),
-  );
+
 const Home = ({
   data, history, location, lastPubs, Texts,
 }) => (
@@ -65,8 +60,8 @@ const Home = ({
           <title>Bienvenido a Mi Auto Hoy</title>
         </Helmet>
         {/* <TopTopNav history={history} /> */}
-        <div style={{top: '0px'}}>
-        <SearchBar history={history} location={location}/>
+        <div style={{ top: '0px' }}>
+          <SearchBar history={history} location={location} />
         </div>
         <Banner />
         <Services history={history} location={location} />
@@ -108,7 +103,7 @@ const Home = ({
           <a href="http://miautohoy.com/microsite?concesionaria=LM%20Automotores&c_id=26"><img src="/assets/images/EA3.jpg" alt="lm-automotores" /></a>
           <a href="http://www.mktinversiones.com.ar/"><img src="/assets/images/EA4.jpg" alt="mkt" /></a>
         </FriendlyCompanies> */}
-        
+
         <Footer history={history} />
       </div>
     )}
@@ -128,7 +123,6 @@ const withLastPublicationsQuery = graphql(LastPublicationsQuery, {
 const withData = compose(
   withLastPublicationsQuery,
   withHomeQuery,
-  renderWhileLoading(LoadingComponent, 'data'),
   withTextsQuery,
 );
 
