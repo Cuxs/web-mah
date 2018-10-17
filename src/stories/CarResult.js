@@ -123,7 +123,7 @@ export default class CarResult extends Component {
               <span>{this.renderName()}</span>
             </p>
             <p className="item-name">
-              <strong>{this.props.data.group}</strong>
+              <strong>{this.props.data.brand}</strong>
             </p>
             <p className="item-description">{this.props.data.modelName}</p>
             <p className="item-price">
