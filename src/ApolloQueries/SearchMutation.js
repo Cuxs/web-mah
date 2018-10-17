@@ -5,6 +5,7 @@ mutation searchPublication($brand:String, $modelName:String, $userType:String, $
   {searchPublication(brand:$brand, modelName:$modelName, userType:$userType, user_id: $user_id, carState: $carState, text: $text, page: $page, fuel: $fuel, year: $year state: $state, province: $province, MAHtoken:$MAHtoken) {
     totalCount
     hasNextPage    
+    filters
     Publications {
       CurrentState {
         stateName

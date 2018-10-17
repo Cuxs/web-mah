@@ -11,7 +11,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { hotjar } from "react-hotjar";
+import { hotjar } from 'react-hotjar';
 import { Helmet } from 'react-helmet';
 import { graphql } from 'react-apollo';
 import qs from 'query-string';
@@ -33,7 +33,6 @@ import NumberOfResult from '../../../stories/NumberOfResult';
 
 import ActiveFilters from '../../../stories/ActiveFilters';
 
-import { getFiltersAndTotalResult } from '../../../Modules/fetches';
 
 import photoGaleryParser from '../../../Modules/photoGaleryParser';
 
@@ -53,27 +52,16 @@ class SearchCars extends Component {
     this.toggleOrderDropdown = this.toggleOrderDropdown.bind(this);
   }
   componentWillMount() {
-    hotjar.initialize(916734, 6)
+    hotjar.initialize(916734, 6);
     const url = this.props.location.search;
-    this.doFilterTotalResultSearch(url);
     this.doSearch(1, true, this.props);
     ReactGA.pageview('/BUSCAR-AUTO');
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {
       this.doSearch(1, true, nextProps);
-      this.doFilterTotalResultSearch(nextProps.location.search);
     }
     scroll.scrollToTop({ duration: 300 });
-  }
-  doFilterTotalResultSearch(url) {
-    let search = qs.parse(url);
-    search.state = 'Activas';
-    getFiltersAndTotalResult(search)
-      .then(res => this.setState({
-        totalResults: res.data.totalResults,
-        filters: res.data.filters,
-      }));
   }
   doSearch(page, newSearch, nextProps) {
     let url;
@@ -92,7 +80,7 @@ class SearchCars extends Component {
           userType: qs.parse(url).userType,
           modelName: qs.parse(url).modelName,
           brand: qs.parse(url).brand,
-          province: qs.parse(url).province
+          province: qs.parse(url).province,
         },
       })
       .then(({ data: { searchPublication }, data: { searchPublication: { Publications } } }) => {
@@ -100,6 +88,7 @@ class SearchCars extends Component {
           this.setState({
             hasNextPage: searchPublication.hasNextPage,
             totalResults: searchPublication.totalCount,
+            filters: JSON.parse(searchPublication.filters),
             Publications,
             loading: false,
 
@@ -113,6 +102,7 @@ class SearchCars extends Component {
             loading: false,
             hasNextPage: searchPublication.hasNextPage,
             totalResults: searchPublication.totalCount,
+            filters: JSON.parse(searchPublication.filters),
 
           });
         }

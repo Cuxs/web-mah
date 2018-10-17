@@ -3,7 +3,6 @@
 
 import React, { Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { branch, renderComponent } from 'recompose';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
 import { hotjar } from "react-hotjar";
@@ -45,12 +44,6 @@ script.src = '//code.tidio.co/2adtbpujxsburoaa4sm7umttnp1j1wjr.js';
 script.async = true;
 !mobilecheck() && document.body.appendChild(script);
 
-
-const renderWhileLoading = (component, propName = 'data') =>
-  branch(
-    props => props[propName] && props[propName].loading,
-    renderComponent(component),
-  );
 const Home = ({
   data, history, location, lastPubs, Texts,
 }) => (
@@ -115,7 +108,6 @@ const withLastPublicationsQuery = graphql(LastPublicationsQuery, {
 const withData = compose(
   withLastPublicationsQuery,
   withHomeQuery,
-  renderWhileLoading(LoadingComponent, 'data'),
   withTextsQuery,
 );
 

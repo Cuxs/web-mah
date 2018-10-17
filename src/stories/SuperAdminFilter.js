@@ -152,9 +152,12 @@ class SuperAdminFilter extends Component {
                 style={{ cursor: 'pointer' }}
                 className="icon is-small btn-icon"
                 disabled={this.state.search === ''}
-                onClick={() => {
-                  this.submitSearch();
-                }}
+                onClick={() => (this.props.location.path === '/superAdminUsers'
+                  ?
+                  this.submitSearch()
+                  :
+                  this.props.doSearch(undefined, true, undefined, this.state.search)
+                )}
               >
                 <img src="/assets/images/icon-search.svg" alt="" />
               </Button>

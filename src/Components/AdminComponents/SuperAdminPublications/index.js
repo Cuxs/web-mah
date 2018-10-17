@@ -27,8 +27,9 @@ class SuperAdminPublications extends React.Component {
       totalCount: 0,
       hasNextPage: false,
       renderedData: 0,
+      text: '',
     };
-    
+
     this.doSearch = this.doSearch.bind(this);
     this.toggle = this.toggle.bind(this);
   }
@@ -38,6 +39,7 @@ class SuperAdminPublications extends React.Component {
     if (!isAdminLogged()) {
       this.props.history.push('/loginAdmin');
     }
+
     return this.props.PubsPerPage()
       .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
         let existingPubs = this.state.publications;
@@ -65,43 +67,46 @@ class SuperAdminPublications extends React.Component {
     }
   }
 
-  doSearch(page, newSearch, nextProps) {
+  doSearch(page, newSearch, nextProps, text) {
     let location;
     if (nextProps) { location = nextProps.location; } else {
       location = this.props.location;
     }
+    this.setState({ loading: true }, () => {
       this.props.PubsPerPage({
-      variables: {
-        state: qs.parse(location.search).stateName,
-        carState: qs.parse(location.search).carState,
-        userType: qs.parse(location.search).userType,
-        page,
-      },
-    })
-      .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
-        let existingPubs = this.state.publications;
-        Publications.map((pub) => {
-          existingPubs.push(pub);
+        variables: {
+          state: qs.parse(location.search).stateName,
+          carState: qs.parse(location.search).carState,
+          userType: qs.parse(location.search).userType,
+          text,
+          page,
+        },
+      })
+        .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
+          let existingPubs = this.state.publications;
+          Publications.map((pub) => {
+            existingPubs.push(pub);
+          });
+          existingPubs = _.uniqBy(existingPubs, 'id');
+          if (newSearch) {
+            this.setState({
+              publications: Publications,
+              hasNextPage,
+              totalCount,
+              loading: false,
+              renderedData: this.state.renderedData + Publications.length,
+            });
+          } else {
+            this.setState({
+              publications: existingPubs,
+              hasNextPage,
+              totalCount,
+              loading: false,
+              renderedData: this.state.renderedData + Publications.length,
+            });
+          }
         });
-        existingPubs = _.uniqBy(existingPubs, 'id');
-        if (newSearch) {
-          this.setState({
-            publications: Publications,
-            hasNextPage,
-            totalCount,
-            loading: false,
-            renderedData: this.state.renderedData + Publications.length,
-          });
-        } else {
-          this.setState({
-            publications: existingPubs,
-            hasNextPage,
-            totalCount,
-            loading: false,
-            renderedData: this.state.renderedData + Publications.length,
-          });
-        }
-      });
+    });
   }
 
   toggle() {
@@ -147,7 +152,7 @@ class SuperAdminPublications extends React.Component {
               <SuperAdminSideBar history={this.props.history} location={this.props.location} />
             </Col>
             <Col lg="9" md="12">
-              <SuperAdminFilter history={this.props.history} location={this.props.location} />
+              <SuperAdminFilter history={this.props.history} location={this.props.location} doSearch={this.doSearch} />
               <div className="container-box-item">
                 <div className="col-12">
                   <InfiniteScroll
