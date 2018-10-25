@@ -170,6 +170,7 @@ class MessagesCarDetail extends Component {
             }}
           />
           <Input
+            disabled={this.props.disabled}
             value={this.state.content}
             onChange={e => this.setState({ content: e.target.value })}
             type="textarea"
