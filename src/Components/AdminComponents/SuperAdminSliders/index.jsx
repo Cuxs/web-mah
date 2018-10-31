@@ -129,9 +129,9 @@ class SuperAdminSliders extends Component {
         <Label className="text-left" >SLIDER {i} </Label>
         <div className="slider-row">
           <div className="col-8">
-            <small> (Recomendado 1280 x 520)</small>
+            <small> (Recomendado 1920 x 560)</small>
             <ImageCrop
-              aspectRatio={1280 / 520}
+              aspectRatio={1920 / 560}
               cropImage={img => this.getSlider(img)(i + (i - 1))}
               previewImage={this.state[previewSliderNumber]}
               banner
@@ -158,9 +158,9 @@ class SuperAdminSliders extends Component {
             </Row>
           </div>
           <div className="col-4">
-            <small> (Recomendado 320 x 320)</small>
+            <small> (Recomendado 480 x 480)</small>
             <ImageCrop
-              aspectRatio={320 / 320}
+              aspectRatio={480 / 480}
               cropImage={img => this.getSlider(img)(i + i)}
               previewImage={this.state[previewSliderNumberMobile]}
               bannerMobile
