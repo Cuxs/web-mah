@@ -35,10 +35,10 @@ export default ({ history }) => (
             <li><Button className="btn btn-footer" color="link" onClick={() => { ReactGA.event({ category: 'Footer', action: 'Ir a Registro Usuario' }); history.push('/userRegisterS1'); }}>Registrate y publicá</Button></li>
           </ul>
         </div>
-        <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 m-12" >
+        <div className="col-lg-2 col-md-3 col-sm-12 col-xs-12 m-12" >//26044420324
           <ul>
             <li><a className="btn a-footer" href="mailto:contacto@miautohoy.com">contacto@miautohoy.com</a></li>
-            <li><a className="btn a-footer" href="tel:02604420183">Tel. (0260) – 4420183</a></li>
+            <li><a className="btn a-footer" href="tel:026044420324">Tel. (2604) – 4420324</a></li>
             <li><a href="https://www.facebook.com/miautohoycom/" className="btn a-footer" target="_blank">Seguinos en Facebook</a></li>
           </ul>
         </div>
