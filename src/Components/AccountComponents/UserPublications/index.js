@@ -85,7 +85,6 @@ class UserPublications extends React.Component {
         user_id: getUserDataFromToken().id,
         state: qs.parse(location.search).stateName,
         carState: qs.parse(location.search).carState,
-        page,
       },
     })
       .then(({ data: { searchPublication: { hasNextPage, totalCount } }, data: { searchPublication: { Publications } } }) => {
@@ -202,7 +201,6 @@ const options = ({ location }) => ({
     user_id: getUserDataFromToken().id,
     state: qs.parse(location.search).stateName,
     carState: qs.parse(location.search).carState,
-    page: 1,
   },
 });
 const withPublicationsPerPage = graphql(SearchUserPublicationQuery, {
