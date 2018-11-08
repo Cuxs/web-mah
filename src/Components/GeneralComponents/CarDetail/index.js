@@ -350,7 +350,7 @@ class CarDetail extends Component {
                       >
                         ¡Solicitá tu crédito!
                       </Button>
-                      <Card123Seguros isCarSelected history={history} carData={carDetailData.Publication} />
+                      {/* <Card123Seguros isCarSelected history={history} carData={carDetailData.Publication} /> */}
                       <div className="container-social">
                         <a
                           href={`https://www.facebook.com/sharer/sharer.php?u=https://miautohoy.com/carDetail${
