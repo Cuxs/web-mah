@@ -31,7 +31,7 @@ const AgencyRegister = ({ history }) => (
         <Plans history={history} />
       </div>
       <div id="Faq">
-        <Faq />
+        {/* <Faq /> */}
       </div>
       <Footer history={history} />
     </div>

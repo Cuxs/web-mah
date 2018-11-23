@@ -6,11 +6,11 @@ USER=deployer
 TARGET=${1:-testing}
 
 if [[ $TARGET == "production" ]]; then
-  SERVER=miautohoy.com
+  SERVER=45.55.99.137
   APP_PATH=/var/www/miautohoy.com/current
   SERVICE=miautohoy
 else
-  SERVER=test.miautohoy.com
+  SERVER=45.55.99.137
   APP_PATH=/var/www/test.miautohoy.com/current
   SERVICE=miautohoytest
 fi
