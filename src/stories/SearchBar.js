@@ -58,13 +58,9 @@ const groupBadgeStyles = {
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
-    this.togglePublicate = this.togglePublicate.bind(this);
-    this.toggleUser = this.toggleUser.bind(this);
     this.state = {
       searchText: '',
       dropdownOpen: false,
-      dropdownUser: false,
       dropdownOpenPublicate: false,
       modal: false,
       sidebar: '',
@@ -86,9 +82,11 @@ class SearchBar extends Component {
       loading: false,
       error: '',
       displayError: false,
-
+      errorInModal: false,
       searchModal: false,
     };
+    this.toggle = this.toggle.bind(this);
+    this.togglePublicate = this.togglePublicate.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.toggleModalVender = this.toggleModalVender.bind(this);
     this.toggleNotification = this.toggleNotification.bind(this);
@@ -105,6 +103,7 @@ class SearchBar extends Component {
     this.statusChangeCallback = this.statusChangeCallback.bind(this);
     this.submitSearch = this.submitSearch.bind(this);
     this.toggleSearchModal = this.toggleSearchModal.bind(this);
+    this.toggleUser = this.toggleUser.bind(this);
   }
 
   componentDidMount() {
@@ -141,7 +140,7 @@ class SearchBar extends Component {
       category: `SearchBar ${this.props.history.location.pathname}`,
       action: 'Ir a Buscar autos',
     });
-    this.setState({ sidebar: '', searchModal:false });
+    this.setState({ sidebar: '', searchModal: false });
     this.props.history.push(`/SearchCars?text=${text}`);
   }
 
@@ -304,11 +303,9 @@ class SearchBar extends Component {
       .catch((error) => {
         const errorParsed = parseError(error);
         this.setState({
-          email: '',
-          password: '',
-          modalTitle: errorParsed.title,
-          modalMessage: errorParsed.message,
-          showModal: true,
+          errorTitleInModal: errorParsed.title,
+          errorMessageInModal: errorParsed.message,
+          errorInModal: true,
         });
       });
   }
@@ -349,8 +346,16 @@ class SearchBar extends Component {
   }
 
   renderButton(icon, title, subtitle) {
+    let url = '';
+    switch (icon) {
+      case 'rayo': url = '/publicateWithoutRegister'; break;
+      case 'llaves': url = '/userRegister'; break;
+      case 'auto': url = '/agencyRegister'; break;
+      case 'comercial': url = '/'; break;
+      default: url = '/';
+    }
     return (
-      <button className="btn-type-seller">
+      <button className="btn-type-seller" style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(url); }}>
         <div className="col-2" >
           <img src={`/assets/images/icon-${icon}.svg`} alt="" />
         </div>
@@ -363,12 +368,86 @@ class SearchBar extends Component {
       </button>
     );
   }
+  renderNavbarUserSection() {
+    if (this.state.isUserLogged) {
+      if (window.matchMedia('(max-width: 990px)').matches) {
+        return (<span>
+          <Col lg="auto">
+            {isAdminLogged() ?
+              <Row>
+                <Button color="default-menu" onClick={() => (this.props.history.push('/admin'))} >Administrador</Button>
+              </Row>
+        :
+              <Row>
+                <Button color="default-menu" onClick={() => (this.props.history.push('/userAdmin'))} >Mi cuenta</Button>
+              </Row>}
+          </Col>
+          <div className="w-100 d-block d-lg-none" />
+          <Col lg="auto">
+            <Row>
+              <Button color="default-menu" onClick={() => this.props.history.push('/createPublication')} >Vender</Button>
+            </Row>
+          </Col>
+          <div className="w-100 d-block d-lg-none" />
+          <Col lg="auto">
+            <Row>
+              <Button color="default-menu" onClick={() => this.clearSession()}>Cerrar sesión</Button>
+            </Row>
+          </Col>
+        </span>);
+      }
+      return (<Col lg="auto">
+        <Row>
+          <ButtonDropdown
+            isOpen={this.state.dropdownUser}
+            toggle={this.toggleUser}
+          >
+            <DropdownToggle caret color="default-menu mr-4">{this.state.nameFB ? this.state.nameFB : _.truncate(getUserDataFromToken().name, { length: 18 })}</DropdownToggle>
+            <DropdownMenu>
+              {!isAdminLogged() &&
+              <DropdownItem
+                value="myAccount"
+                onClick={() => (this.props.history.push('/userAdmin'))}
+              >Mi cuenta
+              </DropdownItem>}
+              {isAdminLogged() &&
+              <DropdownItem
+                value="myAccount"
+                onClick={() => (this.props.history.push('/admin'))}
+              >Administrador
+              </DropdownItem>}
+              <DropdownItem value="closeSession" onClick={() => this.clearSession()}>Cerrar Sesión</DropdownItem>
+            </DropdownMenu>
+            <Button color="primary" className="btn-seller" onClick={() => this.props.history.push('/createPublication')}>
+            Vender
+            </Button>
+          </ButtonDropdown>
+        </Row>
+      </Col>);
+    }
+    return (<Col lg="auto">
+      <Row>
+        <Col lg="auto" sm="12">
+          <Row>
+            <Button color="default-menu" className="mr-4" onClick={() => this.toggleModal()}>
+          Iniciá Sesión
+            </Button>
+          </Row>
+        </Col>
+        <Col lg="auto" sm="12" className="d-none d-md-block" >
+          <Button color="primary" onClick={() => this.toggleModalVender()}>
+          Vender
+          </Button>
+        </Col>
+      </Row>
+    </Col>);
+  }
 
   render() {
     const customStyles = {
       input: base => ({
         ...base,
-        width: '250px',
+        width: '25vw',
         height: '40px',
         fontWeight: '300',
         fontSize: '16px',
@@ -435,10 +514,10 @@ class SearchBar extends Component {
     };
     const options = getOptionsForReactSelect();
 
-    const haveTopBar = (this.props.location.pathname === '/' || this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/microsite') || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
-    const haveToBanner = (this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
+    // const haveTopBar = (this.props.location.pathname === '/' || this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/microsite') || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
+    // const haveToBanner = (this.props.location.pathname === '/friendlyAgency' || _.startsWith(this.props.location.pathname, '/carDetail') || _.startsWith(this.props.location.pathname, '/SearchCars') || _.startsWith(this.props.location.pathname, '/hire123'));
     return (
-      <div className="container-fluid" style={{ marginBottom: haveToBanner ? '140px' : '90px' }} >
+      <div className="container-fluid" style={{ marginBottom: '90px' }} >
         <Row className="header">
           <Col md="2" className="brand">
             <Row>
@@ -457,11 +536,11 @@ class SearchBar extends Component {
               <img src="/assets/images/icon-close.svg" alt="" />
             </Button>
             <Row className="area-btns">
-              <Col lg="4" xs="7" md="5" sm="8">
+              <Col lg="3" sm="4">
                 {/* <Input type="text" id="search" value={this.state.text} onChange={(e) => { this.setState({ text: e.target.value }); }} /> */}
-                <Row>
+                <Row className="d-none d-sm-none d-md-block">
                   <CreatableSelect
-                    placeholder={<div className="d-flex" style={{ width: '250px' }}>¿Qué estas buscando?<img className="ml-auto" src="/assets/images/icon-search-red.svg" /></div>}
+                    placeholder={<div className="d-flex flex-row"><div style={{ width: '17vw' }}>¿Qué estas buscando?</div><img className="ml-auto pr-4" src="/assets/images/icon-search-red.svg" /></div>}
                     onCreateOption={this.submitSearch}
                     onChange={searchText => this.setState({ searchText }, () => this.submitSearch(searchText.value))}
                     formatCreateLabel={search => `Buscar: ${search}`}
@@ -473,12 +552,13 @@ class SearchBar extends Component {
                       borderRadius: 4,
                       colors: {
                       ...theme.colors,
-                        primary25: '#E40019',
+                        primary25: '#A0AABF',
                         primary: '#2A3B59',
                       },
                     })
                   }
                   />
+
                   {/* <Autosuggest
                     multiSection
                     suggestions={suggestions}
@@ -491,8 +571,11 @@ class SearchBar extends Component {
                     inputProps={inputProps}
                   /> */}
                 </Row>
+                <Row className="mr-auto">
+                  <button onClick={() => this.toggleSearchModal()} className="d-sm-block d-md-none buscar-boton">¿Qué estás buscando?<img className="ml-auto" src="/assets/images/icon-search-red.svg" /></button>
+                </Row>
               </Col>
-              <div className="sell-mobile">
+              <div className="ml-auto sell-mobile">
                 {this.state.isUserLogged ?
                   <Button color="primary" className="mr-4 btn-seller" onClick={() => this.props.history.push('/createPublication')}>
                     Vender
@@ -526,53 +609,7 @@ class SearchBar extends Component {
                   </Row>
                 </Col>
                 <div className="w-100 d-block d-lg-none" />
-                {this.state.isUserLogged ? (
-                  <Col lg="auto">
-                    <Row>
-                      <ButtonDropdown
-                        isOpen={this.state.dropdownUser}
-                        toggle={this.toggleUser}
-                      >
-                        <DropdownToggle caret color="default-menu mr-4">{this.state.nameFB ? this.state.nameFB : _.truncate(getUserDataFromToken().name, { length: 18 })}</DropdownToggle>
-                        <DropdownMenu>
-                          {!isAdminLogged() &&
-                          <DropdownItem
-                            value="myAccount"
-                            onClick={() => (this.props.history.push('/userAdmin'))}
-                          >Mi cuenta
-                          </DropdownItem>}
-                          {isAdminLogged() &&
-                          <DropdownItem
-                            value="myAccount"
-                            onClick={() => (this.props.history.push('/admin'))}
-                          >Administrador
-                          </DropdownItem>}
-                          <DropdownItem value="closeSession" onClick={() => this.clearSession()}>Cerrar Sesión</DropdownItem>
-                        </DropdownMenu>
-                        <Button color="primary" className="btn-seller" onClick={() => this.props.history.push('/createPublication')}>
-                          Vender
-                        </Button>
-                      </ButtonDropdown>
-                    </Row>
-                  </Col>
-              ) : (
-                <Col lg="auto">
-                  <Row>
-                    <Col lg="auto" sm="12">
-                      <Row>
-                        <Button color="default-menu" className="mr-4" onClick={() => this.toggleModal()}>
-                          Iniciá Sesión
-                        </Button>
-                      </Row>
-                    </Col>
-                    <Col lg="auto" sm="12" className="d-none d-md-block d-lg-none" >
-                      <Button color="primary" onClick={() => this.toggleModalVender()}>
-                          Vender
-                      </Button>
-                    </Col>
-                  </Row>
-                </Col>
-            )}
+                {this.renderNavbarUserSection()}
               </div>
             </Row>
           </Col>
@@ -596,6 +633,7 @@ class SearchBar extends Component {
                     cssClass="btn btn-primary btn-facebook"
                   />
                   <div className="underline" />
+                  <small style={{ position: 'relative', top: '-15px' }}>O con tu e-mail</small>
                   <AvField
                     label="Email"
                     type="email"
@@ -616,9 +654,25 @@ class SearchBar extends Component {
                     validate={validate('password')}
                     className="form-control"
                   />
-                  <a onClick={() => { this.setState({ forgetPass: true }); }} style={{ cursor: 'pointer', color: '#E40019' }}>
+                  <div className="d-flex flex-column align-items-center">
+                    {this.state.errorInModal && (
+                    <div>
+                      <p className="text-danger">{this.state.errorTitleInModal}. {this.state.errorMessageInModal}</p>
+                    </div>
+                    )}
+                    <div className="col-6 text-center pb-3">
+                      <Button
+                        type="submit"
+                        color="primary"
+                        className="btn-block"
+                      >
+                    Iniciar sesión
+                      </Button>
+                    </div>
+                    <a onClick={() => { this.setState({ forgetPass: true }); }} style={{ cursor: 'pointer', color: '#E40019' }}>
                   ¿Olvidaste tu contraseña?
-                  </a>
+                    </a>
+                  </div>
                   {this.state.forgetPass && (
                   <div style={{ paddingTop: '20px' }}>
                     <Label>Ingresa tu email para poder recuperarla </Label>
@@ -645,36 +699,10 @@ class SearchBar extends Component {
                     />}
                   </div>
                 )}
-                  <div className="row">
-                    <div className="col-3 float-left offset-md-2">
-                      <Button
-                        onClick={() => this.toggleModal()}
-                        color="default"
-                        className="alternative"
-                        style={{ height: '50px' }}
-                      >
-                      Salir
-                      </Button>
-                    </div>
-                    <div className="col-6 float-right">
-                      <Button
-                        type="submit"
-                        color="primary"
-                        className="alternative"
-                      >
-                    Iniciar sesión
-                      </Button>
-                    </div>
-                  </div>
+
                 </AvForm>
               </div>
             </ModalBody>
-            <ModalFooter>
-              <div className="col-md-10">
-                <p style={{ marginBottom: '0' }}>No tengo cuenta. Soy un particular. <button style={{ fontSize: '12px' }} onClick={() => this.props.history.push('/userRegister')} className="btn-link">Registrarme</button></p>
-                <p>No tengo cuenta. Soy una concesionaria. <button style={{ fontSize: '12px', margin: 'none' }} onClick={() => this.props.history.push('/agencyRegister')} className="btn-link">Registrar Agencia</button></p>
-              </div>
-            </ModalFooter>
           </Modal>
           <Modal
             isOpen={this.state.modalVender}
@@ -691,7 +719,7 @@ class SearchBar extends Component {
               </div>
             </ModalBody>
           </Modal>
-          <Modal isOpen={this.state.searchModal} size="lg" className="search-modal" toggle={this.toggleSearchModal} >
+          <Modal backdrop={false} fade={false} isOpen={this.state.searchModal} size="lg" className="search-modal" toggle={this.toggleSearchModal} >
             <CreatableSelect
               placeholder={<div className="d-flex" style={{ width: '90vw' }}>¿Qué estas buscando?<img className="ml-auto" src="/assets/images/icon-search-red.svg" /></div>}
               onCreateOption={this.submitSearch}
@@ -705,14 +733,13 @@ class SearchBar extends Component {
                       borderRadius: 4,
                       colors: {
                       ...theme.colors,
-                        primary25: '#E40019',
+                        primary25: '#A0AABF',
                         primary: '#2A3B59',
                       },
                     })
                   }
             />
           </Modal>
-
           <NotificationModal
             primaryText={this.state.modalTitle}
             secondaryText={this.state.modalMessage}
