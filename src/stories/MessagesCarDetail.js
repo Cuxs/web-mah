@@ -174,11 +174,7 @@ class MessagesCarDetail extends Component {
             value={this.state.content}
             onChange={e => this.setState({ content: e.target.value })}
             type="textarea"
-            name="text"
-            cols="30"
             rows="5"
-            id="exampleText"
-            placeholder="Escribe una consulta"
           />
         </FormGroup>
         <Button
