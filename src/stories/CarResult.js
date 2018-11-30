@@ -5,6 +5,7 @@ import {
   CarouselControl,
   CarouselIndicators,
 } from 'reactstrap';
+import ProgressiveImage from 'react-progressive-image';
 import { thousands } from '../Modules/functions';
 
 export default class CarResult extends Component {
@@ -79,57 +80,62 @@ export default class CarResult extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img
-          style={{ position: 'relative', width: '100%', height: 'auto' }}
-          src={item.src}
-          key={id}          
-          alt={item.altText}
-        />
+        <a style={{ cursor: 'pointer' }} onClick={() => this.props.history.push(`/carDetail?publication_id=${this.props.data.id}`)}>
+          <ProgressiveImage src={item.src} >
+            {src => (<img
+              style={{ position: 'relative', width: '100%', height: 'auto' }}
+              src={src}
+              key={id}
+              alt={item.altText}
+            />)}
+          </ProgressiveImage>
+        </a>
+
       </CarouselItem>
     ));
     return (
 
       <div className="item-car">
-        <a href={`/carDetail?publication_id=${this.props.data.id}`}>
-          <div className="photos">
-            <Carousel
+        <div className="photos">
+          <Carousel
+            activeIndex={activeIndex}
+            next={this.next}
+            previous={this.previous}
+            interval={10000}
+            className="mb-auto"
+          >
+            <CarouselIndicators
+              items={this.props.photoGalery}
               activeIndex={activeIndex}
-              next={this.next}
-              previous={this.previous}
-              interval={10000}
-            >
-              <CarouselIndicators
-                items={this.props.photoGalery}
-                activeIndex={activeIndex}
-                onClickHandler={this.goToIndex}
-              />
-              {slides}
-
-              <CarouselControl
-                direction="prev"
-                directionText="Previous"
-                onClickHandler={this.previous}
-              />
-              <CarouselControl
-                direction="next"
-                directionText="Next"
-                onClickHandler={this.next}
-              />
-            </Carousel>
-            {this.featuredOrSold()}
-          </div>
+              onClickHandler={this.goToIndex}
+            />
+            {slides}
+            <CarouselControl
+              direction="prev"
+              directionText="Previous"
+              onClickHandler={this.previous}
+            />
+            <CarouselControl
+              direction="next"
+              directionText="Next"
+              onClickHandler={this.next}
+            />
+          </Carousel>
+          {this.featuredOrSold()}
+        </div>
+        <a style={{ cursor: 'pointer' }} onClick={() => this.props.history.push(`/carDetail?publication_id=${this.props.data.id}`)}>
           <div className="item-data">
             <p className="item-category">
               <span>{this.renderName()}</span>
             </p>
             <p className="item-name">
-              <strong>{this.props.data.brand}</strong>
+              <strong>{this.props.data.brand} {this.props.data.group}</strong>
             </p>
-            <p className="item-description">{this.props.data.modelName}</p>
-            <p className="item-price">
+            <small className="item-description">{this.props.data.modelName}</small><br />
+            <small className="item-year">{this.props.data.year}{`${thousands(this.props.data.kms, 0, ',', '.') ? ` - ${thousands(this.props.data.kms, 0, ',', '.')} kms.` : ''}`}</small>
+            <p className="item-price mt-2">
               <strong>{this.props.data.price ? `$${thousands(this.props.data.price, 0, ',', '.')}` : 'Consultar'}</strong>
             </p>
-            <small className="item-year">{this.props.data.year}{`${thousands(this.props.data.kms, 0, ',', '.') ? ` - ${thousands(this.props.data.kms, 0, ',', '.')} kms.` : ''}`}</small>
           </div>
         </a>
       </div>

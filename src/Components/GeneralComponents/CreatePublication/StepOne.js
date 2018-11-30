@@ -17,7 +17,7 @@ class CreatePublicationS1 extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const search = parse(this.props.location.search);
 
     if (search.Caracteristics) {

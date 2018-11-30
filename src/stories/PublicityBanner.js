@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 
 export default ({ history, dataPublication }) => (
   <Col md="12">
-    <a onClick={dataPublication ? () => history.push(`/pledgeCredits?${stringify(dataPublication)}`) : () => { ReactGA.event({ category: 'Banner Cars', action: 'Ir a Créditos Prendarios' }); history.push('/pledgeCredits'); }}>
+    <a style={{ cursor: 'pointer' }} onClick={dataPublication ? () => history.push(`/pledgeCredits?${stringify(dataPublication)}`) : () => { ReactGA.event({ category: 'Banner Cars', action: 'Ir a Créditos Prendarios' }); history.push('/pledgeCredits'); }}>
       <Row className="publicityBanner align-items-center">
         <div className="col-10">Comprá tu auto aquí y te financiamos hasta el 60%.</div>
         <div className="col-2"><img src="/assets/images/icon-arrow-right.svg" alt="Ir al formulario" /></div>

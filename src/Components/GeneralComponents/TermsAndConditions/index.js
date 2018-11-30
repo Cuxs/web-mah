@@ -13,7 +13,7 @@ export default ({ location, history }) => (
   <div>
     {ReactGA.pageview('/TERMINOS-CONDICIONES')}
     <div>
-      <TopTopNav history={history} />
+      {/* <TopTopNav history={history} /> */}
       <SearchBar
         history={history}
         location={location}

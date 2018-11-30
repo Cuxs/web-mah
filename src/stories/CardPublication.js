@@ -3,6 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import { stringify } from 'query-string';
 import moment from 'moment';
+import ProgressiveImage from 'react-progressive-image';
 
 import photoGaleryParser from '../Modules/photoGaleryParser';
 import { thousands } from '../Modules/functions';
@@ -172,7 +173,7 @@ class CardPublication extends Component {
       kms: data.kms,
       modelName: data.modelName,
       observation: data.observation,
-      price: data.price || 'Consultar',
+      price: data.price || '',
       year: data.year,
       publication_id: data.id,
     };
@@ -190,13 +191,15 @@ class CardPublication extends Component {
           <div className="row">
             <div className="col-12 col-lg-4 col-md-4 col-sm-4">
               <div className="row">
-                <img
-                  src={photoGaleryParser(data.ImageGroup)[0].src}
-                  alt="banner"
-                  width="100%"
-                  height="100%"
-                  style={{ marginLeft: '15px', paddingRight: '15px' }}
-                />
+                <ProgressiveImage src={photoGaleryParser(data.ImageGroup)[0].src}>
+                  {src => (<img
+                    src={src}
+                    alt="banner"
+                    width="100%"
+                    height="100%"
+                    style={{ marginLeft: '15px', paddingRight: '15px' }}
+                  />)}
+                </ProgressiveImage>
               </div>
             </div>
             <div className="col-12 col-lg-8 col-md-8 col-sm-8">

@@ -57,13 +57,12 @@ class FriendlyAgency extends Component {
           <title>Concesionarios Adheridos</title>
         </Helmet>
         <div>
-          <TopTopNav history={history} />
           <SearchBar
             history={history}
             location={location}
           />
           <div className="container">
-            <Row className="mb-4 mt-4">
+            <Row className="mt-4">
               <Col md="8" sm="12" xs="12" />
               <Col lg="4" md="12" sm="12" xs="12">
                 <PublicityBanner history={history} />

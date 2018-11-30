@@ -174,9 +174,8 @@ class PersonalShopper extends React.Component {
                         section="title1"
                         height="50px"
                         route={this.props.location.pathname.slice(1)}
-                        type="p"
+                        type="h4"
                         text={this.state.title1}
-                        style="title-division-primary"
                         onChange={title1 => this.setState({ title1 })}
                       />
                       <InputOrText
@@ -254,7 +253,7 @@ class PersonalShopper extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })
@@ -282,7 +281,7 @@ class PersonalShopper extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })
@@ -334,7 +333,7 @@ class PersonalShopper extends React.Component {
                             borderRadius: 4,
                             colors: {
                             ...theme.colors,
-                              primary25: '#E40019',
+                              primary25: '#A0AABF',
                               primary: '#2A3B59',
                             },
                           })
@@ -370,7 +369,7 @@ class PersonalShopper extends React.Component {
                             borderRadius: 4,
                             colors: {
                             ...theme.colors,
-                              primary25: '#E40019',
+                              primary25: '#A0AABF',
                               primary: '#2A3B59',
                             },
                           })
@@ -406,7 +405,7 @@ class PersonalShopper extends React.Component {
                             borderRadius: 4,
                             colors: {
                             ...theme.colors,
-                              primary25: '#E40019',
+                              primary25: '#A0AABF',
                               primary: '#2A3B59',
                             },
                           })

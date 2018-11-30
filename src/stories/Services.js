@@ -14,7 +14,7 @@ const services1 = [
     title: 'Vendé tu auto rápido y fácil', link: isUserLogged() ? '/createPublication' : '/publicateWithoutRegister', subtitle: 'Vendé autos >', image: 'service-2',
   },
   {
-    title: 'Encontrá ese auto que querés', link: '/SearchCars?text=&carState=Usado', subtitle: 'Comprá un auto >', image: 'service-3',
+    title: 'Encontrá ese auto que querés', link: '/SearchCars?text=', subtitle: 'Comprá un auto >', image: 'service-3',
   },
 ];
 const services2 = [
@@ -32,10 +32,10 @@ const services2 = [
 class BannerUser extends React.Component {
   renderButton(service) {
     return (
-      <div className="service-parent">
+      <div className="service-parent" onClick={() => this.props.history.push(service.link)}>
         <div className="service-child" style={{ backgroundImage: `url(/assets/images/${service.image}.png)` }}>
           <h1>{service.title}</h1>
-          <button className="service-child-link" onClick={() => this.props.history.push(service.link)} >{service.subtitle}</button>
+          <button className="service-child-link" >{service.subtitle}</button>
         </div>
       </div>
     );
@@ -49,14 +49,14 @@ class BannerUser extends React.Component {
         </div>
         <div className="container service-desktop">
           <div className="row">
-            {services1.map(item =>
-            (<Col md="4" sm="12" >
+            {services1.map((item, index) =>
+            (<Col md="4" sm="12" key={index} >
               {this.renderButton(item)}
             </Col>))}
           </div>
           <div className="row">
-            {services2.map(item =>
-            (<Col md="4" sm="12" >
+            {services2.map((item, index) =>
+            (<Col md="4" sm="12" key={index}>
               {this.renderButton(item)}
             </Col>))}
           </div>

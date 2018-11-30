@@ -204,7 +204,6 @@ class SearchCars extends Component {
           <meta charSet="utf-8" />
           <title>{`Resultado de la búsqueda para: ${text}`}</title>
         </Helmet>
-        <TopTopNav history={history} />
         <SearchBar
           text={text}
           history={history}

@@ -29,7 +29,7 @@ export default class AdminBar extends React.Component {
             <Row className="justify-content-between">
               <Col md="3">
                 <Row>
-                  <a className="brand ml-0" onClick={() => this.props.history.push('/')} >
+                  <a className="brand__admin ml-0" onClick={() => this.props.history.push('/')} >
                     <img style={{ width: '150px' }} src="/logo.png" alt="Logo" />
                   </a>
                 </Row>

@@ -24,13 +24,13 @@ import {
 import {
   prepareArraySelect,
   thousands,
-  generateYearArray
-} from "../../../Modules/functions";
+  generateYearArray,
+} from '../../../Modules/functions';
 import ReactPixel from 'react-facebook-pixel';
 
 const fpOptions = {
-	autoConfig: true,
-  debug: false, 	
+  autoConfig: true,
+  debug: false,
 };
 ReactPixel.init('549275042176385', null, fpOptions);
 ReactPixel.pageView();
@@ -356,17 +356,15 @@ class CreatePublication extends React.Component {
                       onChange={newValue =>
                         this.setState({ carState: newValue })
                       }
-                      theme={theme => {({
+                      theme={theme => ({
                         ...theme,
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#D2DCD4',
                           primary: '#2A3B59',
                         },
                       })
-                      console.log(theme)
-                    }
                       }
                     />
                   </FormGroup>
@@ -413,7 +411,7 @@ class CreatePublication extends React.Component {
                           borderRadius: 4,
                           colors: {
                           ...theme.colors,
-                            primary25: '#E40019',
+                            primary25: '#A0AABF',
                             primary: '#2A3B59',
                           },
                         })
@@ -447,7 +445,7 @@ class CreatePublication extends React.Component {
                           borderRadius: 4,
                           colors: {
                           ...theme.colors,
-                            primary25: '#E40019',
+                            primary25: '#A0AABF',
                             primary: '#2A3B59',
                           },
                         })
@@ -481,7 +479,7 @@ class CreatePublication extends React.Component {
                           borderRadius: 4,
                           colors: {
                           ...theme.colors,
-                            primary25: '#E40019',
+                            primary25: '#A0AABF',
                             primary: '#2A3B59',
                           },
                         })
@@ -513,7 +511,7 @@ class CreatePublication extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })

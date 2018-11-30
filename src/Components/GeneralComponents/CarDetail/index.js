@@ -2,7 +2,7 @@
 /* eslint react/prop-types: 0 */
 
 import React, { Component } from 'react';
-import { Col, Row, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Col, Row, Button, Modal, ModalHeader, ModalBody, Badge } from 'reactstrap';
 import { graphql, compose } from 'react-apollo';
 import { branch, renderComponent } from 'recompose';
 import { stringify, parse } from 'query-string';
@@ -181,9 +181,9 @@ class CarDetail extends Component {
             />
           </Helmet>
         )}
-        <TopTopNav history={history} />
+        {/* <TopTopNav history={history} /> */}
         <SearchBar history={history} location={location} />
-        <div className="container mb-4 mt-4">
+        <div className="container mt-4">
           <Row>
             <Col md="8" sm="12" xs="12">
               <BreadCrum history={history} />
@@ -321,7 +321,7 @@ class CarDetail extends Component {
                           <p className="item-description">
                             {carDetailData.Publication.modelName}
                           </p>
-                          <p className="item-price">
+                          <p className="item-price" style={{ display: 'contents' }}>
                             <strong>
                               {carDetailData.Publication.price
                                 ? `$${thousands(
@@ -333,6 +333,9 @@ class CarDetail extends Component {
                                 : 'Consultar'}
                             </strong>
                           </p>
+                          {
+                              carDetailData.Publication.CurrentState.stateName === 'Vendida' && <Badge style={{ marginLeft: '10px' }}>VENDIDO</Badge>
+                            }
                         </div>
                       </Row>
                       <Button
@@ -436,6 +439,7 @@ class CarDetail extends Component {
                           }
                           location={location}
                           history={history}
+                          disabled={carDetailData.Publication.CurrentState.stateName === 'Vendida'}
                           publicationUserId={
                             carDetailData.Publication.User
                               ? carDetailData.Publication.User.id

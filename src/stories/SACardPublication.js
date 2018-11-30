@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { stringify } from 'query-string';
 import { graphql, compose } from 'react-apollo';
 import moment from 'moment';
-
+import ProgressiveImage from 'react-progressive-image';
 import photoGaleryParser from '../Modules/photoGaleryParser';
 
 import { AprovePublicationMutation, DisaprovePublicationMutation, HightlightPublication, UnHightlightPublication, changeStateMutation } from '../ApolloQueries/AdminPublicationQueries';
@@ -144,7 +144,7 @@ class SACardPublication extends Component {
       questionModal: !this.state.questionModal,
       questionModalText: `¿Esta seguro que desea ${verb} esta publicación?`,
       verb,
-      pubId
+      pubId,
     });
   }
   toggleDeleteModal() {
@@ -159,74 +159,74 @@ class SACardPublication extends Component {
     return data.name;
   }
   highlightPublication(id, revertHighlight) {
-    revertHighlight ? 
-    this.props.unhightlight({
-      variables: {
-        publication_id: id,
-        MAHtoken: getUserToken(),
-      },
-    })
-      .then(({ data: { adminUnHighlightPublication: { CurrentState: { stateName } } } }) => {
-        this.setState({
-          modal: true,
-          questionModal: false,
-          modalTitle: 'Listo',
-          modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
-        });
+    revertHighlight ?
+      this.props.unhightlight({
+        variables: {
+          publication_id: id,
+          MAHtoken: getUserToken(),
+        },
       })
-      .catch(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors) {
-          graphQLErrors.map(({ message }) =>
+        .then(({ data: { adminUnHighlightPublication: { CurrentState: { stateName } } } }) => {
+          this.setState({
+            modal: true,
+            questionModal: false,
+            modalTitle: 'Listo',
+            modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
+          });
+        })
+        .catch(({ graphQLErrors, networkError }) => {
+          if (graphQLErrors) {
+            graphQLErrors.map(({ message }) =>
+              this.setState({
+                modal: true,
+                questionModal: false,
+                modalTitle: 'Error',
+                modalMsg: message,
+              }));
+          }
+          if (networkError) {
             this.setState({
               modal: true,
               questionModal: false,
               modalTitle: 'Error',
-              modalMsg: message,
-            }));
-        }
-        if (networkError) {
+              modalMsg: networkError,
+            });
+          }
+        })
+      :
+      this.props.hightlight({
+        variables: {
+          publication_id: id,
+          MAHtoken: getUserToken(),
+        },
+      })
+        .then(({ data: { adminhighlightPublication: { CurrentState: { stateName } } } }) => {
           this.setState({
             modal: true,
             questionModal: false,
-            modalTitle: 'Error',
-            modalMsg: networkError,
+            modalTitle: 'Listo',
+            modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
           });
-        }
-      })
-    :
-    this.props.hightlight({
-      variables: {
-        publication_id: id,
-        MAHtoken: getUserToken(),
-      },
-    })
-      .then(({ data: { adminhighlightPublication: { CurrentState: { stateName } } } }) => {
-        this.setState({
-          modal: true,
-          questionModal: false,
-          modalTitle: 'Listo',
-          modalMsg: `La publicación ha cambiado exitosamente a estado ${stateName}.`,
-        });
-      })
-      .catch(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors) {
-          graphQLErrors.map(({ message }) =>
+        })
+        .catch(({ graphQLErrors, networkError }) => {
+          if (graphQLErrors) {
+            graphQLErrors.map(({ message }) =>
+              this.setState({
+                modal: true,
+                questionModal: false,
+                modalTitle: 'Error',
+                modalMsg: message,
+              }));
+          }
+          if (networkError) {
             this.setState({
               modal: true,
               questionModal: false,
               modalTitle: 'Error',
-              modalMsg: message,
-            }));
-        }
-        if (networkError) {
-          this.setState({
-            modal: true,
-            questionModal: false,
-            modalTitle: 'Error',
-            modalMsg: networkError,
-          });
-        }
-      });
+              modalMsg: networkError,
+            });
+          }
+        });
   }
   toggleModalState(pubId) {
     this.setState({
@@ -307,12 +307,17 @@ class SACardPublication extends Component {
         <div className="row item-car wide" >
           <div className="col-4">
             <div className="row">
-              <img
+              <ProgressiveImage
                 src={photoGaleryParser(data.ImageGroup)[0].src}
-                alt="banner"
-                width="100%"
-                height="100%"
-              />
+              >
+                {src => (<img
+                  src={src}
+                  alt="banner"
+                  width="100%"
+                  height="100%"
+                />)}
+              </ProgressiveImage>
+
             </div>
           </div>
           <div className="col-8 d-flex flex-column justify-content-between">
@@ -336,12 +341,12 @@ class SACardPublication extends Component {
               {(stateName !== 'Vendida' && stateName !== 'Pendiente') && <Button className="btn-default btn-link-primary float-left btn-admin" onClick={() => this.toggleModalState(data.id)}>Marcar como Vendido</Button>}
               <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => this.deletePub(data.id)}>Eliminar</Button>
               {isPubEditable(stateName) && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={this.handleRedirect}>Editar</Button>}
-              {isPubVisible(stateName) && stateName !== 'Destacada' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => this.highlightPublication(data.id)} >Destacar</Button>}
+              {isPubVisible(stateName) && stateName !== 'Destacada' && stateName !== 'Vendida' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => this.highlightPublication(data.id)} >Destacar</Button>}
               <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => history.push(`/carDetail?publication_id=${data.id}&t=${getUserToken()}`)} >Ver</Button>
               {/* {stateName === 'Vencida' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => {}} >Editar Vigencia</Button>} */}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.toggleQuestionModal('desaprobar'); }} >Desaprobar</Button>}
               {stateName === 'Pendiente' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.toggleQuestionModal('aprobar'); }} >Aprobar</Button>}
-              {stateName === 'Destacada' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.highlightPublication(data.id, true) }} >Dejar de Destacar</Button>}
+              {stateName === 'Destacada' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.highlightPublication(data.id, true); }} >Dejar de Destacar</Button>}
               {stateName === 'Vencida' && <Button className="btn-default btn-link-primary float-right btn-admin" onClick={() => { this.toggleQuestionModal('volver a publicar', data.id); }} >Volver a publicar</Button>}
 
               <div className="clearfix" />
@@ -396,8 +401,8 @@ class SACardPublication extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            {this.state.verb !== 'volver a publicar' &&<Button color="primary" disabled={this.state.verb === 'desaprobar' && this.state.reason === ''} onClick={() => (this.state.verb === 'aprobar' ? this.aprove() : this.disaprove())}>Ok</Button>}
-            {this.state.verb === 'volver a publicar' &&<Button color="primary" onClick={() => this.changePublicationState('Publicada')}>Ok</Button>}
+            {this.state.verb !== 'volver a publicar' && <Button color="primary" disabled={this.state.verb === 'desaprobar' && this.state.reason === ''} onClick={() => (this.state.verb === 'aprobar' ? this.aprove() : this.disaprove())}>Ok</Button>}
+            {this.state.verb === 'volver a publicar' && <Button color="primary" onClick={() => this.changePublicationState('Publicada')}>Ok</Button>}
             <Button color="secondary" onClick={() => this.toggleQuestionModal()}>Cancelar</Button>
           </ModalFooter>
         </Modal>

@@ -40,27 +40,27 @@ class CreatePublication extends React.Component {
       carState:
         this.props.location.search === ''
           ? ''
-          : parse(this.props.location.search).carState,
+          : { label: parse(this.props.location.search).carState, value: parse(this.props.location.search).carState },
       brand:
         this.props.location.search === ''
           ? ''
-          : parse(this.props.location.search).brandId,
+          : { label: parse(this.props.location.search).brand, value: parse(this.props.location.search).brandId },
       group:
         this.props.location.search === ''
           ? ''
-          : parse(this.props.location.search).groupId,
+          : { label: parse(this.props.location.search).group, value: parse(this.props.location.search).groupId },
       codia:
         this.props.location.search === ''
           ? ''
-          : parse(this.props.location.search).codia,
+          : { label: parse(this.props.location.search).modelName, value: parse(this.props.location.search).codia },
       brandName:
         this.props.location.search === ''
           ? ''
-          : parse(this.props.location.search).brand,
+          : { label: parse(this.props.location.search).brand, value: parse(this.props.location.search).brand },
       groupName:
         this.props.location.search === ''
           ? ''
-          : parse(this.props.location.search).group,
+          : { label: parse(this.props.location.search).group, value: parse(this.props.location.search).group },
       modelName:
         this.props.location.search === ''
           ? ''
@@ -68,7 +68,7 @@ class CreatePublication extends React.Component {
       year:
         this.props.location.search === ''
           ? ''
-          : parse(this.props.location.search).year,
+          : { label: parse(this.props.location.search).year, value: parse(this.props.location.search).year },
       kms:
         this.props.location.search === ''
           ? ''
@@ -112,7 +112,7 @@ class CreatePublication extends React.Component {
           this.setState({
             Groups: response.data.Group,
             brandName: parse(nextProps.location.search).brand,
-            brand: brandId,
+            brand: { label: parse(nextProps.location.search).brand, value: brandId },
           });
           const groupId = parse(nextProps.location.search).groupId !== undefined
             ? parse(nextProps.location.search).groupId
@@ -131,7 +131,7 @@ class CreatePublication extends React.Component {
               this.setState({
                 Models: responseGroup.data.Models,
                 groupName: _.find(this.state.Groups, ['gru_cgrup', groupId]).gru_ngrup,
-                group: groupId,
+                group: { label: _.find(this.state.Groups, ['gru_cgrup', groupId]).gru_ngrup, value: groupId },
               });
               nextProps.client
                 .query({
@@ -156,8 +156,8 @@ class CreatePublication extends React.Component {
     this.setState({
       brand: newBrand,
       brandName:
-        newBrand !== null
-          ? _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', newBrand])
+        newBrand.value !== null
+          ? _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', newBrand.value])
             .ta3_marca
           : '',
       group: '',
@@ -173,7 +173,7 @@ class CreatePublication extends React.Component {
       .query({
         query: GroupsQuery,
         variables: {
-          gru_nmarc: newBrand,
+          gru_nmarc: newBrand.value,
         },
       })
       .then(response => this.setState({ Groups: response.data.Group }));
@@ -182,8 +182,8 @@ class CreatePublication extends React.Component {
     this.setState({
       group: newGroup,
       groupName:
-        newGroup !== null
-          ? _.find(this.state.Groups, ['gru_cgrup', newGroup]).gru_ngrup
+        newGroup.value !== null
+          ? _.find(this.state.Groups, ['gru_cgrup', newGroup.value]).gru_ngrup
           : '',
       modelName: '',
       Prices: [],
@@ -194,8 +194,8 @@ class CreatePublication extends React.Component {
       .query({
         query: ModelsQuery,
         variables: {
-          ta3_nmarc: this.state.brand,
-          ta3_cgrup: newGroup,
+          ta3_nmarc: this.state.brand.value,
+          ta3_cgrup: newGroup.value,
         },
       })
       .then(response => this.setState({ Models: response.data.Models }));
@@ -204,15 +204,15 @@ class CreatePublication extends React.Component {
     this.setState({
       codia: newModel,
       modelName:
-        newModel !== null
-          ? _.find(this.state.Models, ['ta3_codia', newModel]).ta3_model
+        newModel.value !== null
+          ? _.find(this.state.Models, ['ta3_codia', newModel.value]).ta3_model
           : '',
     });
     this.props.client
       .query({
         query: YearsQuery,
         variables: {
-          ta3_codia: newModel,
+          ta3_codia: newModel.value,
         },
       })
       .then(response => this.setState({ Prices: response.data.Price }));
@@ -221,10 +221,10 @@ class CreatePublication extends React.Component {
     this.setState({
       year: newYear,
       priceSuggested: this.state.Prices[
-        this.state.Prices[0].anio - parseInt(newYear, 10)
+        this.state.Prices[0].anio - parseInt(newYear.value, 10)
       ]
         ? `$${thousands(
-          this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)]
+          this.state.Prices[this.state.Prices[0].anio - parseInt(newYear.value, 10)]
             .precio,
           0,
           ',',
@@ -235,12 +235,16 @@ class CreatePublication extends React.Component {
   }
   next(event, errors) {
     if (!_.isEmpty(errors)) {
-      scroller.scrollTo(errors[0], {
-        duration: 600,
-        smooth: true,
-        offset: -100,
-      });
-      return false;
+      if (errors.indexOf('price') >= 0 && this.state.price === '') {
+      } else if (errors.indexOf('kms') >= 0 && this.state.kms === '') {
+      } else {
+        scroller.scrollTo(errors[0], {
+          duration: 600,
+          smooth: true,
+          offset: -100,
+        });
+        return false;
+      }
     }
     if (this.state.carState === '') {
       this.setState({ stateError: true });
@@ -261,26 +265,15 @@ class CreatePublication extends React.Component {
       return false;
     }
 
-    const {
-      brand,
-      group,
-      codia,
-      year,
-      kms,
-      price,
-      kmsValidate,
-      priceValidate,
-    } = this.state;
-
     const dataCar = {
-      carState: this.state.carState,
+      carState: this.state.carState.label,
       brand: this.state.brandName,
       group: this.state.groupName,
-      codia: this.state.codia,
+      codia: this.state.codia.value,
       modelName: this.state.modelName,
-      brandId: this.state.brand,
-      groupId: this.state.group,
-      year: this.state.year,
+      brandId: this.state.brand.value,
+      groupId: this.state.group.value,
+      year: this.state.year.label,
       kms: this.state.kms,
       price: this.state.price,
       priceSuggested: this.state.priceSuggested,
@@ -378,7 +371,7 @@ class CreatePublication extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })
@@ -413,7 +406,7 @@ class CreatePublication extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })
@@ -447,7 +440,7 @@ class CreatePublication extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })
@@ -481,7 +474,7 @@ class CreatePublication extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })
@@ -513,7 +506,7 @@ class CreatePublication extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })
@@ -536,9 +529,10 @@ class CreatePublication extends React.Component {
                         errorMessage: 'El número debe ser mayor a cero',
                       },
                       pattern: {
-                        value: '[0-9]+',
+                        value: '[0-9]*',
                         errorMessage: 'Ingrese solo números.',
                       },
+                      required: false,
                     }}
                     name="kms"
                     id="kms"
@@ -559,9 +553,10 @@ class CreatePublication extends React.Component {
                         errorMessage: 'El número debe ser mayor a cero',
                       },
                       pattern: {
-                        value: '[0-9]+',
+                        value: '[0-9]*',
                         errorMessage: 'Ingrese solo números.',
                       },
+                      required: false,
                     }}
                     name="price"
                     id="price"

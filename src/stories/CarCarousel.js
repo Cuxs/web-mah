@@ -5,6 +5,7 @@ import {
   CarouselControl,
   CarouselIndicators,
 } from 'reactstrap';
+import ProgressiveImage from 'react-progressive-image';
 
 /* eslint react/jsx-filename-extension: 0 */
 
@@ -51,7 +52,9 @@ export default class CarCarousel extends Component {
         onExited={this.onExited}
         key={item.src}
       >
-        <img style={{ position: 'relative', width: this.props.width || '100%', height: this.props.height || 'auto' }} src={item.src} alt={item.altText} />
+        <ProgressiveImage src={item.src}>
+          {src => <img style={{ position: 'relative', width: this.props.width || '100%', height: this.props.height || 'auto' }} src={src} alt={item.altText} />}
+        </ProgressiveImage>
       </CarouselItem>
     ));
     return (

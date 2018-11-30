@@ -12,7 +12,7 @@ export default ({ history }) => (
           <img src="/logo.png" alt="Logo" />
           <div className="footer-header-right">
             <a className="btn a-footer" href="mailto:contacto@miautohoy.com">contacto@miautohoy.com</a>
-            <a className="btn a-footer" href="tel:02604420183">Tel. (0260) – 4420183</a>
+            <a className="btn a-footer" href="tel:02604420324">Tel. (2604) – 4420324</a>
             <a href="https://www.facebook.com/miautohoycom/" className="btn a-footer" target="_blank"><img src="/assets/images/facebook.svg" alt="Logo" /></a>
             <a href="http://qr.afip.gob.ar/?qr=eCGBIpBl8zeUdl_BL8Pnfw,," target="_F960AFIPInfo"><img style={{ width: '40px' }} alt="Afip" src="http://www.afip.gob.ar/images/f960/DATAWEB.jpg" /></a>
           </div>

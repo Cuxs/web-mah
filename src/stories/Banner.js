@@ -33,10 +33,12 @@ class Banner extends React.Component {
         window.matchMedia('(max-width: 550px)').matches
           ?
             <BannerCarousel
+              history={this.props.history}
               photoGalery={_.remove(this.state.slidersMobile, n => n !== undefined)}
             />
           :
             <BannerCarousel
+              history={this.props.history}
               photoGalery={_.remove(this.state.sliders, n => n !== undefined)}
             />
           }

@@ -96,7 +96,7 @@ class Microsite extends Component {
           <meta charSet="utf-8" />
           <title>{`Concesionaria ${qs.parse(this.props.location.search).concesionaria} - Mi auto Hoy`}</title>
         </Helmet>
-        <TopTopNav history={history} />
+        {/* <TopTopNav history={history} /> */}
         <SearchBar
           text={text}
           history={history}

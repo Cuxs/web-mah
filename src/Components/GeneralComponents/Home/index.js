@@ -63,7 +63,7 @@ const Home = ({
         <div style={{ top: '0px' }}>
           <SearchBar history={history} location={location} />
         </div>
-        <Banner />
+        <Banner history={history} />
         <Services history={history} location={location} />
         <PaymentBanner />
         <div className="car-home" >
@@ -72,6 +72,7 @@ const Home = ({
               <CarResult
                 photoGalery={photoGaleryParser(row.ImageGroup)}
                 data={row}
+                history={history}
               />
             ))}
           </CarHomeContainer>
@@ -96,7 +97,7 @@ const Home = ({
             []
           }
         </LastPublications> */}
-        {/* <Card123Seguros history={history} /> */}
+        <Card123Seguros history={history} />
         {/* <FriendlyCompanies>
           <a href="http://www.mendoza.gov.ar/prevencionvial/"><img src="/assets/images/EA1.jpg" alt="prevencion" /></a>
           <a href="http://www.pueblobenegas.com/"><img src="/assets/images/EA2.jpg" alt="benegas" /></a>

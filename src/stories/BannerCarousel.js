@@ -55,18 +55,18 @@ export default class BannerCarousel extends Component {
     ));
     return (
       <div>
-        <div className="banner-container">
+        <div className="banner-container" onClick={()=>this.props.history.push('/personalShopperS1')}>
           <Carousel
             pauser={['hover', false]}
             activeIndex={activeIndex}
             next={this.next}
             previous={this.previous}
           >
-            <CarouselIndicators items={this.props.photoGalery} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+            {this.props.photoGalery.length > 1 && <CarouselIndicators items={this.props.photoGalery} activeIndex={activeIndex} onClickHandler={this.goToIndex} />}
             {slides}
 
-            <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
-            <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
+            {this.props.photoGalery.length > 1 && <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />}
+            {this.props.photoGalery.length > 1 && <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />}
           </Carousel>
 
         </div>

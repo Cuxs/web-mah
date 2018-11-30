@@ -178,7 +178,7 @@ class StepTwo extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })
@@ -212,7 +212,7 @@ class StepTwo extends React.Component {
                         borderRadius: 4,
                         colors: {
                         ...theme.colors,
-                          primary25: '#E40019',
+                          primary25: '#A0AABF',
                           primary: '#2A3B59',
                         },
                       })

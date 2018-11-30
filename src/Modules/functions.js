@@ -1,7 +1,6 @@
 import format from 'format-number';
 import _ from 'lodash';
 import moment from 'moment';
-import format from 'format-number';
 
 
 export const thousands = (number, decimals, decPoint = ',', thousandsSep = '.') => format({ round: decimals, integerSeparator: thousandsSep, decimal: ',' })(number);
@@ -14,7 +13,6 @@ export const prepareArraySelect = (array, rowValue, rowLabel) => {
     objectItem.label = item[rowLabel];
     newArray.push(objectItem);
   });
-
   return newArray;
 };
 export const generateYearArray = () => {
