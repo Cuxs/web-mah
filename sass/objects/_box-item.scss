@@ -14,13 +14,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 230px;
+        height: 176px;
         overflow: hidden;
         position: relative;
         p{
           position: absolute;
           top:10px;
-          left:15px;
+          right: 20px;
           z-index: 10;
           background-color: transparentize($primary, 0.2);
           padding:5px 10px;
@@ -29,8 +29,10 @@
           color:$white;
           &.item-state{
             position: absolute;
-            left: 15px;
+            right: 20px;
+            border-radius: 0%;
             color:$white;
+            opacity: 0.8;
             padding: 5px 10px;
             &.sold{
               background-color: rgba(42, 59, 89, 0.8);
@@ -52,20 +54,25 @@
           span{
             color:$gray-500;
             text-transform: uppercase;
+            font-weight: 600;
+            font-size: 13px;
           }
-
           &.item-description{
-            margin-bottom: 10px;
+            color:$gray-500;
+          }
+          &.item-year{
+            color: $gray-500;
           }
           &.item-name{
             height: $font-size-lg * 1.5;
             white-space: nowrap;
-            text-overflow: ellipsis;
           }
         }
         small{
           font-weight: 300;
           font-size: 14px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
       &:hover{
@@ -83,7 +90,9 @@
           &.item-state{
             position: absolute;
             right: 15px;
+            opacity: 0.8;
             color:$white;
+            border-radius: 0%;
             min-width: 100px;
             padding: 5px 10px;
             &.published{
