@@ -20,9 +20,8 @@ export default class ImageCrop extends Component {
     this.cropImage = this.cropImage.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-
   componentWillReceiveProps(nextProps) {
-    if(nextProps.previewImage === 'erased'){
+    if (nextProps.previewImage === 'erased') {
       this.setState({
         cropResult: nextProps.banner ? defaultSrcBanner : nextProps.bannerMobile ? defaultSrcBannerMobile : defaultSrc,
       });
@@ -32,7 +31,7 @@ export default class ImageCrop extends Component {
         cropResult: nextProps.banner ? defaultSrcBanner : nextProps.bannerMobile ? defaultSrcBannerMobile : defaultSrc,
       });
     }
-    if (nextProps.previewImage !== '' && (this.state.cropResult === defaultSrc || this.state.cropResult === defaultSrcBanner)) {
+    if (nextProps.previewImage !== '' && (this.state.cropResult === defaultSrc || this.state.cropResult === defaultSrcBanner || this.state.cropResult === defaultSrcBannerMobile)) {
       this.setState({
         cropResult: `${process.env.REACT_APP_API}/images/${
           nextProps.previewImage
@@ -138,7 +137,7 @@ export default class ImageCrop extends Component {
                     onClick={() =>
                       this.setState({
                         cropResult: this.props.previewImage ?
-                         `${process.env.REACT_APP_API}/images/${this.props.previewImage}` : (this.props.banner ? defaultSrcBanner : this.props.bannerMobile ? defaultSrcBannerMobile : defaultSrc)
+                         `${process.env.REACT_APP_API}/images/${this.props.previewImage}` : (this.props.banner ? defaultSrcBanner : this.props.bannerMobile ? defaultSrcBannerMobile : defaultSrc),
                       })
                     }
                   >
