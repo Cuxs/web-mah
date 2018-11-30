@@ -1,11 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import ReactGA from 'react-ga';
+import _ from 'lodash';
 import qs from 'query-string';
 import ScrollToTop from 'react-scroll-up';
-import {scroller} from 'react-scroll';
+import { scroller } from 'react-scroll';
 import ReactHyperResponsiveTable from 'react-hyper-responsive-table';
 import { Col, Row, Button } from 'reactstrap';
 import { graphql } from 'react-apollo';
+import { split } from 'split-object';
+import { get123Quotes } from '../../../Modules/fetches';
 
 import SearchMutation from '../../../ApolloQueries/SearchMutation';
 import Footer from '../../../stories/Footer';
@@ -14,143 +17,10 @@ import PublicityBanner from '../../../stories/PublicityBanner';
 import SearchBar from '../../../stories/SearchBar';
 import TopTopNav from '../../../stories/TopTopNav';
 
+import { thousands } from '../../../Modules/functions';
+import { Object } from 'core-js';
+
 const logoCruz = <img src="/assets/images/icon-cruz.svg" alt="" className="logo" />;
-const coverages = [
-  {
-    name: 'Sancor',
-    image: 'sancor',
-    coverage1: null,
-    coverage2: {
-      id: 12,
-      price: 980,
-      title: 'Terceros Completos',
-      detail: [
-        { description: 'Vigencia de Poliza: Semestral con refacturacion mensual' },
-        { description: 'Daños físicos o materiales a terceros hasta $6.000.000' },
-        { description: 'Cobertura en países limítrofes' },
-        { description: 'Auxilio Mecánico' },
-      ],
-    },
-    coverage3: null,
-    coverage4: {
-      id: 14,
-      price: 2300,
-      title: 'Terceros Completos Granizo',
-      detail: [
-        { description: 'Vigencia de Poliza: Semestral con refacturacion mensual' },
-        { description: 'Daños físicos o materiales a terceros hasta $6.000.000' },
-        { description: 'Cobertura en países limítrofes' },
-        { description: 'Auxilio Mecánico' },
-        { description: 'Destrucción Total' },
-        { description: 'Incendio Total y Parcial' },
-        { description: 'Robo Total y Parcial' },
-        { description: 'Daños por robo o intento de robo' },
-      ],
-    },
-    coverage5: null,
-  },
-  {
-    name: 'Allianz',
-    image: 'allianz',
-    coverage1: {
-      id: 21,
-      price: 980,
-      title: 'Responsabilidad Civil',
-      detail: [
-        { description: 'Vigencia de Poliza: Anual con actualizacion de cuota trimestral' },
-        { description: 'Responsabilidad Civil hacia terceros hasta $6.000.000' },
-        { description: 'Cobertura en países limítrofes' },
-        { description: 'Auxilio Mecánico' },
-      ],
-    },
-    coverage2: null,
-    coverage3: {
-      id: 23,
-      price: 1900,
-      title: 'Terceros Completos Full',
-      detail: [
-        { description: 'Vigencia de Poliza: Semestral con refacturacion mensual' },
-        { description: 'Daños físicos o materiales a terceros hasta $6.000.000' },
-        { description: 'Cobertura en países limítrofes' },
-        { description: 'Auxilio Mecánico' },
-        { description: 'Destrucción Total' },
-        { description: 'Daños por robo o intento de robo' },
-        { description: 'Granizo' },
-        { description: 'Crislates laterales, Luneta y Parabrisas' },
-      ],
-    },
-    coverage4: null,
-    coverage5: null,
-  },
-  {
-    name: 'Sura',
-    image: 'sura',
-    coverage1: null,
-    coverage2: {
-      id: 32,
-      price: 890,
-      title: 'Terceros Completos',
-      detail: [
-        { description: 'Daños físicos o materiales a terceros hasta $6.000.000 / Para comerciales $18.000.000' },
-      ],
-    },
-    coverage3: null,
-    coverage4: {
-      id: 34,
-      price: 2490,
-      title: 'Terceros Completos Granizo',
-      detail: [
-        { description: 'Vigencia de Poliza: Anual con actualizacion de cuota cuatrimestral' },
-        { description: 'Daños físicos o materiales a terceros hasta $6.000.000' },
-        { description: 'Destrucción Total' },
-        { description: 'Incendio Total' },
-        { description: 'Robo Total y Parcial' },
-        { description: 'Cobertura en países limítrofes' },
-        { description: 'Auxilio Mecánico' },
-      ],
-    },
-    coverage5: null,
-  },
-  {
-    name: 'Zurich',
-    image: 'zurich',
-    coverage1: {
-      id: 41,
-      price: 1200,
-      title: 'Responsabilidad Civil',
-      detail: [
-        { description: 'Vigencia de Poliza: Anual con actualizacion de cuota mensual' },
-        { description: 'Daños físicos o materiales a terceros hasta $6.000.000' },
-        { description: 'Destrucción Total' },
-        { description: 'Incendio Total y Parcial' },
-        { description: 'Robo Total y Parcial' },
-        { description: 'Daños por robo o intento de robo' },
-        { description: 'Cobertura en países limítrofes' },
-        { description: 'Auxilio Mecánico' },
-      ],
-    },
-    coverage2: null,
-    coverage3: null,
-    coverage4: null,
-    coverage5: {
-      id: 45,
-      price: 3290,
-      title: 'Todo Riesgo',
-      detail: [
-        { description: 'Vigencia de Poliza: Anual con actualizacion de cuota mensual' },
-        { description: 'Daños físicos o materiales a terceros hasta $6.000.000' },
-        { description: 'Destrucción Total' },
-        { description: 'Incendio Total y Parcial' },
-        { description: 'Robo Total y Parcial' },
-        { description: 'Daños por robo o intento de robo' },
-        { description: 'Granizo' },
-        { description: 'Crislates laterales, Luneta y Parabrisas' },
-        { description: 'Cobertura en países limítrofes' },
-        { description: 'Auxilio Mecánico' },
-      ],
-    },
-  },
-];
 
 
 class Hire123Seguros extends Component {
@@ -158,56 +28,190 @@ class Hire123Seguros extends Component {
     super(props);
     this.state = {
       showDetail: false,
+      coverages: [
+        {
+          name: 'allianz',
+          loading: true,
+        },
+        {
+          name: 'mapfre',
+          loading: true,
+        },
+        {
+          name: 'meridional',
+          loading: true,
+        },
+        {
+          name: 'provincia',
+          loading: true,
+        },
+        {
+          name: 'mercantil',
+          loading: true,
+        },
+        {
+          name: 'orbis',
+          loading: true,
+        },
+        {
+          name: 'sancor',
+          loading: true,
+        },
+        {
+          name: 'zurich',
+          loading: true,
+        },
+      ],
     };
     this.selectCoverage = this.selectCoverage.bind(this);
-    ReactGA.pageview('/RECUPERAR CONTRASEÑA');
+    ReactGA.pageview('/Contratar 123seguro');
   }
 
-  getCoveragePrice(item, image) {
-    return (
-      <Fragment>
-        <div className="coverage">
-          <span>${item.price}</span>
-          <button onClick={() => this.selectCoverage(item, image)} >Ver detalle</button>
-        </div>
-        <div className="coverage-mobile">
-          <button onClick={() => this.selectCoverage(item, image)} >${item.price}</button>
-        </div>
-      </Fragment>
+  componentDidMount() {
+    const { response, data } = this.props.location.state;
+    response.companias.map((row) => {
+      get123Quotes({ company_id: row.id, company: row.name, producto_id: response.data.id })
+        .then((responseAPI) => {
+          if (!_.has(responseAPI.data, 'errors')) {
+            const allCoverages = this.state.coverages;
+            const fetchedCoverage = allCoverages.find((ec => ec.name === row.name));
+            fetchedCoverage.loading = false;
+            const coverageUpdated = Object.assign({}, fetchedCoverage, responseAPI.data);
+            const remainingCoverages = this.state.coverages.filter(allCov => allCov.name !== row.name);
+            const newState = remainingCoverages.map(remai => remai);
+            newState.push(coverageUpdated);
+            this.setState({
+              coverages: newState,
+            });
+          } else {
+            const allCoverages = this.state.coverages;
+            const fetchedCoverage = allCoverages.find((ec => ec.name === row.name));
+            if (!fetchedCoverage) {
+              console.log(row.name);
+            }
+            fetchedCoverage.loading = false;
+            const remainingCoverages = this.state.coverages.filter(allCov => allCov.name !== row.name);
+            const newState = remainingCoverages.map(remai => remai);
+            newState.push(fetchedCoverage);
+            this.setState({
+              coverages: newState,
+            });
+          }
+        });
+    });
+  }
+
+
+  getHigherValue(object) {
+    let value = 0;
+    split(object).forEach((row) => {
+      if (parseInt(row.value, 10) > value) {
+        value = row.value;
+      }
+    });
+    return value;
+  }
+
+  getCoveragesPrice(coverageObject) {
+    const { name, loading } = coverageObject;
+    if (loading) {
+      return ({ loading: true });
+    }
+    const prices = [];
+    split(coverageObject.prices).forEach((price) => {
+      let value = 0;
+      let coberturaInterna;
+      let detail;
+      const cobertura = price.key;
+      split(price.value).forEach((priceRow) => {
+        if (priceRow.key === 'cobertura_interna_id') {
+          coberturaInterna = priceRow.value;
+        }
+        if (priceRow.key === 'items') {
+          detail = priceRow.value;
+        }
+        if (priceRow.key === 'premio') {
+          if (this.getHigherValue(priceRow.value) > value) {
+            value = this.getHigherValue(priceRow.value);
+          }
+        } else if (priceRow.key === 'prima') {
+          if (this.getHigherValue(priceRow.value) > value) {
+            value = this.getHigherValue(priceRow.value);
+          }
+        }
+      });
+      prices.push({
+        value, cobertura, coberturaInterna, detail, name,
+      });
+    });
+    return ({ name, prices });
+  }
+  getCoverage(coverageObject, coverageID) {
+    const { name, prices, loading } = this.getCoveragesPrice(coverageObject);
+    if (loading) {
+      return (<img
+        style={{ height: '85px', paddingTop: '10px' }}
+        src="/loading.gif"
+        key={0}
+        alt="Loading..."
+      />);
+    }
+    const coverageSelected = prices.filter(row => parseInt(row.cobertura, 10) === coverageID)[0];
+    if (_.isEmpty(coverageSelected)) {
+      return logoCruz;
+    }
+    return (<Fragment>
+      <div className="coverage">
+        <span>${thousands(coverageSelected.value)}</span>
+        <button onClick={() => this.selectCoverage(coverageSelected)} >Ver detalle</button>
+      </div>
+      <div className="coverage-mobile">
+        <button onClick={() => this.selectCoverage(coverageSelected)} >${thousands(coverageSelected.value)}</button>
+      </div>
+            </Fragment>
     );
   }
 
-  selectCoverage(item, image) {
-    scroller.scrollTo('card-coverage', {
+  selectCoverage(coverageSelected) {
+    scroller.scrollTo('card-coverage', {  
       duration: 600,
       smooth: true,
       offset: -120,
     });
     this.setState({
       showDetail: true,
-      coverageSelected: item,
-      imageSelected: image,
+      coverageSelected,
+      imageSelected: coverageSelected.name,
     });
+  }
+  handleClickContratar(){
+    
   }
 
   render() {
     console.log(this.props)
-    const headers = {
-      image: <img src="/assets/images/123seguro-logo.svg" alt="" className="logo" />,
-      coverage1: 'Responsabilidad Civil',
-      coverage2: 'Terceros Completos',
-      coverage3: 'Terceros Completos Full',
-      coverage4: 'Terceros Completos Granizo',
-      coverage5: 'Todo Riesgo',
-    };
-    const rows = coverages.map(item => ({
-      image: <div className="td-image"><img src={`/assets/images/aseguradora-${item.image}.png`} alt="" className="logo" /></div>,
-      coverage1: item.coverage1 !== null ? this.getCoveragePrice(item.coverage1, item.image) : logoCruz,
-      coverage2: item.coverage2 !== null ? this.getCoveragePrice(item.coverage2, item.image) : logoCruz,
-      coverage3: item.coverage3 !== null ? this.getCoveragePrice(item.coverage3, item.image) : logoCruz,
-      coverage4: item.coverage4 !== null ? this.getCoveragePrice(item.coverage4, item.image) : logoCruz,
-      coverage5: item.coverage5 !== null ? this.getCoveragePrice(item.coverage5, item.image) : logoCruz,
+    const headers = {};
+    this.props.location.state.response.coberturas.forEach((row) => {
+      // A, B0, B1, C0, C1, C+, CG, D, DZ
+      if (
+        row.id === 2 ||
+        row.id === 4 ||
+        row.id === 6 ||
+        row.id === 7 ||
+        row.id === 8
+      ) { headers[row.id] = [row.descripcion]; }
+    });
+    headers.image = <img src="/assets/images/123seguro-logo.svg" alt="" className="logo" />;
+
+    const rows = this.state.coverages.map(item => ({
+      image: <div className="td-image"><img src={`/assets/images/aseguradoras123/${item.name}.png`} alt="" className="logo" /></div>,
+      2: this.getCoverage(item, 2),
+      4: this.getCoverage(item, 4),
+      6: this.getCoverage(item, 6),
+      7: this.getCoverage(item, 7),
+      8: this.getCoverage(item, 8),
     }));
+    // }));
     const keyGetter = row => row.name;
     const {
       text,
@@ -215,7 +219,7 @@ class Hire123Seguros extends Component {
     const { history, location } = this.props;
     return (
       <div>
-        <TopTopNav history={history} />
+        {/* <TopTopNav history={history} /> */}
         <SearchBar
           text={text}
           history={history}
@@ -242,15 +246,15 @@ class Hire123Seguros extends Component {
           />
           {this.state.showDetail && <div className="card-coverage" id="card-coverage" >
             <div className="card-coverage-title">
-              <img src={`/assets/images/aseguradora-${this.state.imageSelected}.png`} alt="" className="logo" />
+              <img src={`/assets/images/aseguradoras123/${this.state.imageSelected}.png`} alt="" className="logo" />
               <div className="card-coverage-title1" >
-                <p>${this.state.coverageSelected.price}</p>
-                <Button color="primary">CONTRATAR</Button>
+                <p>${thousands(this.state.coverageSelected.value)}</p>
+                <Button color="primary" onClick={this.handleClickContratar}>CONTRATAR</Button>
               </div>
             </div>
             <ul className="card-coverage-detail">
-              <h3>{this.state.coverageSelected.title}</h3>
-              {this.state.coverageSelected.detail.map(item => <li>{item.description}</li>)}
+              <h3>{this.state.coverageSelected.name}</h3>
+              {this.state.coverageSelected.detail.map(item => <li>{item}</li>)}
             </ul>
           </div>
           }

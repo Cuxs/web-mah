@@ -359,14 +359,82 @@ export const getSliders = () => {
         : responseData));
 };
 
-export const deleteSlider = (number) =>{
+export const deleteSlider = (number) => {
   const url = `${server}/deleteSlider/${number}`;
   const options = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,      
+      Authorization: token,
     },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+
+export const get123Provinces = () => {
+  const url = `${server}/get123Provinces`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+export const get123Towns = (province_id) => {
+  const url = `${server}/get123Localities`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      province_id,
+    }),
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+
+export const addUserAndCarData = (data) => {
+  const url = `${server}/addUserAndCarData`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+
+export const get123Quotes = (data) =>{
+  const url = `${server}/get123Quotes`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
   };
   return fetch(url, options)
     .then(response => response.json())

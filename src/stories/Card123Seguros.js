@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Alert, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import _ from 'lodash';
@@ -7,7 +7,7 @@ import Select from 'react-select';
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import { getProvinces, getTowns } from '../Modules/fetches';
+import { get123Provinces, get123Towns, addUserAndCarData } from '../Modules/fetches';
 import { prepareArraySelect, generateYearPerModel, validate } from '../Modules/functions';
 import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../ApolloQueries/TautosQuery';
 
@@ -16,6 +16,10 @@ class Card123Seguros extends React.Component {
     super(props);
     this.state = {
       brand: null,
+      name: '',
+      secondName: '',
+      email: '',
+      phone: '',
       group: null,
       codia: null,
       year: null,
@@ -27,28 +31,31 @@ class Card123Seguros extends React.Component {
       townList: [],
       town_id: '',
       showModal: false,
+      loading: false,
+      loadingText: '',
+      error: false,
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.handleQuoting = this.handleQuoting.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.isCarSelected) {
       this.setState({
         brand: this.props.carData.brand,
         group: this.props.carData.group,
-        codia: this.props.carData.codia,
-        year: this.props.carData.year,
+        codia: { value: this.props.carData.codia },
+        year: { value: this.props.carData.year },
       });
     }
   }
 
   onChangeProvince(newProvince) {
-    getTowns(newProvince)
+    get123Towns(newProvince.value)
       .then((response) => {
         this.setState({
           province_id: newProvince,
-          townList: response.data,
+          townList: prepareArraySelect(response.data, 'id', 'nombre'),
         });
       })
       .catch(error => console.log(error));
@@ -66,7 +73,7 @@ class Card123Seguros extends React.Component {
     this.props.client.query({
       query: GroupsQuery,
       variables: {
-        gru_nmarc: newBrand,
+        gru_nmarc: newBrand.value,
       },
     })
       .then(response => this.setState({ Groups: response.data.Group }));
@@ -82,8 +89,8 @@ class Card123Seguros extends React.Component {
       .query({
         query: ModelsQuery,
         variables: {
-          ta3_nmarc: this.state.brand,
-          ta3_cgrup: newGroup,
+          ta3_nmarc: this.state.brand.value,
+          ta3_cgrup: newGroup.value,
         },
       })
       .then(response => this.setState({ Models: response.data.Models }));
@@ -96,7 +103,7 @@ class Card123Seguros extends React.Component {
       .query({
         query: YearsQuery,
         variables: {
-          ta3_codia: newModel,
+          ta3_codia: newModel.value,
         },
       })
       .then(response => this.setState({ Prices: response.data.Price }));
@@ -105,13 +112,14 @@ class Card123Seguros extends React.Component {
     this.setState({ year: newYear });
   }
   handleQuoting() {
+    this.setState({ loading: true, loadingText: 'Conectandose con 123seguro...' });
     const {
       brand, group, codia, year,
     } = this.state;
     if (brand !== null && group !== null && codia !== null && year !== null) {
-      getProvinces()
-        .then((response) => {
-          this.setState({ provinceList: response.data, showModal: true });
+      get123Provinces()
+        .then((resp) => {
+          this.setState({ provinceList: resp.data, showModal: true, loading: false });
         })
         .catch(error => console.log(error));
     }
@@ -120,24 +128,28 @@ class Card123Seguros extends React.Component {
     this.setState({ showModal: !this.state.showModal });
   }
   viewQuoted() {
-    let year, brand, version, model;
-    if (this.props.isCarSelected) {
-      year = this.state.year;
-      brand = this.state.brand;
-      version = this.state.group;
-      model = this.state.codia;
-    } else {
-      brand = _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', this.state.brand]).ta3_marca;
-      version = _.find(this.state.Groups, ['gru_cgrup', this.state.group]).gru_ngrup;
-      model = _.find(this.state.Models, ['ta3_codia', this.state.codia]).ta3_model;
-      year = this.state.year;
-    }
-    this.props.history.push({
-      pathname: '/hire123Seguros',
-      state: {
-        brand, version, model, year,
-      },
-    });
+    this.setState({ loading: true, loadingText: 'Cargando...' });
+
+    const data = {
+      nombre: this.state.name,
+      apellido: this.state.secondName,
+      mail: this.state.email,
+      telefono: this.state.phone,
+      localidad_id: this.state.town_id.value,
+      anio: this.state.year.value,
+      vehiculo_id: this.state.codia.value,
+    };
+    addUserAndCarData(data)
+      .then((response) => {
+        this.props.history.push({
+          pathname: '/hire123Seguros',
+          state: {
+            data, response,
+          },
+        });
+      }).catch((e) => {
+        this.setState({ loading: false, error: e.indexOf('year and vehiculo_id does not match in') > -1 ? 'No se pudo cotizar este auto en 123seguro, el año y el modelo no corresponden.' : 'Ha ocurrido un error con la conexión. Intente nuevamente más tarde.' });
+      });
   }
 
   render() {
@@ -176,7 +188,7 @@ class Card123Seguros extends React.Component {
                     borderRadius: 4,
                     colors: {
                     ...theme.colors,
-                      primary25: '#E40019',
+                      primary25: '#D2DCD4',
                       primary: '#2A3B59',
                     },
                   })
@@ -202,7 +214,7 @@ class Card123Seguros extends React.Component {
                     borderRadius: 4,
                     colors: {
                     ...theme.colors,
-                      primary25: '#E40019',
+                      primary25: '#D2DCD4',
                       primary: '#2A3B59',
                     },
                   })
@@ -228,7 +240,7 @@ class Card123Seguros extends React.Component {
                     borderRadius: 4,
                     colors: {
                     ...theme.colors,
-                      primary25: '#E40019',
+                      primary25: '#D2DCD4',
                       primary: '#2A3B59',
                     },
                   })
@@ -255,7 +267,7 @@ class Card123Seguros extends React.Component {
                     borderRadius: 4,
                     colors: {
                     ...theme.colors,
-                      primary25: '#E40019',
+                      primary25: '#D2DCD4',
                       primary: '#2A3B59',
                     },
                   })
@@ -269,12 +281,53 @@ class Card123Seguros extends React.Component {
             </div>
           </Col>
                                       </div>}
+        <Modal isOpen={this.state.loading} size="md">
+          <ModalBody className="">
+            <div>
+              <Row>
+                <Col className="text-center">
+                  <img
+                    style={{ height: '30px', marginTop: '8px' }}
+                    src="/logo.png"
+                    key={0}
+                    alt="Loading..."
+                  />
+                </Col>
+                <Col className="text-center">
+                  <img
+                    style={{ height: '35px', width: 'auto', paddingTop: '10px' }}
+                    src="/assets/images/connecting.gif"
+                    key={0}
+                    alt="Loading..."
+                  />
+                </Col>
+                <Col>
+                  <img
+                    style={{ height: '30px', marginLeft: '15px' }}
+                    src="/assets/images/123seguro-logo.svg"
+                    key={0}
+                    alt="Loading..."
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col className="text-center pt-3">
+                  <p>{this.state.loadingText}</p>
+                </Col>
+              </Row>
+            </div>
+          </ModalBody>
+        </Modal>
         <Modal isOpen={this.state.showModal} toggle={this.toggleModal} size="lg">
           <ModalHeader toggle={this.toggleModal}>Completá tus datos, para obtener un precio preciso</ModalHeader>
           <ModalBody>
+            {this.state.error &&
+            <Alert color="danger">
+              <p>{this.state.error}</p>
+            </Alert>}
             <AvForm onSubmit={this.next} className="d-flex flex-lg-row flex-md-column" >
               <Col lg={6} md={12}>
-                <label>Nombre y Apellido</label>
+                <label>Nombre </label>
                 <AvField
                   type="string"
                   value={this.state.name}
@@ -289,7 +342,7 @@ class Card123Seguros extends React.Component {
                   id="province-select"
                   onBlurResetsInput={false}
                   onSelectResetsInput={false}
-                  options={prepareArraySelect(this.state.provinceList, 'id', 'name')}
+                  options={prepareArraySelect(this.state.provinceList, 'id', 'nombre')}
                   simpleValue
                   className="form-group"
                   clearable
@@ -304,7 +357,7 @@ class Card123Seguros extends React.Component {
                     borderRadius: 4,
                     colors: {
                     ...theme.colors,
-                      primary25: '#E40019',
+                      primary25: '#D2DCD4',
                       primary: '#2A3B59',
                     },
                   })
@@ -315,7 +368,7 @@ class Card123Seguros extends React.Component {
                   id="city-select"
                   onBlurResetsInput={false}
                   onSelectResetsInput={false}
-                  options={prepareArraySelect(this.state.townList, 'id', 'name')}
+                  options={this.state.townList}
                   simpleValue
                   className="form-group"
                   clearable
@@ -330,7 +383,7 @@ class Card123Seguros extends React.Component {
                     borderRadius: 4,
                     colors: {
                     ...theme.colors,
-                      primary25: '#E40019',
+                      primary25: '#D2DCD4',
                       primary: '#2A3B59',
                     },
                   })
@@ -338,14 +391,14 @@ class Card123Seguros extends React.Component {
                 />
               </Col>
               <Col md={6} sm={12}>
-                <label>Edad</label>
+                <label>Apellido</label>
                 <AvField
-                  type="number"
-                  value={this.state.age}
-                  onChange={event => this.setState({ age: event.target.value })}
+                  type="text"
+                  value={this.state.secondName}
+                  onChange={event => this.setState({ secondName: event.target.value })}
                   name="name"
                   id="name"
-                  validate={validate('number')}
+                  validate={validate('text')}
                   className="form-control"
                 />
                 <label>Email</label>
