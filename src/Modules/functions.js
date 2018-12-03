@@ -3,7 +3,7 @@ import moment from 'moment';
 import format from 'format-number';
 
 
-export const thousands = (number, decimals, decPoint = ',', thousandsSep = '.') => format({ round: decimals, integerSeparator: thousandsSep, decimal: ',' })(number);
+export const thousands = (number, decimals, decPoint = ',', thousandsSep = '.') => (isNaN(number) ? false : format({ round: decimals, integerSeparator: thousandsSep, decimal: ',' })(number));
 export const prepareArraySelect = (array, rowValue, rowLabel) => {
   const newArray = [];
 
