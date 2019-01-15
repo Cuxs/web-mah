@@ -392,15 +392,12 @@ export const get123Provinces = () => {
         : responseData));
 };
 export const get123Towns = (province_id) => {
-  const url = `${server}/get123Localities`;
+  const url = `${server}/get123Localities/${province_id}`;
   const options = {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      province_id,
-    }),
   };
   return fetch(url, options)
     .then(response => response.json())
@@ -427,7 +424,7 @@ export const addUserAndCarData = (data) => {
         : responseData));
 };
 
-export const get123Quotes = (data) =>{
+export const get123Quotes = (data) => {
   const url = `${server}/get123Quotes`;
   const options = {
     method: 'POST',
@@ -442,4 +439,20 @@ export const get123Quotes = (data) =>{
       (responseData.status === undefined || responseData.status === 'error'
         ? Promise.reject(responseData.message)
         : responseData));
-}
+};
+export const assurance123Seguro = (data) => {
+  const url = `${server}/assurance123Seguro`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};

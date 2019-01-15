@@ -8,7 +8,7 @@ import ReactHyperResponsiveTable from 'react-hyper-responsive-table';
 import { Col, Row, Button } from 'reactstrap';
 import { graphql } from 'react-apollo';
 import { split } from 'split-object';
-import { get123Quotes } from '../../../Modules/fetches';
+import { get123Quotes, assurance123Seguro } from '../../../Modules/fetches';
 
 import SearchMutation from '../../../ApolloQueries/SearchMutation';
 import Footer from '../../../stories/Footer';
@@ -28,9 +28,14 @@ class Hire123Seguros extends Component {
     super(props);
     this.state = {
       showDetail: false,
+      coverageSelected: '',
       coverages: [
         {
-          name: 'allianz',
+          name: 'Allianz',
+          loading: true,
+        },
+        {
+          name: 'zurich',
           loading: true,
         },
         {
@@ -38,39 +43,36 @@ class Hire123Seguros extends Component {
           loading: true,
         },
         {
-          name: 'meridional',
-          loading: true,
-        },
-        {
-          name: 'provincia',
-          loading: true,
-        },
-        {
-          name: 'mercantil',
-          loading: true,
-        },
-        {
-          name: 'orbis',
-          loading: true,
-        },
-        {
           name: 'sancor',
           loading: true,
         },
         {
-          name: 'zurich',
+          name: 'meridional',
           loading: true,
         },
+        // {
+        //   name: 'provincia',
+        //   loading: true,
+        // },
+        // {
+        //   name: 'mercantil',
+        //   loading: true,
+        // },
+        // {
+        //   name: 'orbis',
+        //   loading: true,
+        // },
       ],
     };
     this.selectCoverage = this.selectCoverage.bind(this);
+    this.handleClickContratar = this.handleClickContratar.bind(this);
     ReactGA.pageview('/Contratar 123seguro');
   }
 
   componentDidMount() {
     const { response, data } = this.props.location.state;
     response.companias.map((row) => {
-      get123Quotes({ company_id: row.id, company: row.name, producto_id: response.data.id })
+      get123Quotes({ company_id: row.id, company: row.name, producto_id: response.data.id }) //556214
         .then((responseAPI) => {
           if (!_.has(responseAPI.data, 'errors')) {
             const allCoverages = this.state.coverages;
@@ -122,6 +124,8 @@ class Hire123Seguros extends Component {
       let value = 0;
       let coberturaInterna;
       let detail;
+      let prima = {};
+      let premio = {};
       const cobertura = price.key;
       split(price.value).forEach((priceRow) => {
         if (priceRow.key === 'cobertura_interna_id') {
@@ -131,17 +135,19 @@ class Hire123Seguros extends Component {
           detail = priceRow.value;
         }
         if (priceRow.key === 'premio') {
+          premio = priceRow.value;
           if (this.getHigherValue(priceRow.value) > value) {
             value = this.getHigherValue(priceRow.value);
           }
         } else if (priceRow.key === 'prima') {
+          prima = priceRow.value;
           if (this.getHigherValue(priceRow.value) > value) {
             value = this.getHigherValue(priceRow.value);
           }
         }
       });
       prices.push({
-        value, cobertura, coberturaInterna, detail, name,
+        value, cobertura, coberturaInterna, detail, name, prima, premio,
       });
     });
     return ({ name, prices });
@@ -168,12 +174,12 @@ class Hire123Seguros extends Component {
       <div className="coverage-mobile">
         <button onClick={() => this.selectCoverage(coverageSelected)} >${thousands(coverageSelected.value)}</button>
       </div>
-            </Fragment>
+    </Fragment>
     );
   }
 
   selectCoverage(coverageSelected) {
-    scroller.scrollTo('card-coverage', {  
+    scroller.scrollTo('card-coverage', {
       duration: 600,
       smooth: true,
       offset: -120,
@@ -184,12 +190,26 @@ class Hire123Seguros extends Component {
       imageSelected: coverageSelected.name,
     });
   }
-  handleClickContratar(){
-    
+  handleClickContratar() {
+    const data = {
+      cobertura_id: this.state.coverageSelected.cobertura,
+      cobertura_interna_id: split(this.state.coverageSelected.coberturaInterna).map(row => row.value)[0],
+      compania_id: this.state.coverageSelected.name,
+      prima: split(this.state.coverageSelected.coberturaInterna).map(row => row.key)[0],
+      premio: split(this.state.coverageSelected.coberturaInterna).map(row => row.key)[0],
+      nombre: this.props.location.state.data.nombre,
+      apellido: this.props.location.state.data.apellido,
+      mail: this.props.location.state.data.mail,
+      telefono: this.props.location.state.data.telefono,
+      user_id: this.props.location.state.response.data.usuario_id,
+      car_id: this.props.location.state.response.data.id,
+    };
+    assurance123Seguro(data)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   }
 
   render() {
-    console.log(this.props)
     const headers = {};
     this.props.location.state.response.coberturas.forEach((row) => {
       // A, B0, B1, C0, C1, C+, CG, D, DZ
@@ -256,7 +276,7 @@ class Hire123Seguros extends Component {
               <h3>{this.state.coverageSelected.name}</h3>
               {this.state.coverageSelected.detail.map(item => <li>{item}</li>)}
             </ul>
-          </div>
+                                    </div>
           }
         </div>
         <Footer history={history} />

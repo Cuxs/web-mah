@@ -148,6 +148,7 @@ class Card123Seguros extends React.Component {
           },
         });
       }).catch((e) => {
+        console.log(e);
         this.setState({ loading: false, error: e.indexOf('year and vehiculo_id does not match in') > -1 ? 'No se pudo cotizar este auto en 123seguro, el año y el modelo no corresponden.' : 'Ha ocurrido un error con la conexión. Intente nuevamente más tarde.' });
       });
   }

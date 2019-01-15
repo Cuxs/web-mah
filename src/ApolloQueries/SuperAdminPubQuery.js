@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const searchPubMutation = gql`mutation searchPub($text: String!, $userType: String) {
-  searchUser(text:$text, userType: $userType){
+  searchPublication(text:$text, userType: $userType){
     hasNextPage
     totalCount    
     Publications {
