@@ -8,7 +8,7 @@ import { branch, renderComponent } from 'recompose';
 import Select from 'react-select';
 
 import ReactGA from 'react-ga';
-
+import { find } from 'lodash';
 import AdminBar from '../../../stories/AdminBar';
 import SuperAdminSideBar from '../../../stories/SuperAdminSideBar';
 import { isAdminLogged } from '../../../Modules/sessionFunctions';
@@ -42,9 +42,11 @@ class SuperAdminConsult extends React.Component {
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
+      brandName: newBrand.label,
       group: '',
       codia: '',
       Models: [],
+      modelName: '',
       Prices: [],
       year: '',
       priceSuggested: '',
@@ -53,58 +55,56 @@ class SuperAdminConsult extends React.Component {
       .query({
         query: GroupsQuery,
         variables: {
-          gru_nmarc: newBrand,
+          gru_nmarc: newBrand.value,
         },
       })
       .then(response => this.setState({ Groups: response.data.Group }));
   }
+
   onChangeGroup(newGroup) {
     this.setState({
       group: newGroup,
+      groupName: newGroup.label,
+      modelName: '',
       Prices: [],
       year: '',
-      codia: '',
       priceSuggested: '',
     });
     this.props.client
       .query({
         query: ModelsQuery,
         variables: {
-          ta3_nmarc: this.state.brand,
-          ta3_cgrup: newGroup,
+          ta3_nmarc: this.state.brand.value,
+          ta3_cgrup: newGroup.value,
         },
       })
       .then(response => this.setState({ Models: response.data.Models }));
   }
+
   onChangeModel(newModel) {
     this.setState({
       codia: newModel,
+      modelName: newModel.label,
     });
     this.props.client
       .query({
         query: YearsQuery,
         variables: {
-          ta3_codia: newModel,
+          ta3_codia: newModel.value,
         },
       })
       .then(response => this.setState({ Prices: response.data.Price }));
   }
+
   onChangeYear(newYear) {
     this.setState({
       year: newYear,
-      priceSuggested: this.state.Prices[
-        this.state.Prices[0].anio - parseInt(newYear, 10)
-      ]
-        ? `$${thousands(
-          this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)]
-            .precio,
-          0,
-          ',',
-          '.',
-        )}`
+      priceSuggested: find(this.state.Prices, { anio: newYear.value }) ?
+        thousands((find(this.state.Prices, { anio: newYear.value })).precio, 2)
         : 'No encontramos uno para ese año.',
     });
   }
+
 
   render() {
     const { history, location, ta3AllBrands: { AllBrands } } = this.props;

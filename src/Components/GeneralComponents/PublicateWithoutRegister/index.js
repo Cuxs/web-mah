@@ -5,7 +5,7 @@ import React from 'react';
 import { Col, Row, FormGroup, Label, Button } from 'reactstrap';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { stringify, parse } from 'query-string';
-import _ from 'lodash';
+import { find, isEmpty } from 'lodash';
 import Select from 'react-select';
 import ReactGA from 'react-ga';
 import { scroller } from 'react-scroll';
@@ -35,7 +35,7 @@ const fpOptions = {
 ReactPixel.init('549275042176385', null, fpOptions);
 ReactPixel.pageView();
 
-class CreatePublication extends React.Component {
+class PublicateWithoutRegister extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -105,7 +105,7 @@ class CreatePublication extends React.Component {
         .then(response =>
           this.setState({
             Groups: response.data.Group,
-            brandName: _.find(this.props.ta3AllBrands.AllBrands, [
+            brandName: find(this.props.ta3AllBrands.AllBrands, [
               'ta3_nmarc',
               parse(this.props.location.search).brandId,
             ]).ta3_marca,
@@ -121,7 +121,7 @@ class CreatePublication extends React.Component {
         .then(response =>
           this.setState({
             Models: response.data.Models,
-            groupName: _.find(this.state.Groups, [
+            groupName: find(this.state.Groups, [
               'gru_cgrup',
               parse(this.props.location.search).groupId,
             ]).gru_ngrup,
@@ -136,7 +136,7 @@ class CreatePublication extends React.Component {
         .then(response =>
           this.setState({
             Prices: response.data.Price,
-            modelName: _.find(this.state.Models, [
+            modelName: find(this.state.Models, [
               'ta3_codia',
               parse(this.props.location.search).codia,
             ]).ta3_model,
@@ -146,11 +146,7 @@ class CreatePublication extends React.Component {
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
-      brandName:
-        newBrand !== null
-          ? _.find(this.props.ta3AllBrands.AllBrands, ['ta3_nmarc', newBrand])
-            .ta3_marca
-          : '',
+      brandName: newBrand.label,
       group: '',
       codia: '',
       Models: [],
@@ -163,7 +159,7 @@ class CreatePublication extends React.Component {
       .query({
         query: GroupsQuery,
         variables: {
-          gru_nmarc: newBrand,
+          gru_nmarc: newBrand.value,
         },
       })
       .then(response => this.setState({ Groups: response.data.Group }));
@@ -172,10 +168,7 @@ class CreatePublication extends React.Component {
   onChangeGroup(newGroup) {
     this.setState({
       group: newGroup,
-      groupName:
-        newGroup !== null
-          ? _.find(this.state.Groups, ['gru_cgrup', newGroup]).gru_ngrup
-          : '',
+      groupName: newGroup.label,
       modelName: '',
       Prices: [],
       year: '',
@@ -185,8 +178,8 @@ class CreatePublication extends React.Component {
       .query({
         query: ModelsQuery,
         variables: {
-          ta3_nmarc: this.state.brand,
-          ta3_cgrup: newGroup,
+          ta3_nmarc: this.state.brand.value,
+          ta3_cgrup: newGroup.value,
         },
       })
       .then(response => this.setState({ Models: response.data.Models }));
@@ -195,16 +188,13 @@ class CreatePublication extends React.Component {
   onChangeModel(newModel) {
     this.setState({
       codia: newModel,
-      modelName:
-        newModel !== null
-          ? _.find(this.state.Models, ['ta3_codia', newModel]).ta3_model
-          : '',
+      modelName: newModel.label,
     });
     this.props.client
       .query({
         query: YearsQuery,
         variables: {
-          ta3_codia: newModel,
+          ta3_codia: newModel.value,
         },
       })
       .then(response => this.setState({ Prices: response.data.Price }));
@@ -213,22 +203,14 @@ class CreatePublication extends React.Component {
   onChangeYear(newYear) {
     this.setState({
       year: newYear,
-      priceSuggested: this.state.Prices[
-        this.state.Prices[0].anio - parseInt(newYear, 10)
-      ]
-        ? `$${thousands(
-          this.state.Prices[this.state.Prices[0].anio - parseInt(newYear, 10)]
-            .precio,
-          0,
-          ',',
-          '.',
-        )}`
+      priceSuggested: find(this.state.Prices, { anio: newYear.value }) ?
+        thousands((find(this.state.Prices, { anio: newYear.value })).precio, 2)
         : 'No encontramos uno para ese año.',
     });
   }
 
   next(event, errors) {
-    if (!_.isEmpty(errors)) {
+    if (!isEmpty(errors)) {
       scroller.scrollTo(errors[0], {
         duration: 600,
         smooth: true,
@@ -605,4 +587,4 @@ const WithAllBrands = graphql(AllBrandsQuery, {
 
 const withData = compose(WithAllBrands);
 
-export default withApollo(withData(CreatePublication));
+export default withApollo(withData(PublicateWithoutRegister));
