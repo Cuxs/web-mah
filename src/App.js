@@ -9,55 +9,57 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import Home from './Components/GeneralComponents/Home';
-import AgencyMicrosite from './Components/AccountComponents/AgencyMicrosite';
-import AgencyRegister from './Components/GeneralComponents/AgencyRegister';
-import AgencyRegisterStepOne from './Components/GeneralComponents/AgencyRegister/StepOne';
-import AgencyRegisterStepTwo from './Components/GeneralComponents/AgencyRegister/StepTwo';
-import AgencyRegisterStepThree from './Components/GeneralComponents/AgencyRegister/StepThree';
-import SearchCars from './Components/GeneralComponents/SearchCars';
-import RecoverPassword from './Components/GeneralComponents/RecoverPassword';
-import CarDetail from './Components/GeneralComponents/CarDetail';
-import CreatePublication from './Components/GeneralComponents/CreatePublication';
-import CreatePublicationStepOne from './Components/GeneralComponents/CreatePublication/StepOne';
-import CreatePublicationStepTwo from './Components/GeneralComponents/CreatePublication/StepTwo';
-import CreatePublicationStepThree from './Components/GeneralComponents/CreatePublication/StepThree';
-import FreeDestinationCredits from './Components/GeneralComponents/FreeDestinationCredits';
-import FriendlyAgency from './Components/GeneralComponents/FriendlyAgency';
-import Hire123Seguros from './Components/GeneralComponents/Hire123Seguros';
-import Inbox from './Components/AccountComponents/Inbox';
-import Microsite from './Components/GeneralComponents/Microsite';
-import PledgeCredits from './Components/GeneralComponents/PledgeCredits';
-import PersonalShopper from './Components/GeneralComponents/PersonalShopper';
-import PersonalShopperStepTwo from './Components/GeneralComponents/PersonalShopper/StepTwo';
-import PublicateWithoutRegister from './Components/GeneralComponents/PublicateWithoutRegister';
-import PublicateWithoutRegisterStepOne from './Components/GeneralComponents/PublicateWithoutRegister/StepOne';
-import PublicateWithoutRegisterStepTwo from './Components/GeneralComponents/PublicateWithoutRegister/StepTwo';
-import PublicateWithoutRegisterStepThree from './Components/GeneralComponents/PublicateWithoutRegister/StepThree';
-import PublicateWithoutRegisterStepFour from './Components/GeneralComponents/PublicateWithoutRegister/StepFour';
-import SuperAdminPublications from './Components/AdminComponents/SuperAdminPublications';
-import SuperAdminInbox from './Components/AdminComponents/SuperAdminInbox';
-import SuperAdminUsers from './Components/AdminComponents/SuperAdminUsers';
-import SuperAdminRates from './Components/AdminComponents/SuperAdminRates';
-import SuperAdminConsult from './Components/AdminComponents/SuperAdminConsult';
-import SuperAdminAnalytics from './Components/AdminComponents/SuperAdminAnalytics';
-import SuperAdminSliders from './Components/AdminComponents/SuperAdminSliders';
-import SuperAdminMicrosite from './Components/AdminComponents/SuperAdminMicrosite';
-import TermsAndConditions from './Components/GeneralComponents/TermsAndConditions';
-import UserAdmin from './Components/AccountComponents/UserAdmin';
-import UserConsult from './Components/AccountComponents/UserConsult';
-import UserProfile from './Components/AccountComponents/UserProfile';
-import UserInbox from './Components/AccountComponents/UserInbox';
-import UserPublications from './Components/AccountComponents/UserPublications';
-import UserRegister from './Components/GeneralComponents/UserRegister';
-import UserRegisterStepOne from './Components/GeneralComponents/UserRegister/StepOne';
-import UserRegisterStepTwo from './Components/GeneralComponents/UserRegister/StepTwo';
-import UserRegisterStepThree from './Components/GeneralComponents/UserRegister/StepThree';
-import WithoutRegister from './Components/GeneralComponents/WithoutRegister';
-import SuperAdminAllMessages from './Components/AdminComponents/SuperAdminAllMessages';
-
+import Loadable from 'react-loadable';
 import _404page from './stories/404page';
 import LoginComponent from './stories/LoginComponent';
+
+
+const Home = Loadable({loader: ()=>import('./Components/GeneralComponents/Home'), loading:()=><p>Cargando</p>})
+const AgencyMicrosite = Loadable({loader: ()=>import('./Components/AccountComponents/AgencyMicrosite'), loading:()=><p>Cargando</p>})
+const AgencyRegister = Loadable({loader: ()=>import('./Components/GeneralComponents/AgencyRegister'), loading:()=><p>Cargando</p>})
+const AgencyRegisterStepOne = Loadable({loader: ()=>import('./Components/GeneralComponents/AgencyRegister/StepOne'), loading:()=><p>Cargando</p>})
+const AgencyRegisterStepTwo = Loadable({loader: ()=>import('./Components/GeneralComponents/AgencyRegister/StepTwo'), loading:()=><p>Cargando</p>})
+const AgencyRegisterStepThree = Loadable({loader: ()=>import('./Components/GeneralComponents/AgencyRegister/StepThree'), loading:()=><p>Cargando</p>})
+const SearchCars = Loadable({loader: ()=>import('./Components/GeneralComponents/SearchCars'), loading:()=><p>Cargando</p>})
+const RecoverPassword = Loadable({loader: ()=>import('./Components/GeneralComponents/RecoverPassword'), loading:()=><p>Cargando</p>})
+const CarDetail = Loadable({loader: ()=>import('./Components/GeneralComponents/CarDetail'), loading:()=><p>Cargando</p>})
+const CreatePublication = Loadable({loader: ()=>import('./Components/GeneralComponents/CreatePublication'), loading:()=><p>Cargando</p>})
+const CreatePublicationStepOne = Loadable({loader: ()=>import('./Components/GeneralComponents/CreatePublication/StepOne'), loading:()=><p>Cargando</p>})
+const CreatePublicationStepTwo = Loadable({loader: ()=>import('./Components/GeneralComponents/CreatePublication/StepTwo'), loading:()=><p>Cargando</p>})
+const CreatePublicationStepThree = Loadable({loader: ()=>import('./Components/GeneralComponents/CreatePublication/StepThree'), loading:()=><p>Cargando</p>})
+const FreeDestinationCredits = Loadable({loader: ()=>import('./Components/GeneralComponents/FreeDestinationCredits'), loading:()=><p>Cargando</p>})
+const FriendlyAgency = Loadable({loader: ()=>import('./Components/GeneralComponents/FriendlyAgency'), loading:()=><p>Cargando</p>})
+const Hire123Seguros = Loadable({loader: ()=>import('./Components/GeneralComponents/Hire123Seguros'), loading:()=><p>Cargando</p>})
+const Inbox = Loadable({loader: ()=>import('./Components/AccountComponents/Inbox'), loading:()=><p>Cargando</p>})
+const Microsite = Loadable({loader: ()=>import('./Components/GeneralComponents/Microsite'), loading:()=><p>Cargando</p>})
+const PledgeCredits = Loadable({loader: ()=>import('./Components/GeneralComponents/PledgeCredits'), loading:()=><p>Cargando</p>})
+const PersonalShopper = Loadable({loader: ()=>import('./Components/GeneralComponents/PersonalShopper'), loading:()=><p>Cargando</p>})
+const PersonalShopperStepTwo = Loadable({loader: ()=>import('./Components/GeneralComponents/PersonalShopper/StepTwo'), loading:()=><p>Cargando</p>})
+const PublicateWithoutRegister = Loadable({loader: ()=>import('./Components/GeneralComponents/PublicateWithoutRegister'), loading:()=><p>Cargando</p>})
+const PublicateWithoutRegisterStepOne = Loadable({loader: ()=>import('./Components/GeneralComponents/PublicateWithoutRegister/StepOne'), loading:()=><p>Cargando</p>})
+const PublicateWithoutRegisterStepTwo = Loadable({loader: ()=>import('./Components/GeneralComponents/PublicateWithoutRegister/StepTwo'), loading:()=><p>Cargando</p>})
+const PublicateWithoutRegisterStepThree = Loadable({loader: ()=>import('./Components/GeneralComponents/PublicateWithoutRegister/StepThree'), loading:()=><p>Cargando</p>})
+const PublicateWithoutRegisterStepFour = Loadable({loader: ()=>import('./Components/GeneralComponents/PublicateWithoutRegister/StepFour'), loading:()=><p>Cargando</p>})
+const SuperAdminPublications = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminPublications'), loading:()=><p>Cargando</p>})
+const SuperAdminInbox = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminInbox'), loading:()=><p>Cargando</p>})
+const SuperAdminUsers = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminUsers'), loading:()=><p>Cargando</p>})
+const SuperAdminRates = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminRates'), loading:()=><p>Cargando</p>})
+const SuperAdminConsult = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminConsult'), loading:()=><p>Cargando</p>})
+const SuperAdminAnalytics = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminAnalytics'), loading:()=><p>Cargando</p>})
+const SuperAdminSliders = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminSliders'), loading:()=><p>Cargando</p>})
+const SuperAdminMicrosite = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminMicrosite'), loading:()=><p>Cargando</p>})
+const TermsAndConditions = Loadable({loader: ()=>import('./Components/GeneralComponents/TermsAndConditions'), loading:()=><p>Cargando</p>})
+const UserAdmin = Loadable({loader: ()=>import('./Components/AccountComponents/UserAdmin'), loading:()=><p>Cargando</p>})
+const UserConsult = Loadable({loader: ()=>import('./Components/AccountComponents/UserConsult'), loading:()=><p>Cargando</p>})
+const UserProfile = Loadable({loader: ()=>import('./Components/AccountComponents/UserProfile'), loading:()=><p>Cargando</p>})
+const UserInbox = Loadable({loader: ()=>import('./Components/AccountComponents/UserInbox'), loading:()=><p>Cargando</p>})
+const UserPublications = Loadable({loader: ()=>import('./Components/AccountComponents/UserPublications'), loading:()=><p>Cargando</p>})
+const UserRegister = Loadable({loader: ()=>import('./Components/GeneralComponents/UserRegister'), loading:()=><p>Cargando</p>})
+const UserRegisterStepOne = Loadable({loader: ()=>import('./Components/GeneralComponents/UserRegister/StepOne'), loading:()=><p>Cargando</p>})
+const UserRegisterStepTwo = Loadable({loader: ()=>import('./Components/GeneralComponents/UserRegister/StepTwo'), loading:()=><p>Cargando</p>})
+const UserRegisterStepThree = Loadable({loader: ()=>import('./Components/GeneralComponents/UserRegister/StepThree'), loading:()=><p>Cargando</p>})
+const WithoutRegister = Loadable({loader: ()=>import('./Components/GeneralComponents/WithoutRegister'), loading:()=><p>Cargando</p>})
+const SuperAdminAllMessages = Loadable({loader: ()=>import('./Components/AdminComponents/SuperAdminAllMessages'), loading:()=><p>Cargando</p>})
 
 
 const About = () => (
