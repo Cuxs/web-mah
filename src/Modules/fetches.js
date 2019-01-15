@@ -406,6 +406,66 @@ export const get123Towns = (province_id) => {
         ? Promise.reject(responseData.message)
         : responseData));
 };
+export const get123Brands = () => {
+  const url = `${server}/get123Brands`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+export const get123Years = (brand_id) => {
+  const url = `${server}/get123Years/${brand_id}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+export const get123Family = (brand_id, year) => {
+  const url = `${server}/get123Family/${brand_id}/${year}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
+export const get123Models = (brand_id, year, family_id) => {
+  const url = `${server}/get123Models/${brand_id}/${year}/${family_id}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return fetch(url, options)
+    .then(response => response.json())
+    .then(responseData =>
+      (responseData.status === undefined || responseData.status === 'error'
+        ? Promise.reject(responseData.message)
+        : responseData));
+};
 
 export const addUserAndCarData = (data) => {
   const url = `${server}/addUserAndCarData`;

@@ -7,9 +7,8 @@ import Select from 'react-select';
 /* eslint react/jsx-filename-extension: 0 */
 /* eslint react/prop-types: 0 */
 
-import { get123Provinces, get123Towns, addUserAndCarData } from '../Modules/fetches';
+import { get123Provinces, get123Towns, addUserAndCarData, get123Brands, get123Years, get123Family, get123Models } from '../Modules/fetches';
 import { prepareArraySelect, generateYearPerModel, validate } from '../Modules/functions';
-import { AllBrandsQuery, GroupsQuery, ModelsQuery, YearsQuery } from '../ApolloQueries/TautosQuery';
 
 class Card123Seguros extends React.Component {
   constructor(props) {
@@ -20,12 +19,8 @@ class Card123Seguros extends React.Component {
       secondName: '',
       email: '',
       phone: '',
-      group: null,
       codia: null,
       year: null,
-      Groups: [],
-      Models: [],
-      Prices: [],
       provinceList: [],
       province_id: '',
       townList: [],
@@ -34,6 +29,9 @@ class Card123Seguros extends React.Component {
       loading: false,
       loadingText: '',
       error: false,
+      allBrands: [],
+      allYears: [],
+      allFamilies: [],
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.handleQuoting = this.handleQuoting.bind(this);
@@ -47,6 +45,13 @@ class Card123Seguros extends React.Component {
         codia: { value: this.props.carData.codia },
         year: { value: this.props.carData.year },
       });
+    } else {
+      get123Brands()
+        .then((res) => {
+          this.setState({
+            allBrands: res.data,
+          });
+        });
     }
   }
 
@@ -64,59 +69,44 @@ class Card123Seguros extends React.Component {
   onChangeBrand(newBrand) {
     this.setState({
       brand: newBrand,
-      group: null,
       codia: null,
-      Models: [],
-      Prices: [],
       year: null,
     });
-    this.props.client.query({
-      query: GroupsQuery,
-      variables: {
-        gru_nmarc: newBrand.value,
-      },
-    })
-      .then(response => this.setState({ Groups: response.data.Group }));
+    get123Years(newBrand.value)
+      .then((res) => {
+        this.setState({ allYears: res.data });
+      });
   }
-  onChangeGroup(newGroup) {
+  onChangeYear(newYear) {
+    this.setState({ year: newYear, allFamilies: [], allModels: [] });
+    get123Family(this.state.brand.value, newYear.value)
+      .then((resp) => {
+        this.setState({ allFamilies: resp.data });
+      });
+  }
+  onChangeFamily(newGroup) {
     this.setState({
-      group: newGroup,
-      Prices: [],
-      year: null,
+      family: newGroup,
       codia: null,
+      allModels: [],
     });
-    this.props.client
-      .query({
-        query: ModelsQuery,
-        variables: {
-          ta3_nmarc: this.state.brand.value,
-          ta3_cgrup: newGroup.value,
-        },
-      })
-      .then(response => this.setState({ Models: response.data.Models }));
+    get123Models(this.state.brand.value, this.state.year.value, newGroup.value)
+      .then((res) => {
+        this.setState({ allModels: res.data });
+      });
   }
   onChangeModel(newModel) {
     this.setState({
       codia: newModel,
     });
-    this.props.client
-      .query({
-        query: YearsQuery,
-        variables: {
-          ta3_codia: newModel.value,
-        },
-      })
-      .then(response => this.setState({ Prices: response.data.Price }));
   }
-  onChangeYear(newYear) {
-    this.setState({ year: newYear });
-  }
+
   handleQuoting() {
     this.setState({ loading: true, loadingText: 'Conectandose con 123seguro...' });
     const {
-      brand, group, codia, year,
+      brand, family, codia, year,
     } = this.state;
-    if (brand !== null && group !== null && codia !== null && year !== null) {
+    if (brand !== null && family !== null && codia !== null && year !== null) {
       get123Provinces()
         .then((resp) => {
           this.setState({ provinceList: resp.data, showModal: true, loading: false });
@@ -154,7 +144,6 @@ class Card123Seguros extends React.Component {
   }
 
   render() {
-    const { ta3AllBrands: { AllBrands } } = this.props;
     return (
       <div className="container">
         {this.props.isCarSelected && <button className="container-button" onClick={this.handleQuoting} >
@@ -175,7 +164,7 @@ class Card123Seguros extends React.Component {
                   id="brand-select"
                   onBlurResetsInput={false}
                   onSelectResetsInput={false}
-                  options={prepareArraySelect(AllBrands, 'ta3_nmarc', 'ta3_marca')}
+                  options={prepareArraySelect(this.state.allBrands, 'id', 'nombre')}
                   simpleValue
                   clearable
                   name="selected-state"
@@ -196,18 +185,45 @@ class Card123Seguros extends React.Component {
                   }
                 />
               </div>
+              <div className="col-lg-1 col-md-6 p-0" >
+                <Select
+                  id="year-select"
+                  onBlurResetsInput={false}
+                  onSelectResetsInput={false}
+                  options={this.state.allYears.map(row => ({ value: row, label: row }))}
+                  simpleValue
+                  clearable
+                  required
+                  name="selected-state"
+                  value={this.state.year}
+                  placeholder="Año"
+                  onChange={newValue => this.onChangeYear(newValue)}
+                  searchable
+                  noResultsText="No se encontraron resultados"
+                  theme={theme => ({
+                    ...theme,
+                    borderRadius: 4,
+                    colors: {
+                    ...theme.colors,
+                      primary25: '#D2DCD4',
+                      primary: '#2A3B59',
+                    },
+                  })
+                  }
+                />
+              </div>
               <div className="col-lg-3 col-md-6 p-0" >
                 <Select
                   id="groups-select"
                   onBlurResetsInput={false}
                   onSelectResetsInput={false}
-                  options={prepareArraySelect(this.state.Groups, 'gru_cgrup', 'gru_ngrup')}
+                  options={prepareArraySelect(this.state.allFamilies, 'id', 'nombre')}
                   simpleValue
                   clearable
                   name="selected-state"
-                  value={this.state.group}
-                  placeholder="Modelo"
-                  onChange={newValue => this.onChangeGroup(newValue)}
+                  value={this.state.family}
+                  placeholder="Familia"
+                  onChange={newValue => this.onChangeFamily(newValue)}
                   searchable
                   noResultsText="No se encontraron resultados"
                   theme={theme => ({
@@ -227,40 +243,13 @@ class Card123Seguros extends React.Component {
                   id="models-select"
                   onBlurResetsInput={false}
                   onSelectResetsInput={false}
-                  options={prepareArraySelect(this.state.Models, 'ta3_codia', 'ta3_model')}
+                  options={prepareArraySelect(this.state.allModels, 'id', 'nombre')}
                   simpleValue
                   clearable
                   name="selected-state"
                   value={this.state.codia}
-                  placeholder="Versión"
+                  placeholder="Modelo"
                   onChange={newValue => this.onChangeModel(newValue)}
-                  searchable
-                  noResultsText="No se encontraron resultados"
-                  theme={theme => ({
-                    ...theme,
-                    borderRadius: 4,
-                    colors: {
-                    ...theme.colors,
-                      primary25: '#D2DCD4',
-                      primary: '#2A3B59',
-                    },
-                  })
-                  }
-                />
-              </div>
-              <div className="col-lg-1 col-md-6 p-0" >
-                <Select
-                  id="year-select"
-                  onBlurResetsInput={false}
-                  onSelectResetsInput={false}
-                  options={generateYearPerModel(this.state.Prices)}
-                  simpleValue
-                  clearable
-                  required
-                  name="selected-state"
-                  value={this.state.year}
-                  placeholder="Año"
-                  onChange={newValue => this.setState({ year: newValue })}
                   searchable
                   noResultsText="No se encontraron resultados"
                   theme={theme => ({
@@ -435,11 +424,4 @@ class Card123Seguros extends React.Component {
   }
 }
 
-
-const WithAllBrands = graphql(AllBrandsQuery, {
-  name: 'ta3AllBrands',
-});
-
-const withData = compose(WithAllBrands);
-
-export default withApollo(withData(Card123Seguros));
+export default (Card123Seguros);

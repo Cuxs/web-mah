@@ -31,7 +31,7 @@ class Hire123Seguros extends Component {
       coverageSelected: '',
       coverages: [
         {
-          name: 'Allianz',
+          name: 'allianz',
           loading: true,
         },
         {
@@ -72,7 +72,7 @@ class Hire123Seguros extends Component {
   componentDidMount() {
     const { response, data } = this.props.location.state;
     response.companias.map((row) => {
-      get123Quotes({ company_id: row.id, company: row.name, producto_id: response.data.id }) //556214
+      get123Quotes({ company_id: row.id, company: row.name, producto_id: response.data.id }) // 556214
         .then((responseAPI) => {
           if (!_.has(responseAPI.data, 'errors')) {
             const allCoverages = this.state.coverages;
@@ -90,14 +90,15 @@ class Hire123Seguros extends Component {
             const fetchedCoverage = allCoverages.find((ec => ec.name === row.name));
             if (!fetchedCoverage) {
               console.log(row.name);
+            } else {
+              fetchedCoverage.loading = false;
+              const remainingCoverages = this.state.coverages.filter(allCov => allCov.name !== row.name);
+              const newState = remainingCoverages.map(remai => remai);
+              newState.push(fetchedCoverage);
+              this.setState({
+                coverages: newState,
+              });
             }
-            fetchedCoverage.loading = false;
-            const remainingCoverages = this.state.coverages.filter(allCov => allCov.name !== row.name);
-            const newState = remainingCoverages.map(remai => remai);
-            newState.push(fetchedCoverage);
-            this.setState({
-              coverages: newState,
-            });
           }
         });
     });
